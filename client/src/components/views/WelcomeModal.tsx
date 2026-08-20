@@ -12,22 +12,32 @@ export const WelcomeModal: React.FC<Props> = ({ onStart }) => {
   };
 
   return (
-    <div className="absolute inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-fadeIn select-none">
-      <div className="bg-white rounded-[32px] border-4 border-indigo-500 p-6 sm:p-7 max-w-sm sm:max-w-md w-full text-center space-y-4 shadow-2xl animate-scaleUp">
-        <div className="text-6xl animate-float animate-pulse-glow">🌟</div>
-        <h2 className="text-xl sm:text-2xl font-black text-[#1e1b4b]">Chào Mừng Đến NovaStars!</h2>
-        <p className="text-sm font-bold text-slate-700 leading-relaxed">
-          Sao Nova chào em! Em đã sẵn sàng biến giờ dùng điện thoại thành hành trình phiêu lưu kỹ năng sống chưa?
+    <div className="absolute inset-0 z-50 bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn select-none">
+      <div className="bg-slate-900/95 backdrop-blur-xl rounded-[36px] border-2 border-sky-400/50 p-6 sm:p-7 max-w-sm sm:max-w-md w-full text-center space-y-4 shadow-[0_20px_50px_rgba(56,189,248,0.3)] animate-scaleUp relative overflow-hidden text-white">
+        {/* Glow ambient */}
+        <div className="absolute -top-10 inset-x-0 h-32 bg-gradient-to-b from-sky-400/20 to-transparent blur-xl pointer-events-none" />
+
+        <div className="relative">
+          <img 
+            src="/assets/3d/star_mascot.png" 
+            alt="Sao Nova" 
+            className="w-24 h-24 sm:w-28 sm:h-28 object-contain mx-auto drop-shadow-[0_8px_20px_rgba(251,191,36,0.6)] animate-float" 
+          />
+        </div>
+
+        <h2 className="text-xl sm:text-2xl font-black text-yellow-300">Chào Mừng Đến NovaStars!</h2>
+        <p className="text-sm font-bold text-slate-300 leading-relaxed">
+          Sao Nova chào phi công nhí! Bạn đã sẵn sàng lái phi thuyền thám hiểm các <span className="text-sky-300">Hành Tinh Tri Thức</span> 3D chưa?
         </p>
 
-        <div className="bg-gradient-to-br from-sky-50 to-indigo-50 p-4 rounded-2xl border-2 border-sky-200 text-left shadow-sm">
-          <p className="font-black text-sky-900 text-xs mb-1">🗺️ Sứ Mệnh Đầu Tiên:</p>
-          <p className="font-black text-indigo-950 text-sm">Đảo Dũng Cảm → Bài 1: Lời Chào Ngôi Sao</p>
+        <div className="bg-slate-950/80 p-4 rounded-3xl border border-sky-500/30 text-left shadow-sm">
+          <p className="font-black text-sky-400 text-xs mb-1">🪐 Sứ Mệnh Đầu Tiên:</p>
+          <p className="font-black text-white text-sm">Tinh Cầu Dũng Khí → Bài 1: Lời Chào Ngôi Sao</p>
         </div>
 
         <button
           onClick={handleStart}
-          className="w-full min-h-[58px] py-4 rounded-2xl font-black text-base shadow-lg shadow-sky-500/25 active:scale-95 transition-all ns-btn-3d ns-btn-primary flex items-center justify-center gap-2"
+          className="w-full min-h-[58px] py-4 rounded-2xl font-black text-base bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 text-white border-2 border-sky-200 shadow-[0_8px_0_0_#0284c7,0_12px_24px_rgba(2,132,199,0.35)] active:translate-y-1 active:shadow-[0_2px_0_0_#0284c7] flex items-center justify-center gap-2 transition-all"
         >
           <span>Bắt Đầu Hành Trình Ngay!</span>
           <span>🚀</span>
@@ -36,4 +46,3 @@ export const WelcomeModal: React.FC<Props> = ({ onStart }) => {
     </div>
   );
 };
-

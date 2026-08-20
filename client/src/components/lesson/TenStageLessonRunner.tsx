@@ -27,6 +27,8 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
   const [matchSelectedLeft, setMatchSelectedLeft] = useState<number | null>(null);
   const [matchSelectedRight, setMatchSelectedRight] = useState<number | null>(null);
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
+  const matchedPairIds = React.useRef<Set<number>>(new Set());
+  const selectedDragIds = React.useRef<Set<string>>(new Set());
 
   // Sequence Reorder State
   const [sequenceSteps, setSequenceSteps] = useState([
@@ -54,7 +56,7 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     const isCorrect = idx === 1;
     if (isCorrect) {
       interactionService.playSuccess();
-      setTimeout(() => handleNextStage(), 600);
+      setTimeout(() => handleNextStage(), 150);
     } else {
       interactionService.playError();
     }
@@ -64,7 +66,7 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
   const handleStoryDecision = (correct: boolean) => {
     if (correct) {
       interactionService.playSuccess();
-      setTimeout(() => handleNextStage(), 500);
+      setTimeout(() => handleNextStage(), 150);
     } else {
       interactionService.playError();
     }
@@ -74,10 +76,10 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
   const handleToggleDragItem = (id: string, isCorrect: boolean) => {
     if (isCorrect) {
       interactionService.playSuccess();
-      setDragItemsState(prev => prev.map(item => item.id === id ? { ...item, selected: true } : item));
-      const remainingCorrect = dragItemsState.filter(i => i.isCorrect && i.id !== id && !i.selected).length;
-      if (remainingCorrect === 0) {
-        setTimeout(() => handleNextStage(), 600);
+      selectedDragIds.current.add(id);
+      setDragItemsState(prev => prev.map(item => selectedDragIds.current.has(item.id) ? { ...item, selected: true } : item));
+      if (selectedDragIds.current.size >= 2) {
+        setTimeout(() => handleNextStage(), 150);
       }
     } else {
       interactionService.playError();
@@ -101,18 +103,19 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     if (left && right) {
       if (left === right) {
         interactionService.playSuccess();
-        setMatchedPairs(prev => [...prev, left]);
+        matchedPairIds.current.add(left);
+        setMatchedPairs(Array.from(matchedPairIds.current));
         setMatchSelectedLeft(null);
         setMatchSelectedRight(null);
-        if (matchedPairs.length + 1 >= 3) {
-          setTimeout(() => handleNextStage(), 650);
+        if (matchedPairIds.current.size >= 3) {
+          setTimeout(() => handleNextStage(), 150);
         }
       } else {
         interactionService.playError();
         setTimeout(() => {
           setMatchSelectedLeft(null);
           setMatchSelectedRight(null);
-        }, 500);
+        }, 150);
       }
     }
   };
@@ -149,10 +152,9 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     const isOrdered = sequenceSteps[0].correctOrder === 1 && sequenceSteps[1].correctOrder === 2 && sequenceSteps[2].correctOrder === 3;
     if (isOrdered) {
       interactionService.playSuccess();
-      setTimeout(() => handleNextStage(), 500);
+      setTimeout(() => handleNextStage(), 150);
     } else {
       interactionService.playError();
-      alert('Thứ tự chưa đúng rồi bé ơi! Gợi ý: 1. Mỉm cười -> 2. Lời chào -> 3. Tự giới thiệu tên nhé!');
     }
   };
 
@@ -199,7 +201,7 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
   const progressPercentage = Math.round(((currentStageIndex + 1) / stages.length) * 100);
 
   return (
-    <div className="absolute inset-0 z-40 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-hidden">
+    <div data-testid="ten-stage-runner" className="absolute inset-0 z-50 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-hidden">
       {/* Top Header & Stage Progress with Safe-Area Inset */}
       <div className="sticky top-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-b-2 border-slate-800 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 shrink-0">
         <div className="w-full max-w-xl mx-auto flex items-center justify-between gap-3">

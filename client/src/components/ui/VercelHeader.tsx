@@ -1,70 +1,96 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
-import { Volume2, VolumeX } from 'lucide-react';
-import { interactionService } from '../../services/interaction';
+import { Volume2, VolumeX, Zap, Sparkles } from 'lucide-react';
+import { soundService } from '../../services/audio';
 
-interface VercelHeaderProps {
-  title: string;
+interface Props {
+  title?: string;
 }
 
-export const VercelHeader: React.FC<VercelHeaderProps> = ({ title }) => {
-  const { user, settings, toggleSound } = useGameStore();
+export const VercelHeader: React.FC<Props> = ({ title = 'Hành Tinh Tri Thức' }) => {
+  const { user, settings, toggleSound, refreshEnergy } = useGameStore();
+  const [countdownText, setCountdownText] = useState<string>('');
 
-  const handleToggle = () => {
-    interactionService.playTap();
+  // Live timer for energy regeneration
+  useEffect(() => {
+    const timer = setInterval(() => {
+      refreshEnergy();
+      if (user.energy < user.maxEnergy) {
+        const now = Date.now();
+        const elapsed = Math.floor((now - user.lastEnergyTimestamp) / 1000);
+        const isDouble = user.doubleRegenUntil && user.doubleRegenUntil > now;
+        const interval = isDouble ? 30 : 60;
+        const remaining = Math.max(0, interval - (elapsed % interval));
+        const mins = Math.floor(remaining / 60);
+        const secs = remaining % 60;
+        setCountdownText(`+1 in ${mins}:${secs < 10 ? '0' : ''}${secs}`);
+      } else {
+        setCountdownText('Đầy ⚡');
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [user.energy, user.maxEnergy, user.lastEnergyTimestamp, user.doubleRegenUntil, refreshEnergy]);
+
+  const handleToggleSound = () => {
+    soundService.playClick();
     toggleSound();
   };
 
   return (
-    <header className="w-full bg-white/90 backdrop-blur-xl border-b border-sky-200/70 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 flex items-center justify-between shadow-[0_4px_20px_rgba(56,189,248,0.12)] shrink-0 z-30 touch-action-manipulation select-none">
-      {/* Brand & Mascot */}
+    <header className="w-full bg-slate-950/85 backdrop-blur-xl border-b border-sky-500/25 px-3 sm:px-6 py-2.5 flex items-center justify-between shadow-2xl shrink-0 z-30 select-none text-white">
+      {/* Pilot Avatar & Level Badge */}
       <div className="flex items-center gap-2.5">
         <div className="relative">
-          <img 
-            src="/assets/3d/star_mascot.png" 
-            alt="Sao Nova" 
-            className="w-10 h-10 object-contain drop-shadow-[0_4px_10px_rgba(251,191,36,0.5)] animate-float" 
-          />
-          <div className="absolute -inset-1 bg-yellow-400/20 blur-md rounded-full -z-10 animate-pulse" />
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-2 border-sky-400/80 flex items-center justify-center text-2xl shadow-[0_0_12px_rgba(56,189,248,0.4)]">
+            {user.avatar}
+          </div>
+          <div className="absolute -bottom-1 -right-1 bg-yellow-400 text-slate-950 font-black text-[9px] px-1.5 py-0.2 rounded-full border border-slate-900 shadow">
+            Lv.{user.level}
+          </div>
         </div>
-        <div>
-          <h1 className="font-black text-lg sm:text-xl text-sky-950 tracking-tight leading-none flex items-center gap-1.5">
-            {title}
-          </h1>
-          <span className="text-[10px] font-black text-sky-500 uppercase tracking-wider">Hành Tinh Tri Thức</span>
+
+        <div className="hidden sm:flex flex-col">
+          <span className="font-black text-xs text-yellow-300 leading-tight">{user.name}</span>
+          <span className="font-bold text-[10px] text-sky-200">Phi Hành Gia (Lớp {user.grade})</span>
         </div>
       </div>
 
-      {/* 3D HUD Stats */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        {/* 3D XP Diamond Crystal */}
-        <div className="bg-gradient-to-r from-sky-50 to-blue-50 border-2 border-sky-300 shadow-[0_3px_0_0_#38bdf8,0_4px_12px_rgba(56,189,248,0.2)] font-black text-xs sm:text-sm px-3 py-1.5 rounded-full flex items-center gap-2 transition-all">
-          <img 
-            src="/assets/3d/gem_xp.png" 
-            alt="XP Crystal" 
-            className="w-5 h-5 object-contain drop-shadow-[0_0_6px_rgba(56,189,248,0.8)] animate-pulse" 
-          />
-          <span className="font-black font-mono text-sky-950">{user.xp} XP</span>
-        </div>
+      {/* Center Screen Title */}
+      <div className="flex items-center gap-1.5 bg-slate-900/90 border border-sky-400/30 px-3.5 py-1 rounded-full shadow-inner">
+        <span className="text-xs sm:text-sm font-black text-yellow-300 tracking-tight">{title}</span>
+      </div>
 
-        {/* 3D Star Badge */}
-        <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-300 shadow-[0_3px_0_0_#f59e0b,0_4px_12px_rgba(245,158,11,0.2)] font-black text-xs sm:text-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 transition-all">
-          <span className="text-base animate-bounce-slow filter drop-shadow">⭐</span>
-          <span className="font-black font-mono text-amber-950">{user.stars}</span>
-        </div>
-
-        {/* 3D Sound Toggle */}
-        <button
-          onClick={handleToggle}
-          aria-label="Bật tắt âm thanh"
-          className={`w-11 h-11 rounded-2xl border-2 flex items-center justify-center transition-all duration-120 active:translate-y-1 ${
-            settings.soundEnabled 
-              ? 'bg-gradient-to-b from-sky-400 to-sky-500 border-sky-300 text-white shadow-[0_4px_0_0_#0284c7,0_4px_12px_rgba(2,132,199,0.3)]' 
-              : 'bg-slate-100 border-slate-300 text-slate-400 shadow-[0_3px_0_0_#cbd5e1]'
-          }`}
+      {/* Right Stats HUD (Energy, Nova Coins, Diamonds, Sound) */}
+      <div className="flex items-center gap-1.5 sm:gap-2.5">
+        {/* Energy Unit Chip */}
+        <div
+          title={countdownText}
+          className="bg-slate-900/90 border border-sky-400/60 px-2 sm:px-2.5 py-1 rounded-xl flex items-center gap-1 shadow-sm"
         >
-          {settings.soundEnabled ? <Volume2 className="w-5 h-5 drop-shadow" /> : <VolumeX className="w-5 h-5" />}
+          <Zap className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400 animate-pulse" />
+          <span className="font-black text-xs text-sky-200">{user.energy}</span>
+          <span className="text-[10px] text-slate-400 hidden sm:inline">/{user.maxEnergy}</span>
+        </div>
+
+        {/* Nova Coins Chip */}
+        <div className="bg-slate-900/90 border border-amber-400/60 px-2 sm:px-2.5 py-1 rounded-xl flex items-center gap-1 shadow-sm">
+          <span className="text-xs">🟡</span>
+          <span className="font-black text-xs text-yellow-300">{user.novaCoins}</span>
+        </div>
+
+        {/* Diamonds Chip */}
+        <div className="bg-slate-900/90 border border-cyan-400/60 px-2 sm:px-2.5 py-1 rounded-xl flex items-center gap-1 shadow-sm">
+          <span className="text-xs">💎</span>
+          <span className="font-black text-xs text-cyan-300">{user.diamonds}</span>
+        </div>
+
+        {/* Sound Toggle */}
+        <button
+          onClick={handleToggleSound}
+          className="w-8 h-8 rounded-xl bg-slate-900 border border-white/20 flex items-center justify-center text-slate-300 hover:text-white active:scale-95 transition-all"
+        >
+          {settings.soundEnabled ? <Volume2 className="w-4 h-4 text-sky-400" /> : <VolumeX className="w-4 h-4 text-slate-500" />}
         </button>
       </div>
     </header>

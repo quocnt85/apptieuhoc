@@ -13,16 +13,31 @@ export const SplashScreen: React.FC<Props> = ({ onFinish }) => {
   }, [onFinish]);
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#1e1b4b] via-[#241e5e] to-[#312e81] text-white p-6 sm:p-8 text-center animate-fadeIn select-none">
-      <div className="text-7xl sm:text-8xl mb-4 animate-float animate-pulse-glow">🌟</div>
-      <h1 className="text-3xl sm:text-4xl font-black text-[#fde047] tracking-tight mb-2 drop-shadow-md">NOVASTARS</h1>
-      <p className="text-base sm:text-lg font-extrabold text-[#c7d2fe] mb-8 tracking-wide">Phiêu Lưu Học Kỹ Năng Sống</p>
+    <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-sky-400 via-blue-500 to-indigo-600 text-white p-6 sm:p-8 text-center animate-fadeIn select-none relative overflow-hidden">
+      {/* Ambient background glow */}
+      <div className="absolute w-72 h-72 bg-yellow-300/25 blur-3xl rounded-full pointer-events-none -z-10" />
 
-      {/* 3D Candy Loading Bar */}
-      <div className="w-56 sm:w-68 h-3.5 bg-white/20 rounded-full overflow-hidden mb-4 p-0.5 border border-white/25 shadow-inner">
+      <div className="relative mb-4">
+        <img 
+          src="/assets/3d/star_mascot.png" 
+          alt="Sao Nova" 
+          className="w-28 h-28 sm:w-32 sm:h-32 object-contain drop-shadow-[0_12px_24px_rgba(251,191,36,0.6)] animate-float" 
+        />
+        <div className="absolute -inset-2 bg-yellow-300/30 blur-xl rounded-full -z-10 animate-pulse" />
+      </div>
+
+      <h1 className="text-3xl sm:text-4xl font-black text-yellow-300 tracking-tight mb-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+        NOVASTARS
+      </h1>
+      <p className="text-sm sm:text-base font-extrabold text-sky-100 mb-8 tracking-wide">
+        Hành Tinh Học Kỹ Năng Sống
+      </p>
+
+      {/* 3D Starlight Loading Bar */}
+      <div className="w-56 sm:w-68 h-3.5 bg-white/20 rounded-full overflow-hidden mb-3.5 p-0.5 border border-white/30 shadow-inner">
         <div className="h-full bg-gradient-to-r from-amber-400 via-yellow-300 to-emerald-400 rounded-full animate-pulse shadow-sm" style={{ width: '100%' }} />
       </div>
-      <p className="text-xs sm:text-sm text-indigo-200 font-bold">Đang tải thế giới phiêu lưu...</p>
+      <p className="text-xs sm:text-sm text-sky-100 font-bold">Đang kết nối hành tinh tri thức...</p>
     </div>
   );
 };

@@ -1,41 +1,77 @@
 import { create } from 'zustand';
-import { UserProfile, GameSettings, DomainId, DomainProgress, QuestionItem, ActiveTab } from '../types';
+import { UserProfile, GameSettings, DomainId, DomainProgress, QuestionItem, ActiveTab, PlanetCoordinateNode } from '../types';
 import { soundService } from '../services/audio';
 import { DOMAINS_DATA, INITIAL_QUESTIONS } from '../data/mockQuestions';
-
-export type DemoStyleMode = 'sunnyclay' | 'gloss3d' | 'neopop' | 'appleglass';
+import { PLANETS_DATA } from '../data/planetsData';
 
 interface GameState {
   user: UserProfile;
   settings: GameSettings;
   activeTab: ActiveTab;
-  demoStyleMode: DemoStyleMode;
   hasSeenFTUE: boolean;
   completedNodes: Record<string, boolean>;
+  nodeStars: Record<string, number>; // Stars achieved per node (1-3)
   selectedDomain: DomainId | null;
   activeQuestion: QuestionItem | null;
   domainProgress: Record<DomainId, DomainProgress>;
   answeredHistory: Record<string, { isCorrect: boolean; selectedOptionId: string; timestamp: number }>;
   allQuestions: QuestionItem[];
 
+  // 3D Space Navigation State
+  activePlanetId: string;
+  selectedCoordinateNode: PlanetCoordinateNode | null;
+  isFlyingToNode: boolean;
+  flightProgress: number; // 0 to 1
+
   // Actions
-  setDemoStyleMode: (mode: DemoStyleMode) => void;
   setActiveTab: (tab: ActiveTab) => void;
   setFTUESeen: () => void;
-  completeLessonNode: (nodeId: string) => void;
+  completeLessonNode: (nodeId: string, starsEarned?: number) => void;
   selectDomain: (domainId: DomainId | null) => void;
   setActiveQuestion: (q: QuestionItem | null) => void;
   toggleSound: () => void;
-  consumeEnergy: (amount?: number) => boolean;
+
+  // Energy & Timer System
+  refreshEnergy: () => void;
+  consumeEnergyForNode: (nodeId: string, isBoss?: boolean) => { success: boolean; cost: number; reason?: string };
+  addNovaCoins: (amount: number) => void;
+  addDiamonds: (amount: number) => void;
   addXP: (amount: number) => { leveledUp: boolean; newLevel: number };
-  addGems: (amount: number) => void;
   addStars: (amount: number) => void;
+
+  // Customization & Shop
+  equipShip: (shipId: string) => void;
+  buyShip: (shipId: string, priceCoins: number) => boolean;
+  equipColor: (colorHex: string) => void;
+  buyColor: (colorHex: string, priceCoins: number) => boolean;
+  toggleVietnamFlag: () => void;
+  equipAvatar: (avatarEmoji: string) => void;
+  buyBooster: (type: 'double_regen' | 'boss_pass' | 'instant_refuel', costDiamonds: number) => boolean;
+
+  // 3D Navigation
+  selectPlanet: (planetId: string) => void;
+  startFlyingToCoordinate: (node: PlanetCoordinateNode) => void;
+  finishFlyingToCoordinate: () => void;
+  closeCoordinateModal: () => void;
+
+  // Lesson Runner
+  isLessonRunning: boolean;
+  activeLessonId: string | null;
+  startLesson: (lessonId: string) => void;
+  closeLesson: () => void;
+
+  // Legacy support
+  demoStyleMode?: string;
+  addGems: (amount: number) => void;
+  consumeEnergy: (amount?: number) => boolean;
   answerQuestion: (question: QuestionItem, optionId: string) => { isCorrect: boolean; xpEarned: number; gemsEarned: number };
+
+  // Persistence
   saveToLocalStorage: () => void;
   loadFromLocalStorage: () => void;
 }
 
-const STORAGE_KEY = 'novastars_app_state_v1';
+const STORAGE_KEY = 'novastars_space_state_v2';
 
 const defaultProgress: Record<DomainId, DomainProgress> = {
   'DOM-FIN': { domainId: 'DOM-FIN', masteryPercentage: 20, questionsAnswered: 1, totalQuestions: 5, streak: 1 },
@@ -45,24 +81,40 @@ const defaultProgress: Record<DomainId, DomainProgress> = {
   'DOM-HAB': { domainId: 'DOM-HAB', masteryPercentage: 25, questionsAnswered: 1, totalQuestions: 5, streak: 2 },
 };
 
-export const useGameStore = create<GameState>((set, get) => ({
-  user: {
-    id: 'user_001',
-    name: 'Bé Su',
-    grade: 3,
-    avatar: '👧',
-    level: 1,
-    xp: 150,
-    xpToNextLevel: 300,
-    energy: 5,
-    maxEnergy: 5,
-    gems: 25,
-    stars: 3,
-    streakDays: 3,
-    lastActiveDate: new Date().toISOString(),
+const initialUser: UserProfile = {
+  id: 'user_001',
+  name: 'Phi Hành Gia Nhí',
+  grade: 3,
+  avatar: '🚀',
+  level: 1,
+  xp: 150,
+  xpToNextLevel: 300,
+  energy: 50,
+  maxEnergy: 50,
+  lastEnergyTimestamp: Date.now(),
+  novaCoins: 350,
+  diamonds: 45,
+  gems: 45,
+  stars: 3,
+  streakDays: 3,
+  lastActiveDate: new Date().toISOString(),
+  freeBossPassCount: 1,
+  customization: {
+    equippedShip: 'explorer_v1',
+    equippedColor: '#38bdf8',
+    hasVietnamFlag: true,
+    unlockedShips: ['explorer_v1'],
+    unlockedColors: ['#38bdf8', '#f59e0b'],
+    unlockedAccessories: ['flag_vn'],
+    unlockedAvatars: ['🚀', '👧', '👦', '🤖', '🦊', '⭐'],
   },
+};
+
+export const useGameStore = create<GameState>((set, get) => ({
+  user: initialUser,
   hasSeenFTUE: false,
   completedNodes: {},
+  nodeStars: {},
   settings: {
     soundEnabled: true,
     musicEnabled: true,
@@ -71,20 +123,32 @@ export const useGameStore = create<GameState>((set, get) => ({
     dailyTimeLimitMinutes: 30,
     todayPlayedMinutes: 12,
   },
-  activeTab: 'world',
-  demoStyleMode: 'sunnyclay',
+  activeTab: 'home',
   selectedDomain: null,
   activeQuestion: null,
   domainProgress: defaultProgress,
   answeredHistory: {},
   allQuestions: INITIAL_QUESTIONS,
 
-  setDemoStyleMode: (mode: DemoStyleMode) => {
-    set({ demoStyleMode: mode });
+  // 3D Space Navigation State
+  activePlanetId: 'bravery_prime',
+  selectedCoordinateNode: null,
+  isFlyingToNode: false,
+  flightProgress: 0,
+
+  // Lesson Runner State
+  isLessonRunning: false,
+  activeLessonId: null,
+  startLesson: (lessonId: string) => {
+    set({ isLessonRunning: true, activeLessonId: lessonId, selectedCoordinateNode: null });
+  },
+  closeLesson: () => {
+    set({ isLessonRunning: false, activeLessonId: null });
   },
 
   setActiveTab: (tab) => {
     soundService.playClick();
+    get().refreshEnergy();
     set({ activeTab: tab });
   },
 
@@ -93,11 +157,139 @@ export const useGameStore = create<GameState>((set, get) => ({
     get().saveToLocalStorage();
   },
 
-  completeLessonNode: (nodeId: string) => {
+  refreshEnergy: () => {
+    const { user } = get();
+    if (user.energy >= user.maxEnergy) {
+      set((state) => ({
+        user: { ...state.user, lastEnergyTimestamp: Date.now() }
+      }));
+      return;
+    }
+
+    const now = Date.now();
+    const elapsedSeconds = Math.floor((now - user.lastEnergyTimestamp) / 1000);
+    const isDoubleRegen = user.doubleRegenUntil ? user.doubleRegenUntil > now : false;
+    const secondsPerUnit = isDoubleRegen ? 30 : 60;
+
+    const unitsToAdd = Math.floor(elapsedSeconds / secondsPerUnit);
+    if (unitsToAdd > 0) {
+      const newEnergy = Math.min(user.maxEnergy, user.energy + unitsToAdd);
+      const remainingSeconds = elapsedSeconds % secondsPerUnit;
+      set((state) => ({
+        user: {
+          ...state.user,
+          energy: newEnergy,
+          lastEnergyTimestamp: now - (remainingSeconds * 1000),
+        }
+      }));
+      get().saveToLocalStorage();
+    }
+  },
+
+  consumeEnergyForNode: (nodeId: string, isBoss = false) => {
+    get().refreshEnergy();
+    const { user, completedNodes } = get();
+    const isFirstTry = !completedNodes[nodeId];
+
+    // First attempt is free!
+    if (isFirstTry) {
+      return { success: true, cost: 0 };
+    }
+
+    // Boss battle logic
+    if (isBoss) {
+      if (user.freeBossPassCount > 0) {
+        set((state) => ({
+          user: { ...state.user, freeBossPassCount: state.user.freeBossPassCount - 1 }
+        }));
+        get().saveToLocalStorage();
+        return { success: true, cost: 0, reason: 'Sử dụng Vé Boss Miễn Phí!' };
+      }
+      if (user.energy < 20) {
+        return { success: false, cost: 20, reason: 'Không đủ năng lượng! Đấu Boss cần 20 Năng Lượng ⚡' };
+      }
+      set((state) => ({
+        user: { ...state.user, energy: state.user.energy - 20, lastEnergyTimestamp: Date.now() }
+      }));
+      get().saveToLocalStorage();
+      return { success: true, cost: 20 };
+    }
+
+    // Replaying regular lesson node
+    if (user.energy < 10) {
+      return { success: false, cost: 10, reason: 'Không đủ năng lượng! Chơi lại cần 10 Năng Lượng ⚡' };
+    }
+
     set((state) => ({
-      completedNodes: { ...state.completedNodes, [nodeId]: true }
+      user: { ...state.user, energy: state.user.energy - 10, lastEnergyTimestamp: Date.now() }
     }));
     get().saveToLocalStorage();
+    return { success: true, cost: 10 };
+  },
+
+  completeLessonNode: (nodeId: string, starsEarned = 3) => {
+    const currentPlanet = PLANETS_DATA.find((p) => p.id === get().activePlanetId);
+    const node = currentPlanet?.nodes.find((n) => n.id === nodeId);
+    const coinsBonus = node?.rewardCoins || 50;
+    const xpBonus = node?.rewardXp || 100;
+
+    set((state) => {
+      const prevStars = state.nodeStars[nodeId] || 0;
+      const newStarsTotal = starsEarned > prevStars ? state.user.stars + (starsEarned - prevStars) : state.user.stars;
+
+      return {
+        completedNodes: { ...state.completedNodes, [nodeId]: true },
+        nodeStars: { ...state.nodeStars, [nodeId]: Math.max(prevStars, starsEarned) },
+        user: {
+          ...state.user,
+          stars: newStarsTotal,
+          novaCoins: state.user.novaCoins + coinsBonus,
+          xp: state.user.xp + xpBonus,
+        },
+      };
+    });
+    get().saveToLocalStorage();
+  },
+
+  addNovaCoins: (amount: number) => {
+    soundService.playCoin();
+    set((state) => ({
+      user: { ...state.user, novaCoins: state.user.novaCoins + amount }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  addDiamonds: (amount: number) => {
+    soundService.playCoin();
+    set((state) => ({
+      user: { ...state.user, diamonds: state.user.diamonds + amount, gems: state.user.gems + amount }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  addGems: (amount: number) => {
+    get().addDiamonds(amount);
+  },
+
+  consumeEnergy: (amount = 1) => {
+    const { user } = get();
+    if (user.energy < amount) return false;
+    set((state) => ({
+      user: { ...state.user, energy: state.user.energy - amount, lastEnergyTimestamp: Date.now() }
+    }));
+    get().saveToLocalStorage();
+    return true;
+  },
+
+  answerQuestion: (question: QuestionItem, optionId: string) => {
+    const opt = question.options.find((o) => o.id === optionId);
+    const isCorrect = Boolean(opt?.isCorrect);
+    const xpEarned = isCorrect ? 50 : 10;
+    const gemsEarned = isCorrect ? 5 : 1;
+
+    get().addXP(xpEarned);
+    get().addDiamonds(gemsEarned);
+    return { isCorrect, xpEarned, gemsEarned };
   },
 
   addStars: (amount: number) => {
@@ -106,6 +298,161 @@ export const useGameStore = create<GameState>((set, get) => ({
       user: { ...state.user, stars: state.user.stars + amount }
     }));
     get().saveToLocalStorage();
+  },
+
+  addXP: (amount: number) => {
+    const { user } = get();
+    let newXp = user.xp + amount;
+    let newLevel = user.level;
+    let xpToNext = user.xpToNextLevel;
+    let leveledUp = false;
+
+    while (newXp >= xpToNext) {
+      newXp -= xpToNext;
+      newLevel += 1;
+      xpToNext = Math.round(xpToNext * 1.5);
+      leveledUp = true;
+    }
+
+    set((state) => ({
+      user: {
+        ...state.user,
+        xp: newXp,
+        level: newLevel,
+        xpToNextLevel: xpToNext,
+      }
+    }));
+    get().saveToLocalStorage();
+    return { leveledUp, newLevel };
+  },
+
+  // Customization & Shop
+  equipShip: (shipId: string) => {
+    soundService.playClick();
+    set((state) => ({
+      user: {
+        ...state.user,
+        customization: { ...state.user.customization, equippedShip: shipId }
+      }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  buyShip: (shipId: string, priceCoins: number) => {
+    const { user } = get();
+    if (user.novaCoins < priceCoins) return false;
+
+    soundService.playVictory();
+    set((state) => ({
+      user: {
+        ...state.user,
+        novaCoins: state.user.novaCoins - priceCoins,
+        customization: {
+          ...state.user.customization,
+          unlockedShips: [...state.user.customization.unlockedShips, shipId],
+          equippedShip: shipId,
+        }
+      }
+    }));
+    get().saveToLocalStorage();
+    return true;
+  },
+
+  equipColor: (colorHex: string) => {
+    soundService.playClick();
+    set((state) => ({
+      user: {
+        ...state.user,
+        customization: { ...state.user.customization, equippedColor: colorHex }
+      }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  buyColor: (colorHex: string, priceCoins: number) => {
+    const { user } = get();
+    if (user.novaCoins < priceCoins) return false;
+
+    soundService.playVictory();
+    set((state) => ({
+      user: {
+        ...state.user,
+        novaCoins: state.user.novaCoins - priceCoins,
+        customization: {
+          ...state.user.customization,
+          unlockedColors: [...state.user.customization.unlockedColors, colorHex],
+          equippedColor: colorHex,
+        }
+      }
+    }));
+    get().saveToLocalStorage();
+    return true;
+  },
+
+  toggleVietnamFlag: () => {
+    soundService.playClick();
+    set((state) => ({
+      user: {
+        ...state.user,
+        customization: {
+          ...state.user.customization,
+          hasVietnamFlag: !state.user.customization.hasVietnamFlag,
+        }
+      }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  equipAvatar: (avatarEmoji: string) => {
+    soundService.playClick();
+    set((state) => ({
+      user: { ...state.user, avatar: avatarEmoji }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  buyBooster: (type: 'double_regen' | 'boss_pass' | 'instant_refuel', costDiamonds: number) => {
+    const { user } = get();
+    if (user.diamonds < costDiamonds) return false;
+
+    soundService.playVictory();
+    const now = Date.now();
+
+    set((state) => {
+      const updatedUser = { ...state.user, diamonds: state.user.diamonds - costDiamonds };
+
+      if (type === 'double_regen') {
+        const currentEnd = updatedUser.doubleRegenUntil && updatedUser.doubleRegenUntil > now ? updatedUser.doubleRegenUntil : now;
+        updatedUser.doubleRegenUntil = currentEnd + (30 * 60 * 1000); // +30 mins
+      } else if (type === 'boss_pass') {
+        updatedUser.freeBossPassCount += 1;
+      } else if (type === 'instant_refuel') {
+        updatedUser.energy = updatedUser.maxEnergy;
+        updatedUser.lastEnergyTimestamp = now;
+      }
+
+      return { user: updatedUser };
+    });
+
+    get().saveToLocalStorage();
+    return true;
+  },
+
+  // 3D Navigation
+  selectPlanet: (planetId: string) => {
+    set({ activePlanetId: planetId, selectedCoordinateNode: null });
+  },
+
+  startFlyingToCoordinate: (node: PlanetCoordinateNode) => {
+    set({ selectedCoordinateNode: node, isFlyingToNode: true, flightProgress: 0 });
+  },
+
+  finishFlyingToCoordinate: () => {
+    set({ isFlyingToNode: false, flightProgress: 1 });
+  },
+
+  closeCoordinateModal: () => {
+    set({ selectedCoordinateNode: null, isFlyingToNode: false });
   },
 
   selectDomain: (domainId) => {
@@ -118,149 +465,43 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   toggleSound: () => {
-    const next = !get().settings.soundEnabled;
-    soundService.setSoundEnabled(next);
-    set((state) => ({
-      settings: { ...state.settings, soundEnabled: next }
-    }));
-    if (next) soundService.playClick();
-  },
-
-  consumeEnergy: (amount = 1) => {
-    const { energy } = get().user;
-    if (energy >= amount) {
-      set((state) => ({
-        user: { ...state.user, energy: state.user.energy - amount }
-      }));
-      return true;
-    }
-    return false;
-  },
-
-  addXP: (amount) => {
-    const { user } = get();
-    let newXp = user.xp + amount;
-    let newLevel = user.level;
-    let newXpToNext = user.xpToNextLevel;
-    let leveledUp = false;
-
-    while (newXp >= newXpToNext) {
-      newXp -= newXpToNext;
-      newLevel += 1;
-      newXpToNext = Math.round(newXpToNext * 1.5);
-      leveledUp = true;
-    }
-
-    if (leveledUp) {
-      soundService.playLevelUp();
-    }
-
-    set((state) => ({
-      user: {
-        ...state.user,
-        xp: newXp,
-        level: newLevel,
-        xpToNextLevel: newXpToNext,
-      }
-    }));
-
-    return { leveledUp, newLevel };
-  },
-
-  addGems: (amount) => {
-    soundService.playCoin();
-    set((state) => ({
-      user: { ...state.user, gems: state.user.gems + amount }
-    }));
-  },
-
-  answerQuestion: (question, optionId) => {
-    const selectedOpt = question.options.find((o) => o.id === optionId);
-    const isCorrect = selectedOpt ? selectedOpt.isCorrect : false;
-
-    let xpEarned = isCorrect ? 50 : 10;
-    let gemsEarned = isCorrect ? 5 : 1;
-
-    if (isCorrect) {
-      soundService.playCorrect();
-    } else {
-      soundService.playWrong();
-    }
-
-    // Cập nhật XP và Gems
-    get().addXP(xpEarned);
-    if (gemsEarned > 0) get().addGems(gemsEarned);
-
-    // Cập nhật Domain Progress
-    set((state) => {
-      const prevProg = state.domainProgress[question.domainId] || {
-        domainId: question.domainId,
-        masteryPercentage: 0,
-        questionsAnswered: 0,
-        totalQuestions: 5,
-        streak: 0,
-      };
-
-      const newAnswered = prevProg.questionsAnswered + 1;
-      const newStreak = isCorrect ? prevProg.streak + 1 : 0;
-      const newMastery = Math.min(100, Math.round((newAnswered / prevProg.totalQuestions) * 100));
-
-      return {
-        domainProgress: {
-          ...state.domainProgress,
-          [question.domainId]: {
-            ...prevProg,
-            questionsAnswered: newAnswered,
-            streak: newStreak,
-            masteryPercentage: newMastery,
-          }
-        },
-        answeredHistory: {
-          ...state.answeredHistory,
-          [question.id]: {
-            isCorrect,
-            selectedOptionId: optionId,
-            timestamp: Date.now(),
-          }
-        }
-      };
+    const { settings } = get();
+    const newSound = !settings.soundEnabled;
+    soundService.toggleSound(newSound);
+    set({
+      settings: { ...settings, soundEnabled: newSound }
     });
-
     get().saveToLocalStorage();
-
-    return { isCorrect, xpEarned, gemsEarned };
   },
 
   saveToLocalStorage: () => {
     try {
-      const state = get();
-      const payload = {
-        user: state.user,
-        settings: state.settings,
-        domainProgress: state.domainProgress,
-        answeredHistory: state.answeredHistory,
-      };
+      const { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId } = get();
+      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch (e) {
-      console.error('Failed to save to local storage', e);
+      console.warn('Failed to save space state to localStorage', e);
     }
   },
 
   loadFromLocalStorage: () => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
         set((state) => ({
           ...state,
-          user: { ...state.user, ...parsed.user },
-          settings: { ...state.settings, ...parsed.settings },
-          domainProgress: { ...state.domainProgress, ...parsed.domainProgress },
-          answeredHistory: { ...state.answeredHistory, ...parsed.answeredHistory },
+          user: { ...state.user, ...(parsed.user || {}) },
+          hasSeenFTUE: parsed.hasSeenFTUE ?? state.hasSeenFTUE,
+          completedNodes: parsed.completedNodes || {},
+          nodeStars: parsed.nodeStars || {},
+          settings: { ...state.settings, ...(parsed.settings || {}) },
+          activePlanetId: parsed.activePlanetId || 'bravery_prime',
         }));
       }
+      get().refreshEnergy();
     } catch (e) {
-      console.error('Failed to load from local storage', e);
+      console.warn('Failed to load space state from localStorage', e);
     }
   },
 }));
