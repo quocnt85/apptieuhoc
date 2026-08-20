@@ -1,183 +1,124 @@
 # 02. SƯ PHẠM, THIẾT KẾ GAME & MÔ HÌNH NỘI DUNG (Pedagogy, Game Design & Content Model)
 
 > **Mã Tài Liệu Hợp Nhất**: `NS-CANONICAL-PRD-02`  
-> **Nguồn Hợp Nhất Từ V2**: `03_EDUCATION/` (`competency_framework.md`, `experience_os.md`, `learning_framework.md`, `nlas_framework.md`), `04_GAME/` (`game_design_bible.md`, `game_economy.md`, `gameplay_loops.md`, `mechanics_catalog/mini_game_patterns.md`), `05_CONTENT/` (`content_model.md`).  
-> **Trạng Thái**: CANONICAL FROZEN (Bản Chuẩn Hóa V2.0.0)
+> **Phiên Bản**: `v2.1.0` (Cập nhật đồng bộ chuẩn NLAS 10 Giai đoạn & Schema LessonZeroPackage)  
+> **Nguồn Tri Thức**: `wiki/00_CORE/`, `wiki/01_DOMAINS/`, `client/src/components/lesson/TenStageLessonRunner.tsx`, `extracted_skills.json`.  
+> **Trạng Thái**: CANONICAL LIVING SPECIFICATION
 
 ---
 
-## 1. KHUNG NĂNG LỰC CỐT LÕI (Competency Framework: 5 Domains, 25 Subdomains)
+## 1. KHUNG 125 KỸ NĂNG CỐT LÕI (5 Domains & 125 Skills for Grades 1 - 5)
 
-Toàn bộ chương trình giáo dục kỹ năng sống NovaStars được xây dựng trên **5 Miền Năng Lực Lớn** và **25 Phân Miền**:
+Toàn bộ chương trình giáo dục tiểu học được phân bổ thành **5 Miền Năng Lực** bao phủ **125 Kỹ Năng Cụ Thể** từ Lớp 1 đến Lớp 5:
 
 ```mermaid
 graph TD
-    A[NovaStars Competency Framework] --> D1[Domain 1: Financial & Resource Literacy]
-    A --> D2[Domain 2: Emotional & Social Intelligence]
-    A --> D3[Domain 3: Critical Thinking & Problem Solving]
-    A --> D4[Domain 4: Digital Citizenship & Safety]
-    A --> D5[Domain 5: Self-Management & Daily Habits]
+    A[NovaStars 125 Life Skills Framework] --> D1[1. Financial Literacy: Quản lý tiền & Nguồn lực]
+    A --> D2[2. Safety & Protection: An toàn & Phòng tránh nguy hiểm]
+    A --> D3[3. SEL & Communication: Trí tuệ cảm xúc & Xã hội]
+    A --> D4[4. Self-Care & Health: Tự chăm sóc & Thói quen sống]
+    A --> D5[5. Digital & Study Skills: Kỹ năng số & Học tập]
 ```
 
 ### 1.1. Miền 1: Giáo Dục Tài Chính & Quản Lý Nguồn Lực (`DOM-FIN`)
-- `SUB-FIN-EARN`: Hiểu giá trị lao động & cách tạo ra tiền
-- `SUB-FIN-SAVE`: Tiết kiệm & Trì hoãn sự thỏa mãn tức thì (Delayed Gratification)
-- `SUB-FIN-BUDG`: Lập ngân sách & Chi tiêu thông minh
-- `SUB-FIN-NEED`: Phân biệt Cần (Need) vs. Muốn (Want)
-- `SUB-FIN-ETHC`: Quản lý tài nguyên & Đạo đức sử dụng tiền
+- **Lớp 1 (6-7t)**: Nhận biết mệnh giá tiền Việt Nam, phân biệt Cần (Need) vs. Muốn (Want), thói quen nuôi heo đất.
+- **Lớp 2 (7-8t)**: Nguồn gốc của tiền từ lao động, kỹ năng mua hàng nhận tiền thối, bảo quản đồ dùng học tập.
+- **Lớp 3 (8-9t)**: Lập kế hoạch chi tiêu tuần, so sánh giá khi đi siêu thị cùng mẹ, giá trị của tiết kiệm dài hạn.
+- **Lớp 4 (9-10t)**: Khái niệm ngân sách cá nhân 3 hũ (Tiêu dùng - Tiết kiệm - Chia sẻ), nhận biết quảng cáo bán hàng.
+- **Lớp 5 (10-11t)**: Tư duy kinh doanh nhỏ (bán đồ thủ công), nguyên lý tiết kiệm sinh lời, đạo đức sử dụng tiền.
 
-### 1.2. Miền 2: Trí Tuệ Cảm Xúc & Kỹ Năng Xã Hội SEL (`DOM-SEL`)
-- `SUB-SEL-RECG`: Nhận diện & Gọi tên cảm xúc
-- `SUB-SEL-REGU`: Tự điều chỉnh cảm xúc & Chiến lược ứng phó (Hạ hỏa cơn giận)
-- `SUB-SEL-EMPA`: Thấu cảm & Đặt mình vào vị trí người khác
-- `SUB-SEL-COMM`: Giao tiếp lành mạnh, lễ phép & Lắng nghe tích cực
-- `SUB-SEL-CONF`: Giải quyết xung đột ôn hòa & Hợp tác đội nhóm
+### 1.2. Miền 2: An Toàn Bản Thân & Phòng Tránh Nguy Hiểm (`DOM-SAF`)
+- **Lớp 1 (6-7t)**: Quy tắc 5 ngón tay (Vùng riêng tư - Safe Touch), ghi nhớ số điện thoại khẩn cấp (113, 114, 115), xử lý khi bị lạc.
+- **Lớp 2 (7-8t)**: An toàn điện gia dụng (không chạm tay ướt), an toàn giao thông đi bộ sang đường, kỹ năng từ chối người lạ.
+- **Lớp 3 (8-9t)**: Kỹ năng thoát hiểm hỏa hoạn (bò sát sàn, khăn ẩm), sơ cứu vết trầy xước và bỏng nhẹ, an toàn sông nước.
+- **Lớp 4 (9-10t)**: Phòng chống xâm hại và bạo lực học đường, an toàn khi ở nhà một mình, nhận biết nguy cơ thời tiết xấu (sấm sét).
+- **Lớp 5 (10-11t)**: Kỹ năng sơ cứu nâng cao (hóc dị vật Heimlich, băng bó), phòng tránh tệ nạn xã hội, tự bảo vệ bản thân khi đi dã ngoại.
 
-### 1.3. Miền 3: Tư Duy Phản Biện & Giải Quyết Vấn Đề (`DOM-CRT`)
-- `SUB-CRT-LOGIC`: Tư duy logic & Suy luận diễn dịch
-- `SUB-CRT-INFO`: Đánh giá thông tin & Phân biệt Sự thật vs. Ý kiến
-- `SUB-CRT-CREA`: Tư duy sáng tạo & Đổi mới cách làm
-- `SUB-CRT-CAUSE`: Phân tích nguyên nhân & Hệ quả hành vi
-- `SUB-CRT-RISK`: Ra quyết định & Đánh giá rủi ro
+### 1.3. Miền 3: Trí Tuệ Cảm Xúc & Kỹ Năng Xã Hội SEL (`DOM-SEL`)
+- **Lớp 1 (6-7t)**: Nhận diện 4 cảm xúc cơ bản (Vui, Buồn, Giận, Sợ), kỹ năng chào hỏi lễ phép, chia sẻ đồ chơi.
+- **Lớp 2 (7-8t)**: Kỹ thuật hít thở hạ hỏa cơn giận, lắng nghe người khác nói, kỹ năng xin lỗi và cảm ơn chân thành.
+- **Lớp 3 (8-9t)**: Thấu cảm (đặt mình vào vị trí bạn bè), làm việc nhóm hòa thuận, nhận diện và đối phó với lời trêu chọc.
+- **Lớp 4 (9-10t)**: Giải quyết mâu thuẫn bằng đàm phán ôn hòa, kỹ năng thuyết trình tự tin trước đám đông, tôn trọng sự khác biệt.
+- **Lớp 5 (10-11t)**: Lãnh đạo bản thân và đội nhóm, đối diện với áp lực bạn bè (Peer Pressure), nuôi dưỡng lòng trắc ẩn và giúp đỡ cộng đồng.
 
-### 1.4. Miền 4: Công Dân Số & An Toàn Bản Thân (`DOM-DIG`)
-- `SUB-DIG-PRIV`: Bảo vệ quyền riêng tư & Dữ liệu cá nhân (Safe Touch, Mật khẩu)
-- `SUB-DIG-BULLY`: Nhận diện bắt nạt mạng & Lên tiếng bảo vệ bạn
-- `SUB-DIG-TIME`: Quản lý thời gian màn hình cân bằng (Screen Time)
-- `SUB-DIG-EVAL`: Đánh giá độ tin cậy của thông tin trên Internet
-- `SUB-DIG-RESP`: Ứng xử văn minh, lịch thiệp trên không gian số
+### 1.4. Miền 4: Tự Chăm Sóc Bản Thân & Thói Quen Sống Khỏe (`DOM-CARE`)
+- **Lớp 1 (6-7t)**: Rửa tay 6 bước chuẩn y tế, tự đánh răng sáng/tối, tự mặc quần áo và mang giày dép.
+- **Lớp 2 (7-8t)**: Tự dọn dẹp góc học tập, phân loại rác thải tại nguồn, thói quen uống đủ nước và ăn rau xanh.
+- **Lớp 3 (8-9t)**: Tự chuẩn bị cặp sách theo thời khóa biểu, gấp chăn màn và dọn giường ngủ, bảo vệ mắt và cột sống khi ngồi học.
+- **Lớp 4 (9-10t)**: Tự chuẩn bị bữa phụ dinh dưỡng đơn giản, sơ cứu cảm nắng và côn trùng cắn, vệ sinh cá nhân tuổi tiền dậy thì.
+- **Lớp 5 (10-11t)**: Quản lý thời gian biểu cá nhân (Pomodoro trẻ em), rèn luyện thể thao hàng ngày, tự lập chăm sóc bản thân khi bố mẹ vắng nhà.
 
-### 1.5. Miền 5: Tự Quản Bản Thân & Thói Quen Hàng Ngày (`DOM-HAB`)
-- `SUB-HAB-GOAL`: Thiết lập mục tiêu & Lập kế hoạch hành động
-- `SUB-HAB-TIME`: Quản lý thời gian & Ưu tiên công việc học tập
-- `SUB-HAB-WELL`: Vệ sinh cá nhân & Chăm sóc sức khỏe (Dinh dưỡng, mắt, giấc ngủ)
-- `SUB-HAB-PERST`: Tư duy phát triển & Kiên trì vượt khó (Growth Mindset)
-- `SUB-HAB-INDY`: Trách nhiệm việc nhà & Tính tự lập cá nhân
-
----
-
-## 2. TÂM LÝ HỌC GIÁO DỤC & EXPERIENCE OS (Emotion Engine)
-
-Mỗi trải nghiệm học tập của bé được điều hướng qua **Chu Trình 4 Pha Chuyển Đổi Tâm Lý**:
-
-```mermaid
-graph LR
-    S1[Pha 1: Tò Mò & Lôi Cuốn<br/>Hook Phase] --> S2[Pha 2: Thử Thách & Chủ Động<br/>Active Learning]
-    S2 --> S3[Pha 3: Khai Sáng & Tự Tin<br/>Mastery Phase]
-    S3 --> S4[Pha 4: Tự Hào & Động Lực<br/>Reflection & Reward]
-```
-
-### Thang Đo Nhận Thức Bloom Cho Kỹ Năng Tiểu Học
-1. **Level 1 (Remember):** Nhận diện khái niệm cơ bản (ví dụ: nhãn cảm xúc, vùng riêng tư).
-2. **Level 2 (Understand):** Giải thích tại sao một hành vi dẫn đến hậu quả cụ thể.
-3. **Level 3 (Apply):** Vận dụng giải quyết tình huống mô phỏng hoặc phân bổ ngân sách.
-4. **Level 4 (Analyze):** Đánh giá sự đánh đổi giữa lợi ích tức thời và lâu dài.
-5. **Level 5 (Synthesize):** Tổng hợp kỹ năng để chiến thắng Boss trận cuối.
-
-### Tiêu Chuẩn Thành Thạo (Mastery Benchmark $\ge 80\%$)
-- Bé đạt chuẩn thành thạo một năng lực khi đạt $\ge 80\%$ độ chính xác qua 3 thử thách độc lập mà không cần dùng trợ giúp cấp 3.
+### 1.5. Miền 5: Kỹ Năng Số & Phương Pháp Học Tập Thế Kỷ 21 (`DOM-DIG`)
+- **Lớp 1 (6-7t)**: Tư thế ngồi máy tính đúng, quy tắc thời gian màn hình 20-20-20, không tự ý bấm link lạ.
+- **Lớp 2 (7-8t)**: Bảo mật mật khẩu gia đình, tìm kiếm thông tin học tập có sự giám sát, vẽ sơ đồ tư duy cơ bản.
+- **Lớp 3 (8-9t)**: Nhận diện tin giả và lừa đảo trực tuyến cơ bản, kỹ năng ghi chép bài học hiệu quả (Note-taking), ứng xử lịch sự trên mạng.
+- **Lớp 4 (9-10t)**: Phòng chống bắt nạt mạng (Cyberbullying), sử dụng AI hỗ trợ học tập đúng cách (không gian lận), kỹ năng lập kế hoạch ôn thi.
+- **Lớp 5 (10-11t)**: Xây dựng dấu chân số tích cực (Digital Footprint), tư duy phản biện khi đọc tin tức mạng, phương pháp tự học và nghiên cứu đề tài nhỏ.
 
 ---
 
-## 3. QUY CHUẨN BÀI HỌC NLAS (Lesson Architecture System)
+## 2. QUY CHUẨN KIẾN TRÚC BÀI HỌC 10 GIAI ĐOẠN (NLAS 10-Stage Architecture)
 
-Mỗi bài học chuẩn kéo dài **6 – 10 phút**, tuân thủ 4 giai đoạn sư phạm cốt lõi:
+Trình chạy bài học [`TenStageLessonRunner.tsx`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/client/src/components/lesson/TenStageLessonRunner.tsx) vận hành chu trình 10 giai đoạn sư phạm tuần tự:
 
 ```mermaid
 graph TD
-    Stage1[Stage 1: Hook & Story Context - 1.5 min] --> Stage2[Stage 2: Guided Exploration - 3.0 min]
-    Stage2 --> Stage3[Stage 3: Mastery Boss Challenge - 3.0 min]
-    Stage3 --> Stage4[Stage 4: Reflection & Family Bridge - 1.5 min]
+    S1[Giai đoạn 1: PRETEST<br/>Trắc nghiệm chẩn đoán ban đầu] --> S2[Giai đoạn 2: STORY<br/>Cốt truyện tương tác cùng Su & Kem]
+    S2 --> S3[Giai đoạn 3: MINIGAME_1<br/>Nhận biết - Kéo thả trực quan]
+    S3 --> S4[Giai đoạn 4: MINIGAME_2<br/>Thấu hiểu - Phân loại / Ghép nối]
+    S4 --> S5[Giai đoạn 5: MINIGAME_3<br/>Tình huống - Ra quyết định hành động]
+    S5 --> S6[Giai đoạn 6: BOSS_BATTLE<br/>Đấu Boss nhận thức theo lượt]
+    S6 --> S7[Giai đoạn 7: REFLECTION<br/>Phản tư sâu cùng AI Nova]
+    S7 --> S8[Giai đoạn 8: REAL_MISSION<br/>Nhiệm vụ thực hành an toàn tại nhà]
+    S8 --> S9[Giai đoạn 9: PARENT_CONFIRM<br/>Xác nhận từ phụ huynh & Trao thưởng]
+    S9 --> S10[Giai đoạn 10: POSTTEST<br/>Đánh giá tăng trưởng năng lực]
 ```
 
-1. **Stage 1: Hook & Story Context (1.5 phút)**: Giới thiệu tình huống, nhân vật, dilemna đạo đức/hành vi (`LO-STORY`).
-2. **Stage 2: Guided Exploration (3.0 phút)**: 2-3 mini-game tương tác tìm tòi khái niệm có giàn giáo hỗ trợ (`LO-EXPLORE`).
-3. **Stage 3: Mastery Boss Challenge (3.0 phút)**: Trận đấu Boss tổng hợp kiến thức (`LO-BOSS`).
-4. **Stage 4: Reflection & Family Bridge (1.5 phút)**: Tự chiêm nghiệm, huy hiệu và thử thách ngoài đời thực (`LO-REFL`).
-
-### Giới Hạn Nhận Thức Bắt Buộc
-- Độ dài tối đa mỗi câu thoại đối thoại: **$\le 25$ từ**.
-- Số lượng lựa chọn tại mỗi ngã rẽ: **tối đa 3 lựa chọn**.
-- Mọi lựa chọn chưa đúng PHẢI có phản hồi sư phạm giải thích lý do mang tính xây dựng.
+### Bảng Đặc Tả 10 Giai Đoạn
+| STT | Giai Đoạn | Thời Lượng | Bản Chất Sư Phạm & Gameplay |
+| :--- | :--- | :---: | :--- |
+| **1** | `PRETEST` | 1.0 phút | 2-3 câu hỏi ngắn khảo sát mức độ nhận biết ban đầu của trẻ trước khi học. |
+| **2** | `STORY` | 1.5 phút | Truyện tranh tương tác; Su & Kem gặp tình huống khó khăn cần bé hỗ trợ ($\le 25$ từ/thoại). |
+| **3** | `MINIGAME_1` | 1.0 phút | Mini-game nhận diện trực quan: Kéo thả vật phẩm, tìm điểm bất thường. |
+| **4** | `MINIGAME_2` | 1.0 phút | Mini-game phân loại: Thả vào 2 thùng (Đúng vs Sai, Cần vs Muốn, An toàn vs Nguy hiểm). |
+| **5** | `MINIGAME_3` | 1.0 phút | Thử thách tình huống mô phỏng: Chọn hành động tối ưu để vượt qua chướng ngại vật. |
+| **6** | `BOSS_BATTLE`| 1.5 phút | Đấu Boss theo lượt (3-5 HP); Avatar tung đòn Năng lực khi bé chỉ ra lỗi sai của Boss. |
+| **7** | `REFLECTION` | 1.0 phút | Hội thoại 1-1 với AI Nova (chữ hoặc giọng nói) để gọi tên cảm xúc và rút ra bài học. |
+| **8** | `REAL_MISSION`| Ngoài app | Nhận 1 nhiệm vụ thực tế nhỏ tại nhà (kiểm tra ổ cắm, dọn bàn, tự pha nước ấm...). |
+| **9** | `PARENT_CONFIRM`| 1-Click | Phụ huynh kiểm tra việc làm của con, bấm xác nhận trên app để mở khóa Huy hiệu Vàng. |
+| **10**| `POSTTEST` | 1.0 phút | 2-3 câu hỏi tổng kết đo lường mức độ tiến bộ so với Pretest ban đầu. |
 
 ---
 
-## 4. KINH THÁNH THIẾT KẾ GAME (Game Design Bible & Economy)
+## 3. MASTER JSON SCHEMA: `LessonZeroPackage` (Content Model Schema)
 
-### 4 Trụ Cột Niềm Vui (The Fun Framework)
-1. **Narrative Wonder (Kỳ Quan Cốt Truyện)**: Cốt truyện phiêu lưu 5 Đảo vũ trụ lôi cuốn.
-2. **Mastery & Agency (Làm Chủ & Quyền Lựa Chọn)**: Mở khóa bằng năng lực thực chất, không pay-to-win.
-3. **Companion Connection (Gắn Kết Linh Vật)**: Sao Nova đồng hành, khích lệ và cùng bé trưởng thành.
-4. **Meaningful Collection (Bộ Sưu Tập Ý Nghĩa)**: Tích lũy Mảnh Sao (Star Shards) và Huy Hiệu Nova (Badges).
+Tất cả các bài học sinh ra hoặc nạp vào Client đều phải tuân thủ nghiêm ngặt TypeScript Interface & JSON Schema dưới đây:
 
-### Thiết Kế Thử Sai An Toàn (Safe Failure)
-- Sai lầm chỉ kích hoạt hiệu ứng "Ồ!" vui nhộn, không trừ điểm sinh mệnh vĩnh viễn hay làm bé sợ hãi.
-- Cơ chế giàn giáo hỗ trợ 3 bước (Gợi ý nhắc lại đề $\rightarrow$ Loại 1 phương án sai $\rightarrow$ Chỉ dẫn trực quan).
-
-### Hệ Thống Tiền Tệ & Cân Bằng Kinh Tế Game
-```mermaid
-graph LR
-    A[Hoàn thành bài & Thói quen] --> B[Star Shards: Mảnh Sao Tích Lũy]
-    A --> C[Nova Badges: Huy Hiệu Năng Lực]
-    B --> D[Đổi Trang Phục & Phụ Kiện Cho Thú Cưng]
-    C --> E[Mở Khóa Ngoại Truyện Đặc Biệt & Dashboard Phụ Huynh]
-```
-- **Star Shards**: Thưởng +10 Shards/giai đoạn hoàn thành, +5 Shards/ngày duy trì chuỗi học. Tuyệt đối không bán bằng tiền thật.
-- **Tiến Hóa Thú Cưng**: Level 1 $\rightarrow$ 5 (500 XP), Level 5 $\rightarrow$ 10 (1,500 XP - mở Hào Quang), Level 10 (5,000 XP - Vương Miện Vàng).
-
----
-
-## 5. DANH MỤC CÁC PATTERN MINI-GAME TÁI SỬ DỤNG (Mini-Game Patterns)
-
-1. **Pattern 1: Cân Bằng Cán Cân (`MCH-PAT-001`)**: Kéo thả đồ vật lên cân để so sánh thu chi hoặc lợi ích/rủi ro.
-2. **Pattern 2: Ma Trận Đối Thoại (`MCH-PAT-002`)**: Chọn lời thoại để thay đổi biểu cảm và cảm xúc của nhân vật NPC.
-3. **Pattern 3: Phân Loại Vào Thùng (`MCH-PAT-003`)**: Thả các mục vào thùng đúng (Cần vs Muốn, Sự thật vs Ý kiến).
-4. **Pattern 4: Sắp Xếp Quy Trình Sequence (`MCH-PAT-004`)**: Xếp 3-5 thẻ hành động theo đúng trình tự thời gian logic.
-
----
-
-## 6. KIẾN TRÚC MÔ HÌNH NỘI DUNG & MASTER JSON SCHEMA (Content Model)
-
-### Phân Cấp Đối Tượng Học Tập
-```mermaid
-graph TD
-    A[Competency Package - Module] --> B[Lesson Package - NLAS Lesson]
-    B --> C1[Story Object: LO-STORY]
-    B --> C2[Exploration Object: LO-EXPLORE]
-    B --> C3[Boss Challenge Object: LO-BOSS]
-    B --> C4[Reflection & Bridge Object: LO-REFL]
-    C2 --> D1[Question Item Schema]
-    C3 --> D2[Rubric & Evidence Schema]
-```
-
-### Master JSON Schema Khóa (Lesson Package)
-```json
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "NovaStarsLessonPackage",
-  "type": "object",
-  "required": ["lesson_id", "competency_id", "title", "grade_level", "stages"],
-  "properties": {
-    "lesson_id": { "type": "string", "pattern": "^NS-LES-[0-9]{5}$" },
-    "competency_id": { "type": "string", "pattern": "^COMP-[A-Z]{3}-[A-Z]{3}-[0-9]{3}$" },
-    "title": { "type": "string", "maxLength": 80 },
-    "grade_level": { "type": "integer", "minimum": 1, "maximum": 5 },
-    "estimated_duration_minutes": { "type": "number", "default": 8.0 },
-    "stages": {
-      "type": "array",
-      "minItems": 4,
-      "maxItems": 4,
-      "items": {
-        "type": "object",
-        "required": ["stage_number", "stage_type", "object_id", "content_data"],
-        "properties": {
-          "stage_number": { "type": "integer", "minimum": 1, "maximum": 4 },
-          "stage_type": { "type": "string", "enum": ["LO-STORY", "LO-EXPLORE", "LO-BOSS", "LO-REFL"] },
-          "object_id": { "type": "string" },
-          "content_data": { "type": "object" }
-        }
-      }
-    }
-  }
+```typescript
+export interface LessonZeroPackage {
+  lesson_id: string;        // e.g. "NS-LES-00101" (Regex: ^NS-LES-[0-9]{5}$)
+  competency_id: string;    // e.g. "COMP-SAF-FIRE-001" (Regex: ^COMP-[A-Z]{3}-[A-Z]{3}-[0-9]{3}$)
+  title: string;            // Tiêu đề ngắn gọn <= 80 ký tự
+  domain: 'financial' | 'safety' | 'sel' | 'self_care' | 'digital';
+  grade_level: 1 | 2 | 3 | 4 | 5;
+  estimated_duration_minutes: number; // 6.0 - 10.0 phút
+  stages: [
+    PretestStage,
+    StoryStage,
+    Minigame1Stage,
+    Minigame2Stage,
+    Minigame3Stage,
+    BossBattleStage,
+    ReflectionStage,
+    RealMissionStage,
+    ParentConfirmStage,
+    PosttestStage
+  ];
 }
 ```
+
+### Các Hằng Số Giới Hạn Sư Phạm Cốt Lõi:
+- `MAX_WORDS_PER_SPEECH = 25`: Tuyệt đối không viết câu dài gây mỏi mắt cho trẻ.
+- `MAX_CHOICES_PER_QUESTION = 3`: Tối đa 3 lựa chọn để trẻ không bị quá tải nhận thức.
+- `ZERO_HP_PENALTY = true`: Trả lời sai không bị trừ mạng hay điểm số.
+- `PASS_MASTERY_ACCURACY = 0.80`: Đạt $\ge 80\%$ để đạt chuẩn năng lực.
