@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaStars OS - Master Knowledge Wiki & Architecture Review</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b',
+              950: '#0f0e26',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0b0f19; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    
+    .glow-box {
+      box-shadow: 0 0 35px -5px rgba(99, 102, 241, 0.15);
+    }
+    .active-tab {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #ffffff;
+      border-color: #818cf8;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+    }
+    .card-3d {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans bg-[#080c14] text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Top Global Header -->
+  <header class="sticky top-0 z-50 border-b border-slate-800/80 bg-[#080c14]/90 backdrop-blur-md px-6 py-4">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-amber-400 flex items-center justify-center text-2xl shadow-lg shadow-indigo-600/30">
+          🌟
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-black tracking-tight text-white">NOVASTARS MASTER WIKI</h1>
+            <span class="text-[11px] font-black uppercase px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+              Karpathy Edition
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 font-medium">Bản Rà Soát Tri Thức, Khung Năng Lực & Bản Thiết Kế Kiến Trúc Hệ Thống AI</p>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+        <div class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Tài Liệu</div>
+          <div class="text-sm font-black text-indigo-400">22+ Modules</div>
+        </div>
+        <div class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Kỹ Năng L1-5</div>
+          <div class="text-sm font-black text-amber-400">125 Skills</div>
+        </div>
+        <div class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Ngân Hàng Câu Hỏi</div>
+          <div class="text-sm font-black text-emerald-400">680 Items</div>
+        </div>
+        <div class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">E2E Tests</div>
+          <div class="text-sm font-black text-cyan-400">20/20 Passed</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tab Bar -->
+  <nav class="border-b border-slate-800/80 bg-slate-950/60 sticky top-[73px] z-40 px-6 py-2.5 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs font-black">
+      <button onclick="switchTab('tab-overview')" id="btn-tab-overview" class="tab-btn active-tab px-4 py-2 rounded-xl border border-transparent transition-all flex items-center gap-1.5 whitespace-nowrap">
+        <span>🗺️</span> <span>1. Bản Đồ Tổng Thể & Rà Soát</span>
+      </button>
+      <button onclick="switchTab('tab-ontology')" id="btn-tab-ontology" class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-slate-400 hover:text-slate-200 transition-all flex items-center gap-1.5 whitespace-nowrap">
+        <span>📚</span> <span>2. Tra Cứu Khung 125 Kỹ Năng</span>
+      </button>
+      <button onclick="switchTab('tab-nlas')" id="btn-tab-nlas" class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-slate-400 hover:text-slate-200 transition-all flex items-center gap-1.5 whitespace-nowrap">
+        <span>🎮</span> <span>3. Quy Chuẩn Bài Học 10 Giai Đoạn</span>
+      </button>
+      <button onclick="switchTab('tab-schema')" id="btn-tab-schema" class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-slate-400 hover:text-slate-200 transition-all flex items-center gap-1.5 whitespace-nowrap">
+        <span>💻</span> <span>4. Master JSON Schema & Type Contracts</span>
+      </button>
+      <button onclick="switchTab('tab-blueprint')" id="btn-tab-blueprint" class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-slate-400 hover:text-slate-200 transition-all flex items-center gap-1.5 whitespace-nowrap">
+        <span>🧠</span> <span>5. Karpathy-Style Master Wiki Blueprint</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content Body -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-8">
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: BẢN ĐỒ TỔNG THỂ & RÀ SOÁT TÀI LIỆU -->
+    <!-- ========================================================================= -->
+    <section id="tab-overview" class="tab-content space-y-6">
+      
+      <!-- Intro Hero Banner -->
+      <div class="card-3d rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border border-indigo-500/20 glow-box">
+        <div class="flex items-center gap-2 text-indigo-400 font-black text-xs uppercase tracking-wider mb-2">
+          <span>⚡ First-Principles Knowledge Architecture</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-3">
+          Rà Soát & Thống Nhất Hệ Thống Tri Thức NovaStars
+        </h2>
+        <p class="text-slate-300 text-sm leading-relaxed max-w-4xl font-normal">
+          Dự án hiện sở hữu kho tài liệu đồ sộ bao gồm <strong class="text-amber-300">10 Modules Thiết kế V1</strong>, <strong class="text-indigo-300">12 Miền Tri thức NovaStars OS V2</strong>, <strong class="text-emerald-300">bộ ngân hàng 680 câu hỏi</strong> và file dữ liệu kỹ năng Excel Lớp 1-5. Mục tiêu của chúng ta là thống nhất thành một <strong class="text-cyan-300">Master Wiki Markdown kiểu Karpathy</strong> tinh đặc, chuẩn xác để làm ngữ cảnh chuẩn cho AI Agent sinh nội dung tự động.
+        </p>
+      </div>
+
+      <!-- 4-Layer Hierarchy Breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Layer 1 -->
+        <div class="card-3d p-5 rounded-2xl border-l-4 border-l-amber-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-amber-400 uppercase tracking-wider">Tầng 1: Dữ Liệu Gốc</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono font-bold">Raw Data</span>
+          </div>
+          <h3 class="text-base font-bold text-white">Excel & Question Bank</h3>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><code class="text-amber-200">extracted_skills.json</code> (Lớp 1-5)</li>
+            <li><code class="text-amber-200">Hệ thống kỹ năng tiểu học.xlsx</code></li>
+            <li><code class="text-amber-200">questions_data.js</code> (680 câu hỏi)</li>
+            <li>Phân loại Bloom: Tier A, B, C</li>
+          </ul>
+        </div>
+
+        <!-- Layer 2 -->
+        <div class="card-3d p-5 rounded-2xl border-l-4 border-l-blue-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-blue-400 uppercase tracking-wider">Tầng 2: V1.0 Modules</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono font-bold">10 Folders</span>
+          </div>
+          <h3 class="text-base font-bold text-white">Thiết Kế Nền Tảng</h3>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><code class="text-blue-200">00_Project Charter</code> (Tầm nhìn)</li>
+            <li><code class="text-blue-200">01_Product Foundation</code> (Blueprint)</li>
+            <li><code class="text-blue-200">02_Curriculum Framework</code> (LSCAF)</li>
+            <li><code class="text-blue-200">03_Game Design Bible</code> (5 Đảo)</li>
+            <li><code class="text-blue-200">04_AI Bible</code> (Linh vật Nova)</li>
+          </ul>
+        </div>
+
+        <!-- Layer 3 -->
+        <div class="card-3d p-5 rounded-2xl border-l-4 border-l-indigo-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-indigo-400 uppercase tracking-wider">Tầng 3: V2.0 OS</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono font-bold">Canonical</span>
+          </div>
+          <h3 class="text-base font-bold text-white">NovaStars OS Frozen</h3>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><code class="text-indigo-200">03_EDUCATION/nlas_framework</code></li>
+            <li><code class="text-indigo-200">05_CONTENT/content_model</code> (Schemas)</li>
+            <li><code class="text-indigo-200">06_AI/aips_framework</code> (Multi-Agent)</li>
+            <li><code class="text-indigo-200">07_ENGINEERING/tech_arch</code></li>
+            <li>YAML metadata: depends_on / used_by</li>
+          </ul>
+        </div>
+
+        <!-- Layer 4 -->
+        <div class="card-3d p-5 rounded-2xl border-l-4 border-l-emerald-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-emerald-400 uppercase tracking-wider">Tầng 4: Thực Thi Mã</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold">Production</span>
+          </div>
+          <h3 class="text-base font-bold text-white">Client App & Engine</h3>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><code class="text-emerald-200">TenStageLessonRunner.tsx</code></li>
+            <li><code class="text-emerald-200">lessonZeroData.ts</code> (Bài 1 mẫu)</li>
+            <li><code class="text-emerald-200">interaction.ts</code> (Haptics WebAudio)</li>
+            <li><code class="text-emerald-200">e2e/mobile.spec.ts</code> (Playwright)</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Architecture Topology Diagram -->
+      <div class="card-3d rounded-3xl p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <span>🌐</span> Sơ Đồ Luồng Tri Thức & Phụ Thuộc (System Knowledge Topology)
+          </h3>
+          <span class="text-xs text-slate-400 font-mono">Rendered with Mermaid.js</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 overflow-x-auto flex justify-center">
+          <pre class="mermaid text-xs">
+graph LR
+    subgraph S1["1. Triết Lý & Mục Tiêu"]
+      VIS["01_VISION / Charter<br/>(Triết lý & OKRs)"]
+      PRD["02_PRODUCT<br/>(Personas & Blueprints)"]
+    end
+
+    subgraph S2["2. Sư Phạm & Trò Chơi"]
+      EDU["03_EDUCATION<br/>(NLAS 10-Stage & LSCAF)"]
+      GAME["04_GAME<br/>(5 Đảo & Game Loops)"]
+    end
+
+    subgraph S3["3. Data Contract & Schema"]
+      CNT["05_CONTENT<br/>(JSON Schemas & LO Types)"]
+      RAW["Raw Skills Data<br/>(125 Skills Lớp 1-5)"]
+    end
+
+    subgraph S4["4. Tự Động Hóa & Ứng Dụng"]
+      AI["06_AI / AIPS<br/>(Agent Generation SOP)"]
+      APP["Client App<br/>(TenStageRunner React)"]
+    end
+
+    VIS --> PRD
+    PRD --> EDU
+    PRD --> GAME
+    EDU --> CNT
+    GAME --> CNT
+    RAW --> CNT
+    CNT --> AI
+    CNT --> APP
+    AI -. Tạo Bài Học Mới .-> APP
+          </pre>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: TRA CỨU KHUNG 125 KỸ NĂNG THEO KHỐI LỚP -->
+    <!-- ========================================================================= -->
+    <section id="tab-ontology" class="tab-content hidden space-y-6">
+      
+      <div class="card-3d rounded-3xl p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl font-black text-white flex items-center gap-2">
+              <span>📚</span> Khung Bản Thể Học 125 Kỹ Năng Sống Tiểu Học (Lớp 1 - 5)
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">Dữ liệu được trích xuất và chuẩn hóa từ file Excel gốc và Khung LSCAF Canonical</p>
+          </div>
+
+          <!-- Controls -->
+          <div class="flex items-center gap-2">
+            <select id="gradeFilter" onchange="filterSkills()" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-indigo-500">
+              <option value="ALL">Tất Cả Khối Lớp (1-5)</option>
+              <option value="1">Lớp 1 (6-7 Tuổi)</option>
+              <option value="2">Lớp 2 (7-8 Tuổi)</option>
+              <option value="3">Lớp 3 (8-9 Tuổi)</option>
+              <option value="4">Lớp 4 (9-10 Tuổi)</option>
+              <option value="5">Lớp 5 (10-11 Tuổi)</option>
+            </select>
+
+            <select id="domainFilter" onchange="filterSkills()" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-indigo-500">
+              <option value="ALL">Tất Cả 5 Nhóm Miền</option>
+              <option value="SELF_CARE">Tự Chăm Sóc & Sức Khỏe</option>
+              <option value="SAFETY">An Toàn & Phòng Tránh Nguy Hiểm</option>
+              <option value="EMOTION_SOCIAL">Giao Tiếp, Cảm Xúc & SEL</option>
+              <option value="ACADEMIC_STUDY">Thuyết Trình & Tự Quản Góc Học</option>
+              <option value="DIGITAL_FINANCE">Kỹ Năng Số & Tài Chính</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Skills Table -->
+        <div class="overflow-x-auto rounded-2xl border border-slate-800">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-900/90 text-slate-400 font-mono text-[11px] uppercase border-b border-slate-800">
+              <tr>
+                <th class="p-3.5">Mã Năng Lực</th>
+                <th class="p-3.5">Tên Bài Học / Kỹ Năng</th>
+                <th class="p-3.5">Nhóm Miền</th>
+                <th class="p-3.5">Khối Lớp</th>
+                <th class="p-3.5">Trọng Tâm Hành Vi (Behavioral Focus)</th>
+                <th class="p-3.5">Trạng Thái</th>
+              </tr>
+            </thead>
+            <tbody id="skillsTableBody" class="divide-y divide-slate-800/60 font-medium">
+              <!-- Dynamically rendered or static sample -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: QUY CHUẨN BÀI HỌC 10 GIAI ĐOẠN (NLAS) -->
+    <!-- ========================================================================= -->
+    <section id="tab-nlas" class="tab-content hidden space-y-6">
+      
+      <div class="card-3d rounded-3xl p-6 sm:p-8 space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black mb-2">
+            <span>🎮 Universal 10-Stage Learning Architecture</span>
+          </div>
+          <h2 class="text-2xl font-black text-white">Quy Chuẩn Bài Học 10 Giai Đoạn (NLAS Runner)</h2>
+          <p class="text-xs text-slate-400 mt-1">
+            Mỗi bài học được thiết kế để hoàn thành trong 6 - 10 phút, tích hợp liền mạch giữa Đánh giá nhận thức, Trải nghiệm cốt truyện, Mini-game tương tác, Trận đấu Boss và Cầu nối Gia đình.
+          </p>
+        </div>
+
+        <!-- 10 Stages Flow Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Stage 1 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-indigo-400">Giai Đoạn 1: Đánh Giá Ban Đầu (Pretest)</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              1 câu hỏi trắc nghiệm chẩn đoán tình huống thực tế nhằm kích hoạt vốn hiểu biết có sẵn của bé trước khi vào bài.
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng câu hỏi: 4 lựa chọn (A, B, C, D) có giải thích sư phạm.</div>
+          </div>
+
+          <!-- Stage 2 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-indigo-400">Giai Đoạn 2: Cốt Truyện Phiêu Lưu (Story)</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1.5 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              Đối thoại sinh động giữa Linh vật Sao Nova và nhân vật bé (Su/Kem), kết thúc bằng một tình huống nan giải (Dilemma).
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng tương tác: Chọn 1 trong 2 quyết định ứng xử.</div>
+          </div>
+
+          <!-- Stage 3 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-amber-400">Giai Đoạn 3: Trò Chơi 1 - Chọn Cử Chỉ Đúng</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              Mini-game chạm chọn các hành vi đúng vào ô "Bí kíp" (loại bỏ hành vi sai, nhận diện cử chỉ chuẩn mực).
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng tương tác: Multi-select tactile chips, rung xúc giác khi chọn đúng.</div>
+          </div>
+
+          <!-- Stage 4 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-amber-400">Giai Đoạn 4: Trò Chơi 2 - Ghép Đôi Hoàn Cảnh</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1.5 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              Lưới ghép 3 cặp tình huống với câu nói/hành vi phù hợp (Thầy cô, bạn bè, người thân).
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng tương tác: Matching Grid 54px, hiệu ứng viền sáng neon.</div>
+          </div>
+
+          <!-- Stage 5 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-amber-400">Giai Đoạn 5: Trò Chơi 3 - Sắp Xếp Thứ Tự</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              Xếp 3 bước quy trình chuẩn theo đúng thứ tự logic bằng cơ chế Tap-to-Swap hoặc mũi tên.
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng tương tác: Tap-to-Swap (chạm 2 thẻ để đổi chỗ).</div>
+          </div>
+
+          <!-- Stage 6 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-rose-400">Giai Đoạn 6: Thử Thách Boss Đảo (Boss Battle)</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1.5 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              Trận đấu với Boss rồng ảo bằng cách giải quyết tình huống tổng hợp, Boss có thanh máu HP giảm dần khi chọn đúng.
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng tương tác: Dynamic Boss HP bar, hoạt ảnh chiến đấu.</div>
+          </div>
+
+          <!-- Stage 7 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-purple-400">Giai Đoạn 7: Phản Tư & Rút Ra Bài Học</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              Bé tự chiêm nghiệm cảm xúc và đúc kết ý nghĩa bài học thông qua câu hỏi trắc nghiệm suy ngẫm.
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng tương tác: 3 lựa chọn cảm xúc tích cực.</div>
+          </div>
+
+          <!-- Stage 8 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-cyan-400">Giai Đoạn 8: Nhiệm Vụ Đời Thực (Real-life Mission)</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              Giao 1 nhiệm vụ thực hành cụ thể ngoài đời (Chào hỏi người thân, dọn bàn học, uống nước đúng giờ...).
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng tương tác: Mission Card + Nút "Em Sẵn Sàng Thực Hành".</div>
+          </div>
+
+          <!-- Stage 9 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-purple-400">Giai Đoạn 9: Góc Đồng Hành Phụ Huynh</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              Lời nhắc và nút bấm dành cho ba mẹ để xác nhận bé đã thực hiện hành vi tốt trong ngày.
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng tương tác: Parent Confirmation Button.</div>
+          </div>
+
+          <!-- Stage 10 -->
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-emerald-400">Giai Đoạn 10: Đánh Giá Sau Bài & Nhận Huy Chương</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">1 Phút</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+              1 câu hỏi Post-test kiểm tra mức độ ghi nhớ và trao thưởng huy hiệu 3D, điểm XP, Sao và hiệu ứng Confetti.
+            </p>
+            <div class="text-[11px] text-slate-400 font-mono">Dạng tương tác: Posttest + Reward Fanfare + Confetti.</div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: MASTER JSON SCHEMAS & TYPE CONTRACTS -->
+    <!-- ========================================================================= -->
+    <section id="tab-schema" class="tab-content hidden space-y-6">
+      
+      <div class="card-3d rounded-3xl p-6 sm:p-8 space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-black mb-2">
+            <span>💻 Single Source of Truth Data Contract</span>
+          </div>
+          <h2 class="text-2xl font-black text-white">TypeScript Interfaces & Master JSON Schema</h2>
+          <p class="text-xs text-slate-400 mt-1">
+            Hợp đồng dữ liệu bắt buộc (Data Contract) mà mọi AI Agent và Content Creator phải tuân thủ nghiêm ngặt để bài học có thể nạp thẳng vào Game Runner mà không gặp lỗi biên dịch.
+          </p>
+        </div>
+
+        <!-- TypeScript Contract Block -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 font-mono">TypeScript Interface Definition (LessonZeroPackage)</span>
+            <button onclick="copyCode('ts-code')" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 text-indigo-300 hover:bg-slate-700 font-mono">Copy Code</button>
+          </div>
+          <pre id="ts-code" class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-mono text-indigo-300 overflow-x-auto">
+export interface LessonZeroPackage {
+  id: string; // e.g. "lesson_1_polite_greetings"
+  competencyName: string; // e.g. "Chào Hỏi Lịch Sự & Tự Tin"
+  competencyGroup: string; // e.g. "Trí Tuệ Cảm Xúc & Xã Hội (SEL)"
+  estimatedTime: string; // "15 phút"
+  rewardsPreview: { 
+    xp: number; 
+    stars: number; 
+    badge: string 
+  };
+  stages: LessonZeroStage[];
+}
+
+export interface LessonZeroStage {
+  id: string; // "stage_1_pretest", "stage_2_story", ...
+  type: 
+    | 'pretest' 
+    | 'story' 
+    | 'minigame_drag' 
+    | 'minigame_match' 
+    | 'minigame_sequence' 
+    | 'boss' 
+    | 'reflection' 
+    | 'challenge' 
+    | 'parent_confirm' 
+    | 'posttest';
+  title: string;
+  instruction?: string;
+  
+  // Pretest & Posttest
+  questions?: Array<{
+    id: string;
+    question: string;
+    options: string[];
+    answer: number;
+    explanation: string;
+  }>;
+
+  // Story
+  character?: string;
+  npc?: string;
+  dialogues?: Array<{ speaker: string; avatar: string; text: string }>;
+  decision?: {
+    prompt: string;
+    choices: Array<{ text: string; correct: boolean; feedback: string }>;
+  };
+
+  // Minigame 1: Multi-select gestures
+  draggables?: Array<{ id: string; label: string; isCorrect: boolean }>;
+  targetZoneLabel?: string;
+
+  // Minigame 2: Matching
+  pairs?: Array<{ id: number; left: string; right: string }>;
+
+  // Minigame 3: Sequence
+  steps?: Array<{ id: string; text: string; correctOrder: number }>;
+
+  // Boss Battle
+  bossName?: string;
+  scenarios?: Array<{
+    step: number;
+    question: string;
+    options: Array<{ text: string; correct: boolean; hpDamage: number; feedback: string }>;
+  }>;
+
+  // Reflection
+  question?: string;
+  options?: string[];
+
+  // Challenge
+  missionText?: string;
+  guideText?: string;
+
+  // Parent Confirm
+  parentPrompt?: string;
+  confirmButtonText?: string;
+
+  // Posttest Reward
+  correctAnswer?: number;
+  rewardData?: {
+    xp: number;
+    stars: number;
+    badgeName: string;
+    badgeIcon: string;
+  };
+}
+          </pre>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: BẢN THIẾT KẾ MASTER WIKI PHONG CÁCH KARPATHY -->
+    <!-- ========================================================================= -->
+    <section id="tab-blueprint" class="tab-content hidden space-y-6">
+      
+      <div class="card-3d rounded-3xl p-6 sm:p-8 space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-black mb-2">
+            <span>🧠 Andrej Karpathy LLM-Wiki Philosophy</span>
+          </div>
+          <h2 class="text-2xl font-black text-white">Kiến Trúc Master Wiki Phong Cách Andrej Karpathy</h2>
+          <p class="text-xs text-slate-400 mt-1">
+            Nguyên lý thiết kế: Mật độ thông tin cực cao (High Information Density), Không có từ thừa (Zero Marketing Fluff), Phân cấp chặt chẽ (Ontology-driven), và Tối ưu hoàn toàn cho LLM Context Ingestion.
+          </p>
+        </div>
+
+        <!-- 7 Core Modules of the Karpathy Wiki -->
+        <div class="space-y-4">
+          
+          <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="text-indigo-400">Section 1:</span> Định Lý Nền Tảng (First-Principles Axioms & Competency Formula)
+              </h3>
+              <span class="text-xs px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 font-mono">Foundations</span>
+            </div>
+            <p class="text-xs text-slate-300 font-mono bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+              Competency = Story (Empathy) + Game (Repetition) + AI (Scaffolding) + Reflection (Insight) + Mission (Habit) + Parent Confirmation (Evidence)
+            </p>
+            <p class="text-xs text-slate-400">
+              Định nghĩa triết lý giáo dục: Trẻ em không học qua việc đọc định nghĩa trừu tượng, mà qua chu kỳ giải quyết tình huống giả lập và áp dụng thực tế.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="text-indigo-400">Section 2:</span> Bảng Phân Loại Năng Lực Cốt Lõi (Competency Ontology)
+              </h3>
+              <span class="text-xs px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 font-mono">Taxonomy</span>
+            </div>
+            <p class="text-xs text-slate-300">
+              Bảng tra cứu toàn diện 5 Miền x 25 Phân Miền x 125 Kỹ năng, kèm ID chuẩn hóa (<code class="text-amber-300 font-mono">COMP-SEL-GRT-001</code>, <code class="text-amber-300 font-mono">COMP-SAF-TCH-002</code>) và mục tiêu hành vi đo lường được theo từng khối lớp (Lớp 1 đến Lớp 5).
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="text-indigo-400">Section 3:</span> Quy Chuẩn Sư Phạm 10 Giai Đoạn (NLAS Constraints)
+              </h3>
+              <span class="text-xs px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 font-mono">Pedagogy</span>
+            </div>
+            <p class="text-xs text-slate-300">
+              Các ràng buộc nhận thức: Tối đa 25 từ mỗi bong bóng thoại; tối đa 3-4 lựa chọn; luôn có giải thích sư phạm giải thích <em>tại sao</em> hành vi đó chưa đúng; không phạt tiêu cực; tích hợp phản hồi xúc giác.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="text-indigo-400">Section 4:</span> Master Schemas & Golden Few-Shot Reference
+              </h3>
+              <span class="text-xs px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 font-mono">Few-Shot Spec</span>
+            </div>
+            <p class="text-xs text-slate-300">
+              Gói dữ liệu hoàn chỉnh của <strong>Bài 1: Lời Chào Ngôi Sao</strong> làm mẫu chuẩn đối chiếu (Golden Reference) cho AI Agent bắt chước cấu trúc khi sinh các bài học tiếp theo.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="text-indigo-400">Section 5:</span> AI Agent Generation Prompt SOP & Review Gates
+              </h3>
+              <span class="text-xs px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 font-mono">AI SOP</span>
+            </div>
+            <p class="text-xs text-slate-300">
+              System Prompts chuẩn kỹ thuật để ra lệnh cho AI Agent (Story Agent, Boss Agent, Assessment Agent) sinh tự động gói bài học mới chỉ từ 1 mã Skill ID trong bảng Ontology.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Next Action Plan -->
+        <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-950/60 via-indigo-950/60 to-purple-950/60 border-2 border-indigo-500/40 space-y-3">
+          <h3 class="text-base font-black text-white flex items-center gap-2">
+            <span>🚀</span> Kế Hoạch Triển Khai Tiếp Theo
+          </h3>
+          <ol class="text-xs text-slate-200 space-y-2 list-decimal list-inside font-medium">
+            <li><strong>Tạo file <code class="text-indigo-300 font-mono">MASTER_WIKI.md</code></strong>: Đóng gói toàn bộ 5 phần trên thành 1 file duy nhất tinh gọn, mật độ thông tin cao.</li>
+            <li><strong>Tạo Bài 2 (Đảo Dũng Cảm)</strong>: Sử dụng Master Wiki để sinh gói bài học <em>"Từ Chối Người Lạ & Bảo Vệ Ranh Giới Cá Nhân (Safe Touch)"</em>.</li>
+            <li><strong>Tạo Bài 3 (Boss Đảo Dũng Cảm)</strong>: Trận đấu Boss tổng hợp giải cứu bạn nhỏ.</li>
+            <li><strong>Kiểm thử tự động</strong>: Chạy Playwright E2E để xác minh các bài học mới được render mượt mà trên giao diện di động.</li>
+          </ol>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 bg-slate-950 px-6 py-4 text-center text-xs text-slate-500 font-medium">
+    NovaStars Life Skills Adventure &copy; 2026. Master Knowledge Wiki & Architecture Portal.
+  </footer>
+
+  <!-- Interactive Scripts -->
+  <script>
+    // Initialize Mermaid
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#020617',
+        primaryColor: '#4f46e5',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#6366f1',
+        lineColor: '#818cf8',
+        secondaryColor: '#0f172a',
+        tertiaryColor: '#1e293b'
+      }
+    });
+
+    // Tab Switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active-tab');
+        btn.classList.add('border-slate-800', 'text-slate-400');
+      });
+
+      const selectedContent = document.getElementById(tabId);
+      if (selectedContent) selectedContent.classList.remove('hidden');
+
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('active-tab');
+        activeBtn.classList.remove('border-slate-800', 'text-slate-400');
+      }
+    }
+
+    // Sample Skills Data for Tab 2
+    const sampleSkills = [
+      { id: "COMP-SEL-GRT-001", name: "Lời Chào Ngôi Sao & Tự Tin", domain: "EMOTION_SOCIAL", domainVi: "Giao Tiếp & Cảm Xúc (SEL)", grade: 1, focus: "Chào hỏi lịch sự 3 bước, mỉm cười, nhìn thẳng mắt người đối diện", status: "✅ Đã Có Code (Bài 1)" },
+      { id: "COMP-SAF-TCH-002", name: "Từ Chối Người Lạ & Quy Tắc Safe Touch", domain: "SAFETY", domainVi: "An Toàn Cá Nhân", grade: 1, focus: "Nhận biết 5 vùng riêng tư, nguyên tắc No-Go-Tell khi gặp nguy cơ", status: "🎯 Bước Kế Tiếp (Bài 2)" },
+      { id: "COMP-SAF-BOS-003", name: "Thử Thách Boss: Hiệp Sĩ An Toàn Đảo 1", domain: "SAFETY", domainVi: "An Toàn Cá Nhân", grade: 1, focus: "Xử lý tình huống tổng hợp khi bị người lạ rủ đi công viên", status: "🎯 Bước Kế Tiếp (Bài 3)" },
+      { id: "COMP-SLF-NUT-004", name: "Bữa Ăn 4 Nhóm Chất & Ăn Đa Sắc", domain: "SELF_CARE", domainVi: "Tự Chăm Sóc Sức Khỏe", grade: 1, focus: "Nhận diện 4 nhóm chất dinh dưỡng và lợi ích của rau củ nhiều màu", status: "📋 Sẵn Sàng Sinh AI" },
+      { id: "COMP-SLF-WTR-005", name: "Uống Nước Đúng Cách & Đủ Lượng", domain: "SELF_CARE", domainVi: "Tự Chăm Sóc Sức Khỏe", grade: 1, focus: "Uống nước theo từng ngụm nhỏ, các thời điểm vàng cần uống nước", status: "📋 Sẵn Sàng Sinh AI" },
+      { id: "COMP-SLF-EYE-006", name: "Bảo Vệ Đôi Mắt Sáng Khi Dùng Màn Hình", domain: "SELF_CARE", domainVi: "Tự Chăm Sóc Sức Khỏe", grade: 2, focus: "Quy tắc 20-20-20, khoảng cách nhìn đúng khi học và đọc sách", status: "📋 Sẵn Sàng Sinh AI" },
+      { id: "COMP-SLF-SLP-007", name: "Bí Kíp Giấc Ngủ Ngon & Đúng Giờ", domain: "SELF_CARE", domainVi: "Tự Chăm Sóc Sức Khỏe", grade: 2, focus: "Tắt thiết bị điện tử trước khi ngủ 30 phút, thư giãn để ngủ sâu", status: "📋 Sẵn Sàng Sinh AI" },
+      { id: "COMP-SLF-TRV-008", name: "Tự Chuẩn Bị Đồ Dùng Khi Đi Dã Ngoại", domain: "SELF_CARE", domainVi: "Tự Lập Cá Nhân", grade: 2, focus: "Nguyên tắc ưu tiên đồ thiết yếu trước đồ giải trí, gấp gọn gàng", status: "📋 Sẵn Sàng Sinh AI" },
+      { id: "COMP-SEL-ANG-009", name: "Hạ Nhiệt Cơn Giận Bằng Hơi Thở Bong Bóng", domain: "EMOTION_SOCIAL", domainVi: "Giao Tiếp & Cảm Xúc (SEL)", grade: 2, focus: "Kỹ thuật hít sâu thở chậm 4 nhịp khi bực bội, không la hét", status: "📋 Sẵn Sàng Sinh AI" },
+      { id: "COMP-FIN-MON-010", name: "Phân Biệt Cần (Need) Và Muốn (Want)", domain: "DIGITAL_FINANCE", domainVi: "Kỹ Năng Tài Chính", grade: 3, focus: "Hiểu giá trị tiền bạc, ưu tiên mua đồ học tập trước đồ chơi", status: "📋 Sẵn Sàng Sinh AI" },
+      { id: "COMP-DIG-SCR-011", name: "Hiệp Sĩ Mạng: An Toàn Khi Lên Internet", domain: "DIGITAL_FINANCE", domainVi: "Kỹ Năng Số & Mạng", grade: 4, focus: "Không chia sẻ mật khẩu/địa chỉ nhà, báo bố mẹ khi gặp nội dung xấu", status: "📋 Sẵn Sàng Sinh AI" },
+      { id: "COMP-PUB-SPK-012", name: "Tự Tin Thuyết Trình Trước Đám Đông", domain: "ACADEMIC_STUDY", domainVi: "Thuyết Trình & Học Đường", grade: 5, focus: "Ánh mắt tự tin, giọng nói rõ ràng, cấu trúc bài nói 3 phần Mở-Thân-Kết", status: "📋 Sẵn Sàng Sinh AI" }
+    ];
+
+    function renderSkillsTable(data) {
+      const tbody = document.getElementById('skillsTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = data.map(item => `
+        <tr class="hover:bg-slate-900/60 transition-colors">
+          <td class="p-3.5 font-mono text-indigo-400 text-[11px] font-bold">${item.id}</td>
+          <td class="p-3.5 font-black text-slate-100">${item.name}</td>
+          <td class="p-3.5"><span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[11px] font-bold border border-slate-700">${item.domainVi}</span></td>
+          <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 font-mono text-[11px] font-bold">Lớp ${item.grade}</span></td>
+          <td class="p-3.5 text-slate-300 text-xs">${item.focus}</td>
+          <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[11px] font-bold ${item.status.includes('Đã Có') ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/30' : item.status.includes('Bước') ? 'bg-amber-950 text-amber-300 border border-amber-500/30 animate-pulse' : 'bg-slate-800 text-slate-400'}">${item.status}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function filterSkills() {
+      const grade = document.getElementById('gradeFilter').value;
+      const domain = document.getElementById('domainFilter').value;
+      
+      const filtered = sampleSkills.filter(item => {
+        const matchGrade = grade === 'ALL' || item.grade.toString() === grade;
+        const matchDomain = domain === 'ALL' || item.domain === domain;
+        return matchGrade && matchDomain;
+      });
+
+      renderSkillsTable(filtered);
+    }
+
+    function copyCode(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      navigator.clipboard.writeText(el.innerText).then(() => {
+        alert('Đã sao chép mã thành công!');
+      });
+    }
+
+    // Initial Render
+    renderSkillsTable(sampleSkills);
+  </script>
+</body>
+</html>
