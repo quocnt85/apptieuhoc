@@ -1,69 +1,77 @@
-# NovaStars Operating System (NovaStars OS) v2.0
-**The AI-Native Single Source of Truth (SSOT) & Web-First EdTech Platform**
-
-Welcome to **NovaStars OS**, the constitutional, AI-native Knowledge Operating System governing the entire NovaStars ecosystem across Product, Education, Game Design, AI Systems, Software Engineering, Content Production, and Operations.
+# 🌟 NovaStars Competency Adventure Platform (NovaStars OS)
+**Nền Tảng Giáo Dục Kỹ Năng Sống & Phiêu Lưu Năng Lực Dành Cho Học Sinh Tiểu Học (Lớp 1 – 5)**
 
 ---
 
-## 🌟 Live Production Links
+## 🏛️ 3 TRỤ CỘT CỐT LÕI CỦA HỆ THỐNG (The 3 Core Pillars)
 
-- 🌐 **Web App Live (Cloudflare Pages)**: [https://novastars-app.pages.dev](https://novastars-app.pages.dev)
-- ⚡ **Serverless API (Cloudflare Workers)**: [https://novastars-api.novastar-8c7.workers.dev](https://novastars-api.novastar-8c7.workers.dev)
-- 📦 **GitHub Repository**: [https://github.com/quocnt85/apptieuhoc](https://github.com/quocnt85/apptieuhoc)
+Dự án NovaStars được phân tách kiến trúc rõ ràng thành 3 trụ cột độc lập:
 
----
-
-## 🚀 Tech Stack v2.0 (Modern Serverless & Edge-First)
-
-- **Frontend & App Shell**: React 18/19, TypeScript, Vite, Tailwind CSS, Zustand.
-- **Gameplay & Interaction**: HTML5 Canvas 2D (60 FPS), Web Audio API Synthesizer, 10-Stage Universal Lesson Runner.
-- **Mobile Container**: Capacitor v6 (Biên dịch trực tiếp sang iOS & Android native app).
-- **Database & Auth**: Neon Serverless PostgreSQL (`@neondatabase/serverless`) & Neon Auth.
-- **Hosting & Compute**: Cloudflare Pages (Web CDN) + Cloudflare Workers (Serverless API Layer).
-- **Object Storage**: Cloudflare R2 Storage (Lưu trữ bài học JSON và media assets không tốn phí egress).
-
----
-
-## 🧭 System Quick Links
-
-- 🗺️ **[System Architecture Map](file:///00_HOME/architecture_map.md)** (`NS-HOM-MAP-001`)
-- 📜 **[Architecture Decision Records (ADR Index)](file:///11_ADR/adr_index.md)** (`NS-ADR-INDX-001`)
-- ⚙️ **[Technical Platform Architecture](file:///07_ENGINEERING/technical_architecture.md)** (`NS-ENG-ARCH-001`)
-- 📚 **[Central Master Glossary](file:///10_GLOSSARY/master_glossary.md)** (`NS-GLO-MAST-001`)
+```
+                                  ┌─────────────────────────────────────────────────────────┐
+                                  │      NOVASTARS COMPETENCY ADVENTURE PLATFORM (OS)       │
+                                  └─────────────────────────────────────────────────────────┘
+                                           │                   │                   │
+                     ┌─────────────────────┘                   │                   └─────────────────────┐
+                     ▼                                         ▼                                         ▼
+        ┌─────────────────────────┐               ┌─────────────────────────┐               ┌─────────────────────────┐
+        │   1. CLIENT-FACING APP  │               │ 2. MODULAR KNOWLEDGE    │               │    3. ADMIN CENTER      │
+        │       (`client/`)       │               │      (`wiki/`)          │               │   (`admin_center/`)     │
+        ├─────────────────────────┤               ├─────────────────────────┤               ├─────────────────────────┤
+        │ • Học sinh Lớp 1 - 5    │               │ • AI Agents & Prompts   │               │ • Ban Quản Trị & Chuyên Gia│
+        │ • Chạy 10 Giai đoạn bài │               │ • Khung 125 Kỹ năng     │               │ • Master Review Hub     │
+        │ • Nuôi thú đồng hành    │               │ • NLAS 10 Giai đoạn     │               │ • Design Standards      │
+        │ • Parent Dashboard      │               │ • Quy tắc 3-File Nạp    │               │ • Handover Audit & Logs │
+        └─────────────────────────┘               └─────────────────────────┘               └─────────────────────────┘
+```
 
 ---
 
-## 📂 Repository Topology
+## 📂 BẢN ĐỒ TỔ CHỨC THƯ MỤC REPO (Repository Topology)
 
-| Folder | Purpose | Canonical Master Spec |
+| Thư Mục / File | Bản Chất & Chức Năng | Liên Kết Tài Liệu |
 | :--- | :--- | :--- |
-| `client/` | React 19 + Vite Web & Mobile Shell App (Capacitor) | [Client Readme](file:///client/README_MOBILE.md) |
-| `server/` | Cloudflare Workers API & Cloudflare R2 Bindings | [Wrangler Config](file:///server/wrangler.toml) |
-| `scripts/` | Database DDL schema & seed scripts for Neon PostgreSQL | [Schema SQL](file:///scripts/db/schema.sql) |
-| `00_HOME/` | Navigation, Dashboard, & System Health | [Index](file:///00_HOME/index.md) |
-| `01_VISION/` | Product Vision, Mission, & Strategic OKRs | [Product Philosophy](file:///01_VISION/product_philosophy.md) |
-| `02_PRODUCT/` | Product Foundation & Modular Feature Catalog | [Product Foundation](file:///02_PRODUCT/product_foundation.md) |
-| `03_EDUCATION/`| Competency Framework, Experience OS & NLAS | [Competency Framework](file:///03_EDUCATION/competency_framework.md) |
-| `04_GAME/` | Game Design Bible, Loops, & Economy | [Game Design Bible](file:///04_GAME/game_design_bible.md) |
-| `05_CONTENT/` | Content Model & Schemas | [Content Model](file:///05_CONTENT/content_model.md) |
-| `06_AI/` | AIPS, Agent Contracts (ACS), & AIOB Blueprint | [ACS Standard](file:///06_AI/acs_standard.md) |
-| `07_ENGINEERING/`| Technical Architecture & Data Schemas | [Tech Architecture](file:///07_ENGINEERING/technical_architecture.md) |
-| `08_OPERATIONS/` | Content Production SOP & Quality Review Gates | [Content SOP](file:///08_OPERATIONS/content_factory_sop.md) |
-| `10_GLOSSARY/` | Central Master Term Dictionary | [Master Glossary](file:///10_GLOSSARY/master_glossary.md) |
-| `11_ADR/` | Architecture Decision Records | [ADR Index](file:///11_ADR/adr_index.md) |
+| 📱 **`client/`** | Mã nguồn ứng dụng di động & web (React 18 + Vite + Tailwind + Capacitor v6 + Zustand). | [`client/README.md`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/client/README.md) |
+| 🧠 **`wiki/`** | Bách khoa tri thức tinh gọn chuẩn phong cách Karpathy cho AI Agent nạp ngữ cảnh khi sinh bài học. | [`wiki/INDEX.md`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/wiki/INDEX.md) |
+| 🏛️ **`admin_center/`** | Trung tâm quản trị, Review Hub 10 module V1/V2 và quy chuẩn thiết kế. | [`admin_center/index.html`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/admin_center/index.html) |
+| 📚 **`docs/`** | 8 File Master PRD chuẩn hóa đóng băng (4 Master V1 + 4 Master V2 `v2.1.0`). | [`docs/PRD_V2/`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/docs/PRD_V2/) |
+| 📊 **`data/`** | Dữ liệu nguồn: Excel gốc (`data/raw/`) và ma trận 125 kỹ năng JSON (`data/processed/`). | [`data/processed/extracted_skills.json`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/data/processed/extracted_skills.json) |
+| ⚡ **`server/`** | Serverless Backend REST API xây dựng trên Cloudflare Workers Hono + Neon PostgreSQL DB + R2. | [`server/src/index.ts`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/server/src/index.ts) |
+| ❓ **`question_bank/`**| Ngân hàng 680 câu hỏi tĩnh V1 và scripts kiểm thử. | [`question_bank/`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/question_bank/) |
+| 📦 **`_archive/`** | Bản sao lưu an toàn 100% của 22 thư mục gốc và file nháp cũ. | [`_archive/`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/_archive/) |
+| 📋 **`PROJECT_AUDIT...md`**| Báo cáo kiểm toán và bàn giao dự án toàn diện. | [`PROJECT_AUDIT_AND_HANDOVER_INVENTORY.md`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/PROJECT_AUDIT_AND_HANDOVER_INVENTORY.md) |
 
 ---
 
-## 🛠️ Quick Start (Phát triển cục bộ)
+## 🛠️ HƯỚNG DẪN KHỞI CHẠY (Quick Start)
 
+### 1. Khởi Chạy Web & Mobile Client (`client/`)
 ```bash
-# 1. Khởi chạy Web App
 cd client
 npm install
 npm run dev
-
-# 2. Đóng gói Mobile với Capacitor
-npm run build
-npx cap sync
-npx cap open android # Mở Android Studio
+# Mở trình duyệt tại: http://localhost:5173
 ```
+
+### 2. Khởi Chạy Serverless Backend API (`server/`)
+```bash
+cd server
+npm install
+npm run dev
+# API chạy tại: http://localhost:8787
+```
+
+### 3. Mở Admin Center & Review Hub
+Mở trực tiếp file [`admin_center/index.html`](file:///c:/Users/Nova/.gemini/antigravity/scratch/apptieuhoc/admin_center/index.html) trên trình duyệt hoặc chạy server review:
+```bash
+node scripts/serve_review.js
+# Xem Wiki Dashboard tại: http://localhost:8080/project_knowledge_wiki_review.html
+# Xem Admin Center Hub tại: http://localhost:8080/admin_center/index.html
+```
+
+---
+
+## 🔒 TIÊU CHUẨN AN TOÀN & BẢO MẬT
+- **Safe Failure**: Tuyệt đối không trừ điểm sinh mệnh (Zero HP penalty) khi trẻ trả lời sai.
+- **Child Privacy**: Tuân thủ tiêu chuẩn an toàn trẻ em COPPA & GDPR Kids.
+- **AI Guardrails**: Giới hạn $\le 25$ từ/thoại, không tạo nội dung tiêu cực hoặc bạo lực.
