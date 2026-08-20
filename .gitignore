@@ -40,3 +40,8 @@ Thumbs.db
 .env.local
 .env.*.local
 *.env
+
+# Testing & Cache
+test-results/
+playwright-report/
+*.tsbuildinfo

@@ -31,15 +31,15 @@ export const ParentDashboard: React.FC = () => {
 
           {/* Quick Metrics */}
           <div className="flex items-center gap-3">
-            <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center min-w-[90px]">
-              <div className="text-[10px] font-bold text-slate-400">Thời gian học</div>
-              <div className="text-base font-extrabold text-cyan-400 font-mono mt-0.5">
+            <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center min-w-[100px]">
+              <div className="text-xs font-bold text-slate-400">Thời gian học</div>
+              <div className="text-lg font-black text-cyan-400 font-mono mt-0.5">
                 {settings.todayPlayedMinutes}/{settings.dailyTimeLimitMinutes} p
               </div>
             </div>
-            <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center min-w-[90px]">
-              <div className="text-[10px] font-bold text-slate-400">Thành thục TB</div>
-              <div className="text-base font-extrabold text-purple-400 font-mono mt-0.5">
+            <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center min-w-[100px]">
+              <div className="text-xs font-bold text-slate-400">Thành thục TB</div>
+              <div className="text-lg font-black text-purple-400 font-mono mt-0.5">
                 {avgMastery}%
               </div>
             </div>

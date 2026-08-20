@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 :root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+
   --primary-blue: #2563eb;
   --primary-blue-dark: #1e1b4b;
   --primary-blue-light: #60a5fa;
@@ -10,42 +15,63 @@
   --accent-orange: #f59e0b;
   --accent-green: #10b981;
   --accent-red: #ef4444;
-  --bg-page: #0f172a;
+  --bg-page: #080c14;
   --bg-app: #ffffff;
   --text-main: #0f172a;
   --text-muted: #64748b;
   --radius-card: 24px;
 }
 
-body {
+html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
   background-color: var(--bg-page);
   color: var(--text-main);
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  touch-action: manipulation;
+  overscroll-behavior-y: contain;
 }
 
-/* 3D Kid Button Effects */
+/* Custom Scrollbar for Smooth Touch UI */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* 3D Kid Button Effects - Tactile Spring Physics */
 .ns-btn-3d {
   position: relative;
   font-weight: 800;
-  border-radius: 16px;
+  border-radius: 18px;
   border: 2px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.2);
-  transition: all 0.1s ease;
+  box-shadow: 0 5px 0 0 rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.1s ease, filter 0.1s ease;
   transform: translateY(0);
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .ns-btn-3d:active {
-  transform: translateY(3px);
+  transform: translateY(4px);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2);
+  filter: brightness(0.96);
 }
 
 .ns-btn-primary {
@@ -81,12 +107,29 @@ body {
   box-shadow: 0 1px 0 0 #b45309;
 }
 
+.ns-btn-purple {
+  background: linear-gradient(180deg, #a855f7 0%, #7c3aed 100%);
+  color: #ffffff;
+  border-color: #6d28d9;
+  box-shadow: 0 5px 0 0 #5b21b6;
+}
+
+.ns-btn-purple:active {
+  box-shadow: 0 1px 0 0 #5b21b6;
+}
+
 /* 3D Cards */
 .ns-card-3d {
   background: #ffffff;
   border: 3px solid #e2e8f0;
   border-radius: var(--radius-card);
   box-shadow: 0 6px 0 0 #cbd5e1;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
+}
+
+.ns-card-3d:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 0 #cbd5e1;
 }
 
 .ns-card-active {
@@ -100,6 +143,24 @@ body {
   50% { transform: translateY(-8px); }
 }
 
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.85; }
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .animate-bounce-slow {
   animation: bounceSlow 2s infinite ease-in-out;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 1.8s infinite ease-in-out;
+}
+
+.animate-slide-up-fade {
+  animation: slideUpFade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

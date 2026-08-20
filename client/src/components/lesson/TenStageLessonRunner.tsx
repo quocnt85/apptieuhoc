@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
-import { LESSON_ZERO_DATA, LessonZeroStage } from '../../data/lessonZeroData';
-import { soundService } from '../../services/audio';
-import { ArrowLeft, Sparkles, CheckCircle2, XCircle, Heart, Trophy, ShieldCheck, HelpCircle, ArrowUp, ArrowDown, Award, Play } from 'lucide-react';
+import { LESSON_ZERO_DATA } from '../../data/lessonZeroData';
+import { interactionService } from '../../services/interaction';
+import { ArrowLeft, Sparkles, CheckCircle2, ShieldCheck, ArrowUp, ArrowDown, Award, Trophy, Play } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
-  const { addXP, addGems, user } = useGameStore();
+  const { addXP, addGems, addStars, completeLessonNode } = useGameStore();
 
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [bossHp, setBossHp] = useState(100);
@@ -28,16 +28,19 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
   const [matchSelectedRight, setMatchSelectedRight] = useState<number | null>(null);
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
 
+  // Sequence Reorder State
   const [sequenceSteps, setSequenceSteps] = useState([
     { id: "s2", text: "Bước 2: Cất lời chào lịch sự (Chào bạn/Thầy cô)", correctOrder: 2 },
     { id: "s1", text: "Bước 1: Dừng lại, nhìn bạn và Mỉm Cười", correctOrder: 1 },
     { id: "s3", text: "Bước 3: Tự giới thiệu tên hoặc hỏi thăm ngắn", correctOrder: 3 },
   ]);
+  const [selectedSwapIdx, setSelectedSwapIdx] = useState<number | null>(null);
 
   const stages = LESSON_ZERO_DATA.stages;
   const currentStage = stages[currentStageIndex];
 
   const handleNextStage = () => {
+    interactionService.playTap();
     if (currentStageIndex + 1 < stages.length) {
       setCurrentStageIndex(prev => prev + 1);
     } else {
@@ -50,46 +53,46 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     setSelectedPretest(idx);
     const isCorrect = idx === 1;
     if (isCorrect) {
-      soundService.playCorrect();
+      interactionService.playSuccess();
       setTimeout(() => handleNextStage(), 600);
     } else {
-      soundService.playWrong();
+      interactionService.playError();
     }
   };
 
   // 2. Story Decision
   const handleStoryDecision = (correct: boolean) => {
     if (correct) {
-      soundService.playCorrect();
+      interactionService.playSuccess();
       setTimeout(() => handleNextStage(), 500);
     } else {
-      soundService.playWrong();
+      interactionService.playError();
     }
   };
 
   // 3. Drag & Drop Click
   const handleToggleDragItem = (id: string, isCorrect: boolean) => {
     if (isCorrect) {
-      soundService.playCorrect();
+      interactionService.playSuccess();
       setDragItemsState(prev => prev.map(item => item.id === id ? { ...item, selected: true } : item));
       const remainingCorrect = dragItemsState.filter(i => i.isCorrect && i.id !== id && !i.selected).length;
       if (remainingCorrect === 0) {
         setTimeout(() => handleNextStage(), 600);
       }
     } else {
-      soundService.playWrong();
+      interactionService.playError();
     }
   };
 
   // 4. Matching Grid
   const handleSelectMatchLeft = (id: number) => {
-    soundService.playClick();
+    interactionService.playSelect();
     setMatchSelectedLeft(id);
     checkMatch(id, matchSelectedRight);
   };
 
   const handleSelectMatchRight = (id: number) => {
-    soundService.playClick();
+    interactionService.playSelect();
     setMatchSelectedRight(id);
     checkMatch(matchSelectedLeft, id);
   };
@@ -97,15 +100,15 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
   const checkMatch = (left: number | null, right: number | null) => {
     if (left && right) {
       if (left === right) {
-        soundService.playCorrect();
+        interactionService.playSuccess();
         setMatchedPairs(prev => [...prev, left]);
         setMatchSelectedLeft(null);
         setMatchSelectedRight(null);
         if (matchedPairs.length + 1 >= 3) {
-          setTimeout(() => handleNextStage(), 600);
+          setTimeout(() => handleNextStage(), 650);
         }
       } else {
-        soundService.playWrong();
+        interactionService.playError();
         setTimeout(() => {
           setMatchSelectedLeft(null);
           setMatchSelectedRight(null);
@@ -114,9 +117,9 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     }
   };
 
-  // 5. Sequence Reorder
+  // 5. Sequence Reorder (Arrow Up/Down + Tap-to-Swap)
   const moveSequenceStep = (index: number, direction: 'up' | 'down') => {
-    soundService.playClick();
+    interactionService.playSelect();
     const newIdx = direction === 'up' ? index - 1 : index + 1;
     if (newIdx < 0 || newIdx >= sequenceSteps.length) return;
     const updated = [...sequenceSteps];
@@ -126,78 +129,96 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     setSequenceSteps(updated);
   };
 
+  const handleTapStepForSwap = (index: number) => {
+    interactionService.playSelect();
+    if (selectedSwapIdx === null) {
+      setSelectedSwapIdx(index);
+    } else if (selectedSwapIdx === index) {
+      setSelectedSwapIdx(null);
+    } else {
+      const updated = [...sequenceSteps];
+      const temp = updated[selectedSwapIdx];
+      updated[selectedSwapIdx] = updated[index];
+      updated[index] = temp;
+      setSequenceSteps(updated);
+      setSelectedSwapIdx(null);
+    }
+  };
+
   const verifySequence = () => {
     const isOrdered = sequenceSteps[0].correctOrder === 1 && sequenceSteps[1].correctOrder === 2 && sequenceSteps[2].correctOrder === 3;
     if (isOrdered) {
-      soundService.playCorrect();
-      handleNextStage();
+      interactionService.playSuccess();
+      setTimeout(() => handleNextStage(), 500);
     } else {
-      soundService.playWrong();
-      alert('Thứ tự chưa đúng rồi, hãy nhớ: 1. Mỉm cười -> 2. Lời chào -> 3. Tự giới thiệu tên nhé!');
+      interactionService.playError();
+      alert('Thứ tự chưa đúng rồi bé ơi! Gợi ý: 1. Mỉm cười -> 2. Lời chào -> 3. Tự giới thiệu tên nhé!');
     }
   };
 
   // 6. Boss Battle
   const handleBossChoice = (correct: boolean, damage: number) => {
     if (correct) {
-      soundService.playLevelUp();
+      interactionService.playVictory();
       setBossHp(0);
-      setTimeout(() => handleNextStage(), 700);
+      setTimeout(() => handleNextStage(), 750);
     } else {
-      soundService.playWrong();
+      interactionService.playError();
       setBossHp(prev => Math.max(20, prev - damage));
     }
   };
 
   // 9. Parent Confirm
   const handleParentConfirm = () => {
-    soundService.playLevelUp();
+    interactionService.playVictory();
     handleNextStage();
   };
 
   // 10. Posttest & Celebration
   const handlePosttestAnswer = (idx: number) => {
     if (idx === 0) {
-      soundService.playLevelUp();
+      interactionService.playVictory();
       addXP(100);
       addGems(5);
+      addStars(3);
+      completeLessonNode('island_1_node_1');
       try {
         confetti({
-          particleCount: 120,
-          spread: 80,
+          particleCount: 140,
+          spread: 85,
           origin: { y: 0.5 },
-          colors: ['#6366f1', '#fbbf24', '#10b981', '#f43f5e']
+          colors: ['#3b82f6', '#fbbf24', '#10b981', '#f43f5e', '#a855f7']
         });
-      } catch (e) {}
-      setTimeout(() => handleNextStage(), 1500);
+      } catch {}
+      setTimeout(() => handleNextStage(), 1600);
     } else {
-      soundService.playWrong();
+      interactionService.playError();
     }
   };
 
   const progressPercentage = Math.round(((currentStageIndex + 1) / stages.length) * 100);
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-y-auto">
-      {/* Top Header & Stage Progress */}
-      <div className="sticky top-0 z-10 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
-        <div className="max-w-2xl mx-auto flex items-center justify-between gap-3">
+    <div className="fixed inset-0 z-50 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-hidden">
+      {/* Top Header & Stage Progress with Safe-Area Inset */}
+      <div className="sticky top-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-b-2 border-slate-800 px-4 pt-[max(0.85rem,var(--sat))] pb-3 shrink-0">
+        <div className="max-w-md mx-auto flex items-center justify-between gap-3">
           <button
-            onClick={onClose}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white text-xs font-bold transition-colors"
+            onClick={() => { interactionService.playTap(); onClose(); }}
+            aria-label="Thoát bài học"
+            className="w-10 h-10 rounded-2xl bg-slate-800 border-2 border-slate-700 active:scale-90 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-sm shrink-0"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Thoát</span>
+            <ArrowLeft className="w-5 h-5" />
           </button>
 
-          <div className="flex-1 max-w-xs">
-            <div className="flex items-center justify-between text-[11px] font-bold text-slate-300 mb-1">
-              <span>{LESSON_ZERO_DATA.competencyName}</span>
-              <span className="text-indigo-400 font-mono">Màn {currentStageIndex + 1}/{stages.length}</span>
+          <div className="flex-1">
+            <div className="flex items-center justify-between text-xs font-black text-slate-300 mb-1.5">
+              <span className="truncate">{LESSON_ZERO_DATA.competencyName}</span>
+              <span className="text-amber-400 font-mono ml-2 shrink-0">Màn {currentStageIndex + 1}/{stages.length}</span>
             </div>
-            <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
               <div
-                className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-300"
+                className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400 rounded-full transition-all duration-300"
                 style={{ width: `${progressPercentage}%` }}
               />
             </div>
@@ -205,67 +226,68 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
         </div>
       </div>
 
-      {/* Stage Body Container */}
-      <div className="max-w-2xl mx-auto w-full flex-1 px-4 py-6 flex flex-col justify-center animate-fadeIn">
+      {/* Stage Body Container with Scrollable Area */}
+      <div className="max-w-md mx-auto w-full flex-1 px-4 py-4 overflow-y-auto flex flex-col justify-between animate-fadeIn">
         
         {/* Stage 1: Pretest */}
         {currentStage.type === 'pretest' && (
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold">
-              <Sparkles className="w-3.5 h-3.5" />
+          <div className="space-y-4 my-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-black">
+              <Sparkles className="w-4 h-4" />
               <span>Giai Đoạn 1: Đánh Giá Ban Đầu</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-white">
+            <h2 className="text-lg sm:text-xl font-black text-white leading-snug">
               {currentStage.questions?.[0].question}
             </h2>
-            <div className="space-y-2.5 pt-2">
+            <div className="space-y-3 pt-2">
               {currentStage.questions?.[0].options.map((opt, idx) => (
                 <button
                   key={idx}
                   onClick={() => handlePretestSelect(idx)}
-                  className={`w-full p-4 rounded-2xl border-2 text-left text-sm font-medium transition-all ${
+                  className={`w-full min-h-[56px] p-4 rounded-2xl border-2 text-left text-sm font-bold transition-all active:scale-95 flex items-center justify-between ${
                     selectedPretest === idx
                       ? idx === 1 ? 'bg-emerald-950/80 border-emerald-500 text-emerald-200' : 'bg-rose-950/80 border-rose-500 text-rose-200'
-                      : 'bg-slate-900/80 border-slate-800 hover:border-indigo-500/50'
+                      : 'bg-slate-900 border-slate-800 hover:border-blue-500 text-slate-200'
                   }`}
                 >
-                  {opt}
+                  <span>{opt}</span>
+                  {selectedPretest === idx && (idx === 1 ? '✅' : '❌')}
                 </button>
               ))}
             </div>
           </div>
         )}
 
-        {/* Stage 2: Story */}
+        {/* Stage 2: Story Decision */}
         {currentStage.type === 'story' && (
-          <div className="space-y-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold">
+          <div className="space-y-4 my-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-black">
               <span>📖 Giai Đoạn 2: Câu Chuyện Phiêu Lưu</span>
             </div>
-            <h2 className="text-xl font-black text-white">{currentStage.title}</h2>
+            <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.title}</h2>
 
             <div className="space-y-3">
               {currentStage.dialogues?.map((d, idx) => (
-                <div key={idx} className="flex items-start gap-3 p-4 rounded-2xl bg-slate-900/90 border border-slate-800">
-                  <div className="text-3xl p-2 rounded-2xl bg-slate-800/80 shrink-0">{d.avatar}</div>
+                <div key={idx} className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
+                  <div className="text-3xl p-2 rounded-2xl bg-slate-800 shrink-0">{d.avatar}</div>
                   <div>
-                    <div className="font-bold text-xs text-indigo-400 mb-0.5">{d.speaker}</div>
-                    <div className="text-sm text-slate-200 leading-relaxed">{d.text}</div>
+                    <div className="font-black text-xs text-indigo-400 mb-0.5">{d.speaker}</div>
+                    <div className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">{d.text}</div>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="pt-3">
-              <div className="text-xs font-bold text-amber-300 mb-2">
+            <div className="pt-2">
+              <div className="text-xs font-black text-amber-300 mb-2">
                 {currentStage.decision?.prompt}
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 {currentStage.decision?.choices.map((c, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleStoryDecision(c.correct)}
-                    className="w-full p-3.5 rounded-2xl bg-indigo-950/60 border border-indigo-500/40 hover:bg-indigo-900/60 text-left text-xs sm:text-sm font-bold text-indigo-200 transition-all btn-kid-3d"
+                    className="w-full min-h-[52px] p-3.5 rounded-2xl bg-indigo-950/70 border-2 border-indigo-500/40 hover:bg-indigo-900/60 text-left text-xs sm:text-sm font-black text-indigo-200 transition-all active:scale-95 ns-btn-3d ns-btn-primary"
                   >
                     👉 {c.text}
                   </button>
@@ -277,12 +299,12 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
 
         {/* Stage 3: Minigame Drag/Click */}
         {currentStage.type === 'minigame_drag' && (
-          <div className="space-y-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold">
-              <span>🎮 Giai Đoạn 3: Trò Chơi 1</span>
+          <div className="space-y-4 my-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-black">
+              <span>🎮 Giai Đoạn 3: Chọn Cử Chỉ Đúng</span>
             </div>
-            <h2 className="text-xl font-black text-white">{currentStage.title}</h2>
-            <p className="text-xs text-slate-400">{currentStage.instruction}</p>
+            <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.title}</h2>
+            <p className="text-xs text-slate-300 font-medium">{currentStage.instruction}</p>
 
             <div className="grid grid-cols-2 gap-3 pt-2">
               {dragItemsState.map((item) => (
@@ -290,33 +312,33 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
                   key={item.id}
                   disabled={item.selected}
                   onClick={() => handleToggleDragItem(item.id, item.isCorrect)}
-                  className={`p-4 rounded-2xl border-2 text-sm font-bold text-center transition-all ${
+                  className={`min-h-[64px] p-4 rounded-2xl border-2 text-xs sm:text-sm font-black text-center transition-all flex items-center justify-center gap-1 active:scale-95 ${
                     item.selected
-                      ? 'bg-emerald-950/60 border-emerald-500 text-emerald-300 opacity-60'
-                      : 'bg-slate-900 border-slate-800 hover:border-cyan-500/60 text-slate-200 active:scale-95'
+                      ? 'bg-emerald-950/70 border-emerald-500 text-emerald-300 opacity-70'
+                      : 'bg-slate-900 border-slate-800 text-slate-200 ns-btn-3d'
                   }`}
                 >
-                  {item.label}
-                  {item.selected && ' ✅'}
+                  <span>{item.label}</span>
+                  {item.selected && <span>✅</span>}
                 </button>
               ))}
             </div>
           </div>
         )}
 
-        {/* Stage 4: Minigame Matching */}
+        {/* Stage 4: Minigame Matching Grid */}
         {currentStage.type === 'minigame_match' && (
-          <div className="space-y-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold">
-              <span>🧩 Giai Đoạn 4: Trò Chơi 2</span>
+          <div className="space-y-3.5 my-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black">
+              <span>🧩 Giai Đoạn 4: Nối Cặp Hoàn Cảnh</span>
             </div>
-            <h2 className="text-xl font-black text-white">{currentStage.title}</h2>
-            <p className="text-xs text-slate-400">{currentStage.instruction}</p>
+            <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.title}</h2>
+            <p className="text-xs text-slate-300">{currentStage.instruction}</p>
 
-            <div className="grid grid-cols-2 gap-3 pt-2">
+            <div className="grid grid-cols-2 gap-2.5 pt-1">
               {/* Left Column */}
               <div className="space-y-2">
-                <div className="text-[11px] font-bold text-slate-400">HOÀN CẢNH</div>
+                <div className="text-[11px] font-black text-indigo-400 uppercase tracking-wider">HOÀN CẢNH</div>
                 {currentStage.pairs?.map((p) => {
                   const isMatched = matchedPairs.includes(p.id);
                   const isSelected = matchSelectedLeft === p.id;
@@ -325,15 +347,16 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
                       key={p.id}
                       disabled={isMatched}
                       onClick={() => handleSelectMatchLeft(p.id)}
-                      className={`w-full p-3 rounded-xl border text-xs font-bold text-left transition-all ${
+                      className={`w-full min-h-[54px] p-3 rounded-2xl border-2 text-xs font-black text-left transition-all active:scale-95 flex items-center justify-between ${
                         isMatched
                           ? 'bg-emerald-950/40 border-emerald-500 text-emerald-300 line-through opacity-50'
                           : isSelected
-                          ? 'bg-indigo-600 border-indigo-400 text-white shadow-lg'
+                          ? 'bg-indigo-600 border-indigo-400 text-white shadow-lg scale-105'
                           : 'bg-slate-900 border-slate-800 text-slate-300'
                       }`}
                     >
-                      {p.left}
+                      <span>{p.left}</span>
+                      {isMatched && '✅'}
                     </button>
                   );
                 })}
@@ -341,7 +364,7 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
 
               {/* Right Column */}
               <div className="space-y-2">
-                <div className="text-[11px] font-bold text-slate-400">LỜI CHÀO</div>
+                <div className="text-[11px] font-black text-purple-400 uppercase tracking-wider">LỜI CHÀO</div>
                 {currentStage.pairs?.map((p) => {
                   const isMatched = matchedPairs.includes(p.id);
                   const isSelected = matchSelectedRight === p.id;
@@ -350,15 +373,16 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
                       key={p.id}
                       disabled={isMatched}
                       onClick={() => handleSelectMatchRight(p.id)}
-                      className={`w-full p-3 rounded-xl border text-xs font-bold text-left transition-all ${
+                      className={`w-full min-h-[54px] p-3 rounded-2xl border-2 text-xs font-black text-left transition-all active:scale-95 flex items-center justify-between ${
                         isMatched
                           ? 'bg-emerald-950/40 border-emerald-500 text-emerald-300 line-through opacity-50'
                           : isSelected
-                          ? 'bg-purple-600 border-purple-400 text-white shadow-lg'
+                          ? 'bg-purple-600 border-purple-400 text-white shadow-lg scale-105'
                           : 'bg-slate-900 border-slate-800 text-slate-300'
                       }`}
                     >
-                      {p.right}
+                      <span>{p.right}</span>
+                      {isMatched && '✅'}
                     </button>
                   );
                 })}
@@ -367,62 +391,83 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
           </div>
         )}
 
-        {/* Stage 5: Minigame Sequence */}
+        {/* Stage 5: Minigame Sequence Reorder (Tap-to-Swap & Big Buttons) */}
         {currentStage.type === 'minigame_sequence' && (
-          <div className="space-y-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold">
-              <span>🔢 Giai Đoạn 5: Trò Chơi 3</span>
+          <div className="space-y-3.5 my-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black">
+              <span>🔢 Giai Đoạn 5: Sắp Xếp Thứ Tự Lời Chào</span>
             </div>
-            <h2 className="text-xl font-black text-white">{currentStage.title}</h2>
-            <p className="text-xs text-slate-400">{currentStage.instruction}</p>
+            <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.title}</h2>
+            <p className="text-xs text-slate-300">Chạm thẻ để đổi chỗ hoặc dùng nút mũi tên nhé!</p>
 
-            <div className="space-y-2.5 pt-2">
-              {sequenceSteps.map((step, idx) => (
-                <div key={step.id} className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
-                  <span className="text-xs font-bold text-slate-200">{step.text}</span>
-                  <div className="flex items-center gap-1">
-                    <button
-                      disabled={idx === 0}
-                      onClick={() => moveSequenceStep(idx, 'up')}
-                      className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30"
-                    >
-                      <ArrowUp className="w-4 h-4 text-indigo-400" />
-                    </button>
-                    <button
-                      disabled={idx === sequenceSteps.length - 1}
-                      onClick={() => moveSequenceStep(idx, 'down')}
-                      className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30"
-                    >
-                      <ArrowDown className="w-4 h-4 text-indigo-400" />
-                    </button>
+            <div className="space-y-2.5 pt-1">
+              {sequenceSteps.map((step, idx) => {
+                const isSwapTarget = selectedSwapIdx === idx;
+                return (
+                  <div
+                    key={step.id}
+                    onClick={() => handleTapStepForSwap(idx)}
+                    className={`flex items-center justify-between p-3.5 rounded-2xl border-2 transition-all cursor-pointer ${
+                      isSwapTarget
+                        ? 'bg-indigo-950 border-indigo-400 shadow-lg scale-102'
+                        : 'bg-slate-900 border-slate-800 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 flex-1 mr-2">
+                      <span className="w-7 h-7 rounded-xl bg-blue-600/30 border border-blue-400 text-blue-300 font-black text-xs flex items-center justify-center shrink-0">
+                        {idx + 1}
+                      </span>
+                      <span className="text-xs font-black text-slate-200">{step.text}</span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        disabled={idx === 0}
+                        onClick={() => moveSequenceStep(idx, 'up')}
+                        aria-label="Di chuyển lên"
+                        className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 active:scale-90 disabled:opacity-20 flex items-center justify-center text-indigo-400"
+                      >
+                        <ArrowUp className="w-5 h-5" />
+                      </button>
+                      <button
+                        disabled={idx === sequenceSteps.length - 1}
+                        onClick={() => moveSequenceStep(idx, 'down')}
+                        aria-label="Di chuyển xuống"
+                        className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 active:scale-90 disabled:opacity-20 flex items-center justify-center text-indigo-400"
+                      >
+                        <ArrowDown className="w-5 h-5" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <button
               onClick={verifySequence}
-              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 btn-kid-3d"
+              className="w-full min-h-[54px] mt-2 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-sm shadow-lg shadow-emerald-600/30 active:scale-95 ns-btn-3d ns-btn-green"
             >
-              Xác Nhận Thứ Tự 3 Bước
+              Xác Nhận Thứ Tự 3 Bước ✨
             </button>
           </div>
         )}
 
         {/* Stage 6: Boss Battle */}
         {currentStage.type === 'boss' && (
-          <div className="space-y-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 text-xs font-bold">
+          <div className="space-y-4 my-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 text-xs font-black">
               <span>⚔️ Giai Đoạn 6: Thử Thách Boss</span>
             </div>
             
             {/* Boss HP Bar */}
-            <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
-              <div className="flex items-center justify-between text-xs font-bold">
-                <span className="text-rose-400">{currentStage.bossName}</span>
+            <div className="p-4 rounded-2xl bg-slate-900 border-2 border-rose-900/60 space-y-2 shadow-lg">
+              <div className="flex items-center justify-between text-xs font-black">
+                <span className="text-rose-400 flex items-center gap-1.5">
+                  <span className="text-xl">🐉</span> {currentStage.bossName}
+                </span>
                 <span className="text-rose-300 font-mono">HP: {bossHp}/100</span>
               </div>
-              <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+              <div className="w-full h-3.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
                 <div
                   className="h-full bg-gradient-to-r from-rose-500 to-red-600 rounded-full transition-all duration-300"
                   style={{ width: `${bossHp}%` }}
@@ -430,18 +475,19 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-sm font-bold text-slate-200">
+            <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs sm:text-sm font-black text-slate-100 leading-relaxed">
               {currentStage.scenarios?.[0].question}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {currentStage.scenarios?.[0].options.map((opt, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleBossChoice(opt.correct, opt.hpDamage)}
-                  className="w-full p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-rose-500/60 text-left text-xs sm:text-sm font-bold text-slate-200 transition-all btn-kid-3d"
+                  className="w-full min-h-[52px] p-3.5 rounded-2xl bg-slate-900 border-2 border-slate-800 active:bg-rose-950 active:border-rose-500 text-left text-xs sm:text-sm font-black text-slate-100 transition-all active:scale-95 ns-btn-3d flex items-center gap-2"
                 >
-                  ⚡ {opt.text}
+                  <span>⚡</span>
+                  <span>{opt.text}</span>
                 </button>
               ))}
             </div>
@@ -450,17 +496,17 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
 
         {/* Stage 7: Reflection */}
         {currentStage.type === 'reflection' && (
-          <div className="space-y-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold">
+          <div className="space-y-4 my-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-black">
               <span>💭 Giai Đoạn 7: Phản Tư & Bài Học</span>
             </div>
-            <h2 className="text-xl font-black text-white">{currentStage.question}</h2>
+            <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.question}</h2>
             <div className="space-y-2.5 pt-2">
               {currentStage.options?.map((opt, idx) => (
                 <button
                   key={idx}
-                  onClick={() => { soundService.playCorrect(); handleNextStage(); }}
-                  className="w-full p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/60 text-left text-sm font-bold text-indigo-200 transition-all btn-kid-3d"
+                  onClick={() => { interactionService.playSuccess(); handleNextStage(); }}
+                  className="w-full min-h-[54px] p-4 rounded-2xl bg-slate-900 border-2 border-slate-800 hover:border-indigo-500 text-left text-xs sm:text-sm font-black text-indigo-200 transition-all active:scale-95 ns-btn-3d"
                 >
                   {opt}
                 </button>
@@ -471,44 +517,44 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
 
         {/* Stage 8: Real Life Challenge */}
         {currentStage.type === 'challenge' && (
-          <div className="space-y-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold">
+          <div className="space-y-4 my-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black">
               <span>🎯 Giai Đoạn 8: Nhiệm Vụ Thực Tế</span>
             </div>
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/40 space-y-4">
-              <h2 className="text-xl font-black text-amber-300">Nhiệm Vụ Hôm Nay Của Bé</h2>
-              <p className="text-sm text-slate-200 leading-relaxed font-medium">
+            <div className="p-5 rounded-3xl bg-gradient-to-br from-amber-950/40 via-slate-900 to-slate-900 border-2 border-amber-500/40 space-y-3 shadow-xl">
+              <h2 className="text-lg sm:text-xl font-black text-amber-300">Nhiệm Vụ Hôm Nay Của Bé</h2>
+              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-bold">
                 {currentStage.missionText}
               </p>
-              <div className="text-xs text-amber-200 bg-amber-950/60 p-3 rounded-xl border border-amber-500/20">
+              <div className="text-xs text-amber-200 bg-amber-950/70 p-3 rounded-2xl border border-amber-500/30 font-medium">
                 💡 {currentStage.guideText}
               </div>
             </div>
             <button
               onClick={handleNextStage}
-              className="w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 btn-kid-3d"
+              className="w-full min-h-[54px] py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-sm shadow-lg shadow-blue-500/30 active:scale-95 ns-btn-3d ns-btn-primary"
             >
-              Em Sẵn Sàng Thực Hành!
+              Em Sẵn Sàng Thực Hành! 🚀
             </button>
           </div>
         )}
 
         {/* Stage 9: Parent Confirmation */}
         {currentStage.type === 'parent_confirm' && (
-          <div className="space-y-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold">
-              <ShieldCheck className="w-3.5 h-3.5" />
+          <div className="space-y-4 my-auto">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-black">
+              <ShieldCheck className="w-4 h-4" />
               <span>Giai Đoạn 9: Góc Phụ Huynh</span>
             </div>
-            <div className="p-6 rounded-3xl bg-slate-900 border border-purple-500/40 text-center space-y-4">
-              <div className="text-4xl">👨‍👩‍👧</div>
+            <div className="p-5 rounded-3xl bg-slate-900 border-2 border-purple-500/40 text-center space-y-3.5 shadow-xl">
+              <div className="text-5xl animate-bounce-slow">👨‍👩‍👧</div>
               <h2 className="text-lg font-black text-white">Xác Nhận Năng Lực Của Bé</h2>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
                 {currentStage.parentPrompt}
               </p>
               <button
                 onClick={handleParentConfirm}
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-sm shadow-lg shadow-purple-600/30 btn-kid-3d"
+                className="w-full min-h-[54px] py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black text-sm shadow-lg shadow-purple-600/30 active:scale-95 ns-btn-3d ns-btn-purple"
               >
                 {currentStage.confirmButtonText}
               </button>
@@ -518,17 +564,18 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
 
         {/* Stage 10: Posttest & Reward */}
         {currentStage.type === 'posttest' && (
-          <div className="space-y-5 text-center">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold">
+          <div className="space-y-4 my-auto text-center">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black">
               <span>🏆 Giai Đoạn 10: Nhận Huy Chương</span>
             </div>
-            <h2 className="text-xl font-black text-white">{currentStage.question}</h2>
+            <div className="text-6xl my-2 animate-bounce-slow">🏅</div>
+            <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.question}</h2>
             <div className="space-y-2.5 pt-2">
               {currentStage.options?.map((opt, idx) => (
                 <button
                   key={idx}
                   onClick={() => handlePosttestAnswer(idx)}
-                  className="w-full p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-emerald-500/60 text-left text-sm font-bold text-slate-200 transition-all btn-kid-3d"
+                  className="w-full min-h-[54px] p-4 rounded-2xl bg-slate-900 border-2 border-slate-800 hover:border-emerald-500 text-left text-xs sm:text-sm font-black text-slate-200 transition-all active:scale-95 ns-btn-3d"
                 >
                   {opt}
                 </button>
@@ -541,3 +588,4 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     </div>
   );
 };
+

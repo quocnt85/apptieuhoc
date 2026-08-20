@@ -103,37 +103,37 @@ export const QuestionExplorer: React.FC = () => {
                 className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-indigo-500/40 transition-all flex flex-col justify-between space-y-3 shadow-md"
               >
                 <div>
-                  <div className="flex items-center justify-between text-[11px] mb-1.5">
-                    <span className="font-bold text-indigo-400">{q.subdomainNameVi}</span>
-                    <span className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-semibold text-[10px]">
+                  <div className="flex items-center justify-between text-xs mb-1.5">
+                    <span className="font-black text-indigo-400">{q.subdomainNameVi}</span>
+                    <span className="px-2.5 py-0.5 rounded-lg bg-slate-800 text-slate-300 font-bold text-xs border border-slate-700">
                       Lớp {q.gradeLevel}
                     </span>
                   </div>
 
-                  <h3 className="text-sm font-bold text-slate-100 leading-snug">
+                  <h3 className="text-sm font-black text-slate-100 leading-snug">
                     {q.title}
                   </h3>
 
-                  <p className="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed font-medium">
                     {q.situation}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-slate-800/60">
+                <div className="flex items-center justify-between pt-2.5 border-t border-slate-800/80">
                   {isDone ? (
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-400">
+                    <div className="flex items-center gap-1.5 text-xs font-black text-emerald-400">
                       <CheckCircle2 className="w-4 h-4" />
                       <span>{isCorrect ? 'Đã làm đúng' : 'Đã luyện tập'}</span>
                     </div>
                   ) : (
-                    <span className="text-[11px] text-amber-400 font-semibold">Chưa làm</span>
+                    <span className="text-xs text-amber-400 font-bold">Chưa làm</span>
                   )}
 
                   <button
                     onClick={() => handleStartQuestion(q)}
-                    className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-indigo-600/20 active:scale-95 transition-all btn-kid-3d"
+                    className="min-h-[44px] px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black flex items-center gap-1.5 shadow-md shadow-indigo-600/20 active:scale-95 transition-all ns-btn-3d ns-btn-primary"
                   >
-                    <Play className="w-3.5 h-3.5 fill-white" />
+                    <Play className="w-4 h-4 fill-white" />
                     <span>Làm bài</span>
                   </button>
                 </div>
