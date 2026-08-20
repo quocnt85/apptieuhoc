@@ -1,0 +1,1962 @@
+[
+  {
+    "number": 1,
+    "question": "Khi đi siêu thị cùng mẹ, nếu không thấy mẹ đâu, việc ĐẦU TIÊN em nên làm là gì?",
+    "options": {
+      "A": "Khóc thật to để mẹ nghe thấy.",
+      "B": "Chạy đi tìm mẹ khắp các gian hàng.",
+      "C": "Đứng yên tại chỗ và quan sát xung quanh.",
+      "D": "Chạy ra ngoài đường để tìm mẹ."
+    },
+    "answer": "C",
+    "explanation": "Đứng yên tại chỗ giúp phụ huynh dễ dàng tìm thấy trẻ hơn so với việc trẻ di chuyển liên tục. Chạy đi tìm hoặc ra ngoài đường rất nguy hiểm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 2,
+    "question": "Số điện thoại nào dưới đây là quan trọng nhất em cần nhớ để phòng khi đi lạc?",
+    "options": {
+      "A": "Số điện thoại của bạn thân.",
+      "B": "Số điện thoại của cô giáo mầm non.",
+      "C": "Số điện thoại của bố hoặc mẹ.",
+      "D": "Số điện thoại của bác hàng xóm."
+    },
+    "answer": "C",
+    "explanation": "Nhớ số điện thoại của bố mẹ là kiến thức cơ bản nhất để nhờ người lớn liên lạc khi trẻ bị lạc.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 3,
+    "question": "Người nào sau đây là người an toàn NHẤT để em nhờ giúp đỡ khi bị lạc trong trung tâm thương mại?",
+    "options": {
+      "A": "Một người lạ đang cho em kẹo.",
+      "B": "Chú bảo vệ mặc đồng phục của trung tâm.",
+      "C": "Một bạn nhỏ khác đang đi một mình.",
+      "D": "Một người lạ đi xe máy bên ngoài trung tâm."
+    },
+    "answer": "B",
+    "explanation": "Bảo vệ hoặc nhân viên mặc đồng phục tại nơi bị lạc là những người an toàn và có trách nhiệm hỗ trợ trẻ em đi lạc.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 4,
+    "question": "Trước khi đến nơi đông người (công viên, lễ hội), bố mẹ thường dặn em điều gì để tránh bị lạc?",
+    "options": {
+      "A": "Luôn nắm tay bố mẹ hoặc đi sát bên cạnh.",
+      "B": "Được phép chạy đi chơi một mình nếu thấy đồ chơi đẹp.",
+      "C": "Chơi trốn tìm với bố mẹ trong đám đông.",
+      "D": "Tự đi mua đồ ăn mà không cần hỏi ý kiến."
+    },
+    "answer": "A",
+    "explanation": "Luôn đi sát hoặc nắm tay người lớn là nguyên tắc phòng ngừa cơ bản để không bị lạc ở nơi đông người.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 5,
+    "question": "Vì sao em không nên chạy lung tung để tìm mẹ khi bị lạc ở công viên?",
+    "options": {
+      "A": "Vì công viên rất nhỏ, mẹ sẽ tự thấy em.",
+      "B": "Vì chạy lung tung sẽ làm em mệt và mẹ sẽ khó tìm thấy em hơn.",
+      "C": "Vì em không mang theo tiền mua nước uống.",
+      "D": "Vì em sẽ làm hỏng hoa cỏ trong công viên."
+    },
+    "answer": "B",
+    "explanation": "Học sinh hiểu được nguyên lý: di chuyển liên tục làm thay đổi vị trí không ngừng, khiến người nhà khó xác định vị trí để tìm kiếm.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 6,
+    "question": "Tại sao việc ghi nhớ đặc điểm quần áo của mình và bố mẹ trước khi ra ngoài lại quan trọng?",
+    "options": {
+      "A": "Để so sánh xem ai mặc đẹp hơn.",
+      "B": "Để có thể miêu tả cho người giúp đỡ khi không may bị lạc.",
+      "C": "Để về nhà vẽ lại bức tranh.",
+      "D": "Để biết cách chọn quần áo lần sau."
+    },
+    "answer": "B",
+    "explanation": "Hiểu được mục đích của việc ghi nhớ đặc điểm nhận dạng giúp cung cấp thông tin chính xác cho bảo vệ hoặc công an khi cần thiết.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 7,
+    "question": "Hành động nào cho thấy em ĐÃ HIỂU nguyên tắc 'Không đi theo người lạ' khi bị lạc?",
+    "options": {
+      "A": "Đồng ý để người lạ dắt tay đi tìm mẹ.",
+      "B": "Lên xe máy để người lạ chở về nhà.",
+      "C": "Từ chối đi theo người lạ, chỉ nhờ họ gọi điện thoại giúp ngay tại chỗ.",
+      "D": "Nhận đồ chơi của người lạ và đi theo họ ra bãi xe."
+    },
+    "answer": "C",
+    "explanation": "Hiểu rõ rằng người lạ có thể có ý đồ xấu; việc nhờ gọi điện tại chỗ vừa giúp liên lạc được với người thân, vừa giữ an toàn cho bản thân.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 8,
+    "question": "Theo em, một 'người lạ an toàn' trên đường phố thường là ai?",
+    "options": {
+      "A": "Người phụ nữ đang dắt theo trẻ em.",
+      "B": "Một thanh niên đang bịt kín mặt.",
+      "C": "Người cho em nhiều đồ ăn ngon.",
+      "D": "Một người đang vội vã chạy bộ."
+    },
+    "answer": "A",
+    "explanation": "Hiểu được khái niệm 'người lạ an toàn'. Phụ nữ đi cùng trẻ em thường đáng tin cậy hơn nếu không tìm thấy công an hay bảo vệ.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 9,
+    "question": "Em đang đứng chờ mẹ ở cửa hàng sách. Một cô lạ mặt đến bảo: 'Mẹ cháu đang đợi ở ngoài bãi xe, cô dắt cháu ra nhé'. Em sẽ chọn cách làm nào?",
+    "options": {
+      "A": "Đi theo cô đó ngay vì muốn gặp mẹ.",
+      "B": "Nói: 'Cháu không quen cô, cháu sẽ đợi mẹ ở đây' và lùi lại.",
+      "C": "Khóc lóc ầm ĩ và đánh cô đó.",
+      "D": "Đưa cặp sách cho cô đó cầm giúp."
+    },
+    "answer": "B",
+    "explanation": "Lựa chọn từ chối dứt khoát và giữ khoảng cách an toàn, tuân thủ nguyên tắc không đi theo người lạ.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 10,
+    "question": "Em bị lạc trong sở thú và không nhớ số điện thoại của mẹ. Em thấy một chú công an đang đi tuần tra. Em sẽ làm gì?",
+    "options": {
+      "A": "Chạy lại gần, lễ phép nói: 'Chú ơi, cháu bị lạc. Chú giúp cháu thông báo trên loa được không ạ?'.",
+      "B": "Sợ chú công an nên trốn vào bụi cây.",
+      "C": "Ngồi tại chỗ khóc chờ mẹ tìm.",
+      "D": "Chạy ra cổng sở thú tự đi về nhà."
+    },
+    "answer": "A",
+    "explanation": "Quyết định chủ động tìm kiếm sự giúp đỡ từ người an toàn nhất (công an) và đưa ra phương án khả thi (phát loa).",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 11,
+    "question": "Mẹ dặn em đứng đợi ở cửa hàng bánh mì để mẹ vào siêu thị mua đồ. Mười phút trôi qua chưa thấy mẹ ra, em bắt đầu thấy sợ. Em nên làm gì?",
+    "options": {
+      "A": "Chạy vào trong siêu thị rộng lớn để tìm mẹ.",
+      "B": "Vẫn đứng yên tại cửa hàng bánh mì như lời mẹ dặn.",
+      "C": "Đi bộ về nhà một mình.",
+      "D": "Sang đường chơi với mấy bạn nhỏ khác."
+    },
+    "answer": "B",
+    "explanation": "Trong tình huống này, quyết định tốt nhất là tuân thủ lời dặn ban đầu, giữ nguyên vị trí để mẹ quay lại đón.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 12,
+    "question": "Em đang bị lạc. Một người lạ tốt bụng đưa cho em chiếc điện thoại để gọi cho bố. Em sẽ nói gì đầu tiên khi bố bắt máy?",
+    "options": {
+      "A": "'Bố ơi, con nhớ bố lắm!'.",
+      "B": "'Bố mua đồ chơi cho con chưa?'.",
+      "C": "'Bố ơi con bị lạc rồi, con đang ở quầy đồ chơi siêu thị X, bố đến đón con nhé!'.",
+      "D": "'Bố ơi, con đang nói chuyện bằng điện thoại xịn lắm!'."
+    },
+    "answer": "C",
+    "explanation": "Quyết định cung cấp thông tin quan trọng nhất (tình trạng bị lạc và vị trí hiện tại) một cách nhanh chóng và rõ ràng.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 13,
+    "question": "Bạn Minh bị lạc ở rạp chiếu phim. Bạn ấy khóc lóc và chạy theo một chú lạ mặt vừa cho bạn ấy kẹo. Em đánh giá hành vi của Minh thế nào?",
+    "options": {
+      "A": "Rất tốt, vì chú ấy có kẹo nên chắc chắn là người tốt.",
+      "B": "Chưa an toàn, vì Minh không nên chạy đi theo người lạ và nhận đồ ăn từ họ.",
+      "C": "Bình thường, ai bị lạc cũng khóc và đi theo người khác.",
+      "D": "Thông minh, vì đi theo người lạ sẽ nhanh tìm được mẹ hơn."
+    },
+    "answer": "B",
+    "explanation": "Học sinh đánh giá được hành vi chạy theo người lạ và nhận quà là sai, vi phạm quy tắc an toàn cơ bản.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 14,
+    "question": "Khi thấy bạn Hoa bị lạc, một cô bán hàng trong siêu thị bảo Hoa đọc số điện thoại để cô gọi cho mẹ. Hoa đã đọc to rõ ràng số của mẹ. Em nghĩ hành động của Hoa là đúng hay sai?",
+    "options": {
+      "A": "Sai, vì không được đọc số điện thoại cho bất kỳ ai.",
+      "B": "Đúng, vì cô bán hàng trong siêu thị là người lớn có thể giúp đỡ, và gọi điện là cách an toàn.",
+      "C": "Sai, Hoa nên tự lấy điện thoại của cô ấy để gọi.",
+      "D": "Đúng, nhưng Hoa nên đòi cô ấy cho bánh trước khi đọc số."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá hành vi cung cấp số điện thoại cho nhân viên cửa hàng là một hành động đúng đắn và an toàn trong bối cảnh siêu thị.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 15,
+    "question": "Bạn Nam bị lạc ở bãi biển. Nam quyết định xuống tắm biển một mình trong lúc chờ bố mẹ tìm. Hành động này tiềm ẩn nguy cơ gì?",
+    "options": {
+      "A": "Không có nguy cơ gì, Nam sẽ mát mẻ hơn.",
+      "B": "Nam có thể bị đuối nước mà không ai biết, rất nguy hiểm.",
+      "C": "Nam sẽ bơi giỏi hơn.",
+      "D": "Bố mẹ sẽ dễ tìm thấy Nam dưới nước hơn."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá được mức độ nguy hiểm chết người của việc tự ý xuống nước khi không có người lớn giám sát, đặc biệt khi đang đi lạc.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 16,
+    "question": "Thấy bạn nhỏ khóc vì lạc mẹ ở sân trường, bạn Tùng chạy đi báo cho thầy Tổng phụ trách Đội. Hành động của Tùng cho thấy điều gì?",
+    "options": {
+      "A": "Tùng rất nhiều chuyện.",
+      "B": "Tùng biết cách xử lý tình huống an toàn và biết tìm đúng người có trách nhiệm giải quyết.",
+      "C": "Tùng không biết dỗ bạn nín khóc.",
+      "D": "Tùng muốn được thầy giáo khen ngợi."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá hành động của người ngoài cuộc; việc tìm kiếm sự hỗ trợ từ giáo viên/nhân viên nhà trường là cách giải quyết chuẩn xác.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 17,
+    "question": "Nếu em chuẩn bị đi hội chợ Tết rất đông đúc, em sẽ chuẩn bị điều gì từ trước ở nhà để phòng ngừa việc đi lạc?",
+    "options": {
+      "A": "Chỉ cần mặc quần áo đẹp là đủ.",
+      "B": "Mang theo thật nhiều tiền tiêu vặt.",
+      "C": "Học thuộc số điện thoại của bố mẹ và thống nhất với bố mẹ một 'điểm hẹn' nếu bị lạc.",
+      "D": "Mang theo nhiều đồ chơi để chơi nếu bị lạc."
+    },
+    "answer": "C",
+    "explanation": "Vận dụng kiến thức để chuẩn bị các biện pháp phòng ngừa thực tế (thống nhất điểm hẹn, ôn lại số điện thoại) trước khi sự cố xảy ra.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 18,
+    "question": "Em vừa trải qua một lần đi lạc ở siêu thị và đã được tìm thấy. Bài học lớn nhất em rút ra cho những lần đi chơi sau là gì?",
+    "options": {
+      "A": "Lần sau không thèm đi siêu thị nữa.",
+      "B": "Lần sau sẽ chạy nhanh hơn để bố mẹ không bắt kịp.",
+      "C": "Phải luôn quan sát xem bố mẹ ở đâu và không được tự ý tách ra xem đồ chơi một mình.",
+      "D": "Siêu thị rất đáng sợ."
+    },
+    "answer": "C",
+    "explanation": "Phản tư về trải nghiệm cá nhân, rút ra bài học thay đổi hành vi để không lặp lại sai lầm trong tương lai.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 19,
+    "question": "Em có một chiếc vòng tay hoặc thẻ có ghi tên và số điện thoại của gia đình. Em nên sử dụng nó như thế nào khi đi du lịch?",
+    "options": {
+      "A": "Cất kỹ trong vali ở khách sạn.",
+      "B": "Đeo vào tay hoặc mang theo trong túi áo/quần mỗi khi ra ngoài.",
+      "C": "Vứt đi vì em đã nhớ số điện thoại rồi.",
+      "D": "Đổi lấy đồ chơi của bạn."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng công cụ hỗ trợ an toàn (thẻ thông tin) vào thực tế sinh hoạt khi đi du lịch.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 20,
+    "question": "Bạn thân của em rủ: 'Mình trốn bố mẹ ra góc kia chơi điện tử đi, một lát quay lại bố mẹ không biết đâu'. Dựa trên những gì đã học, em sẽ làm gì?",
+    "options": {
+      "A": "Đồng ý ngay vì chơi điện tử rất vui.",
+      "B": "Từ chối và nhắc nhở bạn: 'Như vậy dễ bị lạc và gặp nguy hiểm lắm, mình phải xin phép người lớn trước'.",
+      "C": "Bảo bạn đi một mình, còn em đứng đây canh chừng.",
+      "D": "Chỉ trốn đi 5 phút rồi về ngay."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng kiến thức an toàn để đưa ra lời khuyên và ngăn chặn hành vi rủi ro của bạn bè trong một tình huống cám dỗ thực tế.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Phòng tránh và xử lý khi bị đi lạc"
+  },
+  {
+    "number": 21,
+    "question": "Khi đứng chờ xe buýt, em nên đứng ở vị trí nào?",
+    "options": {
+      "A": "Đứng dưới lòng đường để dễ nhìn thấy xe.",
+      "B": "Đứng sát mép vỉa hè.",
+      "C": "Đứng trên vỉa hè, lùi vào trong một khoảng an toàn.",
+      "D": "Chạy nhảy đuổi nhau trên vỉa hè chờ xe."
+    },
+    "answer": "C",
+    "explanation": "Đứng lùi vào trong vỉa hè giúp tránh nguy cơ bị các phương tiện giao thông khác quẹt phải hoặc ngã xuống lòng đường.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 22,
+    "question": "Khi xe buýt hoặc tàu hỏa đang di chuyển, em tuyệt đối KHÔNG được làm hành động nào?",
+    "options": {
+      "A": "Ngồi ngay ngắn và bám tay vịn.",
+      "B": "Nói chuyện nhỏ nhẹ với bạn bè.",
+      "C": "Thò đầu, thò tay ra ngoài cửa sổ.",
+      "D": "Ngắm cảnh qua lớp kính cửa sổ đóng kín."
+    },
+    "answer": "C",
+    "explanation": "Thò đầu hoặc tay ra ngoài cửa sổ khi xe đang chạy cực kỳ nguy hiểm, có thể va chạm với các phương tiện khác dẫn đến tai nạn nghiêm trọng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 23,
+    "question": "Khi đi tàu hỏa hoặc máy bay, em có được phép tự ý mở cửa thoát hiểm (cửa emergency) không?",
+    "options": {
+      "A": "Được, nếu em thấy ngột ngạt.",
+      "B": "Không, chỉ được mở khi có lệnh của nhân viên trong trường hợp khẩn cấp.",
+      "C": "Được, nếu em tò mò muốn xem bên ngoài.",
+      "D": "Được, để lấy không khí mát."
+    },
+    "answer": "B",
+    "explanation": "Cửa thoát hiểm được thiết kế riêng cho tình huống khẩn cấp, tự ý mở sẽ vi phạm nghiêm trọng luật an toàn và gây nguy hiểm cho tất cả hành khách.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 24,
+    "question": "Hành động nào dưới đây là đúng khi lên hoặc xuống xe buýt?",
+    "options": {
+      "A": "Chen lấn, xô đẩy để lên trước.",
+      "B": "Nhảy xuống khi xe chưa dừng hẳn.",
+      "C": "Xếp hàng trật tự, chờ xe dừng hẳn mới lên hoặc xuống.",
+      "D": "Bám vào đuôi xe để đu theo."
+    },
+    "answer": "C",
+    "explanation": "Xếp hàng và chờ xe dừng hẳn là quy tắc cơ bản để tránh vấp ngã hoặc bị bánh xe chèn phải.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 25,
+    "question": "Vì sao trên xe buýt thường có những ghế màu khác (ví dụ: vàng, xanh nổi bật) ở gần cửa ra vào?",
+    "options": {
+      "A": "Để trang trí cho xe đẹp hơn.",
+      "B": "Để dành riêng cho lái xe nghỉ ngơi.",
+      "C": "Để ưu tiên cho người già, phụ nữ có thai, người khuyết tật và trẻ em nhỏ.",
+      "D": "Để bán vé với giá đắt hơn."
+    },
+    "answer": "C",
+    "explanation": "Hiểu được ý nghĩa của ghế ưu tiên là biểu hiện của văn hóa giao thông và sự cảm thông xã hội.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 26,
+    "question": "Tại sao em cần phải bám thật chặt vào tay vịn khi đứng trên xe buýt?",
+    "options": {
+      "A": "Để tập thể dục tay.",
+      "B": "Vì xe buýt có thể phanh gấp hoặc rẽ đột ngột, làm em bị ngã nếu không bám chắc.",
+      "C": "Để không ai lấy mất chỗ đứng của em.",
+      "D": "Để tay không bị bẩn."
+    },
+    "answer": "B",
+    "explanation": "Hiểu lực quán tính: khi xe thay đổi tốc độ đột ngột, cơ thể sẽ bị mất thăng bằng nếu không có điểm tựa.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 27,
+    "question": "Vì sao việc đùa giỡn, la hét trên tàu xe lại bị coi là hành vi không an toàn?",
+    "options": {
+      "A": "Vì sẽ làm bác tài xế mất tập trung, có thể gây tai nạn.",
+      "B": "Vì em sẽ bị đau họng.",
+      "C": "Vì tàu xe sẽ chạy chậm lại.",
+      "D": "Vì sẽ tốn nhiều nhiên liệu hơn."
+    },
+    "answer": "A",
+    "explanation": "Sự ồn ào và lộn xộn ảnh hưởng trực tiếp đến sự tập trung của người lái xe, tiềm ẩn nguy cơ tai nạn giao thông.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 28,
+    "question": "Trang phục rườm rà, áo mưa lòa xòa có thể gây nguy hiểm gì khi lên/xuống xe buýt?",
+    "options": {
+      "A": "Làm em không nhìn thấy đường.",
+      "B": "Dễ bị kẹt vào cửa xe đang đóng hoặc vướng vào xe khác.",
+      "C": "Làm em không lấy được tiền mua vé.",
+      "D": "Làm ướt ghế trên xe."
+    },
+    "answer": "B",
+    "explanation": "Quần áo hoặc phụ kiện lòa xòa rất dễ bị kẹt vào hệ thống cửa tự động, gây nguy hiểm tính mạng khi xe di chuyển.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 29,
+    "question": "Xe buýt đã chật kín người nhưng em đang rất vội đến trường. Em nên quyết định thế nào?",
+    "options": {
+      "A": "Cố gắng chen lấn đẩy người khác để leo lên bằng được.",
+      "B": "Đứng bám ở ngoài bậc lên xuống của cửa xe.",
+      "C": "Chờ chuyến xe tiếp theo để đảm bảo an toàn.",
+      "D": "Khóc lóc ăn vạ bắt phụ xe phải cho lên."
+    },
+    "answer": "C",
+    "explanation": "Quyết định ưu tiên sự an toàn của bản thân lên trên sự vội vã; đu bám xe chật kín rất nguy hiểm.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 30,
+    "question": "Khi đang ngồi trên xe buýt, em thấy một bà cụ bước lên xe và không còn ghế trống. Em sẽ làm gì?",
+    "options": {
+      "A": "Nhắm mắt vờ ngủ để không phải nhường ghế.",
+      "B": "Nhìn ra cửa sổ coi như không thấy.",
+      "C": "Chủ động đứng dậy, nhường ghế của mình cho bà cụ và bám vào tay vịn.",
+      "D": "Bảo bà cụ đi xuống xe khác."
+    },
+    "answer": "C",
+    "explanation": "Quyết định thực hiện hành vi văn minh, lịch sự và đảm bảo an toàn cho người yếu thế trên xe công cộng.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 31,
+    "question": "Em phát hiện có túi đồ bốc khói hoặc nghi ngờ là đồ nguy hiểm bị bỏ quên trên tàu hỏa. Em sẽ xử lý ra sao?",
+    "options": {
+      "A": "Mở túi ra xem bên trong có gì.",
+      "B": "Mang túi đồ đó về nhà.",
+      "C": "Tránh xa và lập tức báo cho nhân viên trên tàu (soát vé, trưởng tàu).",
+      "D": "Đá túi đồ ra chỗ khác."
+    },
+    "answer": "C",
+    "explanation": "Quyết định xử lý đúng đắn với các vật thể lạ: không chạm vào, giữ khoảng cách và báo cáo người có thẩm quyền.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 32,
+    "question": "Xuống xe buýt, em muốn sang đường. Cách an toàn nhất là gì?",
+    "options": {
+      "A": "Chạy tạt ngay trước đầu xe buýt vừa dừng.",
+      "B": "Đi vòng ra sau đuôi xe buýt để sang đường.",
+      "C": "Chờ xe buýt rời khỏi bến, quan sát đường thông thoáng hoặc tìm vạch kẻ đường/cầu vượt rồi mới sang.",
+      "D": "Sang đường ngay chỗ nào cũng được."
+    },
+    "answer": "C",
+    "explanation": "Đi trước mũi hoặc sau đuôi xe đều bị khuất tầm nhìn (điểm mù). Chờ xe đi khuất mới đảm bảo quan sát an toàn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 33,
+    "question": "Hai bạn nhỏ đang chơi oẳn tù tì và chạy đuổi nhau dọc hành lang toa tàu hỏa. Em đánh giá hành vi này như thế nào?",
+    "options": {
+      "A": "Rất vui vẻ, giúp các bạn bớt chán khi đi tàu.",
+      "B": "Nguy hiểm, vì tàu rung lắc có thể làm các bạn ngã và làm phiền hành khách khác.",
+      "C": "Bình thường, trẻ em thì phải được chạy nhảy.",
+      "D": "Tốt cho sức khỏe."
+    },
+    "answer": "B",
+    "explanation": "Học sinh đánh giá được nguy cơ té ngã do tàu rung lắc và ý thức giữ gìn trật tự công cộng.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 34,
+    "question": "Một bạn học sinh vứt vỏ chai nước xuống đường qua cửa sổ xe khách đang chạy. Nhận xét của em về hành vi này?",
+    "options": {
+      "A": "Rất sai, gây ô nhiễm môi trường và có thể văng trúng người đi đường gây tai nạn.",
+      "B": "Bình thường vì rác đã ra khỏi xe.",
+      "C": "Đúng, vì giữ xe sạch sẽ là được.",
+      "D": "Sai, vì bạn ấy có thể bị mất vỏ chai đẹp."
+    },
+    "answer": "A",
+    "explanation": "Đánh giá mức độ nguy hiểm và thiếu ý thức bảo vệ môi trường của việc ném đồ vật từ xe đang chạy.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 35,
+    "question": "Khi xe buýt dừng, cửa đang đóng lại thì một bạn nam dùng tay cố gắng cạy cửa để lách xuống. Hành vi này có thể dẫn đến hậu quả gì?",
+    "options": {
+      "A": "Bạn ấy sẽ xuống xe nhanh hơn người khác.",
+      "B": "Bạn ấy được tài xế khen ngợi vì khỏe mạnh.",
+      "C": "Cửa có thể kẹp nát tay hoặc bạn ấy bị ngã kéo lê trên đường khi xe chạy.",
+      "D": "Cửa xe sẽ tự động mở to hơn."
+    },
+    "answer": "C",
+    "explanation": "Nhận thức sâu sắc về hậu quả của việc cố ý can thiệp vào cửa tự động của phương tiện giao thông.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 36,
+    "question": "Thấy tài xế xe buýt đang ngủ gật khi đang lái xe, một hành khách lớn tuổi đã lớn tiếng gọi để báo cho phụ xe. Em nghĩ hành động của hành khách đó là gì?",
+    "options": {
+      "A": "Rất bất lịch sự vì làm ồn trên xe.",
+      "B": "Hoàn toàn đúng và dũng cảm, giúp ngăn chặn một tai nạn thảm khốc.",
+      "C": "Chưa đúng, nên để tài xế ngủ thêm một chút cho đỡ mệt.",
+      "D": "Bình thường, không liên quan đến an toàn."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá cao hành vi cảnh báo rủi ro kịp thời để bảo vệ an toàn cho cả tập thể.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 37,
+    "question": "Em chuẩn bị đi dã ngoại bằng xe khách cùng lớp. Từ kiến thức đã học, em sẽ ưu tiên mang theo loại túi xách nào?",
+    "options": {
+      "A": "Túi rất to và nặng để được nhiều đồ chơi.",
+      "B": "Một chiếc balo nhỏ gọn đeo trên vai, hai tay để trống để bám vịn dễ dàng.",
+      "C": "Nhiều túi nilong xách tay lỉnh kỉnh.",
+      "D": "Vali kéo khổng lồ chiếm nhiều diện tích."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng kiến thức để chuẩn bị hành trang phù hợp, đảm bảo an toàn và thuận tiện khi di chuyển trên xe.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 38,
+    "question": "Tuần trước, em bị ngã xước chân vì bước xuống xe buýt khi xe chưa dừng hẳn. Lần đi xe buýt hôm nay, em tự nhủ với bản thân điều gì?",
+    "options": {
+      "A": "'Mình phải nhảy xuống nhanh hơn nữa'.",
+      "B": "'Tuyệt đối không vội vàng, đợi xe dừng hẳn mới từ từ bước xuống'.",
+      "C": "'Sẽ nhờ người khác đẩy mình xuống'.",
+      "D": "'Sẽ không đi xe buýt nữa'."
+    },
+    "answer": "B",
+    "explanation": "Phản tư từ sai lầm quá khứ và điều chỉnh nhận thức, hành vi để đảm bảo an toàn cho tương lai.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 39,
+    "question": "Đi tàu điện trên cao lần đầu, em thấy bạn mình định tựa lưng vào cánh cửa tự động. Vận dụng kiến thức an toàn, em sẽ nói gì với bạn?",
+    "options": {
+      "A": "'Cửa xịn lắm, dựa thoải mái đi'.",
+      "B": "'Cửa có thể mở ra bất ngờ khi đến ga, cậu đừng tựa vào cửa kẻo ngã đấy'.",
+      "C": "'Cậu tựa vào cửa sẽ làm cửa hỏng'.",
+      "D": "'Cậu phải bấm nút cửa mới mở'."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng hiểu biết về cửa tự động để cảnh báo và bảo vệ an toàn cho người xung quanh trong một môi trường mới.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 40,
+    "question": "Biết rằng bác tài xế cần tập trung cao độ, trong chuyến đi tham quan dài, em đề xuất lớp mình nên tổ chức hoạt động nào trên xe?",
+    "options": {
+      "A": "Bật nhạc sàn thật to và nhảy múa.",
+      "B": "Chơi trò đuổi bắt dọc lối đi.",
+      "C": "Hát những bài hát nhẹ nhàng hoặc chơi giải câu đố tại chỗ.",
+      "D": "Cùng nhau la hét thi xem ai nói to nhất."
+    },
+    "answer": "C",
+    "explanation": "Vận dụng hiểu biết về sự tập trung của lái xe để tổ chức các hoạt động tập thể vui vẻ nhưng vẫn an toàn, trật tự.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "An toàn khi tham gia các phương tiện giao thông công cộng"
+  },
+  {
+    "number": 41,
+    "question": "Thời điểm nào trong ngày ánh nắng mặt trời gắt và chứa nhiều tia cực tím (UV) có hại nhất?",
+    "options": {
+      "A": "Từ 6 giờ sáng đến 8 giờ sáng.",
+      "B": "Từ 10 giờ trưa đến 4 giờ chiều.",
+      "C": "Từ 5 giờ chiều đến 7 giờ tối.",
+      "D": "Vào ban đêm."
+    },
+    "answer": "B",
+    "explanation": "Khoảng thời gian từ 10h-16h là lúc tia cực tím hoạt động mạnh nhất, có thể gây bỏng rát và tổn thương da.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 42,
+    "question": "Để bảo vệ da khi đi bơi hoặc vui chơi ngoài nắng, vật dụng nào là CẦN THIẾT nhất?",
+    "options": {
+      "A": "Kem chống nắng.",
+      "B": "Một chiếc khăn quàng cổ mùa đông.",
+      "C": "Áo mưa.",
+      "D": "Kính lúp."
+    },
+    "answer": "A",
+    "explanation": "Kem chống nắng là sản phẩm chuyên dụng giúp bảo vệ da khỏi tác hại của tia UV.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 43,
+    "question": "Ngoài da, bộ phận nào trên cơ thể cũng cần được bảo vệ khỏi ánh nắng mặt trời?",
+    "options": {
+      "A": "Răng.",
+      "B": "Mắt (cần đeo kính râm).",
+      "C": "Móng tay.",
+      "D": "Lông mày."
+    },
+    "answer": "B",
+    "explanation": "Mắt rất nhạy cảm với ánh sáng mạnh và tia UV, việc đeo kính râm chống tia UV giúp bảo vệ mắt khỏi tổn thương.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 44,
+    "question": "Khi chơi thể thao ngoài trời nắng, cơ thể em sẽ đổ nhiều mồ hôi. Em cần làm gì để cơ thể không bị mệt mỏi?",
+    "options": {
+      "A": "Ăn nhiều bánh kẹo.",
+      "B": "Uống nước thường xuyên để bù nước.",
+      "C": "Mặc thật nhiều áo ấm.",
+      "D": "Không làm gì cả."
+    },
+    "answer": "B",
+    "explanation": "Đổ mồ hôi làm cơ thể mất nước, uống đủ nước giúp duy trì chức năng cơ thể và tránh say nắng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 45,
+    "question": "Vì sao em nên đội mũ rộng vành thay vì mũ lưỡi trai khi đi dã ngoại trời nắng?",
+    "options": {
+      "A": "Vì mũ rộng vành đẹp hơn.",
+      "B": "Vì mũ rộng vành che chắn được cả mặt, tai và vùng gáy phía sau.",
+      "C": "Vì mũ rộng vành đắt tiền hơn.",
+      "D": "Vì mũ rộng vành có thể dùng làm quạt."
+    },
+    "answer": "B",
+    "explanation": "Hiểu được cấu tạo và công dụng của mũ rộng vành trong việc bảo vệ toàn diện các vùng da hở trên đầu và cổ.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 46,
+    "question": "Tại sao em cần thoa lại kem chống nắng sau mỗi 2 tiếng vui chơi, đặc biệt là khi đi bơi?",
+    "options": {
+      "A": "Vì kem chống nắng sẽ bị trôi đi do nước hoặc mồ hôi, làm giảm tác dụng bảo vệ.",
+      "B": "Để da trắng hơn.",
+      "C": "Vì kem chống nắng có mùi rất thơm.",
+      "D": "Để tuýp kem nhanh hết."
+    },
+    "answer": "A",
+    "explanation": "Hiểu nguyên lý hoạt động của kem chống nắng: nó không tồn tại vĩnh viễn trên da mà bị hao hụt qua mồ hôi và nước.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 47,
+    "question": "Hiện tượng 'say nắng' (hoặc sốc nhiệt) xảy ra do nguyên nhân chủ yếu nào?",
+    "options": {
+      "A": "Do ăn quá nhiều đồ lạnh.",
+      "B": "Do ở ngoài nắng gắt quá lâu khiến cơ thể không kịp tỏa nhiệt và mất nước trầm trọng.",
+      "C": "Do chạy quá nhanh.",
+      "D": "Do mặc áo cộc tay."
+    },
+    "answer": "B",
+    "explanation": "Hiểu cơ chế của say nắng để có ý thức phòng tránh việc phơi nắng liên tục kéo dài.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 48,
+    "question": "Quần áo có màu tối (đen, xanh sẫm) thường hấp thụ nhiệt nhiều hơn quần áo sáng màu. Vì vậy, khi đi chơi nắng, em nên chọn trang phục thế nào?",
+    "options": {
+      "A": "Quần áo màu đen tuyền.",
+      "B": "Quần áo dày bằng len màu đen.",
+      "C": "Quần áo sáng màu, mỏng, thấm hút mồ hôi tốt.",
+      "D": "Mặc áo mưa."
+    },
+    "answer": "C",
+    "explanation": "Hiểu đặc tính vật lý của màu sắc và chất liệu vải để lựa chọn trang phục giải nhiệt tốt nhất.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 49,
+    "question": "Đang đá bóng lúc 12 giờ trưa, em cảm thấy chóng mặt, khát nước và đau đầu. Em nên quyết định làm gì ngay lúc đó?",
+    "options": {
+      "A": "Cố gắng đá nốt trận cho xong.",
+      "B": "Lập tức ngừng chơi, vào chỗ bóng râm nghỉ ngơi và uống nước từ từ.",
+      "C": "Chạy thật nhanh về nhà.",
+      "D": "Uống ngay một chai nước đá lạnh buốt."
+    },
+    "answer": "B",
+    "explanation": "Lựa chọn hành động cấp cứu kịp thời cho bản thân khi có dấu hiệu kiệt sức do nhiệt: nghỉ ngơi trong mát và bù nước.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 50,
+    "question": "Bạn rủ em ra công viên thả diều vào lúc 2 giờ chiều giữa mùa hè nắng gắt. Em sẽ trả lời bạn thế nào?",
+    "options": {
+      "A": "'Tuyệt quá, đi luôn thôi!'.",
+      "B": "'Tầm này nắng gắt nguy hiểm lắm, mình đợi sau 4 giờ chiều trời mát hãy đi nhé'.",
+      "C": "'Cậu mang cho tớ cái ô, tớ vừa che ô vừa thả diều'.",
+      "D": "'Chờ tớ mặc áo len rồi đi'."
+    },
+    "answer": "B",
+    "explanation": "Quyết định từ chối hoạt động ở khung giờ nguy hiểm và đề xuất giải pháp thời gian an toàn hơn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 51,
+    "question": "Khi đi tắm biển, mẹ dặn em thoa kem chống nắng. Em sẽ thoa kem vào lúc nào là hiệu quả nhất?",
+    "options": {
+      "A": "Thoa ngay sau khi nhảy xuống nước biển.",
+      "B": "Chỉ thoa sau khi đã tắm xong để đi về.",
+      "C": "Thoa khoảng 15-20 phút TRƯỚC KHI ra ngoài nắng.",
+      "D": "Không cần thoa, vì dưới nước rất mát."
+    },
+    "answer": "C",
+    "explanation": "Quyết định thời điểm thoa kem chống nắng đúng cách (cần thời gian để kem thẩm thấu và phát huy tác dụng bảo vệ).",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 52,
+    "question": "Cả nhà đi dã ngoại, em thấy em gái nhỏ đang ngồi chơi xếp hình giữa bãi cỏ nắng chói chang mà không đội mũ. Em sẽ làm gì?",
+    "options": {
+      "A": "Bỏ mặc em chơi vì em đang vui.",
+      "B": "Dẫn em gái vào dưới bóng cây mát và đội mũ cho em.",
+      "C": "Ra ngồi chơi cùng em giữa nắng.",
+      "D": "Trêu chọc em gái."
+    },
+    "answer": "B",
+    "explanation": "Quyết định can thiệp kịp thời để bảo vệ sức khỏe cho người thân khỏi nguy cơ say nắng.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 53,
+    "question": "Một bạn nam nói: 'Tớ là con trai, da đen một tí cho khỏe, không cần đội mũ hay bôi kem chống nắng đâu!'. Em đánh giá suy nghĩ này như thế nào?",
+    "options": {
+      "A": "Rất đúng, con trai thì phải da ngăm đen.",
+      "B": "Sai lầm, tia UV không phân biệt nam nữ, đều có thể gây cháy nắng và bệnh ung thư da.",
+      "C": "Bình thường, tùy sở thích mỗi người.",
+      "D": "Đúng, đội mũ sẽ làm hỏng kiểu tóc."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá và bác bỏ quan điểm sai lầm về giới tính trong việc bảo vệ sức khỏe khỏi tác hại của tia cực tím.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 54,
+    "question": "Sau khi đi ngoài nắng nóng về, bạn Hùng lập tức mở tủ lạnh, lấy chai nước đá tu một hơi cạn sạch và đứng vào ngay trước quạt thổi mạnh. Hành vi của Hùng có tốt không?",
+    "options": {
+      "A": "Rất tốt, giúp hạ nhiệt độ cơ thể nhanh nhất.",
+      "B": "Chưa tốt, việc thay đổi nhiệt độ đột ngột dễ gây sốc nhiệt, viêm họng hoặc cảm lạnh.",
+      "C": "Bình thường, ai cũng làm thế.",
+      "D": "Tốt vì giải tỏa cơn khát."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá được tính chất nguy hiểm của việc làm mát và bù nước đột ngột (sốc nhiệt lạnh) sau khi đi nắng về.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 55,
+    "question": "Trường tổ chức cắm trại. Lều của đội em dựng ngay dưới bóng mát của cây bàng lớn thay vì dựng giữa bãi cỏ trống nắng gắt. Quyết định chọn chỗ dựng lều của đội trưởng là đúng hay sai?",
+    "options": {
+      "A": "Sai, vì ở bãi cỏ trống chụp ảnh mới sáng.",
+      "B": "Đúng, bóng cây sẽ giúp lều mát mẻ, tránh được ánh nắng gắt trực tiếp.",
+      "C": "Sai, dưới gốc cây rất nhiều lá rụng.",
+      "D": "Bình thường."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá cao hành vi chủ động tìm kiếm và sử dụng không gian mát mẻ để trú ẩn trong các hoạt động ngoài trời.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 56,
+    "question": "Bạn Linh thoa kem chống nắng rất kỹ ở mặt, nhưng lại quên thoa ở vùng cổ, gáy và cánh tay. Nhận xét về cách bảo vệ của Linh?",
+    "options": {
+      "A": "Cách này hoàn hảo vì chỉ có mặt mới quan trọng.",
+      "B": "Chưa đúng, tia UV có thể làm tổn thương bất kỳ vùng da hở nào, nên cần thoa đều cả cổ, gáy và tay chân.",
+      "C": "Rất tiết kiệm kem chống nắng.",
+      "D": "Linh làm vậy để cổ nhanh đen hơn."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá được sự thiếu sót trong kỹ năng thực hành bảo vệ cơ thể, giúp học sinh nhận thức sự bảo vệ toàn diện.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 57,
+    "question": "Chuẩn bị đi nghỉ mát ở biển vào tuần tới, em sẽ tự giác sắp xếp những đồ vật cá nhân nào vào balo của mình?",
+    "options": {
+      "A": "Đồ chơi, truyện tranh, bút màu.",
+      "B": "Kính bơi, áo khoác dày, khăn len.",
+      "C": "Mũ rộng vành, kính râm chống UV, bình nước cá nhân và kem chống nắng.",
+      "D": "Ô to, ghế sofa, ti vi."
+    },
+    "answer": "C",
+    "explanation": "Vận dụng kiến thức để tự chuẩn bị bộ dụng cụ an toàn chống nắng đầy đủ và thiết thực cho một chuyến đi.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 58,
+    "question": "Tháng trước em bị cháy nắng rát đỏ hai cánh tay vì mặc áo cộc tay phơi nắng ngoài đồng. Để điều này không lặp lại, bài học phản tư của em là gì?",
+    "options": {
+      "A": "Lần sau sẽ mặc áo chống nắng dài tay hoặc dùng kem chống nắng kỹ hơn ở tay.",
+      "B": "Lần sau sẽ mặc áo cộc tay nhưng chạy nhanh hơn.",
+      "C": "Cháy nắng không sao, vài ngày là khỏi.",
+      "D": "Sẽ chuyển sang chơi vào ban đêm hoàn toàn."
+    },
+    "answer": "A",
+    "explanation": "Phản tư cá nhân từ một tổn thương vật lý để đề ra biện pháp khắc phục cụ thể bằng áo chống nắng/kem.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 59,
+    "question": "Trong lớp, một bạn bị mệt lả và đổ mồ hôi nhiều sau giờ thể dục dưới nắng. Vận dụng kiến thức an toàn, em sẽ giúp bạn bằng cách nào?",
+    "options": {
+      "A": "Kêu bạn cố chạy tiếp cho khỏe.",
+      "B": "Đưa bạn vào chỗ mát, nới lỏng cổ áo, quạt mát nhẹ nhàng và cho bạn uống nước từng ngụm nhỏ.",
+      "C": "Lấy nước đá lạnh hắt vào mặt bạn.",
+      "D": "Đi về lớp và bỏ mặc bạn."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng quy trình sơ cứu cơ bản khi gặp người có dấu hiệu kiệt sức do nhiệt để giúp đỡ bạn bè.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 60,
+    "question": "Gia đình em định tổ chức tiệc nướng ngoài trời. Vận dụng hiểu biết về cường độ tia UV, em sẽ khuyên bố mẹ chọn khung giờ nào?",
+    "options": {
+      "A": "12 giờ trưa cho nắng ấm.",
+      "B": "1 giờ chiều để chụp ảnh cho sáng.",
+      "C": "Sau 4-5 giờ chiều khi nắng đã dịu, hoặc làm vào buổi tối.",
+      "D": "11 giờ trưa."
+    },
+    "answer": "C",
+    "explanation": "Vận dụng kiến thức về giờ cao điểm tia UV vào việc lên kế hoạch sinh hoạt chung cho cả gia đình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Vui chơi an toàn dưới nắng"
+  },
+  {
+    "number": 61,
+    "question": "Những đồ vật nào dưới đây được xếp vào nhóm 'đồ vật sắc, nhọn' dễ gây thương tích?",
+    "options": {
+      "A": "Bóng bay, búp bê, thú nhồi bông.",
+      "B": "Dao, kéo, kim khâu, đinh sắt.",
+      "C": "Gối bông, chăn ấm, khăn quàng.",
+      "D": "Quyển sách, hộp bút, cục tẩy."
+    },
+    "answer": "B",
+    "explanation": "Nhận biết các dụng cụ có lưỡi sắc hoặc đầu nhọn thường gặp trong gia đình (dao, kéo, kim, đinh) là bước đầu tiên để phòng tránh.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 62,
+    "question": "Khi muốn đưa kéo cho người khác, em nên cầm ở phần nào của chiếc kéo?",
+    "options": {
+      "A": "Cầm ở phần mũi nhọn và chĩa mũi nhọn vào người nhận.",
+      "B": "Cầm ở phần lưỡi kéo (ép chặt hai lưỡi lại) và đưa phần tay cầm về phía người nhận.",
+      "C": "Cầm ở một bên tay cầm rồi ném cho người nhận.",
+      "D": "Không cầm kéo mà nhờ người khác lấy giúp."
+    },
+    "answer": "B",
+    "explanation": "Đây là quy tắc cơ bản khi trao vật sắc nhọn: giữ phần lưỡi nguy hiểm và đưa phần cán an toàn cho người đối diện.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 63,
+    "question": "Sau khi sử dụng xong dao hoặc kéo thủ công, em cần làm gì với chúng?",
+    "options": {
+      "A": "Vứt bừa bãi trên sàn nhà.",
+      "B": "Để lung tung trên giường ngủ.",
+      "C": "Cất ngay ngắn vào hộp đựng hoặc giá treo quy định, xa tầm tay em nhỏ.",
+      "D": "Giấu vào dưới gầm ghế."
+    },
+    "answer": "C",
+    "explanation": "Biết cách bảo quản đúng chỗ đồ vật sắc nhọn để không gây ra các tai nạn đạp phải hoặc cắt nhầm ngoài ý muốn.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 64,
+    "question": "Khi vô tình làm vỡ một chiếc cốc thủy tinh, em nên làm gì đầu tiên?",
+    "options": {
+      "A": "Dùng tay không nhặt các mảnh vỡ.",
+      "B": "Đứng im, cảnh báo cho người xung quanh không đến gần và gọi người lớn giúp dọn dẹp.",
+      "C": "Đá các mảnh vỡ vào một góc.",
+      "D": "Bỏ chạy đi chơi."
+    },
+    "answer": "B",
+    "explanation": "Mảnh kính vỡ rất sắc và khó nhìn thấy. Biết gọi người lớn và cảnh báo là cách tự vệ an toàn nhất.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 65,
+    "question": "Tại sao em tuyệt đối không được vừa cầm vật sắc nhọn (như dao, kéo, que xiên) vừa chạy nhảy đùa giỡn?",
+    "options": {
+      "A": "Vì chạy nhảy sẽ làm đồ vật nhanh hỏng.",
+      "B": "Vì nếu vấp ngã, vật nhọn có thể đâm vào mắt, cơ thể em hoặc bạn bè, gây thương tích nghiêm trọng.",
+      "C": "Vì đồ vật sẽ bị rơi mất.",
+      "D": "Vì sẽ làm bẩn tay."
+    },
+    "answer": "B",
+    "explanation": "Hiểu được mối liên hệ giữa động tác chạy nhảy (dễ mất thăng bằng) và độ sát thương của vật nhọn nếu bị té ngã.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 66,
+    "question": "Vì sao các dụng cụ như dao, kéo trong bếp cần được để trên giá cao hoặc trong ngăn kéo có khóa?",
+    "options": {
+      "A": "Để dao kéo trông sạch sẽ hơn.",
+      "B": "Để tiết kiệm diện tích bếp.",
+      "C": "Để trẻ em nhỏ, chưa nhận thức được sự nguy hiểm, không thể lấy và nghịch ngợm.",
+      "D": "Để dao kéo nhanh khô."
+    },
+    "answer": "C",
+    "explanation": "Hiểu nguyên lý bảo vệ thụ động: đặt vật nguy hiểm ngoài tầm với là biện pháp an toàn cốt lõi đối với trẻ nhỏ.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 67,
+    "question": "Khi dùng dao rọc giấy, tại sao em chỉ nên đẩy lưỡi dao ra một đoạn thật ngắn vừa đủ dùng?",
+    "options": {
+      "A": "Vì để dao rọc giấy được sắc hơn.",
+      "B": "Vì đẩy lưỡi dao ra quá dài sẽ dễ làm lưỡi gãy văng vào mắt và khó điều khiển, dễ cứa vào tay.",
+      "C": "Để tiết kiệm phần lưỡi dao bên trong.",
+      "D": "Để dao rọc giấy trông đẹp hơn."
+    },
+    "answer": "B",
+    "explanation": "Hiểu cơ chế hoạt động của dao rọc giấy mỏng, dài rất dễ gãy gập, gây nguy hiểm khôn lường.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 68,
+    "question": "Tại sao em không nên dùng răng để cắn đứt sợi chỉ hoặc mở các nắp hộp bằng kim loại?",
+    "options": {
+      "A": "Vì sẽ làm sợi chỉ bị ướt.",
+      "B": "Vì hộp kim loại có mùi không thơm.",
+      "C": "Vì răng em có thể bị mẻ, nướu bị cắt chảy máu, thậm chí bị nhiễm trùng.",
+      "D": "Vì em không có đủ sức."
+    },
+    "answer": "C",
+    "explanation": "Hiểu rằng răng và miệng là những bộ phận mềm, rất dễ bị tổn thương bởi ma sát sắc bén từ chỉ và cạnh kim loại.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 69,
+    "question": "Em đang dùng kéo thủ công cắt giấy. Em trai 3 tuổi chạy đến đòi giành lấy chiếc kéo. Em sẽ quyết định làm gì?",
+    "options": {
+      "A": "Đưa ngay cho em để em không khóc.",
+      "B": "Giằng co chiếc kéo với em.",
+      "C": "Nhẹ nhàng giấu kéo ra sau lưng, gọi người lớn đến dỗ em và giải thích kéo không phải đồ chơi.",
+      "D": "Ném chiếc kéo thật xa."
+    },
+    "answer": "C",
+    "explanation": "Quyết định xử lý thông minh để tránh giằng co gây đứt tay, đồng thời giữ an toàn cho trẻ nhỏ hơn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 70,
+    "question": "Mẹ nhờ em lấy giúp con dao gọt hoa quả trên bàn. Bàn đang hơi tối. Em nên làm gì?",
+    "options": {
+      "A": "Quờ quạng tay vào bóng tối trên bàn để tìm.",
+      "B": "Bật đèn sáng, nhìn rõ vị trí con dao rồi mới cẩn thận cầm phần cán dao.",
+      "C": "Bảo mẹ tự ra mà lấy.",
+      "D": "Dùng cây gậy đập mạnh lên bàn cho dao rơi xuống."
+    },
+    "answer": "B",
+    "explanation": "Quyết định đảm bảo đủ ánh sáng khi tiếp xúc với vật sắc nhọn để tránh cầm nhầm vào lưỡi dao.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 71,
+    "question": "Em đang gọt bút chì bằng dao gọt, đột nhiên bạn ngồi cạnh gọi to tên em. Em nên làm gì?",
+    "options": {
+      "A": "Vừa tiếp tục gọt vừa quay mặt sang nói chuyện với bạn.",
+      "B": "Dừng tay gọt, đặt dao xuống bàn rồi mới quay sang trả lời bạn.",
+      "C": "Giật mình quăng dao đi.",
+      "D": "Lấy dao gọt bút chì đùa chỉ vào bạn."
+    },
+    "answer": "B",
+    "explanation": "Quyết định dừng hành động nguy hiểm khi mất tập trung. Sử dụng dao cần sự tập trung 100%.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 72,
+    "question": "Khi đang ăn thịt xiên nướng, em thấy có một bạn ngậm que xiên bằng tre nhọn trong miệng và chạy nhảy. Em sẽ làm gì?",
+    "options": {
+      "A": "Chạy lại chơi cùng bạn.",
+      "B": "Khen bạn ngậm que hay quá.",
+      "C": "Khuyên bạn: 'Cậu lấy que ra đi, vừa ngậm vừa chạy ngã một cái là que đâm vào họng nguy hiểm lắm!'.",
+      "D": "Tự lấy một que ngậm giống bạn."
+    },
+    "answer": "C",
+    "explanation": "Quyết định can thiệp an toàn dựa trên hiểu biết về nguy cơ đâm xuyên của vật nhọn khi ngã.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 73,
+    "question": "Hành vi dùng dao lam hoặc mảnh kính vỡ để gọt bút chì vì 'như thế mới ngầu' của một số bạn học sinh là đáng khen hay đáng phê phán?",
+    "options": {
+      "A": "Đáng khen vì các bạn rất sáng tạo.",
+      "B": "Đáng khen vì tiết kiệm tiền mua gọt bút chì.",
+      "C": "Rất đáng phê phán và cực kỳ nguy hiểm vì dễ làm đứt tay sâu, mất máu nhiều.",
+      "D": "Bình thường, không có gì để nói."
+    },
+    "answer": "C",
+    "explanation": "Đánh giá mức độ nghiêm trọng của hành vi sử dụng công cụ không chuyên dụng, không an toàn.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 74,
+    "question": "Một người thợ sau khi dùng xong đinh và ốc vít đã cẩn thận dùng nam châm quét qua khu vực làm việc để thu gom. Em nghĩ hành động này có ý nghĩa gì?",
+    "options": {
+      "A": "Hành động thừa thãi, tốn thời gian.",
+      "B": "Hành động rất an toàn, giúp tránh việc trẻ nhỏ hay người khác dẫm phải đinh nhọn sót lại trên sàn.",
+      "C": "Để khoe mình có cục nam châm tốt.",
+      "D": "Để bán ve chai."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá cao phương pháp thu dọn triệt để vật liệu kim loại nhọn, bảo vệ an toàn cho môi trường xung quanh.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 75,
+    "question": "Bạn Cúc bị xước tay do quẹt phải cạnh chiếc bàn bằng tôn sắt mỏng đã cũ, bị gỉ và cong vênh. Dù chảy ít máu nhưng bạn vẫn nhờ cô giáo rửa và sát trùng vết thương kỹ. Bạn Cúc làm thế là đúng hay sai?",
+    "options": {
+      "A": "Sai, vì xước nhẹ thì kệ nó tự khỏi.",
+      "B": "Đúng, vì vết xước từ kim loại gỉ sét rất dễ bị nhiễm trùng uốn ván, cần xử lý y tế ngay.",
+      "C": "Sai, bạn Cúc quá nhút nhát.",
+      "D": "Đúng, nhưng chỉ để được cô giáo quan tâm."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá đúng ý thức sơ cứu y tế, hiểu được nguy cơ nhiễm trùng đặc thù từ vật sắc nhọn gỉ sét.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 76,
+    "question": "Thấy em bé làm vỡ bát ăn cơm bằng sứ, anh trai liền dùng chổi và gầu hót quét sạch mảnh vỡ lớn, sau đó dùng giẻ ướt lau kỹ sàn nhà. Em nhận xét gì về cách xử lý của người anh?",
+    "options": {
+      "A": "Chưa tốt, vì lau giẻ ướt làm sàn nhà trơn.",
+      "B": "Rất tốt, quét mảnh lớn và dùng giẻ ướt sẽ lấy đi được cả những mảnh vụn sứ nhỏ li ti gây xước chân.",
+      "C": "Quá mất thời gian.",
+      "D": "Chỉ cần dùng tay nhặt là được."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá phương pháp thu dọn vật sắc nhọn khoa học, tỉ mỉ và an toàn tuyệt đối.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 77,
+    "question": "Trong hộp bút của em có compa và bút chì gọt rất nhọn. Từ bài học, em sẽ làm gì để đảm bảo an toàn cho túi sách và bản thân khi cất vào cặp?",
+    "options": {
+      "A": "Vứt thẳng compa và bút vào đáy cặp không cần hộp.",
+      "B": "Cắm đầu nhọn của compa vào cục tẩy và đậy nắp hộp bút cẩn thận.",
+      "C": "Mang hộp bút đi ném nhau với bạn.",
+      "D": "Bẻ gãy đầu bút chì cho an toàn."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng kiến thức bọc đầu nhọn vào thực tế bảo quản đồ dùng học tập hàng ngày.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 78,
+    "question": "Lần trước em đã vô ý dùng tay ấn mạnh nắp lon nước ngọt bật nắp khiến ngón tay bị xước. Lần tới, em rút ra bài học sẽ mở lon như thế nào?",
+    "options": {
+      "A": "Nhờ người lớn mở giúp hoặc dùng một chiếc thìa nhỏ để bẩy nắp nhẹ nhàng.",
+      "B": "Lấy răng cắn để mở nắp lon.",
+      "C": "Đập mạnh lon xuống đất cho bung nắp.",
+      "D": "Dùng dao lớn chém mạnh vào nắp lon."
+    },
+    "answer": "A",
+    "explanation": "Phản tư từ tổn thương ngón tay, tìm ra giải pháp an toàn hơn bằng việc sử dụng công cụ hỗ trợ hoặc nhờ trợ giúp.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 79,
+    "question": "Gia đình em mới mua một bộ dao bếp rất sắc. Vận dụng kiến thức, em sẽ đề xuất với mẹ điều gì để đảm bảo an toàn cho em gái 4 tuổi?",
+    "options": {
+      "A": "Mẹ cứ để bộ dao trên thớt để tiện dùng.",
+      "B": "Mẹ hãy treo bộ dao trên giá cao hoặc cất trong ngăn kéo tủ dưới có khóa chốt nhé.",
+      "C": "Mẹ vứt bớt vài con dao đi.",
+      "D": "Cho em gái tự lấy dao chơi để bé dạn dĩ."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng nguyên tắc an toàn gia đình vào thực tế (cất trên cao hoặc khóa) để phòng tránh rủi ro cho người thân yếu thế.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 80,
+    "question": "Nếu em là trưởng nhóm trang trí lớp học, em sẽ thiết lập một 'quy tắc an toàn' nào khi sử dụng kéo và đinh ghim cho cả nhóm?",
+    "options": {
+      "A": "Được quyền ném đinh ghim cho nhau để làm nhanh hơn.",
+      "B": "Mỗi người giữ một cái kéo và không cần cất đi.",
+      "C": "Quy định một hộp đựng đinh ghim chung, dùng xong phải cắm vào mút xốp và luôn cầm cán kéo khi trao tay.",
+      "D": "Ghim đinh lên quần áo để giữ cho tiện."
+    },
+    "answer": "C",
+    "explanation": "Vận dụng năng lực lãnh đạo và kiến thức an toàn để thiết lập quy tắc hoạt động chung cho nhóm, giảm thiểu rủi ro tập thể.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh tai nạn thương tích do đồ vật sắc, nhọn"
+  },
+  {
+    "number": 81,
+    "question": "Trong gia đình em, khu vực nào thường tiềm ẩn nhiều nguy cơ gây bỏng nhất?",
+    "options": {
+      "A": "Phòng ngủ.",
+      "B": "Phòng bếp (nơi nấu ăn, có bếp ga, phích nước nóng).",
+      "C": "Phòng khách.",
+      "D": "Ban công."
+    },
+    "answer": "B",
+    "explanation": "Bếp là nơi chứa các nguồn nhiệt trực tiếp (bếp lửa, lò nướng, nước sôi), là môi trường rủi ro cao về bỏng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 82,
+    "question": "Hành động nào dưới đây rất nguy hiểm, có thể làm em bị bỏng nặng?",
+    "options": {
+      "A": "Uống nước lọc để nguội.",
+      "B": "Tự ý kéo dây điện của ấm đun nước siêu tốc đang sôi.",
+      "C": "Rửa tay bằng nước vòi lạnh.",
+      "D": "Mặc quần áo dài tay."
+    },
+    "answer": "B",
+    "explanation": "Kéo dây điện ấm đun nước dễ làm ấm đổ sập, gây bỏng diện rộng nghiêm trọng bởi nước đang sôi 100 độ.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 83,
+    "question": "Nếu vô tình bị chạm tay vào nồi canh nóng, bước sơ cứu ĐẦU TIÊN và QUAN TRỌNG NHẤT em cần làm là gì?",
+    "options": {
+      "A": "Bôi ngay kem đánh răng hoặc nước mắm lên vết bỏng.",
+      "B": "Ngâm hoặc xả tay dưới vòi nước mát sạch từ 15-20 phút.",
+      "C": "Lấy đá lạnh chườm trực tiếp lên vết bỏng.",
+      "D": "Quấn chặt vết bỏng bằng vải dày."
+    },
+    "answer": "B",
+    "explanation": "Nước mát giúp hạ nhiệt nhanh, giảm tổn thương mô. Không chườm đá hay bôi hóa chất lạ gây hại thêm cho da.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 84,
+    "question": "Vật dụng nào sau đây được dùng để lót tay khi bưng bê đồ ăn nóng hổi từ bếp ra?",
+    "options": {
+      "A": "Khăn voan mỏng hoặc giấy mỏng.",
+      "B": "Lót tay bằng vải bông dày (găng tay cách nhiệt).",
+      "C": "Túi nilon.",
+      "D": "Bàn tay trần."
+    },
+    "answer": "B",
+    "explanation": "Găng tay cách nhiệt bằng vải bông dày là vật dụng tiêu chuẩn để ngăn nhiệt truyền từ đồ vật nóng sang da tay.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 85,
+    "question": "Vì sao em không nên chạy nhảy đùa giỡn trong bếp khi mẹ đang nấu ăn?",
+    "options": {
+      "A": "Vì sẽ làm mẹ bị phân tâm, em có thể va phải xoong nồi chứa thức ăn nóng, nước sôi gây bỏng.",
+      "B": "Vì em sẽ làm vỡ bát đĩa.",
+      "C": "Vì em sẽ ăn vụng thức ăn của mẹ.",
+      "D": "Vì mẹ sẽ bắt em nấu ăn thay."
+    },
+    "answer": "A",
+    "explanation": "Hiểu sự liên hệ giữa sự chuyển động thiếu kiểm soát trong không gian hẹp (bếp) và nguy cơ va đập vào nguồn nhiệt gây bỏng.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 86,
+    "question": "Tại sao việc bôi kem đánh răng lên vết bỏng lại bị các bác sĩ cảnh báo là hành động SAI LẦM?",
+    "options": {
+      "A": "Vì kem đánh răng rất đắt tiền.",
+      "B": "Vì kem đánh răng có chất tẩy rửa, kiềm, làm vết bỏng tổn thương sâu hơn và dễ nhiễm trùng.",
+      "C": "Vì mùi kem đánh răng không thơm.",
+      "D": "Vì làm kem đánh răng mau hết."
+    },
+    "answer": "B",
+    "explanation": "Hiểu về cơ chế sinh học: bôi hóa chất không chuyên dụng như kem đánh răng gây nóng rát và bít tắc vết thương hở.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 87,
+    "question": "Bỏng bô xe máy (ống xả) thường xảy ra do đâu, và tại sao nó để lại sẹo rất sâu?",
+    "options": {
+      "A": "Do bô xe máy làm bằng nhựa.",
+      "B": "Do vô ý quẹt chân vào bô kim loại đang rất nóng sau khi xe vừa chạy; kim loại truyền nhiệt rất mạnh làm bỏng sâu.",
+      "C": "Do bô xe máy xả khói mù mịt.",
+      "D": "Do đi xe máy dưới trời mưa."
+    },
+    "answer": "B",
+    "explanation": "Hiểu tính chất dẫn nhiệt của kim loại và nhiệt độ cực cao của bô xe, giải thích được mức độ nghiêm trọng của bỏng bô xe.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 88,
+    "question": "Tại sao em cần kiểm tra nhiệt độ nước trước khi bước vào bồn tắm hoặc vòi hoa sen?",
+    "options": {
+      "A": "Để xem nước có sạch không.",
+      "B": "Để xem đồng hồ nước chạy nhanh hay chậm.",
+      "C": "Vì nước từ bình nóng lạnh có thể quá nóng, gây bỏng toàn thân lập tức nếu không thử trước bằng tay/chân nhẹ.",
+      "D": "Để biết nước có vị gì."
+    },
+    "answer": "C",
+    "explanation": "Hiểu rủi ro từ thiết bị điện gia dụng (bình nóng lạnh) để hình thành thói quen cẩn trọng kiểm tra nhiệt độ trước khi tắm.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 89,
+    "question": "Một bạn nhỏ sắp bê một tô phở vừa mới múc nóng hổi rưới nước dùng. Em sẽ khuyên bạn ấy thế nào?",
+    "options": {
+      "A": "'Bê nhanh lên, chạy thật nhanh ra bàn nhé!'.",
+      "B": "'Cậu đừng tự bê, để người lớn bê hoặc lấy đĩa lót ở dưới cho an toàn nhé'.",
+      "C": "'Vừa bê vừa thổi mạnh vào cho nguội'.",
+      "D": "'Bê bằng một tay thôi cho ngầu'."
+    },
+    "answer": "B",
+    "explanation": "Quyết định từ chối hành động rủi ro và tìm kiếm giải pháp thay thế an toàn hơn (nhờ người lớn, dùng đồ lót).",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 90,
+    "question": "Nhà em mới mua một chiếc bàn ủi (bàn là) quần áo. Mẹ vừa ủi xong, vẫn để bàn ủi cắm điện trên mặt bàn. Em nên làm gì?",
+    "options": {
+      "A": "Tò mò đưa tay sờ thử mặt đáy bàn ủi xem nóng cỡ nào.",
+      "B": "Rút phích cắm điện, nhắc mẹ cất lên cao hoặc để gọn vào góc an toàn tránh xa tầm tay em bé.",
+      "C": "Lấy áo của em ra tự ủi tiếp.",
+      "D": "Hắt cốc nước vào bàn ủi cho nhanh nguội."
+    },
+    "answer": "B",
+    "explanation": "Quyết định xử lý nguồn nhiệt nguy hiểm sau khi sử dụng một cách an toàn và chủ động.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 91,
+    "question": "Em đang khát nước nhưng phích nước để trên bàn rất cao. Trong nhà không có ai, em sẽ làm gì?",
+    "options": {
+      "A": "Lấy ghế nhựa chồng lên nhau để trèo lên rót.",
+      "B": "Cố kiễng chân, bám vào thành phích để kéo xuống.",
+      "C": "Không tự ý rót phích nước nóng, tìm nước suối hoặc chờ người lớn về rót giúp.",
+      "D": "Dùng cây chọc vào phích cho nó đổ."
+    },
+    "answer": "C",
+    "explanation": "Quyết định kiềm chế nhu cầu cá nhân, ưu tiên tuyệt đối sự an toàn trước những nguy cơ rủi ro cao khi lấy nước sôi trên cao.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 92,
+    "question": "Bạn Hùng bị đổ nước chè nóng vào đùi. Hùng vội vàng định dùng tay lột chiếc quần đang dính sát vào da ra ngay. Em nên khuyên bạn làm gì?",
+    "options": {
+      "A": "'Cứ lột thật mạnh ra cho nhanh!'.",
+      "B": "'Khoan lột! Hãy xả nước mát lạnh vào thẳng chỗ quần đó trước để làm nguội, rồi lấy kéo cắt quần ra, nếu không sẽ bị lột cả da thịt đấy!'.",
+      "C": "'Cứ để quần ướt đấy cho khô'.",
+      "D": "'Bôi ngay mỡ trăn lên ngoài quần'."
+    },
+    "answer": "B",
+    "explanation": "Quyết định sơ cứu đúng nguyên tắc: không cố bóc tách vải dính vào vết bỏng, mà làm mát qua lớp vải, sau đó mới xử lý.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 93,
+    "question": "Một bạn học sinh hay có thói quen thắp nến trong phòng ngủ và để sát giường, rồi ngủ quên. Em nhận xét hành vi này như thế nào?",
+    "options": {
+      "A": "Rất lãng mạn và thơm phòng.",
+      "B": "Cực kỳ nguy hiểm, ngọn lửa có thể bén vào chăn màn gây hỏa hoạn và bỏng nặng khi đang ngủ.",
+      "C": "Bình thường vì nến rất nhỏ.",
+      "D": "Hợp lý để tiết kiệm điện."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá mức độ rủi ro nghiêm trọng của việc để nguồn lửa trần gần vật liệu dễ cháy trong khi ngủ.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 94,
+    "question": "Khi đi ăn lẩu ở nhà hàng, bạn Minh nghịch ngợm lấy muôi gõ vào nồi lẩu đang sôi sùng sục. Hành vi của Minh là đúng hay sai, vì sao?",
+    "options": {
+      "A": "Đúng, để báo cho phục vụ thêm nước.",
+      "B": "Sai, vì nồi lẩu sôi rất dễ bắn nước dùng nóng vào mặt mũi, tay chân gây bỏng cho mình và người xung quanh.",
+      "C": "Đúng, vì làm không khí vui vẻ hơn.",
+      "D": "Bình thường, ai cũng làm thế."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá hành vi thiếu ý thức tại bàn ăn có nguồn nhiệt trực tiếp, nhận thức được rủi ro văng bắn chất lỏng sôi.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 95,
+    "question": "Để nhắc em nhỏ không đụng vào nồi canh nóng, chị gái đã đặt một chiếc khăn ướt quanh nồi và dặn em tránh xa. Cách xử lý của chị gái là đáng khen hay đáng chê?",
+    "options": {
+      "A": "Đáng chê vì khăn ướt làm bẩn nồi.",
+      "B": "Đáng chê vì chỉ cần hét to là được.",
+      "C": "Đáng khen vì chị biết bảo vệ em nhỏ, tạo rào cản và cảnh báo rõ ràng từ xa.",
+      "D": "Bình thường không có gì đặc biệt."
+    },
+    "answer": "C",
+    "explanation": "Đánh giá cao kỹ năng thiết lập rào cản vật lý và lời nói cảnh báo để bảo vệ trẻ nhỏ khỏi nguồn nhiệt.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 96,
+    "question": "Bố vội ra ngoài nên để quên cốc cà phê pha nước sôi ngay mép bàn phòng khách. Bạn Tuấn thấy vậy liền cẩn thận đẩy sâu cốc vào giữa bàn. Hành động của Tuấn nói lên điều gì?",
+    "options": {
+      "A": "Tuấn muốn uống trộm cà phê của bố.",
+      "B": "Tuấn là người cẩn thận, biết dự phòng rủi ro để cốc nước nóng không bị rơi, lật làm bỏng người đi ngang qua.",
+      "C": "Tuấn sợ làm hỏng bàn.",
+      "D": "Tuấn quá rảnh rỗi."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá đúng ý thức thay đổi vị trí đồ vật chứa nhiệt từ nơi rủi ro cao (mép bàn) vào nơi an toàn (giữa bàn).",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 97,
+    "question": "Áp dụng kiến thức đã học, em sẽ làm thao tác ĐẦU TIÊN nào trước khi bật vòi nước tắm để không bị bỏng?",
+    "options": {
+      "A": "Cởi quần áo và nhảy ngay vào bồn tắm.",
+      "B": "Bật hết cỡ vòi nước nóng đỏ.",
+      "C": "Gạt cần vòi nước sang bên lạnh trước, mở nhẹ, rồi từ từ gạt sang bên nóng, dùng mặt trong cổ tay thử nhiệt độ nước.",
+      "D": "Nhờ người khác tắm hộ."
+    },
+    "answer": "C",
+    "explanation": "Vận dụng quy trình chuẩn khi sử dụng vòi nước nóng lạnh: mở lạnh trước, pha nóng sau và thử bằng vùng da nhạy cảm.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 98,
+    "question": "Từ vụ một bạn nhỏ bị bỏng vì giật khăn trải bàn làm đổ nồi canh nóng, em rút ra bài học thiết kế bữa ăn an toàn tại nhà là gì?",
+    "options": {
+      "A": "Không nên dùng khăn trải bàn lòa xòa khi có trẻ nhỏ, hoặc đặt đồ ăn nóng ra xa tầm với của trẻ.",
+      "B": "Không nấu canh nóng nữa, chỉ ăn đồ nguội.",
+      "C": "Dùng keo dán nồi chặt xuống bàn.",
+      "D": "Không cho trẻ nhỏ ngồi ăn cùng bàn."
+    },
+    "answer": "A",
+    "explanation": "Phản tư từ sự cố thực tế để đưa ra giải pháp phòng ngừa trong tổ chức sinh hoạt gia đình (loại bỏ vật dụng trung gian gây đổ vỡ).",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 99,
+    "question": "Em được giao nhiệm vụ chuẩn bị góc uống nước cho buổi dã ngoại lớp. Vận dụng kiến thức, em sẽ sắp xếp bình nước sôi ở đâu?",
+    "options": {
+      "A": "Đặt ngay cửa ra vào để ai cũng tiện lấy.",
+      "B": "Đặt ở giữa bãi cỏ mọi người đang chơi đuổi bắt.",
+      "C": "Đặt bình nước sôi ở một góc bàn riêng biệt, vững chắc, dán biển cảnh báo 'NƯỚC NÓNG - CẨN THẬN' và nhờ một người lớn phụ trách rót nước.",
+      "D": "Giấu bình nước sôi đi không cho ai uống."
+    },
+    "answer": "C",
+    "explanation": "Vận dụng tổng hợp các biện pháp an toàn không gian, cảnh báo trực quan và kiểm soát tiếp xúc vào việc tổ chức sự kiện tập thể.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 100,
+    "question": "Khi di chuyển trên xe khách, nếu em muốn ăn một bát mì tôm úp nước sôi, dựa trên những gì đã học về nguy cơ bỏng, em sẽ đưa ra lựa chọn nào?",
+    "options": {
+      "A": "Vẫn úp bát mì đầy nước sôi và bưng bằng hai tay khi xe chạy.",
+      "B": "Úp mì bằng nước lạnh rồi đợi mì nở.",
+      "C": "Từ chối ăn mì tôm nước sôi trên xe vì xe rung lắc hoặc phanh gấp sẽ làm nước sôi đổ lên người gây bỏng nặng; chuyển sang ăn bánh mì hoặc đồ ăn khô.",
+      "D": "Nhờ tài xế cầm bát mì giúp."
+    },
+    "answer": "C",
+    "explanation": "Phản tư kết hợp kiến thức từ các kỹ năng khác (rung lắc trên xe) để triệt tiêu hoàn toàn nguồn rủi ro bỏng nước sôi.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng, tránh nguy cơ bỏng, nóng"
+  },
+  {
+    "number": 101,
+    "question": "Khi ngửi thấy mùi khét hoặc thấy khói bốc lên trong nhà, việc ĐẦU TIÊN em cần làm là gì?",
+    "options": {
+      "A": "Tìm xem đồ vật nào đang cháy để tự dập lửa.",
+      "B": "Trốn vào tủ quần áo hoặc gầm giường.",
+      "C": "Hô hoán thật to 'Cháy! Cháy!' để báo cho người lớn và mọi người xung quanh biết.",
+      "D": "Ngồi im và khóc."
+    },
+    "answer": "C",
+    "explanation": "Báo động nhanh chóng cho người xung quanh là hành động sinh tử đầu tiên để nhận được sự trợ giúp thoát hiểm và chữa cháy kịp thời.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 102,
+    "question": "Số điện thoại khẩn cấp của lực lượng Cảnh sát Phòng cháy chữa cháy và Cứu nạn cứu hộ tại Việt Nam là số nào?",
+    "options": {
+      "A": "113",
+      "B": "114",
+      "C": "115",
+      "D": "111"
+    },
+    "answer": "B",
+    "explanation": "Học sinh cần ghi nhớ thuộc lòng số điện thoại 114 để gọi cứu hỏa khi xảy ra hỏa hoạn.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 103,
+    "question": "Biển báo chữ 'EXIT' hoặc 'LỐI THOÁT' thường có màu xanh lá cây phát sáng có ý nghĩa gì?",
+    "options": {
+      "A": "Chỉ đường đi đến khu vui chơi.",
+      "B": "Chỉ hướng đi ra khỏi tòa nhà an toàn nhất khi có trường hợp khẩn cấp.",
+      "C": "Cảnh báo khu vực nguy hiểm, cấm vào.",
+      "D": "Chỉ đường đi đến nhà vệ sinh."
+    },
+    "answer": "B",
+    "explanation": "Nhận diện biển báo lối thoát hiểm giúp học sinh biết hướng di chuyển an toàn trong môi trường lạ khi có sự cố.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 104,
+    "question": "Khi di chuyển thoát nạn trong không gian có nhiều khói, tư thế đúng của em là gì?",
+    "options": {
+      "A": "Đứng thẳng người và chạy thật nhanh.",
+      "B": "Đi thong thả như bình thường.",
+      "C": "Bò trườn hoặc đi khom người thật thấp, áp sát mặt sàn.",
+      "D": "Nhảy lò cò."
+    },
+    "answer": "C",
+    "explanation": "Khói độc nóng nhẹ hơn không khí nên sẽ bốc lên cao; lớp không khí sạch hơn nằm sát mặt sàn. Đi khom/bò giúp tránh ngạt khói.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 105,
+    "question": "Vì sao tuyệt đối KHÔNG ĐƯỢC sử dụng thang máy khi có báo cháy trong tòa nhà cao tầng?",
+    "options": {
+      "A": "Vì thang máy lúc đó đi rất chậm.",
+      "B": "Vì thang máy sẽ rất đông người.",
+      "C": "Vì khi có cháy hệ thống điện sẽ bị cắt, thang máy sẽ dừng đột ngột nhốt người bên trong, và khói sẽ luồn vào buồng thang máy gây ngạt.",
+      "D": "Vì đi thang bộ sẽ khỏe chân hơn."
+    },
+    "answer": "C",
+    "explanation": "Hiểu rõ cơ chế hoạt động của thang máy và hệ thống điện tòa nhà khi có hỏa hoạn để tránh rơi vào bẫy tử thần.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 106,
+    "question": "Tại sao khi chạy thoát khỏi vùng có khói, em cần dùng khăn tẩm nước che kín mũi và miệng?",
+    "options": {
+      "A": "Để không bị mùi khét làm bẩn mặt.",
+      "B": "Khăn ướt hoạt động như một lớp màng lọc, ngăn khói độc và bụi nóng xâm nhập vào đường thở, giúp em không bị ngạt khói.",
+      "C": "Để giấu mặt không ai nhận ra.",
+      "D": "Để khăn nhanh khô."
+    },
+    "answer": "B",
+    "explanation": "Hiểu tác dụng vật lý của nước và vải trong việc cản bụi khói độc, bảo vệ hệ hô hấp - nguyên nhân gây tử vong hàng đầu trong đám cháy.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 107,
+    "question": "Trước khi mở một cánh cửa trong lúc đang thoát hiểm, vì sao em phải dùng mu bàn tay chạm nhẹ vào tay nắm cửa hoặc bề mặt cánh cửa?",
+    "options": {
+      "A": "Để xem cửa có bị bẩn không.",
+      "B": "Để kiểm tra xem phía sau cánh cửa có lửa đang cháy lớn hay không. Nếu cửa nóng, tuyệt đối không mở vì lửa sẽ táp vào người.",
+      "C": "Để gõ cửa xin phép trước khi vào.",
+      "D": "Để làm ấm tay."
+    },
+    "answer": "B",
+    "explanation": "Hiểu nguyên lý truyền nhiệt qua kim loại/vật liệu. Mở cửa nóng sẽ đưa oxy vào làm lửa bùng lên (hiện tượng backdraft) rất nguy hiểm.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 108,
+    "question": "Vì sao các chú lính cứu hỏa thường khuyên em không nên nán lại lấy đồ đạc, đồ chơi khi có cháy?",
+    "options": {
+      "A": "Vì đồ đạc nặng làm em chạy chậm lại.",
+      "B": "Vì đồ chơi đã bị hỏng.",
+      "C": "Vì lửa và khói độc lan cực kỳ nhanh, tính mạng con người là quan trọng nhất, mọi sự chậm trễ đều có thể dẫn đến tử vong.",
+      "D": "Vì sau này sẽ được mua đồ chơi mới."
+    },
+    "answer": "C",
+    "explanation": "Hiểu được sự phát triển nhanh chóng của đám cháy và ưu tiên giá trị sinh mạng cao hơn mọi tài sản vật chất.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 109,
+    "question": "Em đang ở trong phòng học tầng 2 thì nghe chuông báo cháy. Cửa ra vào có khói đen dày đặc. Em nên quyết định làm gì?",
+    "options": {
+      "A": "Nhắm mắt chạy xuyên qua đám khói để ra hành lang.",
+      "B": "Đóng chặt cửa lại, dùng giẻ ướt chèn kín các khe cửa, mở cửa sổ ra ban công và vẫy tay kêu cứu.",
+      "C": "Mở toang cửa lớp để khói bay bớt đi.",
+      "D": "Chui vào gầm bàn và khóc."
+    },
+    "answer": "B",
+    "explanation": "Quyết định xử lý an toàn nhất khi lối thoát đã bị bịt kín bởi khói: chặn khói vào phòng và phát tín hiệu cấp cứu.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 110,
+    "question": "Quần áo của em không may bị bắt lửa và đang bùng cháy. Em lập tức chọn làm hành động nào dưới đây?",
+    "options": {
+      "A": "Chạy thật nhanh để gió thổi tắt lửa.",
+      "B": "Đứng im kêu cứu.",
+      "C": "Thực hiện quy tắc 'Dừng lại, Nằm xuống, Lăn qua lăn lại' (Stop, Drop, and Roll) nhiều vòng trên sàn nhà.",
+      "D": "Nhảy lên cao liên tục."
+    },
+    "answer": "C",
+    "explanation": "Quyết định áp dụng ngay quy tắc dập lửa trên quần áo (lăn để ép thiếu oxy) thay vì chạy (gió sẽ cung cấp oxy làm lửa cháy to hơn).",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 111,
+    "question": "Trên đường chạy thoát khỏi cầu thang bộ, em thấy có một bạn vấp ngã và không đứng lên được. Lửa còn ở khá xa. Em quyết định làm gì?",
+    "options": {
+      "A": "Bỏ chạy qua người bạn để thoát thân một mình.",
+      "B": "Hô to 'Các bạn ơi, giúp một tay!' rồi cùng các bạn hoặc người lớn đỡ bạn dậy, dìu nhau chạy tiếp.",
+      "C": "Đứng lại cười chê bạn hậu đậu.",
+      "D": "Ngồi xuống cạnh bạn chờ lính cứu hỏa."
+    },
+    "answer": "B",
+    "explanation": "Quyết định tương trợ trong lúc hoạn nạn nếu tình huống cho phép và an toàn, thể hiện tinh thần đoàn kết, không bỏ rơi đồng đội.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 112,
+    "question": "Đám cháy nhỏ phát ra từ một chiếc chảo dầu mỡ trên bếp. Trong nhà có bình chữa cháy xách tay bột khô và một xô nước. Người lớn vắng nhà. Em quyết định làm gì?",
+    "options": {
+      "A": "Hắt ngay xô nước vào chảo dầu đang cháy.",
+      "B": "Lấy bình cứu hỏa dập lửa ngay lập tức.",
+      "C": "Không tự chữa cháy, chạy nhanh ra ngoài hô hoán người lớn hoặc gọi 114, vì hắt nước vào chảo dầu cháy sẽ gây nổ bùng.",
+      "D": "Đứng quạt cho chảo dầu tắt lửa."
+    },
+    "answer": "C",
+    "explanation": "Quyết định ưu tiên sơ tán và nhờ trợ giúp (đối với học sinh tiểu học) và nhận biết sự nguy hiểm tuyệt đối của việc tạt nước vào đám cháy dầu mỡ.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 113,
+    "question": "Khi chuông báo cháy reo trong trung tâm thương mại, một nhóm người hoảng loạn xô đẩy dẫm đạp lên nhau để tranh ra thang cuốn trước. Em đánh giá hành vi này như thế nào?",
+    "options": {
+      "A": "Thông minh vì ra nhanh sẽ sống sót.",
+      "B": "Sai và cực kỳ nguy hiểm, hoảng loạn xô đẩy sẽ gây chấn thương nghiêm trọng và làm chậm quá trình thoát hiểm của tất cả mọi người.",
+      "C": "Bình thường vì lúc đó ai cũng sợ.",
+      "D": "Đáng khen vì họ hành động dứt khoát."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá được hậu quả thảm khốc của hiệu ứng đám đông hoảng loạn, nhấn mạnh tầm quan trọng của việc giữ bình tĩnh.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 114,
+    "question": "Thấy bình cứu hỏa treo ngoài hành lang chung cư, một nhóm bạn nam đem ra bấm xịt thử để chơi trò 'phun tuyết'. Hành động của các bạn là đúng hay sai?",
+    "options": {
+      "A": "Đúng, vì để kiểm tra xem bình có hoạt động không.",
+      "B": "Sai, bình chữa cháy là thiết bị an toàn sinh tử, tự ý nghịch làm hết áp suất, khi có cháy thật sẽ không dập lửa được.",
+      "C": "Đúng, trò chơi rất sáng tạo.",
+      "D": "Bình thường."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá tính chất phá hoại trang thiết bị an toàn PCCC, gây nguy hiểm gián tiếp cho toàn bộ khu dân cư.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 115,
+    "question": "Khi vừa thoát ra khỏi ngôi nhà đang cháy an toàn, bạn An bỗng nhớ ra mình để quên chú cún cưng trong phòng ngủ, bèn quay ngược chạy vào lại đám cháy để cứu cún. Em nhận xét thế nào về hành động này?",
+    "options": {
+      "A": "Rất dũng cảm và đáng tuyên dương vì An yêu động vật.",
+      "B": "Hành động cực kỳ liều lĩnh và sai lầm. An không có đồ bảo hộ, quay lại sẽ làm nguy hiểm tính mạng bản thân. Nên báo cho lính cứu hỏa nhờ giúp.",
+      "C": "Chưa tốt vì An nên gọi thêm người vào cùng.",
+      "D": "Bình thường."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá đúng sai lầm kinh điển: tuyệt đối không được phép quay lại không gian đang cháy dưới bất kỳ lý do nào (tiền bạc, thú cưng).",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 116,
+    "question": "Chị Lan khi gọi 114 đã nói: 'Alô 114 ạ? Có cháy ở số 12 đường Trần Phú, phường X, quận Y, nhà 3 tầng, chưa rõ có người bên trong không'. Cách gọi điện báo cháy của chị Lan đã tốt chưa?",
+    "options": {
+      "A": "Chưa tốt vì chị Lan không đọc họ tên mình.",
+      "B": "Chưa tốt vì chị Lan nói quá ngắn gọn.",
+      "C": "Rất xuất sắc, ngắn gọn nhưng cung cấp đầy đủ thông tin sống còn: địa chỉ chính xác, quy mô nhà và tình trạng nạn nhân.",
+      "D": "Chưa tốt, chị nên mắng 114 đến nhanh lên."
+    },
+    "answer": "C",
+    "explanation": "Đánh giá cao kỹ năng thông báo thông tin cấp cứu chuẩn xác, rõ ràng, giúp lực lượng chuyên nghiệp điều động lực lượng phù hợp.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 117,
+    "question": "Dựa trên nguyên lý khói bốc lên cao, nếu nhà em phải đi sơ tán qua một hành lang ngập khói, em sẽ chuẩn bị đồ vật gì từ phòng mình để mang theo trước khi chạy ra?",
+    "options": {
+      "A": "Balo đựng sách vở và máy tính bảng.",
+      "B": "Một chiếc chăn bông thật to trùm lên đầu.",
+      "C": "Một chiếc khăn mặt nhỏ hoặc mảnh vải cotton nhúng đẫm nước để che kín mũi, miệng.",
+      "D": "Một chiếc quạt giấy để quạt khói bay đi."
+    },
+    "answer": "C",
+    "explanation": "Vận dụng kiến thức về cản trở khói độc để tạo ra công cụ bảo hộ hô hấp tự chế từ vật dụng có sẵn.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 118,
+    "question": "Gia đình em vừa chuyển đến một căn hộ chung cư mới ở tầng 15. Áp dụng kỹ năng phòng ngừa rủi ro, việc quan trọng đầu tiên em đề nghị cả nhà cùng làm là gì?",
+    "options": {
+      "A": "Tổ chức tiệc tân gia mời bạn bè.",
+      "B": "Cùng nhau đi bộ tìm hiểu sơ đồ thoát hiểm, vị trí cầu thang bộ và bình chữa cháy ở hành lang tầng nhà mình.",
+      "C": "Trang trí đèn nháy quanh cửa sổ.",
+      "D": "Khóa chặt tất cả các cửa ban công không cho ai ra."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng ý thức phòng bị vào môi trường sống mới, xây dựng phương án thoát hiểm gia đình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 119,
+    "question": "Qua buổi diễn tập PCCC ở trường, em nhận ra mình mất quá nhiều thời gian để tìm khăn tay che mũi. Bài học rút ra cho cuộc sống của em là gì?",
+    "options": {
+      "A": "Diễn tập thôi, có cháy thật tính sau.",
+      "B": "Lần sau không cần lấy khăn tay nữa, cứ nhịn thở mà chạy.",
+      "C": "Sắp xếp một chiếc khăn và chai nước nhỏ ở ngay gần cửa ra vào phòng ngủ hoặc cạnh giường, trong túi áo khoác để luôn sẵn sàng.",
+      "D": "Đề nghị trường không diễn tập nữa."
+    },
+    "answer": "C",
+    "explanation": "Phản tư từ khuyết điểm trong diễn tập thực hành, đề xuất hành động cải tiến cụ thể trong sắp xếp đồ đạc để tăng tốc độ phản ứng.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 120,
+    "question": "Tết đến, bố nhờ em dọn dẹp ban công. Em thấy một đống hộp giấy carton cũ vứt gần cục nóng điều hòa. Từ kiến thức PCCC, em sẽ xử lý đống giấy đó thế nào?",
+    "options": {
+      "A": "Vứt thêm rác vào đống giấy đó cho gọn.",
+      "B": "Xin bố mang hộp carton đi vứt bỏ hoặc bán ve chai, vì giấy dễ cháy để gần cục điện tỏa nhiệt rất dễ gây hỏa hoạn.",
+      "C": "Đốt đống giấy carton ngay tại ban công cho nhanh sạch.",
+      "D": "Giấu đống giấy đi chỗ khác trên ban công."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng hiểu biết về vật liệu dễ cháy (chất đốt) và nguồn nhiệt để triệt tiêu nguy cơ cháy nổ trong chính ngôi nhà mình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh và thoát hiểm khi có hoả hoạn"
+  },
+  {
+    "number": 121,
+    "question": "Vật liệu nào sau đây DẪN ĐIỆN rất tốt, nếu cầm vào khi sửa điện sẽ dễ bị giật?",
+    "options": {
+      "A": "Nhựa, cao su.",
+      "B": "Sứ, thủy tinh.",
+      "C": "Gỗ khô.",
+      "D": "Kim loại (sắt, đồng, nhôm) và nước mặn."
+    },
+    "answer": "D",
+    "explanation": "Kim loại và nước là những chất dẫn truyền dòng điện xuất sắc; biết điều này để không chạm vật dẫn điện vào ổ cắm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 122,
+    "question": "Em tuyệt đối KHÔNG được làm hành động nào với ổ cắm điện trong nhà?",
+    "options": {
+      "A": "Dùng bút thử điện có vỏ nhựa để kiểm tra theo hướng dẫn của người lớn.",
+      "B": "Dùng que sắt, bút bi sắt hoặc ngón tay chọc vào các lỗ của ổ cắm.",
+      "C": "Nhắc em nhỏ tránh xa ổ cắm.",
+      "D": "Báo cho bố mẹ khi thấy ổ cắm bị vỡ vỏ nhựa."
+    },
+    "answer": "B",
+    "explanation": "Chọc vật thể bằng kim loại hoặc ngón tay (có mồ hôi/nước) vào ổ cắm sẽ dẫn điện thẳng vào cơ thể, gây tử vong.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 123,
+    "question": "Trước khi rút hoặc cắm phích điện, tay của em phải ở trong tình trạng như thế nào?",
+    "options": {
+      "A": "Tay đang ướt sũng nước.",
+      "B": "Tay có dính xà phòng trơn trượt.",
+      "C": "Tay phải hoàn toàn khô ráo.",
+      "D": "Tay đang cầm đồ chơi kim loại."
+    },
+    "answer": "C",
+    "explanation": "Nước lã là chất dẫn điện. Tay ướt chạm vào vỏ phích cắm (đôi khi bị hở hoặc rò điện) sẽ cực kỳ dễ bị giật.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 124,
+    "question": "Khi thấy một đường dây điện đứt rơi lủng lẳng ngoài đường, em cần làm gì?",
+    "options": {
+      "A": "Lại gần nhặt dây điện lên xem.",
+      "B": "Tránh xa khu vực đó ít nhất 10 mét, cảnh báo mọi người xung quanh và báo cho người lớn.",
+      "C": "Dùng cành cây chọc vào dây điện.",
+      "D": "Chạy qua lại dưới đoạn dây điện."
+    },
+    "answer": "B",
+    "explanation": "Dây điện đứt rớt xuống đất có thể tạo ra 'điện áp bước' làm giật người đứng gần. Cần tránh xa và cảnh báo.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 125,
+    "question": "Vì sao em không được thả diều gần đường dây điện cao thế?",
+    "options": {
+      "A": "Vì diều sẽ vướng vào dây điện làm đứt dây diều của em.",
+      "B": "Vì dây điện cao thế có lực hút tĩnh điện, dây diều (đặc biệt khi ẩm) vướng vào sẽ truyền điện cao áp xuống người thả, gây cháy sém và tử vong lập tức.",
+      "C": "Vì dây điện làm xấu cảnh quan diều.",
+      "D": "Vì sẽ làm chim chóc sợ bay đi."
+    },
+    "answer": "B",
+    "explanation": "Hiểu bản chất chết người của điện cao áp (có thể phóng điện không cần chạm trực tiếp qua vật dẫn như dây diều ẩm).",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 126,
+    "question": "Tại sao rút phích cắm điện lại KHÔNG NÊN nắm vào phần dây điện để giật mạnh?",
+    "options": {
+      "A": "Vì như vậy dây điện sẽ bị bẩn.",
+      "B": "Vì kéo mạnh dây sẽ làm đứt ngầm lõi đồng bên trong, hoặc làm tuột phích cắm gây hở mạch, chạm chập điện.",
+      "C": "Vì giật dây không tiết kiệm điện.",
+      "D": "Vì làm phích cắm đẹp hơn."
+    },
+    "answer": "B",
+    "explanation": "Hiểu cấu tạo của dây điện (vỏ bọc, lõi đồng) và cơ chế hỏng hóc gây rò rỉ điện do lực tác động sai vị trí.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 127,
+    "question": "Trời đang mưa to sấm chớp, tại sao bố mẹ nhắc em phải rút ăng-ten tivi và phích cắm các thiết bị điện lớn?",
+    "options": {
+      "A": "Để tiết kiệm tiền điện trong lúc mưa.",
+      "B": "Để giảm bớt tiếng ồn trong nhà.",
+      "C": "Vì sét có thể đánh trúng đường dây điện hoặc ăng-ten ngoài trời, truyền dòng điện khổng lồ vào nhà làm cháy nổ thiết bị và giật người.",
+      "D": "Để dọn dẹp nhà cửa cho gọn."
+    },
+    "answer": "C",
+    "explanation": "Hiểu hiện tượng sét lan truyền qua hệ thống dây điện hở ngoài trời, dẫn đến cháy nổ và nguy hiểm tính mạng.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 128,
+    "question": "Vì sao ổ cắm điện thường được lắp cao trên tường hoặc được che bằng nút nhựa an toàn?",
+    "options": {
+      "A": "Để trang trí bức tường.",
+      "B": "Để ngăn nước tràn vào khi lau nhà và để ngoài tầm với của trẻ nhỏ, tránh việc trẻ tò mò thọc vật lạ vào lỗ cắm.",
+      "C": "Để ổ cắm không bị bám bụi.",
+      "D": "Để treo đồ vật lên dễ hơn."
+    },
+    "answer": "B",
+    "explanation": "Hiểu mục đích thiết kế an toàn của các thiết bị điện trong không gian sinh hoạt, phục vụ bảo vệ nhóm yếu thế.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 129,
+    "question": "Em đang tắm nước ấm bằng bình nóng lạnh, bỗng thấy bóng đèn nhà tắm nhấp nháy liên tục và nghe tiếng xẹt xẹt ở bình nóng lạnh. Quyết định của em là gì?",
+    "options": {
+      "A": "Cứ tiếp tục tắm cho xong vì nước vẫn ấm.",
+      "B": "Chỉnh nhiệt độ bình lên cao hơn.",
+      "C": "Lập tức bước ra khỏi nước, không chạm tay ướt vào bình, quấn khăn chạy ra ngoài và báo cho bố mẹ cúp cầu dao điện ngay.",
+      "D": "Tạt nước thẳng vào bình nóng lạnh."
+    },
+    "answer": "C",
+    "explanation": "Quyết định thoát ly ngay khỏi môi trường rủi ro chập rò điện khi có dấu hiệu bất thường, ưu tiên bảo toàn mạng sống.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 130,
+    "question": "Điện thoại của em đang cắm sạc thì bạn rủ gọi video trò chuyện. Em sẽ chọn phương án nào?",
+    "options": {
+      "A": "Rút sạc ra khỏi ổ cắm rồi mới gọi điện thoại cho bạn.",
+      "B": "Vừa cắm sạc vừa ôm điện thoại gọi video hàng giờ đồng hồ.",
+      "C": "Mang cả cục sạc vào phòng tắm để vừa sạc vừa gọi.",
+      "D": "Ngậm đầu dây sạc vào miệng."
+    },
+    "answer": "A",
+    "explanation": "Quyết định xử lý đúng đắn để phòng tránh rủi ro điện thoại chập cháy, nổ pin hoặc rò rỉ điện khi vừa sạc vừa dùng.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 131,
+    "question": "Em thấy một bạn nhỏ đang cắm chung 5 phích cắm điện của bàn là, nồi cơm, quạt máy, tivi vào cùng một ổ cắm nối dài bé xíu. Em sẽ nói gì?",
+    "options": {
+      "A": "'Ổ cắm này xịn đấy, cho tớ cắm ké sạc điện thoại nữa nhé'.",
+      "B": "'Cậu rút bớt ra đi, cắm chung quá nhiều thiết bị sinh nhiệt vào một ổ cắm nhỏ sẽ bị quá tải, gây chập cháy đấy!'.",
+      "C": "'Cắm như thế sẽ làm quạt quay nhanh hơn'.",
+      "D": "'Cậu giấu ổ cắm này vào góc kẹt cho gọn đi'."
+    },
+    "answer": "B",
+    "explanation": "Quyết định can thiệp dứt khoát ngăn chặn hiện tượng quá tải điện - một trong những nguyên nhân cháy nổ hàng đầu.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 132,
+    "question": "Trời mưa ngập đường. Em phải lội nước đi học về. Thấy phía trước có một cột điện chiếu sáng ngập trong vũng nước sâu, em nên đi thế nào?",
+    "options": {
+      "A": "Lội ngay qua vũng nước đó cho mát.",
+      "B": "Bám tay vào cột điện để lội nước khỏi ngã.",
+      "C": "Đi đường vòng hoặc bước lên vỉa hè khô ráo cách thật xa cột điện đó, đề phòng cột rò điện xuống nước.",
+      "D": "Chạy thật nhanh qua vũng nước."
+    },
+    "answer": "C",
+    "explanation": "Quyết định phòng tránh 'điện áp bước' và rò điện dưới nước mặn/bẩn; tự giác chọn lộ trình vòng để đảm bảo an toàn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 133,
+    "question": "Thấy em mình bị giật điện do đụng vào quạt hỏng, anh trai lập tức chạy lại lao vào ôm kéo em ra bằng tay không. Hành động của người anh là đúng hay sai?",
+    "options": {
+      "A": "Rất đúng vì thể hiện tình yêu thương anh em.",
+      "B": "Sai, lao vào ôm sẽ bị dòng điện truyền sang và giật chết cả hai. Anh nên ngắt cầu dao hoặc dùng gậy gỗ khô hất dây điện ra.",
+      "C": "Đúng, vì anh trai lớn hơn nên không bị giật.",
+      "D": "Sai, anh nên bỏ mặc em chạy đi gọi người."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá sai lầm chí mạng trong cứu hộ điện giật: tuyệt đối không tiếp xúc trực tiếp da thịt với nạn nhân khi nguồn điện chưa ngắt.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 134,
+    "question": "Một bạn học sinh dùng cuộn băng dính trong suốt (băng dính gói hàng) quấn quanh sợi dây sạc bị hở lõi đồng để dùng tạm. Việc làm này đánh giá mức độ an toàn thế nào?",
+    "options": {
+      "A": "Rất an toàn và tiết kiệm.",
+      "B": "Thông minh vì băng dính trong sẽ không bị lộ chỗ hỏng.",
+      "C": "Không an toàn, băng dính gói hàng mỏng, không cách điện tiêu chuẩn, nhiệt độ cao sẽ làm chảy băng dính và vẫn gây rò điện.",
+      "D": "Chưa tốt vì nên dùng hồ dán giấy."
+    },
+    "answer": "C",
+    "explanation": "Đánh giá sự nguy hiểm của việc dùng vật liệu thay thế không đúng tiêu chuẩn cách điện, dễ dẫn đến cháy chập bất ngờ.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 135,
+    "question": "Cô giáo yêu cầu bạn Cường ngắt điện máy chiếu sau giờ học. Cường đứng thẳng lưng, một tay túm phần phích cắm bằng nhựa khô ráo và rút dứt khoát khỏi ổ. Cách rút phích cắm của Cường đáng nhận xét thế nào?",
+    "options": {
+      "A": "Chuẩn mực an toàn, tay khô và nắm đúng vị trí cách điện trên phích cắm, không kéo dây.",
+      "B": "Quá mạnh tay, nên rút rề rà.",
+      "C": "Sai, nên cầm vào dây mà giật ra.",
+      "D": "Không cần thiết, cứ để điện máy chiếu suốt ngày."
+    },
+    "answer": "A",
+    "explanation": "Đánh giá kỹ năng thực hành chuẩn xác thao tác rút điện an toàn hàng ngày.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 136,
+    "question": "Mẹ để chiếc máy sấy tóc cắm điện ngay trên nắp bồn rửa mặt đầy nước. Bạn Thuý thấy vậy liền rút điện và cuộn dây cất máy sấy vào ngăn kéo tủ khô ráo. Hành động của Thuý thể hiện điều gì?",
+    "options": {
+      "A": "Thuý thích dọn dẹp nhà cửa.",
+      "B": "Thuý rất hiểu biết, ngăn chặn rủi ro nguy hiểm chết người nếu máy sấy rơi xuống nước đang có người dùng.",
+      "C": "Thuý không thích mẹ sấy tóc.",
+      "D": "Hành động thừa thãi."
+    },
+    "answer": "B",
+    "explanation": "Đánh giá cao ý thức loại bỏ nguy cơ điện kết hợp với môi trường nước, bảo vệ an toàn cho cả gia đình.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 137,
+    "question": "Từ vụ hỏa hoạn do sạc dự phòng, để sạc pin máy tính bảng an toàn qua đêm, em sẽ tự đặt ra quy tắc gì cho bản thân?",
+    "options": {
+      "A": "Sạc ngay trên nệm giường, lấy gối đè lên cho gọn.",
+      "B": "Sạc ở trên bàn học khô ráo, thoáng mát, không có giấy tờ bắt lửa xung quanh, hoặc rút sạc trước khi đi ngủ.",
+      "C": "Sạc trong ngăn kéo tủ đóng kín.",
+      "D": "Vừa cắm sạc vừa dùng mền trùm kín mít."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng kiến thức tản nhiệt và cách ly vật liệu dễ cháy để thiết lập quy tắc sạc thiết bị điện tử cá nhân an toàn.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 138,
+    "question": "Nhà em mới mua một chiếc tủ lạnh. Ứng dụng kỹ năng điện an toàn, em sẽ gợi ý bố dặn thợ điện lắp đặt thêm thiết bị bảo vệ gì riêng cho tủ lạnh?",
+    "options": {
+      "A": "Lắp một cái ổ cắm có dây dài lằng nhằng.",
+      "B": "Lắp cầu dao chống giật (Aptomat/ELCB) và dây tiếp địa (nối đất) để xả dòng rò điện, chống giật khi sờ vỏ kim loại tủ.",
+      "C": "Bôi thật nhiều dầu mỡ vào ổ cắm.",
+      "D": "Không cần thiết bị gì thêm."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng kiến thức an toàn điện nâng cao (dây nối đất, thiết bị ngắt tự động) để cải thiện độ an toàn cho các thiết bị vỏ kim loại.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 139,
+    "question": "Lần trước em đã vô tình đổ nước ra bàn sát ổ cắm điện. Rút kinh nghiệm, mỗi khi mang bình nước tới bàn học, em sẽ hành động như thế nào?",
+    "options": {
+      "A": "Vẫn để cạnh ổ cắm nhưng lau nước ngay khi đổ.",
+      "B": "Để bình nước thật xa các thiết bị điện và ổ cắm điện, luôn vặn chặt nắp bình.",
+      "C": "Bọc nilon ổ điện rồi cứ đổ nước vô tư.",
+      "D": "Không mang nước vào phòng học nữa."
+    },
+    "answer": "B",
+    "explanation": "Phản tư từ sự cố nguy hiểm tiềm tàng, rút ra bài học quy hoạch vị trí vật chứa chất lỏng và đồ điện cách ly nhau.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  },
+  {
+    "number": 140,
+    "question": "Trong trường học, em được phân công bật/tắt quạt. Vận dụng kiến thức an toàn, em sẽ kiểm tra điều gì TRƯỚC và TRONG quá trình thao tác với bảng điện lớp?",
+    "options": {
+      "A": "Bật/tắt thật mạnh để ra oai với bạn bè.",
+      "B": "Lau tay thật khô trước khi bật; chỉ ấn nhẹ nhàng phần nhựa; nếu thấy công tắc nứt vỏ hay xẹt tia lửa điện thì dừng ngay và báo thầy cô.",
+      "C": "Dùng thước kẻ nhôm chọc vào công tắc để bật từ xa.",
+      "D": "Nhắm mắt để bật cho đỡ sợ."
+    },
+    "answer": "B",
+    "explanation": "Vận dụng chuỗi kiến thức (tay khô, cách ly nhựa, quan sát rủi ro rò điện) vào công việc thực tế, đảm bảo an toàn thao tác điện học đường.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị điện giật"
+  }
+]

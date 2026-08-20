@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LessonPlan",
+  "type": "object",
+  "required": [
+    "lesson_id",
+    "package_id",
+    "title",
+    "theme_world",
+    "target_age_range",
+    "total_duration_minutes",
+    "emotional_curve",
+    "nlas_stages",
+    "competency_coverage",
+    "version",
+    "status"
+  ],
+  "properties": {
+    "lesson_id": {
+      "type": "string",
+      "pattern": "^LP-[0-9]{3,}$"
+    },
+    "package_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "theme_world": {
+      "type": "string"
+    },
+    "target_age_range": {
+      "type": "string"
+    },
+    "total_duration_minutes": {
+      "type": "integer",
+      "minimum": 15,
+      "maximum": 25
+    },
+    "emotional_curve": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["phase", "target_emotion", "intensity"],
+        "properties": {
+          "phase": { "type": "string" },
+          "target_emotion": { "type": "string" },
+          "intensity": { "type": "integer", "minimum": 1, "maximum": 10 }
+        }
+      }
+    },
+    "nlas_stages": {
+      "type": "object",
+      "required": [
+        "stage_1_story_hook",
+        "stage_2_mini_game",
+        "stage_3_boss_battle",
+        "stage_4_reflection",
+        "stage_5_challenge"
+      ],
+      "properties": {
+        "stage_1_story_hook": {
+          "type": "object",
+          "required": ["duration_min", "synopsis", "key_characters"],
+          "properties": {
+            "duration_min": { "type": "integer" },
+            "synopsis": { "type": "string" },
+            "key_characters": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "stage_2_mini_game": {
+          "type": "object",
+          "required": ["duration_min", "mechanic_type", "pedagogical_goal"],
+          "properties": {
+            "duration_min": { "type": "integer" },
+            "mechanic_type": { "type": "string" },
+            "pedagogical_goal": { "type": "string" }
+          }
+        },
+        "stage_3_boss_battle": {
+          "type": "object",
+          "required": ["duration_min", "boss_name", "mastery_test_concept"],
+          "properties": {
+            "duration_min": { "type": "integer" },
+            "boss_name": { "type": "string" },
+            "mastery_test_concept": { "type": "string" }
+          }
+        },
+        "stage_4_reflection": {
+          "type": "object",
+          "required": ["duration_min", "reflection_prompt_type"],
+          "properties": {
+            "duration_min": { "type": "integer" },
+            "reflection_prompt_type": { "type": "string" }
+          }
+        },
+        "stage_5_challenge": {
+          "type": "object",
+          "required": ["duration_min", "real_world_task_description"],
+          "properties": {
+            "duration_min": { "type": "integer" },
+            "real_world_task_description": { "type": "string" }
+          }
+        }
+      }
+    },
+    "competency_coverage": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "version": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "QA_PASSED", "HUMAN_APPROVED", "FROZEN"]
+    }
+  }
+}

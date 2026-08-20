@@ -1,0 +1,64 @@
+{
+  "lesson_id": "LP-001",
+  "package_id": "CP-001",
+  "title": "Hành trình Khám phá: Kĩ năng bảo vệ sức khỏe & Chăm sóc cá nhân",
+  "theme_world": "Hành tinh NovaStars - Thung lũng Sáng tạo",
+  "target_age_range": "6-7",
+  "total_duration_minutes": 20,
+  "emotional_curve": [
+    {
+      "phase": "Hook",
+      "target_emotion": "Tò mò",
+      "intensity": 8
+    },
+    {
+      "phase": "Practice",
+      "target_emotion": "Thách thức nhẹ",
+      "intensity": 6
+    },
+    {
+      "phase": "Boss",
+      "target_emotion": "Quyết tâm & Hồi hộp",
+      "intensity": 9
+    },
+    {
+      "phase": "Reflection",
+      "target_emotion": "Tự hào & Bình yên",
+      "intensity": 7
+    }
+  ],
+  "nlas_stages": {
+    "stage_1_story_hook": {
+      "duration_min": 3,
+      "synopsis": "Bé cùng Gấu Nova phát hiện thử thách về Kĩ năng bảo vệ sức khỏe & Chăm sóc cá nhân tại Thung lũng Nova.",
+      "key_characters": [
+        "Bé (Anh hùng Nova)",
+        "Gấu Nova (Companion)"
+      ]
+    },
+    "stage_2_mini_game": {
+      "duration_min": 6,
+      "mechanic_type": "Kéo thả phân loại & Tương tác tình huống",
+      "pedagogical_goal": "Luyện tập kỹ năng cơ bản về Kĩ năng bảo vệ sức khỏe & Chăm sóc cá nhân qua các màn chơi nhận diện."
+    },
+    "stage_3_boss_battle": {
+      "duration_min": 5,
+      "boss_name": "Quái vật Thói quen Xấu (Grumble)",
+      "mastery_test_concept": "Ứng dụng tổng hợp Kĩ năng bảo vệ sức khỏe & Chăm sóc cá nhân để giải quyết 3 câu hỏi tình huống liên hoàn."
+    },
+    "stage_4_reflection": {
+      "duration_min": 3,
+      "reflection_prompt_type": "Ghi âm/Viết ngắn phản tư cá nhân cùng AI Companion"
+    },
+    "stage_5_challenge": {
+      "duration_min": 3,
+      "real_world_task_description": "Thực hiện 1 hành động thực tế về Kĩ năng bảo vệ sức khỏe & Chăm sóc cá nhân tại nhà và chụp ảnh/nhờ phụ huynh xác nhận."
+    }
+  },
+  "competency_coverage": [
+    "SUB-HEALTH-01",
+    "SUB-HEALTH-02"
+  ],
+  "version": "v1.0.0",
+  "status": "FROZEN"
+}

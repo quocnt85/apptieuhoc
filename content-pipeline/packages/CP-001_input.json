@@ -1,0 +1,24 @@
+{
+  "package_id": "CP-001",
+  "skill_name": "Kĩ năng bảo vệ sức khỏe & Chăm sóc cá nhân",
+  "skill_group": "Tự chăm sóc bản thân",
+  "target_grade": 1,
+  "target_age_range": "6-7",
+  "recommended_duration_minutes": 20,
+  "learning_objectives": [
+    "Học sinh hiểu tại sao phải ăn uống đa dạng theo màu sắc thực phẩm.",
+    "Học sinh phân loại được 4 nhóm thực phẩm cơ bản trong bữa ăn hàng ngày."
+  ],
+  "sub_competencies": [
+    {
+      "code": "SUB-HEALTH-01",
+      "name": "Nhận biết thực phẩm theo màu sắc",
+      "description": "Nhận diện và phân loại rau củ quả theo 5 nhóm màu sắc tự nhiên."
+    },
+    {
+      "code": "SUB-HEALTH-02",
+      "name": "Bữa ăn đủ 4 nhóm chất",
+      "description": "Xây dựng dĩa thức ăn cân bằng dinh dưỡng với bột đường, đạm, béo, vitamin."
+    }
+  ]
+}

@@ -1,0 +1,402 @@
+[
+  {
+    "id": 9,
+    "skill_name": "Kĩ năng bảo vệ sức khỏe/chăm sóc sức khỏe cá nhân",
+    "skill_group": "Tự chăm sóc bản thân",
+    "grade_1": "13. Ăn đa dạng theo màu của thực phẩm\n- Học sinh biết tại sao phải ăn uống đa dạng theo màu\n- Phân loại các thực phẩm theo màu sắc\n14. Bữa ăn đủ chất \n(4 nhóm chất)\n",
+    "grade_2": "1. Lên kế hoạch bữa ăn lành mạnh (4 nhóm chất và lượng thích hợp của mỗi nhóm)\n",
+    "grade_3": "1. Đồ ăn vặt tốt cho sức khỏe\n2. Đọc nhãn, mác thực phẩm",
+    "grade_4": "1. Chuẩn bị bữa sáng đầy đủ dinh dưỡng",
+    "grade_5": "\n2. Bữa sáng giàu năng lượng cho 1 ngày học tập hiệu quả"
+  },
+  {
+    "id": 10,
+    "skill_name": null,
+    "skill_group": null,
+    "grade_1": "52. Uống nước đúng cách\n- Nêu được lượng nước cần thiết, cách uống nước tốt cho sức khỏe",
+    "grade_2": null,
+    "grade_3": "1. Uống nước sao cho đúng\n- Lượng nước phù hợp với lứa tuổi\n- Thười điểm uống nước tốt cho sức khỏe\n- Cách uống nước tốt cho sức khỏe",
+    "grade_4": null,
+    "grade_5": null
+  },
+  {
+    "id": 11,
+    "skill_name": null,
+    "skill_group": null,
+    "grade_1": "10. Phòng tránh các bệnh về mắt\n- Học sinh biết tư thế ngồi học, độ sáng, khoảng cách nhìn phù hợp giúp bảo vệ mắt",
+    "grade_2": "1. Sử dụng thiết bị điện tử đúng cách để bảo vệ mắt",
+    "grade_3": "1. Chăm sóc đôi mắt dưới ánh nắng mặt trời\n- Nhận diện nguy cơ hại mắt từ ánh nắng\n- Thực hiện việc làm chăm sóc mắt",
+    "grade_4": "1. Chăm sóc mắt khỏe mạnh\n(Các bài tập rèn luyện, thư giãn giữ thị lực cho mắt)",
+    "grade_5": "2. Phát triển chiều cao tối ưu"
+  },
+  {
+    "id": 12,
+    "skill_name": null,
+    "skill_group": null,
+    "grade_1": "12. Làm thế nào để có 1 giấc ngủ ngon",
+    "grade_2": "1. Các yếu tố giúp giấc ngủ ngon\n2. Làm thế nào để chìm vào giấc ngủ nhanh hơn?",
+    "grade_3": null,
+    "grade_4": null,
+    "grade_5": null
+  },
+  {
+    "id": 13,
+    "skill_name": "Kĩ năng tự lập",
+    "skill_group": null,
+    "grade_1": "61. Chuẩn bị đồ dùng khi đi dã ngoại\n- Nhân biết 1 số đồ dùng cần thiết khi đi dã ngoại\n- 1 số Nguyên tắc chuẩn bị đồ dùng: \n+ ưu tiên nhu cầu cơ bản rồi mới đến đồ dùng theo sở thích. \n+ đảm bảo gọn nhẹ, tiện dụng\n\n53. Xem dự báo thời tiết\n55. Em làm biên tập viên thời tiết\n56. Đi nha sĩ không đáng sợ \n57. Răng của mình biến mất rồi ",
+    "grade_2": "1. Chuẩn bị đồ dùng khi đi du lịch",
+    "grade_3": "1. Sắp xếp đồ dùng vào vali \n(Cách gấp quần áo giúp tiết kiệm diện tích)",
+    "grade_4": "1. Sắp xếp đồ dùng vào vali ",
+    "grade_5": "1. Chuẩn bị trước khi đi du lịch (tìm hiểu về văn hóa, nơi đến, …)"
+  },
+  {
+    "id": 14,
+    "skill_name": "Tuổi dậy thì",
+    "skill_group": null,
+    "grade_1": null,
+    "grade_2": null,
+    "grade_3": "1. Rửa mặt đúng cách\n1. Chế độ dinh dưỡng cho tuổi dậy thì\nPhát triển chiều cao tối ưu",
+    "grade_4": "1. Cơ thể tuổi dậy thì\n2. Tinh thần tuổi dậy thì\n3. Để cơ thể luôn thơm tho, sạch sẽ",
+    "grade_5": "1. Phát triển chiều cao tối ưu\n2. Thay đổi tinh thần tuổi dậy thì\n3. Công bằng giới \n- Nhận biết 1 số định kiến về giới\n- Mạnh dạn chia sẻ quan điểm của mình"
+  },
+  {
+    "id": 1,
+    "skill_name": "Kĩ năng đặt mục tiêu",
+    "skill_group": "Quản lý bản thân",
+    "grade_1": "15. Đặt mục tiêu cho các công việc cá nhân\n- Làm quen với khái niệm mục tiêu\n- Thêm yếu tố số lượng vào mục tiêu để mục tiêu đo lường được",
+    "grade_2": "1. Đặt mục tiêu và chia nhỏ mục tiêu tập thể dục\n'- Làm quen với khái niệm mục tiêu\n- Chia nhỏ mục tiêu để thực hiện ",
+    "grade_3": "1. Đặt mục tiêu trong học tập.\n- Làm quen với khái niệm mục tiêu gần, mục tiêu xa\n ",
+    "grade_4": "1. Đặt mục tiêu vừa sức",
+    "grade_5": "1. 5 yếu tố của 1 mục tiêu hiệu quả\n2. Đặt mục tiêu hiệu quả"
+  },
+  {
+    "id": 2,
+    "skill_name": "Kĩ năng lập kế hoạch",
+    "skill_group": null,
+    "grade_1": "16. Xác định công việc ưu tiên\n- Kể tên được 1 số công việc thường làm\n- Phân loại cv ưu tiên theo tiêu chí: \"CV ưu tiên là những công việc liên quan đến sức khỏe và học tập\"\n17. Thời gian biểu của em\n- Nhắc lại 4 bước của việc lập thời gian biểu\n- Tạo được 1 thời gian biểu cho bản thân ",
+    "grade_2": "1. Thời gian biểu cho các công việc cá nhân ",
+    "grade_3": "1. Lập kế hoạch học tập\n- Biết tiêu chí của 1 bản kế tốt: thứ tự các công việc hợp lý, đơn giản, khả thi (có thể làm được)\n- Đánh giá kế hoạch 3 bước căn cứ vào tiêu chí \n- Tạo 1 kế hoạch 3 bước đơn giản ",
+    "grade_4": "1. Lập kế hoạch\n- Giải thích về mục đích của việc lập kế hoạch: kế hoạch giúp chia nhỏ các nhiệm vụ lớn thành nhỏ hơn, giúp dễ dàng theo dõi và quản lý.\n- Tạo ra 1 kế hoạch 3 bước để thực hiện 1 công việc/mục tiêu",
+    "grade_5": "1. Lập kế hoạch\n- Giải thích về mục đích của việc lập kế hoạch: kế hoạch giúp chia nhỏ các nhiệm vụ lớn thành nhỏ hơn, giúp dễ dàng theo dõi và quản lý.\n- Tạo ra 1 kế hoạch 3 bước để thực hiện 1 công việc/mục tiêu"
+  },
+  {
+    "id": 3,
+    "skill_name": "Kĩ năng quản lý thời gian",
+    "skill_group": null,
+    "grade_1": null,
+    "grade_2": "1. Cân bằng thời gian học tập và vui chơi giải trí",
+    "grade_3": null,
+    "grade_4": "1. Sắp xếp công việc theo thứ tự ưu tiên\n2. Phương pháp quản lí thời gian M.I.T",
+    "grade_5": "1. Phương pháp quản lý thời gian\n(phương pháp pomodoro)\n2. Phương pháp quản lý thời gian\n(ma trận Eisenhower)"
+  },
+  {
+    "id": 4,
+    "skill_name": "Kĩ năng tự nhận thức bản thân",
+    "skill_group": null,
+    "grade_1": "34. Tìm hiểu nét riêng của bản thân\n- Nhận ra điều tạo nên sự đặc biệt của bản thân\n- Nhận ra rằng ai cũng đều đặc biệt \n- Có thể nói về những điều tạo nên sự đặc biệt của bản thân\n47. Nhận thức điểm mạnh, điểm yếu của bản thân",
+    "grade_2": "1. Nhận biết và gọi tên điểm mạnh của bản thân\n2. Nhận thức điểm yếu của bản thân (Tư duy phát triển)",
+    "grade_3": "1. Chủ động nhận nhiệm vụ dựa trên điểm mạnh của bản thân",
+    "grade_4": "1. Tự tin vào chính mình\n2. Tự tin không tự kiêu \n3. Chủ động nhận nhiệm vụ thách thức bản thân",
+    "grade_5": "1. Lòng tự trọng\n2. Tôn trọng bản thân\n3. Nhận thức điểm mạnh, điểm yếu của bản thân (ứng dụng trong làm việc nhóm)"
+  },
+  {
+    "id": 5,
+    "skill_name": "Kĩ năng tự động viên bản thân",
+    "skill_group": null,
+    "grade_1": "1. Suy nghĩ tích cực mỗi ngày\n- Nhìn nhận lại 1 ngày (cảm xúc, những điều tốt đã làm được)\n- Nói ra câu ghi nhận bản thân: Hôm nay mình rất tự hào vì bản thân mình đã…\"\n- Biết 1 số hành động ghi nhận bản thân: lọ tích cực,….",
+    "grade_2": "1. Học cách tự động viên khi gặp khó khăn trong học tập",
+    "grade_3": null,
+    "grade_4": null,
+    "grade_5": "3.  Tự tạo động lực cho bản thân"
+  },
+  {
+    "id": 6,
+    "skill_name": "Kĩ năng học tập ",
+    "skill_group": "Kĩ năng học tập",
+    "grade_1": "1. Nội quy lớp học\n4. Sắp xếp sách vở, đồ dùng gọn gàng\n(Lấy trong tiền tiểu học)\n5. Bảo quản sách vở và đồ dùng cá nhân\n(Lấy trong tiền tiểu học)\n44. Nâng cao sự tập trung\n- Nhận biết một số yếu tố môi trường gây mất tập trung (đồ chơi, …)\n- Chuẩn bị môi trường, trạng thái tốt nhất để sẵn sàng ngồi vào bàn học\n6. Kĩ năng nhờ sự giúp đỡ khi gặp khó khăn trong học tập",
+    "grade_2": "1. Nâng cao sự tập trung\n- Nhận diện các yếu tố có thể gây mất tập trung trong lớp học,,,\n- Sử dụng các câu nhủ để giúp tập trung hơn",
+    "grade_3": "1. Đọc để lấy thông tin hiệu quả\n2. Tại sao tớ cần ôn tập\n3. Cách làm thẻ ôn tập",
+    "grade_4": "1. Phong cách học tập thị giác\n2. Phong cách học tập thính giác\n3. Phong cách học tập vận động\n4. Phong cách học tập đọc, viết\n5. Chuẩn bị môi trường học tập lí tưởng\n6. Cách nâng cao sự tập trung khi học\n\n7. Tìm kiếm sự hỗ trợ khi gặp khó khăn trong học tập\n8. Các phương pháp để theo dõi tiến trình học tập ",
+    "grade_5": null
+  },
+  {
+    "id": 7,
+    "skill_name": "Kĩ năng đọc sách",
+    "skill_group": null,
+    "grade_1": "48. Đọc sách thật thú vị\n- Đi vào thế giới sách, tìm hiểu về những điều thú vị ẩn chứa trong 3 cánh cửa thể loại sách: thơ, truyện cổ tích & truyện ngụ ngôn, truyện phiêu lưu-viễn tưởng\n-Ở mỗi cánh cửa sẽ có trò chơi, tương tác và giải cứu nhân vật\n\n49. Xây dựng niểm yêu thích đọc sách\n- Khám phá 2 cánh cửa còn lại: sách khoa học và sách kiến thức thường thức",
+    "grade_2": "1. Làm thế nào để việc đọc sách dễ dàng hơn? (Duy trì thói quen đọc sách)\n(Khó khăn, tips để duy trì thói quen)",
+    "grade_3": "1. Sắp xếp và bảo quản sách thuận tiện tìm kiếm\n- Sắp xếp và phân loại theo thể loại, 1 số tips bảo quản sách\n2. Giới thiệu về cuốn sách yêu thích \n(Tên, nội dung, bài học)\n3. Thuyết trình về cuốn sách yêu thích của  em\n4. Đọc sách hiệu quả",
+    "grade_4": " 1. Đọc sách nhanh, hiệu quả\n(Kĩ năng đọc lướt)\n2. Ghi chú khi đọc sách (Ghi vào thẻ các nội dung quan trọng)",
+    "grade_5": "1. Kĩ năng tóm tắt sách \n2. Kĩ năng lựa chọn sách phù hợp (với sở thích và nhu cầu của bản thân)\n"
+  },
+  {
+    "id": 8,
+    "skill_name": "Tìm kiếm và xử lý thông tin",
+    "skill_group": null,
+    "grade_1": "1. Nhận diện các biển báo ở nơi công cộng\n- Nhận diện 1 số biển báo thường gặp ở nơi công cộng\n2. Xem dự báo thời tiết\n(Đã có)",
+    "grade_2": "1. Đọc biển chỉ dẫn nơi công cộng (trong trung tâm thương mại)",
+    "grade_3": "1. Đọc bản đồ hướng dẫn để đi đến địa điểm cần (trong trung tâm thương mại)",
+    "grade_4": "1. Sử dụng từ khóa hiệu quả để tìm kiếm thông tin trên Internet",
+    "grade_5": "1. Đánh giá độ tin cậy của nguồn thông tin\n2. Đánh giá độ tin cậy của thông tin\n3. Cách đọc 1 website để lấy thông tin hiệu quả"
+  },
+  {
+    "id": 15,
+    "skill_name": "Kĩ năng giao tiếp",
+    "skill_group": "Giao tiếp và hợp tác",
+    "grade_1": "8. Chơi với bạn thật vui\n- Chia sẻ, trao đổi, phân lượt là cách công bằng để chơi với bạn thật vui\n41. Mời bạn chơi cùng\n- Thể hiện sự đồng cảm với những bạn không được chơi\n- Biết cách mời bạn chơi cùng mình\n7. Kĩ năng nói lời cảm ơn (Nói lời cảm ơn phù hợp với tình huống)\n42. Kĩ năng nói lời xin lỗi\n38. Nói lời chúc mừng năm mới với người thân trong gia đình\n- Biết nói 1 số câu chúc tết phù hợp đối tượng\n- Biết một số phi ngôn từ phù hợp khi nói lời chúc mừng năm mới với người khác\n39  Ứng xử lịch sự trong bữa ăn\n- Biết một số nguyên tắc ứng xử lịch sự trong bữa ăn trong gia đình",
+    "grade_2": "\n1. Ứng xử lịch sự khi đến nhà người khác\n2. Thể hiện sự tôn trọng với những người xung quanh\n- Nhận diện những hành động tôn trọng bản thân và những người xung quanh\n- Thể hiện sự tôn trọng với những người xung quanh\n3. Ứng xử lễ phép với thầy cô\n4. Nói lời chúc mừng năm mới với người thân trong gia đình",
+    "grade_3": "1. Chủ nhà thân thiện, lịch sự (tiếp khách là người lớn)\n2. Khi bạn đến chơi nhà",
+    "grade_4": 1,
+    "grade_5": "1. Ứng xử văn minh trên mạng xã hội"
+  },
+  {
+    "id": 16,
+    "skill_name": "Kĩ năng lắng nghe",
+    "skill_group": null,
+    "grade_1": null,
+    "grade_2": "1. Lắng nghe và hồi đáp ",
+    "grade_3": "1. Lắng nghe và nhận phản hồi 1 cách tích cực",
+    "grade_4": null,
+    "grade_5": null
+  },
+  {
+    "id": 17,
+    "skill_name": "Kĩ năng xây dựng mối quan hệ",
+    "skill_group": null,
+    "grade_1": "2. Làm quen với bạn mới",
+    "grade_2": "1. Kết bạn mới\n2. Cách duy trì tình bạn\n3. Động viên, giúp đỡ bạn",
+    "grade_3": "1. Tôn trọng bạn bè\n2. Các từ ngữ gây tổn thương\n3. Nhận xét, góp ý đúng cách với bạn",
+    "grade_4": "\n1. Hiểu đúng về bạn tốt\n2. Cách để có những người bạn tốt \n3. Cách tham gia vào một nhóm",
+    "grade_5": "1. Kết bạn bốn phương (kết bạn qua mạng an toàn)"
+  },
+  {
+    "id": 18,
+    "skill_name": "Kĩ năng làm việc nhóm",
+    "skill_group": null,
+    "grade_1": null,
+    "grade_2": null,
+    "grade_3": "1. Các nguyên tắc khi làm việc nhóm\n2. Vai trò của các thành viên trong nhóm\n3. Khuyến khích, động viên các thành viên trong nhóm\n4. Chủ động nhận nhiệm vụ dựa trên điểm mạnh",
+    "grade_4": null,
+    "grade_5": null
+  },
+  {
+    "id": 19,
+    "skill_name": "Kĩ năng thuyết trình",
+    "skill_group": null,
+    "grade_1": "\n37. Giới thiệu về bản thân (giới thiệu nét riêng của bản thân)\n- Biết giới thiệu về bản thân đầy đủ các phần: Mở đầu, thân bài, kết thúc\n- Biết một số phi ngôn từ thuyết trình (giọng nói, tay, dáng đứng, mắt nhìn)\n55. Em tập làm biên tập viên thời tiết (tiết 2)\n=> Giới thiệu về 1 chủ đề cho trước",
+    "grade_2": "1. Tìm hiểu về nghề nghiệp mơ ước\n2. Thuyết trình: Ước mơ của em",
+    "grade_3": "1. Kĩ năng trình bày\n2. Cuộc thi thuyết trình về văn hóa Việt Nam\n(Tên, nội dung, bài học)\n3. Cuốn sách yêu thích của em\n4. Thuyết trình về cuốn sách yêu thích của  em",
+    "grade_4": "1. Giới thiệu về cuốn sách yêu thích",
+    "grade_5": "1. Xây dựng dàn ý thuyết trình\n2. Thuyết trình về trách nhiệm của mọi người với các vấn đề toàn cầu"
+  },
+  {
+    "id": 20,
+    "skill_name": "Kĩ năng quản lý tài chính",
+    "skill_group": null,
+    "grade_1": "59. Nhu cầu của chúng ta \n- Nêu những đồ dùng cần thiết cho phục vụ học tập và sinh hoạt\n60. Nhu cầu và mong muốn\n- Phân biệt được nhu cầu và mong muốn",
+    "grade_2": "1. Lập kế hoạch chi tiêu hợp lí\n'- Lên danh sách đồ cần mua phù hợp với nhu cầu\n2. Cách mua sắm hàng hóa\n- Có kĩ năng mua hàng (xem giá cả, kiểm tra hạn sử dụng,…)",
+    "grade_3": "1. Lựa chọn mua sắm thông minh \n=> Lên danh sách đồ cần mua phù hợp với nhu cầu và phù hợp với ngân sách\n2. Thực hành mua sắm thông minh",
+    "grade_4": "1. Người tiêu dùng thông thái\n- Hiểu về quảng cáo\n- Sử dụng tư duy phản biện để phân tích các quảng cáo",
+    "grade_5": "1. Lợi ích của tiết kiệm\n2. Sổ chi tiêu"
+  },
+  {
+    "id": 28,
+    "skill_name": "Tư duy logic",
+    "skill_group": null,
+    "grade_1": "56. Đi nha sĩ không đáng sợ\n- Giới thiệu các vật dụng, chuẩn bị tinh thần đi khám răng, sắp xếp các bước theo trình tự\n66. Sắp xếp theo quy trình\n- Sắp xếp các bước thực hiện cv theo trình tự thực hiện\n- Sắp xếp các bức tranh theo trình tự thời gian (4-5 tranh)",
+    "grade_2": " ",
+    "grade_3": null,
+    "grade_4": null,
+    "grade_5": null
+  },
+  {
+    "id": 29,
+    "skill_name": "Kĩ năng tư duy phản biện và tư duy sáng tạo",
+    "skill_group": null,
+    "grade_1": "20. Tiết kiệm nước",
+    "grade_2": "1. Tiết kiệm điện\n2. Suy nghĩ ra khỏi chiếc hộp\n1. Kĩ năng đặt câu hỏi",
+    "grade_3": "\n1. Lãng phí đồ ăn\n- Sử dụng tư duy phản biện để chỉ ra được nguyên nhân và hậu quả của việc lãng phí đồ ăn\n2. Cách bảo quản thực phẩm thừa trong gia đình\n- Sử dụng tư duy phản biện để được các cách để bảo quản thực phẩm thừa\n3. Lên kế hoạch mua sắm để tránh lãng phí đồ ăn trong gia đình\n- Sử dụng tư duy phản biện để đưa ra cách mua sắm thông minh tránh lãng phí đồ ăn\n4. Nên làm gì với đồ ăn thừa?\n- Biết về kĩ thuật công não để đưa ra nhiều ý tưởng\n- Sử dụng kĩ thuật công não để tạo ra nhiều ý tưởng giải quyết vấn đề làm gì với đồ ăn thừa ở các nhà hàng, quán ăn.\n5. Trình bày về các giải pháp\n6. Kĩ năng đặt câu hỏi",
+    "grade_4": "1. Đặt câu hỏi để làm rõ vấn đề (5W1H)\n2. Kĩ năng tranh biện\n3. Nên hay không nên sử dụng đồ nhựa dùng 1 lần? (Tiết 1) (Lập dàn ý)\n4. Nên hay không nên sử dụng đồ nhựa dùng 1 lần? (Tiết 2) - (Tranh biện)\n5. Ưu và nhược điểm của các giải pháp thay thế cho đồ dùng nhựa dùng 1 lần (2 tiết)\n- Sử dụng tư duy phản biện để đưa ra ưu và nhược điểm của các giải pháp\n6. Sáng tạo các ý tưởng\n- Sử dụng kĩ thuật công não để tạo ra nhiều ý tưởng giải pháp thay thế cho đồ dùng nhựa dùng 1 lần.\n7. Sáng tạo đồ dùng tái chế làm từ nhựa",
+    "grade_5": "1. 6 chiếc mũ tư duy\n2. Ứng dụng 6 chiếc mũ tư duy vào các tình huống cuộc sống\n3. Nên hay không nên sử dụng mạng xã hội?\n4. Tranh biện: Nên hay không nên sử dụng mạng xã hội\n5. Sự phát triển của AI là tốt hay không tốt?\n6. Tranh biện: Sự phát triển của AI là tốt hay không tốt?\n7. Hiện tượng Trái Đất nóng lên\n- Sử dụng tư duy phản biện để chỉ ra nguyên nhân và hậu quả của hiện tượng Trái Đất nóng lên\n8. Để xuất các giải pháp"
+  },
+  {
+    "id": 30,
+    "skill_name": "Tư duy máy tính",
+    "skill_group": null,
+    "grade_1": "67. Làm quen với tư duy máy tính\n=> Hình thành tư duy máy tính: Tách nhỏ công việc cần làm thành các nhiệm vụ nhỏ hơn ",
+    "grade_2": "\n1. Hình thành tư duy máy tính: Tách nhỏ vấn đề\n=> Tách nhỏ công việc cần làm thành các nhiệm vụ nhỏ hơn ",
+    "grade_3": "1. Hình thành tư duy máy tính: Nhận diện quy luật\n- Quan sát quy luật trong cuộc sống và áp dụng vào công việc",
+    "grade_4": "1. Hình thành tư duy máy tính: Khái quát hóa vấn đề\n=> Học cách nhìn tổng quát và bỏ qua những yếu tố khác nhau, chỉ giữ lại những yếu tố chung nhất",
+    "grade_5": "1. Tư duy máy tính: 4 bước của tư duy máy tính\n2. Ứng dụng tư duy máy tính để giải quyết 1 vài tình huống đơn giản"
+  },
+  {
+    "id": 31,
+    "skill_name": "Kĩ năng giải quyết vấn đề",
+    "skill_group": null,
+    "grade_1": "68. Kĩ năng giải quyết vấn đề (Tiết 1)\n'- Bước 1: Sử dụng từ ngữ để miêu tả vấn đề trong tình huống quen thuộc trong đời sống\n- Bước 2: Đưa ra thật nhiều giải pháp để giải quyết vấn đề\n69. Kĩ năng giải quyết vấn đề (Tiết 2)\n- Bước 3: Dự đoán kết quả sử dụng mô hình Nếu-thì\n- Bước 4: Lựa chọn giải pháp hợp lí nhất",
+    "grade_2": "1. Kĩ năng giải quyết vấn đề (Tiết 1)\n'- Bước 1: Sử dụng từ ngữ để miêu tả vấn đề trong tình huống quen thuộc trong học tập\n- Bước 2: Đưa ra thật nhiều giải pháp để giải quyết vấn đề\n2. Kĩ năng giải quyết vấn đề (Tiết 2)\n- Bước 3: Dự đoán kết quả sử dụng mô hình Nếu-thì\n- Bước 4: Lựa chọn giải pháp hợp lí nhất",
+    "grade_3": "1. Kĩ năng giải quyết vấn đề (Tiết 1)\n'- Bước 1: Sử dụng từ ngữ để miêu tả vấn đề trong tình huống (kĩ năng an toàn)\n- Bước 2: Đưa ra thật nhiều giải pháp để giải quyết vấn đề\n2. Kĩ năng giải quyết vấn đề (Tiết 2)\n- Bước 3: Dự đoán kết quả sử dụng mô hình Nếu-thì\n- Bước 4: Lựa chọn giải pháp hợp lí nhất",
+    "grade_4": "1. Kĩ năng giải quyết vấn đề (Tiết 1)\n'- Bước 1: Sử dụng từ ngữ để miêu tả vấn đề trong tình huống trong học tập\n- Bước 2: Đưa ra thật nhiều giải pháp để giải quyết vấn đề\n2. Kĩ năng giải quyết vấn đề (Tiết 2)\n- Bước 3: Dự đoán kết quả sử dụng mô hình Nếu-thì\n- Bước 4: Lựa chọn giải pháp hợp lí nhất",
+    "grade_5": "1. Kĩ năng giải quyết vấn đề (Tiết 1)\n'- Bước 1: Sử dụng từ ngữ để miêu tả vấn đề trong tình huống cuộc sống\n- Bước 2: Đưa ra thật nhiều giải pháp để giải quyết vấn đề\n2. Kĩ năng giải quyết vấn đề (Tiết 2)\n- Bước 3: Dự đoán kết quả sử dụng mô hình Nếu-thì\n- Bước 4: Lựa chọn giải pháp hợp lí nhất"
+  },
+  {
+    "id": 32,
+    "skill_name": "Kĩ năng giải quyết xung đột",
+    "skill_group": null,
+    "grade_1": "43. Làm gì khi có xích mích với bạn",
+    "grade_2": "1. Thỏa thuận và giải quyết mâu thuẫn đơn giản (anh chị em)",
+    "grade_3": null,
+    "grade_4": "1. Giải quyết mâu thuẫn khi làm việc nhóm",
+    "grade_5": null
+  },
+  {
+    "id": 27,
+    "skill_name": "Kĩ năng thuyết phục",
+    "skill_group": null,
+    "grade_1": null,
+    "grade_2": null,
+    "grade_3": null,
+    "grade_4": "\n1. Chuẩn bị lí lẽ thuyết phục \n(Xác định vấn đề, chuẩn bị nội dung, lí lẽ để thuyết phục)\n2. Chiến lược thuyết phục hiệu quả (Xác định mục tiêu, thời điểm thích hợp, thái độ, hỗ trợ)                                                              ",
+    "grade_5": "1. Nói sao cho bố mẹ hiểu (Kĩ năng thuyết phục)"
+  },
+  {
+    "id": 33,
+    "skill_name": "Kĩ năng đối mặt với thất bại",
+    "skill_group": null,
+    "grade_1": "51. Hiểu và chấp nhận thất bại trong các trò chơi\n- Nhận diện cảm xúc của bản thân khi trải qua thất bại\n- Hiểu rằng thất bại là ",
+    "grade_2": "1. Học từ những thất bại đơn giản\n=> Câu hỏi: Tại sao? Làm thế nào để tốt hơn?",
+    "grade_3": "1. Phát triển kĩ năng học từ thất bại\n=> Câu hỏi: Tại sao? Làm thế nào để tốt hơn? ",
+    "grade_4": "1. Phát triển kĩ năng học từ thất bại\n=> Câu hỏi: Tại sao? Làm thế nào để tốt hơn? ",
+    "grade_5": "1. Phát triển kĩ năng học từ thất bại\n=> Câu hỏi: Tại sao? Làm thế nào để tốt hơn? "
+  },
+  {
+    "id": 34,
+    "skill_name": "Trách nhiệm",
+    "skill_group": null,
+    "grade_1": "19. Chuẩn bị trước bữa ăn\n- Tham khảo bài sắp xếp bàn ăn (MGL)",
+    "grade_2": "1. Trông em giúp mẹ (Các lưu ý, nên và không nên, 1 số trò chơi)",
+    "grade_3": "1. Phân loại quần áo trước khi giặt",
+    "grade_4": "1. Sắp xếp thực phẩm gọn gàng, an toàn trong tủ lạnh",
+    "grade_5": "1. Dọn dẹp sau khi ăn"
+  },
+  {
+    "id": 35,
+    "skill_name": "Chịu trách nhiệm",
+    "skill_group": null,
+    "grade_1": "50. Chịu trách nhiệm về đồ dùng cá nhân\n- Biết trách nhiệm của mình trong việc bảo quản đồ dùng cá nhân\n- Biết một số cách bảo quản đồ dùng cá nhân",
+    "grade_2": "1. Chịu trách nhiệm vì hành động của mình (khi làm tổn thương người khác)\n- Biết chịu trách nhiệm cho hành động của mình bằng cách nhận lỗi, xin lỗi và sửa lỗi",
+    "grade_3": "1. Chịu trách nhiệm về công việc được giao",
+    "grade_4": "1. Chịu trách nhiệm trong nhóm",
+    "grade_5": "1. Lãnh đạo và chịu trách nhiệm cho cả nhóm"
+  },
+  {
+    "id": 36,
+    "skill_name": "Kĩ năng an toàn",
+    "skill_group": null,
+    "grade_1": "28. Phòng tránh bị bỏ quên trên xe ô tô\n29. Xử lí khi bị bỏ quên trên xe ô tô\n24. Phòng tránh đi lạc\n25. Xử lí khi bị đi lạc\n23. Phòng tránh bỏng\n21. Phòng tránh thương tích do các đồ vật sắc nhọn\n22. Phòng tránh ngộ độc thực phẩm",
+    "grade_2": "1. Sử dụng thang máy an toàn\n2. Xử lí khi bị mắc kẹt trong thang máy\n3. Phòng tránh nguy cơ bị bắt cóc\n4. Xử lí khi bị bắt cóc\n4. Phòng tránh hỏa hoạn\n5. Phòng tránh ngộ độc hóa chất\n6. Phòng tránh điện giật\n7. Phòng tránh nguy cơ đuối nước\n8. Đi bộ an toàn (an toàn giao thông)",
+    "grade_3": "1. Thoát hiểm khi có hỏa hoạn\n2. Phòng tránh động vật lạ cắn\n3. An toàn khi sử dụng các phương tiện công cộng \n- Kĩ năng ôm đầu cúi thấp\n- Các nguyên tắc an toàn",
+    "grade_4": "1. An toàn khi đi thang cuốn\n2. Cách sang đường an toàn\n3. Đảm bảo an toàn khi đi xe đạp\n4. Phòng tránh đuối nước",
+    "grade_5": "1. Thoát hiểm khi có hỏa hoạn\n2. An toàn đi đường một mình?\n3. Kĩ năng nhận diện những mối quan hệ lành mạnh, không lành mạnh"
+  },
+  {
+    "id": 21,
+    "skill_name": "Kĩ năng sử dụng công nghệ an toàn",
+    "skill_group": null,
+    "grade_1": "64. Nhận diện thông tin cá nhân\n- Nhân diện 1 vài ví dụ về thông tin cá nhân  (tên, địa chỉ, sinh nhật, tuổi, vị trí)\n- Giải thích được tại sao nên hỏi người lớn đáng tin trước khi chia sẻ bất kì thông tin cá nhân nào lên mạng ",
+    "grade_2": "1. An toàn trên mạng\n- Nhận diện thông tin cá nhân\n- Biết một số nguyên tác bảo mật thông tin cá nhân\n2. Nhận biết hành động an toàn, không an toàn trên mạng xã hội",
+    "grade_3": "1. Cách tạo 1 mật khẩu mạnh và an toàn\n2. Nhận biết các nội dung không an toàn",
+    "grade_4": "1. Nhận diện tin giả\n2. Đăng tải thông tin lên mạng xã hội an toàn",
+    "grade_5": "1. Phòng tránh lừa đảo qua mạng (2 tiết)"
+  },
+  {
+    "id": 37,
+    "skill_name": "Phòng tránh xâm hại",
+    "skill_group": null,
+    "grade_1": "26. Nhận diện vùng riêng tư\n",
+    "grade_2": "1. Động chạm an toàn, không an toàn",
+    "grade_3": "1. Báo động phòng tránh xâm hại",
+    "grade_4": "1. 5 báo động xâm hại",
+    "grade_5": "\n1. Làm gì khi có người động chạm không an toàn"
+  },
+  {
+    "id": 38,
+    "skill_name": "Phòng tránh bắt nạt",
+    "skill_group": null,
+    "grade_1": "43. Làm gì khi có xích mích với bạn\n34. Tìm hiểu nét riêng của bản thân\n- Nhận ra điều tạo nên sự đặc biệt của bản thân\n- Nhận ra rằng ai cũng đều đặc biệt \n- Có thể nói về những điều tạo nên sự đặc biệt của bản thân\n47. Nhận thức điểm mạnh, điểm yếu của bản thân\n- Nhận diện những điều mà mình làm tốt\n- Hiểu rằng ai cũng có điểm mạnh và điểm yếu chỉ là những điều hiện tại mình làm chưa tốt nhưng cố gắng thì có thể làm tốt hơn",
+    "grade_2": "1. Nhận thức điểm mạnh, điểm yếu của bản thân\n2. Ai cũng có đặc điểm riêng cần tôn trọng",
+    "grade_3": "1. Miệng xinh nói lời hay\n- Nhận ra các từ ngữ có thể gây tổn thương đến bản thân và những người xung quanh\n2. Những người xung quanh em thật tuyệt vời",
+    "grade_4": "1. Thế nào là bắt nạt?\n2. Làm gì khi bị bắt nạt\n3. Làm gì khi chứng kiến người khác bị bắt nạt?",
+    "grade_5": "1. Nhận biết bắt nạt trực tuyến\n2. Phòng tránh bắt nạt trực tuyến"
+  },
+  {
+    "id": 24,
+    "skill_name": "Kĩ năng sơ cấp cứu cơ bản",
+    "skill_group": null,
+    "grade_1": "1. Làm gì khi bị chảy máu cam?",
+    "grade_2": "1. Làm gì khi bị sốt?",
+    "grade_3": "1. Làm gì khi bị động vật lạ cắn?",
+    "grade_4": "1. Các kĩ năng sơ cấp cứu cơ bản",
+    "grade_5": "1. Các kĩ năng sơ cấp cứu cơ bản"
+  },
+  {
+    "id": 39,
+    "skill_name": "Cảm xúc",
+    "skill_group": "Cảm xúc",
+    "grade_1": "1. Cảm xúc quanh ta\n'- Nhận diện và gọi tên cảm xúc thông qua biểu hiện cơ thể\n",
+    "grade_2": "1. Cảm xúc muôn màu\n- Nhận diện và gọi tên các cảm xúc của người khác dựa vào mặt, cơ thể và tình huống (Tự tin, …)\n- Phân biệt cảm xúc dễ chịu và cảm xúc khó chịu",
+    "grade_3": null,
+    "grade_4": null,
+    "grade_5": null
+  },
+  {
+    "id": 40,
+    "skill_name": "Quản lý cảm xúc",
+    "skill_group": null,
+    "grade_1": "1. Cảm xúc của em\n'- Nhận diện cảm xúc của bản thân thông qua các biểu hiện của cơ thể\n2. Niềm vui đến trường\n- Nhận diện cảm xúc vui vẻ của bản thân\n- Nói Dừng lại và gọi tên cảm xúc là bước đầu tiên để bình tĩnh",
+    "grade_2": "1. Chia sẻ cảm xúc với người khác\n- Nhận diện cảm xúc của bản thân thông qua các biểu hiện của cơ thể\n- Chia sẻ cảm xúc với người khác\n2. Điều chỉnh cảm xúc (cảm xúc bối rối)\n- Nhận diện dấu hiệu khi bản thân có cảm xúc bối rối\n- Nhận diện 2 bước đầu tiên để điều chỉnh cảm xúc: dừng các dấu hiệu và gọi tên cảm xúc\n3. Cảm xúc tự tin\n- Nhận diện biểu hiện và tình huống thể hiện sự tự tin\n- Khám phá khi nào bản thân và những người khác thay đổi cảm xúc",
+    "grade_3": "1. Cảm xúc tức giận\n- Nhận diện dấu hiệu khi bản thân có cảm xúc tức giận\n- Nhận diện 2 bước đầu tiên để điều chỉnh cảm xúc: dừng các dấu hiệu và gọi tên cảm xúc\n2. Điều hòa cảm xúc tức giận\n'- Biết một số cách để điều hòa cảm xúc khi tức giận\n- Luyện tập kĩ thuật thở để điều hòa cảm xúc tức giận\n3. Làm gì khi em cảm thấy bị tổn thương?\n- Nhận diện một số tình huống \n- Biết các hành động nên làm để tránh đưa ra các kết luạn sai lầm:\n+ Lấy lại bình tĩnh bằng các chiến lược \n+ Đưa ra nhiều cách giải thích khác nhau cho các tình huống",
+    "grade_4": "1. Chiến lược giữ bình tĩnh\n'- Nhận diện một số tình huống cần phải giữ bình tĩnh\n- Luyện tập kĩ thuật thở sâu để giữ bình tĩnh\n- Nhận diện một số chiến lược khác để giữ bình tình (đếm, tự động viên,..)\n2. Khi em lo lắng\n'- Nhận diện dấu hiệu khi bản thân có cảm xúc lo lắng\n- Thực hiện các kĩ thuật để làm giảm cảm xúc lo lắng\n3. Đừng kết luận vội vàng\n- Nhận diện một số tình huống (trong gia đình)\n- Biết các hành động nên làm để tránh đưa ra các kết luận sai lầm:\n+ Lấy lại bình tĩnh bằng các chiến lược \n+ Sử dụng các câu tự động viên\n+ Can đảm nói ra nhu cầu, mong muốn của mình",
+    "grade_5": "1. Quản lý cảm xúc\n'- Miêu tả các phản ứng xảy ra của cơ thể và não bộ khi con người trải qua các cảm xúc mạnh \n- Nhận diện dấu hiệu của cá nhân \n- Nhận diện và gọi tên các cảm xúc mạnh\n2. Khi em thất vọng\n'- Nhận diện dấu hiệu khi bản thân có cảm xúc thất vọng\n- Thực hiện các kĩ thuật để làm giảm cảm xúc thất vọng\n3. Tránh phỏng đoán\n- Nhận diện một số tình huống (trường lớp)\n- Biết các hành động nên làm để tránh đưa ra các kết luận sai lầm:\n+ Lấy lại bình tĩnh bằng các chiến lược \n+ Sử dụng các câu tự động viên\n+ Can đảm nói ra nhu cầu, mong muốn của mình"
+  },
+  {
+    "id": 23,
+    "skill_name": "Kĩ năng quản lý căng thẳng",
+    "skill_group": null,
+    "grade_1": null,
+    "grade_2": null,
+    "grade_3": null,
+    "grade_4": null,
+    "grade_5": "1.  Nhận diện các dấu hiệu stress\n2.  Chiến lược vượt qua stress\n3.  Tự tạo động lực cho bản thân"
+  },
+  {
+    "id": 41,
+    "skill_name": "Đồng cảm",
+    "skill_group": null,
+    "grade_1": "1. Thể hiện sự quan tâm và chăm sóc với những người xung quanh (Đồng cảm với những người xung quanh)\n- Lắng nghe, nói lời tốt đẹp và giúp đỡ là 3 cách thể hiện sự quan tâm với người khác",
+    "grade_2": "1. Động viên, giúp đỡ bạn\n- Nhận ra cảm xúc của bạn qua biểu hiện cơ thể, lời nói và tình huống\n- Biết cách để thể hiện sự đồng cảm với bạn trong một vài tình huống thường gặp \n- Biết cách lắng nghe để thể hiện sự quan tâm với người khác\n2. Tôn trọng sự khác biệt",
+    "grade_3": "1. Hiểu góc nhìn của người khác\n- Nhận diện cảm xúc của người khác dựa vào biểu hiện cơ thể, ngôn ngữ, và tình huống.\n- Hiểu rằng mỗi người có thể có những cảm xúc khác nhau trong cùng 1 tình huống\n2. Đồng cảm với những người xung quanh\n- Nhận diện cách để thể hiện sự đồng cảm với người khác trong một vài tình huống \n- Thể hiện sự trân trọng với sự quan tâm của người khác\n3. Tôn trọng ý kiến của người khác (Sự thật và ý kiến)",
+    "grade_4": "1. Thể hiện sự đồng cảm với những người xung quanh\n- Dự đoán cảm xúc của người khác trong tình huống \n- Nhận diện cách để thể hiện sự đồng cảm với người khác trong một vài tình huống\n- Nói lời thể hiện sự quan tâm, chia sẻ với người khác",
+    "grade_5": "1. Thể hiện sự đồng cảm với những người xung quanh\n- Dự đoán cảm xúc của người khác trong tình huống \n- Nhận diện cách để thể hiện sự đồng cảm với người khác trong một vài tình huống\n- Thực hiện những hành động thể hiện sự quan tâm, chia sẻ với người khác"
+  },
+  {
+    "id": 42,
+    "skill_name": "Being assertive\nhttps://www.facebook.com/Havunguyenthao/posts/348124801978693/",
+    "skill_group": null,
+    "grade_1": "1. Mạnh dạn nói ra ý kiến của mình \n(Trong các tình huống quen thuộc trong lớp: Xin đi vệ sinh)\n- Nhận diện tư thế và giọng nói\n+ Tư thế: Nhìn thẳng, đầu ngẩng cao\n+ Giọng nói: bình tĩnh, rõ ràng, tôn trọng",
+    "grade_2": "1. Mạnh dạn nói ra ý kiến của mình\n(Người lớn, ở trường)\n- Biết cách nói ra nhu cầu và mong muốn của mình với (tư thế, giọng nói)\n",
+    "grade_3": "1. Mạnh dạn nói ra ý kiến của mình\n(Ngoài nhà trường)\n- Biết cách nói ra nhu cầu và mong muốn của mình với (tư thế, giọng nói)\n- Xác định người lớn phù hợp để nhờ sự giúp đỡ",
+    "grade_4": "1. Mạnh dạn nêu ra quan điểm của mình",
+    "grade_5": "1. Mạnh dạn nêu ra và bảo vệ quan điểm của mình"
+  },
+  {
+    "id": null,
+    "skill_name": null,
+    "skill_group": null,
+    "grade_1": null,
+    "grade_2": null,
+    "grade_3": null,
+    "grade_4": null,
+    "grade_5": null
+  }
+]

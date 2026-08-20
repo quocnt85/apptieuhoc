@@ -1,0 +1,1682 @@
+[
+  {
+    "number": 1,
+    "question": "Trách nhiệm của em trong gia đình là gì?",
+    "options": {
+      "A": "Chỉ việc học, không cần làm gì khác",
+      "B": "Chia sẻ công việc nhà phù hợp với khả năng",
+      "C": "Đòi hỏi bố mẹ phục vụ",
+      "D": "Tự do vui chơi cả ngày"
+    },
+    "answer": "B",
+    "explanation": "Học sinh tiểu học cần biết giúp đỡ bố mẹ những việc nhỏ vừa sức để thể hiện trách nhiệm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 2,
+    "question": "Việc nào sau đây thể hiện trách nhiệm với gia đình?",
+    "options": {
+      "A": "Vứt đồ chơi bừa bãi",
+      "B": "Tự gấp chăn màn sau khi ngủ dậy",
+      "C": "Chờ người lớn dọn dẹp phòng mình",
+      "D": "Từ chối khi mẹ nhờ quét nhà"
+    },
+    "answer": "B",
+    "explanation": "Tự gấp chăn màn là hành động cụ thể cho thấy ý thức tự giác và trách nhiệm với không gian sống.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 3,
+    "question": "Ai là người cần phải có trách nhiệm trong gia đình?",
+    "options": {
+      "A": "Chỉ có bố mẹ",
+      "B": "Chỉ có ông bà",
+      "C": "Tất cả các thành viên trong gia đình",
+      "D": "Chỉ những người lớn"
+    },
+    "answer": "C",
+    "explanation": "Mọi thành viên, dù lớn hay nhỏ, đều có trách nhiệm đóng góp vào việc xây dựng gia đình hạnh phúc.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 4,
+    "question": "Khi thấy ông bà mệt mỏi, em nên làm gì?",
+    "options": {
+      "A": "Bỏ đi chơi chỗ khác",
+      "B": "Mở tivi thật to",
+      "C": "Hỏi han và lấy nước cho ông bà",
+      "D": "Trêu đùa làm ồn"
+    },
+    "answer": "C",
+    "explanation": "Quan tâm, chăm sóc người thân là biểu hiện quan trọng của tình yêu thương và trách nhiệm gia đình.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 5,
+    "question": "Tại sao em cần phụ giúp công việc nhà?",
+    "options": {
+      "A": "Để được bố mẹ cho tiền",
+      "B": "Vì sợ bị phạt",
+      "C": "Để san sẻ sự vất vả với bố mẹ",
+      "D": "Để khoe với bạn bè"
+    },
+    "answer": "C",
+    "explanation": "Phụ giúp việc nhà giúp gắn kết tình cảm, chia sẻ gánh nặng với người lớn, thể hiện sự hiểu chuyện.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 6,
+    "question": "Điều gì sẽ xảy ra nếu không ai dọn dẹp nhà cửa?",
+    "options": {
+      "A": "Nhà cửa vẫn sạch sẽ tự nhiên",
+      "B": "Không có ảnh hưởng gì",
+      "C": "Nhà cửa bừa bộn, dễ sinh bệnh tật",
+      "D": "Sẽ có người ngoài đến dọn giúp"
+    },
+    "answer": "C",
+    "explanation": "Môi trường sống không được dọn dẹp sẽ trở nên bẩn thỉu, ảnh hưởng tới sức khỏe chung.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 7,
+    "question": "Việc giữ gìn trật tự khi em bé ngủ mang ý nghĩa gì?",
+    "options": {
+      "A": "Tôn trọng không gian và giấc ngủ của người thân",
+      "B": "Sợ bị mẹ mắng",
+      "C": "Thích yên tĩnh",
+      "D": "Không có ý nghĩa gì"
+    },
+    "answer": "A",
+    "explanation": "Giữ im lặng thể hiện sự tinh tế, quan tâm đến nhu cầu nghỉ ngơi của người khác trong gia đình.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 8,
+    "question": "Trách nhiệm gia đình giúp em phát triển đức tính nào?",
+    "options": {
+      "A": "Ích kỷ",
+      "B": "Tự lập và biết quan tâm",
+      "C": "Lười biếng",
+      "D": "Phụ thuộc"
+    },
+    "answer": "B",
+    "explanation": "Khi có trách nhiệm, học sinh sẽ học cách tự làm việc của mình và biết để ý giúp đỡ người xung quanh.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 9,
+    "question": "Sau khi ăn cơm xong, em nên làm gì?",
+    "options": {
+      "A": "Chạy ra xem tivi ngay",
+      "B": "Đợi mẹ dọn bát đĩa",
+      "C": "Giúp thu dọn bát đĩa và lau bàn",
+      "D": "Đi ngủ luôn"
+    },
+    "answer": "C",
+    "explanation": "Chủ động dọn dẹp sau bữa ăn là hành vi đúng đắn, thể hiện việc áp dụng trách nhiệm vào thực tế.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 10,
+    "question": "Mẹ đi làm về mệt, nhưng em lại muốn mẹ nấu món cầu kỳ. Em nên làm gì?",
+    "options": {
+      "A": "Cứ nằng nặc đòi mẹ nấu bằng được",
+      "B": "Khóc lóc ăn vạ",
+      "C": "Hiểu cho mẹ và cùng mẹ nấu món đơn giản",
+      "D": "Bỏ bữa không ăn"
+    },
+    "answer": "C",
+    "explanation": "Cảm thông và điều chỉnh mong muốn của mình cho phù hợp với hoàn cảnh của người lớn là lựa chọn sáng suốt.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 11,
+    "question": "Đồ chơi vứt bừa bãi sau khi em và em trai chơi xong. Em xử lý thế nào?",
+    "options": {
+      "A": "Đổ lỗi cho em trai",
+      "B": "Cùng em trai thu dọn gọn gàng",
+      "C": "Bảo mẹ dọn",
+      "D": "Đá đồ chơi vào gầm giường"
+    },
+    "answer": "B",
+    "explanation": "Hợp tác cùng người chơi dọn dẹp thể hiện tính kỷ luật và trách nhiệm với đồ đạc của gia đình.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 12,
+    "question": "Bố mẹ bận rộn chưa kịp đón em, em nên làm gì?",
+    "options": {
+      "A": "Tự ý đi bộ về nhà",
+      "B": "Khóc lóc giữa trường",
+      "C": "Ngồi đợi ở khu vực an toàn trong trường",
+      "D": "Đi theo người lạ về nhà"
+    },
+    "answer": "C",
+    "explanation": "Bảo vệ an toàn cho bản thân cũng là một cách để bố mẹ yên tâm, thể hiện trách nhiệm với gia đình.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 13,
+    "question": "Lan luôn tự giác làm bài tập mà không cần bố mẹ nhắc nhở. Hành vi này đáng được đánh giá thế nào?",
+    "options": {
+      "A": "Rất đáng khen vì biết tự lập",
+      "B": "Bình thường, ai cũng làm thế",
+      "C": "Không cần thiết phải tự giác",
+      "D": "Chỉ để lấy lòng bố mẹ"
+    },
+    "answer": "A",
+    "explanation": "Tự giác học tập giúp bố mẹ đỡ lo lắng, là biểu hiện tuyệt vời của ý thức trách nhiệm cá nhân trong gia đình.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 14,
+    "question": "Nam thường xuyên cãi lời ông bà và không chịu dọn phòng. Em thấy Nam làm vậy là đúng hay sai?",
+    "options": {
+      "A": "Đúng, vì Nam có quyền tự do",
+      "B": "Sai, vì thiếu tôn trọng ông bà và vô trách nhiệm",
+      "C": "Đúng, vì ông bà quá nghiêm khắc",
+      "D": "Bình thường, trẻ con đều vậy"
+    },
+    "answer": "B",
+    "explanation": "Cãi lời và bừa bộn là hành vi vi phạm chuẩn mực tôn trọng và trách nhiệm trong văn hóa gia đình.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 15,
+    "question": "Hoa thấy mẹ đang xách đồ nặng nhưng Hoa lờ đi vì mải xem điện thoại. Đánh giá hành vi của Hoa:",
+    "options": {
+      "A": "Hành vi vô tâm, thiếu trách nhiệm",
+      "B": "Hành vi bình thường",
+      "C": "Hành vi chấp nhận được",
+      "D": "Hoa làm đúng vì đang bận"
+    },
+    "answer": "A",
+    "explanation": "Không giúp đỡ người thân khi họ cần là sự vô tâm, chưa thực hiện đúng trách nhiệm chia sẻ.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 16,
+    "question": "Tuấn lấy tiền tiết kiệm mua thuốc cho bà khi bà ốm. Hành động này cho thấy Tuấn là người:",
+    "options": {
+      "A": "Lãng phí tiền",
+      "B": "Hiếu thảo và có trách nhiệm",
+      "C": "Thích khoe khoang",
+      "D": "Không biết giữ tiền"
+    },
+    "answer": "B",
+    "explanation": "Sử dụng tài sản cá nhân để chăm sóc sức khỏe người thân là hành vi cực kỳ đáng quý và có trách nhiệm.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 17,
+    "question": "Nếu em muốn rèn luyện tinh thần trách nhiệm gia đình, em sẽ lập kế hoạch gì cho tuần tới?",
+    "options": {
+      "A": "Lên lịch xem phim mỗi tối",
+      "B": "Đăng ký chơi game nhiều hơn",
+      "C": "Lên lịch giúp mẹ rửa bát, đổ rác mỗi ngày",
+      "D": "Xin thêm tiền tiêu vặt"
+    },
+    "answer": "C",
+    "explanation": "Lập kế hoạch làm việc nhà đều đặn là cách vận dụng kiến thức vào thói quen hàng ngày để rèn luyện.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 18,
+    "question": "Gia đình đang gặp khó khăn về tài chính, em nên thay đổi thói quen nào?",
+    "options": {
+      "A": "Vẫn đòi mua đồ chơi đắt tiền",
+      "B": "Tiết kiệm điện, nước và không đòi hỏi mua sắm lãng phí",
+      "C": "Giận dỗi vì không được đi chơi",
+      "D": "Mặc kệ vì đó là việc của người lớn"
+    },
+    "answer": "B",
+    "explanation": "Phản tư và thay đổi lối sống tiết kiệm cho thấy em biết vận dụng trách nhiệm để chia sẻ khó khăn thực tế.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 19,
+    "question": "Trong dịp Tết, để thể hiện trách nhiệm với gia đình, em có thể làm gì?",
+    "options": {
+      "A": "Chỉ đi nhận lì xì",
+      "B": "Ngủ cả ngày",
+      "C": "Cùng bố mẹ dọn dẹp trang hoàng nhà cửa đón Tết",
+      "D": "Tụ tập đi chơi từ sáng đến tối"
+    },
+    "answer": "C",
+    "explanation": "Vận dụng vào dịp lễ Tết, việc chung tay dọn dẹp vừa tạo không khí vui tươi vừa là trách nhiệm thiết thực.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 20,
+    "question": "Khi nhận ra mình đã sai vì lớn tiếng với em nhỏ, bước tiếp theo em cần làm là gì?",
+    "options": {
+      "A": "Xin lỗi em, rút kinh nghiệm và cư xử nhẹ nhàng hơn",
+      "B": "Cho rằng mình là anh/chị nên có quyền lớn tiếng",
+      "C": "Đổ lỗi do em nhỏ quá hư",
+      "D": "Không nói chuyện với em nữa"
+    },
+    "answer": "A",
+    "explanation": "Khả năng nhận sai và sửa chữa lỗi lầm chính là sự phản tư sâu sắc về trách nhiệm làm gương trong gia đình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm gia đình"
+  },
+  {
+    "number": 21,
+    "question": "Trách nhiệm xã hội đối với học sinh tiểu học là gì?",
+    "options": {
+      "A": "Làm những việc to tát vĩ đại",
+      "B": "Tuân thủ luật lệ và có ý thức bảo vệ môi trường công cộng",
+      "C": "Kiếm tiền từ sớm",
+      "D": "Chỉ quan tâm đến bản thân mình"
+    },
+    "answer": "B",
+    "explanation": "Trách nhiệm xã hội ở lứa tuổi này bắt đầu từ việc tuân thủ quy định và giữ gìn môi trường xung quanh.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 22,
+    "question": "Hành động nào thể hiện trách nhiệm bảo vệ môi trường?",
+    "options": {
+      "A": "Vứt rác bừa bãi",
+      "B": "Vứt rác đúng nơi quy định",
+      "C": "Bẻ cành hái hoa nơi công cộng",
+      "D": "Lãng phí nước sạch"
+    },
+    "answer": "B",
+    "explanation": "Vứt rác đúng chỗ là kiến thức cơ bản nhất về ý thức bảo vệ môi trường chung.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 23,
+    "question": "Khi đi ra đường gặp đèn đỏ, em và người lớn phải làm gì?",
+    "options": {
+      "A": "Đi tiếp nếu không có công an",
+      "B": "Dừng lại trước vạch kẻ đường",
+      "C": "Rẽ sang hướng khác để tránh",
+      "D": "Bấm còi xin đường"
+    },
+    "answer": "B",
+    "explanation": "Dừng đèn đỏ là luật giao thông cơ bản, thể hiện trách nhiệm xã hội trong việc đảm bảo an toàn.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 24,
+    "question": "Của công là những tài sản thuộc về ai?",
+    "options": {
+      "A": "Thuộc về riêng nhà em",
+      "B": "Thuộc về tất cả mọi người trong xã hội",
+      "C": "Không thuộc về ai cả",
+      "D": "Thuộc về người giàu"
+    },
+    "answer": "B",
+    "explanation": "Hiểu khái niệm 'của công' giúp học sinh biết cách bảo vệ tài sản chung như ghế đá, công viên.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 25,
+    "question": "Tại sao chúng ta phải nhường ghế cho người già và phụ nữ mang thai trên xe buýt?",
+    "options": {
+      "A": "Vì luật pháp bắt buộc",
+      "B": "Vì đó là hành vi văn minh, thể hiện sự quan tâm đến người yếu thế",
+      "C": "Để được chụp ảnh lên báo",
+      "D": "Vì thích đứng hơn"
+    },
+    "answer": "B",
+    "explanation": "Sự nhường nhịn xuất phát từ lòng nhân ái, hiểu được người yếu thế cần được ưu tiên trong xã hội.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 26,
+    "question": "Việc tiết kiệm điện ở nơi công cộng mang lại lợi ích gì?",
+    "options": {
+      "A": "Giúp bảo vệ tài nguyên quốc gia và giảm ô nhiễm",
+      "B": "Làm cho nơi đó tối tăm đi",
+      "C": "Không mang lại lợi ích gì",
+      "D": "Chỉ có lợi cho nhà máy điện"
+    },
+    "answer": "A",
+    "explanation": "Hiểu được mối liên hệ giữa tiết kiệm năng lượng và bảo vệ tài nguyên, môi trường chung.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 27,
+    "question": "Nếu mọi người đều xả rác xuống sông hồ, hậu quả sẽ ra sao?",
+    "options": {
+      "A": "Sông hồ sẽ đẹp hơn",
+      "B": "Nước bị ô nhiễm, cá chết và ảnh hưởng sức khỏe con người",
+      "C": "Cá sẽ có thêm thức ăn",
+      "D": "Không sao cả vì nước sẽ trôi đi"
+    },
+    "answer": "B",
+    "explanation": "Nhận thức được hệ quả của việc phá hoại môi trường đối với hệ sinh thái và sức khỏe con người.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 28,
+    "question": "Giúp đỡ bạn khuyết tật trong lớp có ý nghĩa gì đối với xã hội?",
+    "options": {
+      "A": "Tạo ra một cộng đồng trường học yêu thương và hòa nhập",
+      "B": "Chỉ làm mất thời gian",
+      "C": "Cho vui",
+      "D": "Thể hiện mình là người tài giỏi"
+    },
+    "answer": "A",
+    "explanation": "Hòa nhập và yêu thương là nền tảng xây dựng một xã hội văn minh và thân thiện.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 29,
+    "question": "Khi đi dạo công viên, em uống xong một lon nước nhưng không thấy thùng rác. Em sẽ làm gì?",
+    "options": {
+      "A": "Vứt ngay dưới gốc cây",
+      "B": "Cầm trên tay hoặc bỏ vào túi đến khi tìm thấy thùng rác",
+      "C": "Ném xuống hồ nước",
+      "D": "Đưa cho người lạ"
+    },
+    "answer": "B",
+    "explanation": "Lựa chọn giữ lại rác đến khi tìm được chỗ vứt là quyết định đúng đắn, thể hiện ý thức cao.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 30,
+    "question": "Thấy một em nhỏ đang khóc vì lạc đường, em và người lớn đi cùng nên làm gì?",
+    "options": {
+      "A": "Lờ đi vì không phải việc của mình",
+      "B": "Đứng chỉ trỏ cười cợt",
+      "C": "Đến hỏi thăm và đưa em bé đến đồn công an gần nhất",
+      "D": "Dọa nạt em bé"
+    },
+    "answer": "C",
+    "explanation": "Quyết định giúp đỡ người gặp nạn là cách hành xử nhân văn và có trách nhiệm với cộng đồng.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 31,
+    "question": "Trường phát động phong trào quyên góp sách cũ cho trẻ em vùng cao. Em quyết định:",
+    "options": {
+      "A": "Soạn những cuốn sách không dùng tới, còn lành lặn để đem tặng",
+      "B": "Xin tiền bố mẹ mua đồ chơi thay vì góp sách",
+      "C": "Không tham gia vì lười",
+      "D": "Đem góp những cuốn sách đã rách nát"
+    },
+    "answer": "A",
+    "explanation": "Quyết định san sẻ vật chất có ý nghĩa với cộng đồng là biểu hiện của tinh thần tương thân tương ái.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 32,
+    "question": "Đang xếp hàng mua vé xem phim thì có một người chen ngang lên trước em. Em xử lý thế nào?",
+    "options": {
+      "A": "Đẩy họ ra và đánh nhau",
+      "B": "Im lặng chịu đựng",
+      "C": "Lịch sự nhắc nhở người đó quay lại xếp hàng theo thứ tự",
+      "D": "Chen lên trước người đó nữa"
+    },
+    "answer": "C",
+    "explanation": "Lịch sự bảo vệ văn hóa xếp hàng cho thấy sự dũng cảm và ý thức duy trì trật tự công cộng.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 33,
+    "question": "Hành vi hái trộm hoa trong công viên để chơi của nhóm bạn Tùng bị coi là:",
+    "options": {
+      "A": "Bình thường vì hoa mọc nhiều",
+      "B": "Sai, vì đó là phá hoại cảnh quan chung của xã hội",
+      "C": "Đáng khen vì biết thưởng thức cái đẹp",
+      "D": "Không quan trọng"
+    },
+    "answer": "B",
+    "explanation": "Phá hoại tài sản công, cảnh quan chung là hành vi thiếu văn hóa và thiếu ý thức xã hội.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 34,
+    "question": "Một người chạy xe máy văng bùn vào người đi bộ nhưng bỏ chạy luôn. Hành động này đáng bị:",
+    "options": {
+      "A": "Cảm thông vì họ đang vội",
+      "B": "Phê phán vì vô ý thức và thiếu trách nhiệm",
+      "C": "Khen ngợi vì chạy xe giỏi",
+      "D": "Bỏ qua vì không ai bị thương nặng"
+    },
+    "answer": "B",
+    "explanation": "Gây ảnh hưởng đến người khác mà trốn tránh là vi phạm đạo đức và trách nhiệm cộng đồng.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 35,
+    "question": "Nhóm bạn Liên tổ chức nhặt rác quanh khu phố vào sáng Chủ nhật. Em đánh giá thế nào về việc làm này?",
+    "options": {
+      "A": "Rất đáng tuyên dương vì làm sạch đẹp khu dân cư",
+      "B": "Mất thời gian ngủ nướng",
+      "C": "Việc này của lao công, không phải của học sinh",
+      "D": "Làm để khoe khoang"
+    },
+    "answer": "A",
+    "explanation": "Các hoạt động vì môi trường cộng đồng rất đáng trân trọng và cần được lan tỏa.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 36,
+    "question": "Thấy vòi nước ở trường rỉ nước, Minh đã khóa chặt lại. Hành động của Minh thể hiện:",
+    "options": {
+      "A": "Tính bao đồng",
+      "B": "Sự rảnh rỗi",
+      "C": "Ý thức tiết kiệm tài nguyên chung của tập thể",
+      "D": "Thích nghịch nước"
+    },
+    "answer": "C",
+    "explanation": "Biết bảo vệ tài sản chung và chống lãng phí là hành vi đẹp, có trách nhiệm xã hội.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 37,
+    "question": "Sau khi học về tái chế, em có thể vận dụng vào nhà mình bằng cách nào?",
+    "options": {
+      "A": "Vứt hết chai nhựa đi",
+      "B": "Thu gom chai lọ nhựa, vỏ hộp giấy để tái chế thành chậu cây",
+      "C": "Đốt rác nhựa ngoài vườn",
+      "D": "Đổ hết chai lọ xuống cống"
+    },
+    "answer": "B",
+    "explanation": "Vận dụng kiến thức tái chế vào việc làm cụ thể giúp giảm rác thải, bảo vệ môi trường.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 38,
+    "question": "Tuần trước em lỡ xả rác bừa bãi. Nhìn lại việc đó, bây giờ em tự nhủ điều gì?",
+    "options": {
+      "A": "Mình sẽ không bao giờ làm vậy nữa, luôn tìm thùng rác",
+      "B": "Xả rác một lần không sao",
+      "C": "Lần sau sẽ xả rác chỗ kín hơn",
+      "D": "Đợi ai nhắc thì mới nhặt"
+    },
+    "answer": "A",
+    "explanation": "Phản tư về lỗi sai của bản thân và cam kết sửa chữa là quá trình phát triển nhân cách tích cực.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 39,
+    "question": "Em có thể làm gì để lan tỏa ý thức an toàn giao thông cho bạn bè xung quanh?",
+    "options": {
+      "A": "Rủ bạn cùng chạy nhảy dưới lòng đường",
+      "B": "Nhắc nhở bạn bè đội mũ bảo hiểm và đi đúng phần đường",
+      "C": "Lặng im khi thấy bạn vi phạm",
+      "D": "Xúi bạn vượt đèn đỏ"
+    },
+    "answer": "B",
+    "explanation": "Không chỉ thực hiện tốt mà còn biết tuyên truyền, nhắc nhở người khác là vận dụng cao của trách nhiệm xã hội.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 40,
+    "question": "Dịch bệnh lây lan, em vận dụng trách nhiệm cộng đồng bằng cách:",
+    "options": {
+      "A": "Thường xuyên rửa tay, đeo khẩu trang khi đến nơi đông người",
+      "B": "Tụ tập đông người cho vui",
+      "C": "Không thèm rửa tay",
+      "D": "Hắt hơi vào người khác"
+    },
+    "answer": "A",
+    "explanation": "Bảo vệ sức khỏe bản thân cũng là cách bảo vệ cộng đồng không bị lây nhiễm chéo.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm xã hội"
+  },
+  {
+    "number": 41,
+    "question": "Mục tiêu là gì?",
+    "options": {
+      "A": "Là một giấc mơ không bao giờ thành hiện thực",
+      "B": "Là điều em mong muốn đạt được và có kế hoạch thực hiện",
+      "C": "Là việc người khác bắt ép em làm",
+      "D": "Là chuyện xảy ra ngày hôm qua"
+    },
+    "answer": "B",
+    "explanation": "Mục tiêu là cái đích cụ thể mà học sinh đặt ra để phấn đấu trong một thời gian nhất định.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 42,
+    "question": "Mục tiêu nào sau đây là mục tiêu học tập?",
+    "options": {
+      "A": "Mua được món đồ chơi mới",
+      "B": "Đạt điểm 10 môn Toán trong kỳ thi giữa kì",
+      "C": "Tập đi xe đạp",
+      "D": "Ăn hết bát cơm"
+    },
+    "answer": "B",
+    "explanation": "Đạt điểm 10 là mục tiêu cụ thể thuộc về kết quả học tập.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 43,
+    "question": "Để đạt được mục tiêu, chúng ta cần phải có gì?",
+    "options": {
+      "A": "Một kế hoạch và sự cố gắng",
+      "B": "Ngồi chơi chờ đợi",
+      "C": "Chờ người khác làm hộ",
+      "D": "Chỉ cần mơ ước"
+    },
+    "answer": "A",
+    "explanation": "Mục tiêu luôn cần đi kèm với kế hoạch hành động và sự nỗ lực kiên trì.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 44,
+    "question": "Mục tiêu 'Tập thể dục 15 phút mỗi sáng' thuộc loại mục tiêu gì?",
+    "options": {
+      "A": "Mục tiêu học tập",
+      "B": "Mục tiêu tài chính",
+      "C": "Mục tiêu sức khỏe",
+      "D": "Mục tiêu vui chơi"
+    },
+    "answer": "C",
+    "explanation": "Thể dục liên quan trực tiếp đến việc rèn luyện và bảo vệ thể chất.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 45,
+    "question": "Tại sao mục tiêu cần phải có thời hạn rõ ràng (ví dụ: trong tuần này, tháng này)?",
+    "options": {
+      "A": "Để gây áp lực cho vui",
+      "B": "Để em có động lực và không bị trì hoãn",
+      "C": "Để bố mẹ kiểm tra",
+      "D": "Thời hạn không quan trọng"
+    },
+    "answer": "B",
+    "explanation": "Thời hạn (Deadline) giúp học sinh tập trung, không lười biếng hay để việc này sang ngày khác.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 46,
+    "question": "Nếu đặt mục tiêu quá cao so với khả năng, điều gì dễ xảy ra?",
+    "options": {
+      "A": "Sẽ dễ chán nản và bỏ cuộc",
+      "B": "Sẽ đạt được ngay lập tức",
+      "C": "Rất vui vẻ",
+      "D": "Chẳng ảnh hưởng gì"
+    },
+    "answer": "A",
+    "explanation": "Mục tiêu không vừa sức sẽ khiến học sinh thất vọng về bản thân khi không đạt được.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 47,
+    "question": "Mục tiêu 'Em sẽ học giỏi' khác với 'Em sẽ làm 5 bài toán mỗi tối' ở điểm nào?",
+    "options": {
+      "A": "Không khác gì nhau",
+      "B": "Câu thứ hai cụ thể, dễ thực hiện và đo lường hơn",
+      "C": "Câu thứ nhất dễ làm hơn",
+      "D": "Câu thứ hai quá khó"
+    },
+    "answer": "B",
+    "explanation": "Mục tiêu cần tính cụ thể (Specific) và đo lường được (Measurable) để dễ dàng lên kế hoạch.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 48,
+    "question": "Việc chia nhỏ một mục tiêu lớn thành nhiều bước nhỏ có tác dụng gì?",
+    "options": {
+      "A": "Làm mọi thứ rắc rối hơn",
+      "B": "Giúp em thấy dễ dàng thực hiện từng bước và tự tin hơn",
+      "C": "Làm mất thời gian",
+      "D": "Làm mục tiêu trở nên xa vời"
+    },
+    "answer": "B",
+    "explanation": "Chia nhỏ mục tiêu giúp giảm bớt sự khó khăn, tạo cảm giác thành tựu liên tục.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 49,
+    "question": "Em muốn biết bơi vào mùa hè này. Em nên quyết định làm gì đầu tiên?",
+    "options": {
+      "A": "Mua đồ bơi và tự ra sông tập",
+      "B": "Đợi đến khi lớn rồi tính",
+      "C": "Xin phép bố mẹ đăng ký một khóa học bơi",
+      "D": "Chỉ xem video bơi trên mạng"
+    },
+    "answer": "C",
+    "explanation": "Lựa chọn khóa học bài bản giúp đảm bảo an toàn và đạt được mục tiêu đúng cách.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 50,
+    "question": "Đang làm bài để đạt mục tiêu hoàn thành trước 9h tối thì có phim hoạt hình hay. Em chọn cách nào?",
+    "options": {
+      "A": "Bỏ bài để xem phim",
+      "B": "Vừa xem vừa làm",
+      "C": "Cố gắng làm xong nhanh, đúng rồi mới ra xem phim",
+      "D": "Ngủ luôn không làm nữa"
+    },
+    "answer": "C",
+    "explanation": "Quyết định tập trung giữ kỷ luật với mục tiêu, hoàn thành nhiệm vụ rồi mới giải trí là đúng đắn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 51,
+    "question": "Em đặt mục tiêu tiết kiệm tiền để mua truyện, nhưng hôm nay lại thèm ăn vặt đắt tiền. Em sẽ:",
+    "options": {
+      "A": "Tiêu hết tiền vào đồ ăn vặt",
+      "B": "Vẫn giữ tiền tiết kiệm, chỉ mua kẹo rẻ tiền hoặc bỏ qua",
+      "C": "Xin thêm tiền mẹ để mua cả hai",
+      "D": "Vay tiền bạn"
+    },
+    "answer": "B",
+    "explanation": "Kiên định với mục tiêu tài chính và từ chối cám dỗ tức thời là biểu hiện của kỹ năng tự kiểm soát.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 52,
+    "question": "Nếu mục tiêu của em là vẽ được một bức tranh phong cảnh thật đẹp để tặng bà, em sẽ chuẩn bị gì?",
+    "options": {
+      "A": "Chẳng chuẩn bị gì, vẽ bừa ra giấy nháp",
+      "B": "Chuẩn bị màu, giấy vẽ và tham khảo vài mẫu tranh đẹp",
+      "C": "Nhờ người khác vẽ hộ",
+      "D": "Mua tranh in sẵn"
+    },
+    "answer": "B",
+    "explanation": "Quyết định chuẩn bị công cụ và học hỏi cách làm để đạt được kết quả tốt nhất tự sức mình.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 53,
+    "question": "Mai lập kế hoạch mỗi ngày đọc 10 trang sách để đọc xong cuốn truyện trong một tháng. Đánh giá cách đặt mục tiêu của Mai:",
+    "options": {
+      "A": "Phi thực tế",
+      "B": "Rất hợp lý, cụ thể và có khả năng thực hiện tốt",
+      "C": "Quá mất thời gian",
+      "D": "Không có ý nghĩa"
+    },
+    "answer": "B",
+    "explanation": "Chia nhỏ số trang đọc mỗi ngày là phương pháp rất khoa học để hoàn thành cuốn sách.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 54,
+    "question": "Linh thường đặt rất nhiều mục tiêu đầu năm nhưng không bao giờ ghi ra giấy và chẳng hoàn thành cái nào. Tại sao vậy?",
+    "options": {
+      "A": "Vì Linh không thông minh",
+      "B": "Vì Linh thiếu kế hoạch cụ thể và sự kiên trì",
+      "C": "Vì các mục tiêu tự biến mất",
+      "D": "Do không ai giúp Linh"
+    },
+    "answer": "B",
+    "explanation": "Đánh giá sự thất bại của việc đặt mục tiêu suông: thiếu công cụ ghi chép, theo dõi và hành động.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 55,
+    "question": "Hùng đặt mục tiêu sẽ giảm bớt chơi game để giúp mẹ tưới cây, và bạn ấy đã làm được 2 tuần nay. Hành vi này đáng được:",
+    "options": {
+      "A": "Chê bai vì chơi game vui hơn",
+      "B": "Tuyên dương vì biết thiết lập và nỗ lực đạt mục tiêu tốt",
+      "C": "Bỏ qua",
+      "D": "Phê phán vì không tưới cây được lâu dài"
+    },
+    "answer": "B",
+    "explanation": "Nỗ lực duy trì thói quen tốt cần được động viên, cho thấy kỹ năng quản lý bản thân tốt.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 56,
+    "question": "Tuấn nói: 'Tớ chả cần mục tiêu gì, tới đâu hay tới đó'. Quan điểm này dẫn đến điều gì?",
+    "options": {
+      "A": "Tuấn sẽ thành công nhanh chóng",
+      "B": "Tuấn sống không có định hướng, dễ lãng phí thời gian",
+      "C": "Tuấn sẽ được mọi người ngưỡng mộ",
+      "D": "Tuấn sẽ luôn vui vẻ"
+    },
+    "answer": "B",
+    "explanation": "Đánh giá hậu quả của lối sống thiếu mục tiêu: dễ sa đà vào vô bổ, thiếu thành tựu.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 57,
+    "question": "Để khắc phục việc hay quên mục tiêu đã đặt ra, em áp dụng biện pháp gì?",
+    "options": {
+      "A": "Viết mục tiêu ra giấy nhớ và dán ở bàn học",
+      "B": "Chỉ nghĩ trong đầu",
+      "C": "Kệ nó, nhớ thì làm không thì thôi",
+      "D": "Nhờ mẹ ngày nào cũng nhắc 10 lần"
+    },
+    "answer": "A",
+    "explanation": "Sử dụng công cụ trực quan (giấy nhớ) để nhắc nhở bản thân là vận dụng kỹ năng ghi nhớ mục tiêu.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 58,
+    "question": "Kỳ thi trước em đặt mục tiêu điểm 9 nhưng chỉ được 7. Rút kinh nghiệm kỳ này, em làm gì?",
+    "options": {
+      "A": "Bỏ luôn không đặt mục tiêu nữa",
+      "B": "Xem lại mình hổng kiến thức ở đâu và lập kế hoạch ôn tập kỹ hơn",
+      "C": "Khóc lóc trách móc bản thân",
+      "D": "Gian lận để được điểm cao"
+    },
+    "answer": "B",
+    "explanation": "Phản tư thất bại để điều chỉnh phương pháp học tập cho mục tiêu kế tiếp.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 59,
+    "question": "Bây giờ đang là kỳ nghỉ hè, hãy thiết lập một mục tiêu nhỏ phù hợp với em:",
+    "options": {
+      "A": "Chơi game liên tục 24 giờ",
+      "B": "Đọc xong 3 cuốn sách thiếu nhi trong 2 tháng hè",
+      "C": "Ngủ cả ngày",
+      "D": "Làm bài tập đại học"
+    },
+    "answer": "B",
+    "explanation": "Vận dụng nguyên tắc đặt mục tiêu SMART (cụ thể, đo lường được, khả thi, có thời hạn) vào kỳ nghỉ hè.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 60,
+    "question": "Khi đạt được mục tiêu tự gấp chăn màn gọn gàng suốt 1 tuần, em nên cảm thấy thế nào?",
+    "options": {
+      "A": "Chán nản vì mệt",
+      "B": "Tự hào về bản thân và tiếp tục duy trì thói quen",
+      "C": "Đòi phần thưởng đắt tiền",
+      "D": "Dừng lại không gấp nữa"
+    },
+    "answer": "B",
+    "explanation": "Tự ghi nhận thành công của bản thân (phản tư tích cực) để củng cố động lực lâu dài.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Mục tiêu"
+  },
+  {
+    "number": 61,
+    "question": "Nội quy lớp học là gì?",
+    "options": {
+      "A": "Những luật lệ để phạt học sinh",
+      "B": "Những quy định chung giúp lớp học nề nếp và hiệu quả",
+      "C": "Chỉ là tờ giấy dán trên tường",
+      "D": "Những điều do một bạn học sinh tự nghĩ ra"
+    },
+    "answer": "B",
+    "explanation": "Nội quy lớp học thiết lập tiêu chuẩn hành vi chung giúp mọi người học tập an toàn, trật tự.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 62,
+    "question": "Khi muốn phát biểu ý kiến trong lớp, em cần làm gì?",
+    "options": {
+      "A": "Nói leo ngay lập tức",
+      "B": "Hét to lên",
+      "C": "Giơ tay và chờ cô giáo gọi tên",
+      "D": "Đập bàn thu hút chú ý"
+    },
+    "answer": "C",
+    "explanation": "Giơ tay phát biểu là quy tắc cơ bản đảm bảo trật tự và tôn trọng giáo viên cùng bạn học.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 63,
+    "question": "Việc đi học đúng giờ là:",
+    "options": {
+      "A": "Tuân thủ nội quy học tập",
+      "B": "Sở thích cá nhân",
+      "C": "Điều không bắt buộc",
+      "D": "Chỉ dành cho lớp trưởng"
+    },
+    "answer": "A",
+    "explanation": "Đi học đúng giờ là quy định bắt buộc trong mọi nội quy trường lớp.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 64,
+    "question": "Nội quy lớp học thường cấm hành vi nào sau đây?",
+    "options": {
+      "A": "Mượn bút của bạn",
+      "B": "Đánh nhau, gây gổ trong lớp",
+      "C": "Hỏi bài cô giáo",
+      "D": "Uống nước trong giờ giải lao"
+    },
+    "answer": "B",
+    "explanation": "Bạo lực học đường là hành vi bị nghiêm cấm hoàn toàn trong nội quy trường học.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 65,
+    "question": "Tại sao lớp học cần phải có nội quy?",
+    "options": {
+      "A": "Để giáo viên rảnh rỗi hơn",
+      "B": "Để xây dựng môi trường học tập an toàn, công bằng và tôn trọng lẫn nhau",
+      "C": "Để gây áp lực cho học sinh",
+      "D": "Để trường đẹp hơn"
+    },
+    "answer": "B",
+    "explanation": "Hiểu bản chất của nội quy là bảo vệ quyền lợi học tập và sự tôn trọng của mỗi cá nhân.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 66,
+    "question": "Nếu mọi người đều nói chuyện riêng trong giờ học, hậu quả là gì?",
+    "options": {
+      "A": "Lớp học sẽ vui vẻ hơn",
+      "B": "Cô giáo và các bạn không thể tập trung nghe giảng, không hiểu bài",
+      "C": "Không ảnh hưởng gì",
+      "D": "Giờ học kết thúc sớm"
+    },
+    "answer": "B",
+    "explanation": "Sự ồn ào phá vỡ không gian học tập, làm giảm tiếp thu kiến thức của cả tập thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 67,
+    "question": "Việc mặc đồng phục đi học theo quy định mang ý nghĩa gì?",
+    "options": {
+      "A": "Thể hiện sự bình đẳng, đoàn kết và tự hào về ngôi trường",
+      "B": "Vì quần áo ở nhà xấu",
+      "C": "Để không bị bẩn",
+      "D": "Để giáo viên dễ nhớ tên"
+    },
+    "answer": "A",
+    "explanation": "Đồng phục xóa bỏ ranh giới giàu nghèo, tạo sự đồng nhất và tinh thần tập thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 68,
+    "question": "Quy định 'Giữ gìn vệ sinh chung' giúp ích gì cho lớp học?",
+    "options": {
+      "A": "Chỉ giúp cô lao công nhàn hơn",
+      "B": "Bảo vệ sức khỏe cho chính học sinh và giữ lớp học sạch đẹp",
+      "C": "Gây mệt mỏi cho học sinh",
+      "D": "Làm mất thời gian"
+    },
+    "answer": "B",
+    "explanation": "Không gian sạch sẽ trực tiếp phòng tránh bệnh tật và tạo cảm hứng học tập.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 69,
+    "question": "Khi thấy bạn ngồi cạnh xả rác ra ngăn bàn, em sẽ làm gì?",
+    "options": {
+      "A": "Xả rác theo bạn",
+      "B": "Nhẹ nhàng khuyên bạn nhặt rác bỏ vào thùng rác",
+      "C": "Đánh bạn",
+      "D": "Mặc kệ bạn"
+    },
+    "answer": "B",
+    "explanation": "Khuyên nhủ bạn bè tuân thủ nội quy vệ sinh là quyết định xây dựng tích cực.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 70,
+    "question": "Trống vào lớp đã điểm nhưng em vẫn đang dở trận đá bóng sân trường. Em sẽ:",
+    "options": {
+      "A": "Cố đá nốt trận",
+      "B": "Rủ các bạn dừng chơi, rửa tay và chạy nhanh về lớp",
+      "C": "Trốn học",
+      "D": "Khóc lóc bắt đền"
+    },
+    "answer": "B",
+    "explanation": "Tuân thủ thời gian biểu là kỷ luật bắt buộc, lựa chọn dừng vui chơi để vào học đúng giờ là chính xác.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 71,
+    "question": "Đang trong giờ kiểm tra, bạn thân nhờ em nhắc bài. Em xử lý thế nào?",
+    "options": {
+      "A": "Đọc bài cho bạn chép",
+      "B": "Từ chối khéo để không vi phạm quy chế thi, ra chơi sẽ giải thích cho bạn",
+      "C": "Báo cô giáo lớn tiếng để bạn bẽ mặt",
+      "D": "Chép bài của bạn khác cho bạn mình"
+    },
+    "answer": "B",
+    "explanation": "Giữ tính trung thực trong thi cử và vẫn bảo vệ được tình bạn bằng cách từ chối khéo.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 72,
+    "question": "Em lỡ tay làm vỡ bình hoa của lớp. Em quyết định làm gì?",
+    "options": {
+      "A": "Giấu đi phi tang",
+      "B": "Đổ lỗi cho con mèo",
+      "C": "Chủ động nhận lỗi với cô giáo và cùng các bạn dọn mảnh vỡ",
+      "D": "Đổ lỗi cho bạn khác"
+    },
+    "answer": "C",
+    "explanation": "Dám nhận lỗi và khắc phục hậu quả là sự tuân thủ nội quy dũng cảm, trung thực.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 73,
+    "question": "Hành vi vẽ bậy lên bàn học của Khang đáng bị xử lý thế nào?",
+    "options": {
+      "A": "Khen ngợi vì vẽ đẹp",
+      "B": "Phê bình và yêu cầu Khang lau sạch vết bẩn, vì đó là phá hoại của công",
+      "C": "Lờ đi",
+      "D": "Khuyến khích các bạn khác vẽ cùng"
+    },
+    "answer": "B",
+    "explanation": "Đánh giá hành vi phá hoại tài sản chung là vi phạm nội quy, cần có biện pháp sửa sai.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 74,
+    "question": "Nhóm tổ 1 luôn trực nhật lớp sạch sẽ trước khi vào học. Em đánh giá thế nào?",
+    "options": {
+      "A": "Nhóm bạn rất có trách nhiệm và chấp hành tốt nội quy",
+      "B": "Nhóm bạn rảnh rỗi",
+      "C": "Đó là việc bắt buộc, chả có gì đáng khen",
+      "D": "Nhóm bạn muốn lấy lòng cô giáo"
+    },
+    "answer": "A",
+    "explanation": "Thực hiện tốt nhiệm vụ được giao là biểu hiện của tinh thần tập thể và ý thức kỷ luật.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 75,
+    "question": "Bạn Cường thường xuyên trêu chọc, giấu đồ dùng học tập của bạn khác. Hành vi này:",
+    "options": {
+      "A": "Chỉ là đùa vui",
+      "B": "Giúp các bạn hòa đồng hơn",
+      "C": "Vi phạm nội quy tôn trọng bạn bè, gây mất đoàn kết",
+      "D": "Đáng được khuyến khích"
+    },
+    "answer": "C",
+    "explanation": "Xâm phạm tài sản cá nhân và trêu chọc ác ý làm tổn thương tinh thần bạn học, vi phạm nội quy.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 76,
+    "question": "Nếu một học sinh luôn đi muộn vì mải ngủ nướng, em nhận xét gì về học sinh đó?",
+    "options": {
+      "A": "Đó là thói quen tốt cho sức khỏe",
+      "B": "Thiếu kỷ luật bản thân và không tôn trọng nội quy nhà trường",
+      "C": "Đáng thương vì học sinh đó quá mệt",
+      "D": "Bình thường"
+    },
+    "answer": "B",
+    "explanation": "Sự chậm trễ do lười biếng là biểu hiện của việc thiếu kỹ năng quản lý thời gian và tuân thủ quy định.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 77,
+    "question": "Nhận thấy mình hay nói chuyện riêng, em vận dụng cách nào để khắc phục?",
+    "options": {
+      "A": "Xin cô đổi chỗ lên bàn đầu để tập trung hơn",
+      "B": "Nói chuyện nhỏ lại",
+      "C": "Nói chuyện bằng giấy",
+      "D": "Nghỉ học"
+    },
+    "answer": "A",
+    "explanation": "Chủ động tìm giải pháp môi trường (đổi chỗ) để tự kiểm soát hành vi vi phạm nội quy.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 78,
+    "question": "Năm học mới, lớp em chưa có nội quy. Em có thể đóng góp ý kiến gì?",
+    "options": {
+      "A": "Đề xuất mỗi người thích làm gì thì làm",
+      "B": "Cùng các bạn thảo luận và biểu quyết lập ra một bảng nội quy chung",
+      "C": "Mặc kệ cô giáo tự làm",
+      "D": "Đề xuất nội quy phạt tiền"
+    },
+    "answer": "B",
+    "explanation": "Vận dụng hiểu biết về nội quy để cùng xây dựng cam kết tập thể dân chủ.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 79,
+    "question": "Hôm qua em quên mang sách giáo khoa. Nhìn lại sự việc, em rút ra bài học gì?",
+    "options": {
+      "A": "Sẽ soạn sách vở từ tối hôm trước để không quên nữa",
+      "B": "Sáng ra vơ đại vào cặp cũng được",
+      "C": "Nhờ mẹ soạn cặp cho",
+      "D": "Lên lớp mượn bạn cho nhanh"
+    },
+    "answer": "A",
+    "explanation": "Phản tư lỗi lầm (quên đồ) và thiết lập thói quen mới (soạn đồ từ tối) để tuân thủ nề nếp.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 80,
+    "question": "Khi thấy một bạn mới chuyển đến chưa thuộc nội quy lớp, em nên làm gì?",
+    "options": {
+      "A": "Cười nhạo khi bạn làm sai",
+      "B": "Báo cô giáo phạt bạn",
+      "C": "Thân thiện hướng dẫn và nhắc nhở giúp bạn làm quen",
+      "D": "Tẩy chay bạn"
+    },
+    "answer": "C",
+    "explanation": "Sự hướng dẫn tử tế thể hiện khả năng lãnh đạo nhóm và tinh thần trách nhiệm với lớp học.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Nội quy lớp học"
+  },
+  {
+    "number": 81,
+    "question": "Cách tốt nhất để bảo vệ răng miệng là gì?",
+    "options": {
+      "A": "Ăn thật nhiều kẹo trước khi ngủ",
+      "B": "Đánh răng ngày 2 lần và hạn chế đồ ngọt",
+      "C": "Chỉ súc miệng bằng nước lã",
+      "D": "Đánh răng 1 lần mỗi tuần"
+    },
+    "answer": "B",
+    "explanation": "Đánh răng đều đặn và kiểm soát lượng đường là kiến thức cơ bản về vệ sinh răng miệng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 82,
+    "question": "Khi đi dưới trời nắng gắt, em cần làm gì để bảo vệ sức khỏe?",
+    "options": {
+      "A": "Đội mũ, che ô, mặc áo dài tay",
+      "B": "Cởi trần cho mát",
+      "C": "Không cần làm gì cả",
+      "D": "Ăn kem liên tục"
+    },
+    "answer": "A",
+    "explanation": "Che chắn cơ thể giúp tránh say nắng và bảo vệ da khỏi tia cực tím độc hại.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 83,
+    "question": "Thực phẩm nào sau đây rất tốt cho sức khỏe nếu ăn hàng ngày?",
+    "options": {
+      "A": "Nước ngọt có gas",
+      "B": "Xúc xích chiên dầu",
+      "C": "Rau xanh và trái cây tươi",
+      "D": "Bánh kẹo"
+    },
+    "answer": "C",
+    "explanation": "Rau củ quả cung cấp vitamin, chất xơ, là thực phẩm thiết yếu cho sự phát triển.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 84,
+    "question": "Trước khi ăn và sau khi đi vệ sinh, việc bắt buộc phải làm là gì?",
+    "options": {
+      "A": "Lau tay vào quần áo",
+      "B": "Rửa tay bằng xà phòng",
+      "C": "Súc miệng",
+      "D": "Rửa tay bằng nước lã qua loa"
+    },
+    "answer": "B",
+    "explanation": "Rửa tay xà phòng là biện pháp số 1 để tiêu diệt vi khuẩn lây bệnh qua đường tiêu hóa.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 85,
+    "question": "Tại sao việc ngủ đủ giấc (8-10 tiếng) lại quan trọng đối với trẻ em?",
+    "options": {
+      "A": "Để tốn ít thức ăn hơn",
+      "B": "Giúp cơ thể phục hồi, phát triển chiều cao và trí não",
+      "C": "Để bố mẹ không mắng",
+      "D": "Chẳng có tác dụng gì"
+    },
+    "answer": "B",
+    "explanation": "Hiểu được lợi ích sinh lý của giấc ngủ đối với sự phát triển thể chất và tinh thần ở lứa tuổi đang lớn.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 86,
+    "question": "Ngồi học sai tư thế (gù lưng, cúi sát mặt bàn) sẽ dẫn đến hậu quả gì?",
+    "options": {
+      "A": "Học giỏi hơn",
+      "B": "Bị cận thị và cong vẹo cột sống",
+      "C": "Trở nên cao lớn",
+      "D": "Khỏe mạnh hơn"
+    },
+    "answer": "B",
+    "explanation": "Nhận thức được tác hại của thói quen sinh hoạt sai lên hệ xương khớp và thị lực.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 87,
+    "question": "Tại sao không nên sử dụng điện thoại, ipad quá lâu trong ngày?",
+    "options": {
+      "A": "Vì sẽ làm tốn điện",
+      "B": "Vì ánh sáng xanh gây mỏi mắt, làm đầu óc căng thẳng và lười vận động",
+      "C": "Vì sợ máy bị hỏng",
+      "D": "Vì tốn tiền mạng"
+    },
+    "answer": "B",
+    "explanation": "Sự ảnh hưởng tiêu cực của màn hình điện tử đến cả thể chất lẫn tâm lý nếu lạm dụng.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 88,
+    "question": "Tập thể dục thể thao thường xuyên mang lại lợi ích gì?",
+    "options": {
+      "A": "Làm cơ thể yếu đi",
+      "B": "Chỉ để đi thi đấu",
+      "C": "Tăng cường sức đề kháng, xương chắc khỏe và tinh thần vui vẻ",
+      "D": "Mất nhiều thời gian rảnh"
+    },
+    "answer": "C",
+    "explanation": "Hiểu được vai trò toàn diện của vận động đối với hệ miễn dịch và tâm trạng.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 89,
+    "question": "Hôm nay trời rất lạnh, nhưng em lại muốn mặc váy ngắn đi học cho đẹp. Em sẽ chọn gì?",
+    "options": {
+      "A": "Vẫn mặc váy ngắn bất chấp thời tiết",
+      "B": "Mặc quần áo dài, ấm áp để không bị cảm lạnh",
+      "C": "Mặc đồ mùa hè và đắp chăn đi học",
+      "D": "Nghỉ học ở nhà"
+    },
+    "answer": "B",
+    "explanation": "Lựa chọn đặt sức khỏe (giữ ấm) lên trên thẩm mỹ cá nhân trong tình huống thời tiết xấu.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 90,
+    "question": "Mua đồ ăn vặt ngoài cổng trường có ruồi muỗi bâu, màu sắc sặc sỡ. Em quyết định:",
+    "options": {
+      "A": "Mua ăn vì ngon và rẻ",
+      "B": "Rủ bạn cùng mua",
+      "C": "Không mua vì thức ăn mất vệ sinh dễ gây đau bụng, ngộ độc",
+      "D": "Mua cho em trai ăn thử"
+    },
+    "answer": "C",
+    "explanation": "Khả năng ra quyết định từ chối thực phẩm bẩn, không rõ nguồn gốc để bảo vệ hệ tiêu hóa.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 91,
+    "question": "Đang chơi thể thao thì em cảm thấy khó thở và chóng mặt. Em nên làm gì?",
+    "options": {
+      "A": "Cố sức chơi tiếp",
+      "B": "Lập tức dừng lại, tìm chỗ mát mẻ nghỉ ngơi và báo cho người lớn",
+      "C": "Chạy nhanh hơn",
+      "D": "Uống một cốc nước đá thật lạnh ngay lập tức"
+    },
+    "answer": "B",
+    "explanation": "Biết lắng nghe cơ thể và quyết định dừng lại đúng lúc để tránh đột quỵ, kiệt sức.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 92,
+    "question": "Bị muỗi đốt sưng đỏ và rất ngứa, em sẽ xử lý thế nào?",
+    "options": {
+      "A": "Gãi thật mạnh cho xước da",
+      "B": "Lấy tay bẩn gãi",
+      "C": "Nhờ người lớn bôi thuốc trị côn trùng cắn, không gãi để tránh nhiễm trùng",
+      "D": "Cấu vào nốt muỗi đốt"
+    },
+    "answer": "C",
+    "explanation": "Quyết định xử lý tổn thương ngoài da một cách an toàn, tránh nhiễm trùng.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 93,
+    "question": "Bình rất hay uống nước tăng lực và nước ngọt thay nước lọc mỗi ngày. Đánh giá thói quen này:",
+    "options": {
+      "A": "Rất xấu, dễ gây bệnh béo phì và tiểu đường",
+      "B": "Tốt vì nước ngọt có nhiều năng lượng",
+      "C": "Bình thường",
+      "D": "Đáng khen vì Bình sành điệu"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá mức độ nguy hiểm của lạm dụng đường hóa học thay thế nước tinh khiết.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 94,
+    "question": "Dù rất buồn ngủ nhưng Hân vẫn cố thức đến 12h đêm để xem Tiktok. Hành vi này:",
+    "options": {
+      "A": "Rất đáng khen vì biết cập nhật thông tin",
+      "B": "Có hại nghiêm trọng đến não bộ và sự phát triển của học sinh",
+      "C": "Bình thường ở giới trẻ",
+      "D": "Tốt cho việc giải trí"
+    },
+    "answer": "B",
+    "explanation": "Thức khuya và nghiện mạng xã hội là thói quen tàn phá sức khỏe cần lên án.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 95,
+    "question": "Khi ho hoặc hắt hơi, bạn Tùng luôn lấy tay hoặc khăn giấy che miệng lại. Đánh giá hành động của Tùng:",
+    "options": {
+      "A": "Vẽ chuyện",
+      "B": "Đáng biểu dương vì biết giữ vệ sinh và phòng lây bệnh cho người khác",
+      "C": "Mất thời gian",
+      "D": "Chỉ làm điệu"
+    },
+    "answer": "B",
+    "explanation": "Hành vi vệ sinh đúng mực giúp kiểm soát mầm bệnh lây qua đường hô hấp.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 96,
+    "question": "Thấy mẹ vứt vỉ thuốc kháng sinh hết hạn vào thùng rác, em nhặt lên chơi. Hành vi này là:",
+    "options": {
+      "A": "Bình thường, chỉ là đồ chơi",
+      "B": "Rất nguy hiểm vì thuốc tây có thể gây ngộ độc nếu không dùng đúng",
+      "C": "Tiết kiệm đồ",
+      "D": "Thể hiện tính tò mò thông minh"
+    },
+    "answer": "B",
+    "explanation": "Tuyệt đối không đùa nghịch với dược phẩm rác vì rủi ro ngộ độc là cực kỳ cao.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 97,
+    "question": "Nhận thấy dạo này mình hay bị mỏi mắt, em có thể tự điều chỉnh thói quen nào?",
+    "options": {
+      "A": "Dụi mắt thật nhiều",
+      "B": "Giảm thời gian xem Tivi, ngồi học đủ ánh sáng và massage mắt",
+      "C": "Đeo kính cận của người khác",
+      "D": "Nhỏ nước lã vào mắt"
+    },
+    "answer": "B",
+    "explanation": "Vận dụng kiến thức bảo vệ mắt để tự thiết lập chế độ sinh hoạt giảm tải cho thị lực.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 98,
+    "question": "Sau khi bị ốm vì tắm mưa gội đầu trễ, bài học em tự rút ra cho mình là gì?",
+    "options": {
+      "A": "Lần sau tắm mưa tiếp cho quen",
+      "B": "Phải biết trú mưa và tắm rửa lau khô người bằng nước ấm ngay sau khi đi mưa",
+      "C": "Chỉ tắm mưa khi ở nhà một mình",
+      "D": "Đổ lỗi do ông trời mưa to"
+    },
+    "answer": "B",
+    "explanation": "Phản tư về nguyên nhân gây bệnh để phòng tránh mắc lỗi tương tự trong tương lai.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 99,
+    "question": "Để chuẩn bị một bữa sáng lành mạnh cho bản thân, em có thể đề xuất món gì?",
+    "options": {
+      "A": "Bánh kẹo và nước ngọt",
+      "B": "Mì tôm sống",
+      "C": "Một bát phở hoặc bánh mì kẹp trứng và ly sữa",
+      "D": "Không ăn sáng"
+    },
+    "answer": "C",
+    "explanation": "Áp dụng kiến thức dinh dưỡng để tự lựa chọn bữa ăn cung cấp năng lượng khoa học.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 100,
+    "question": "Nhà trường tổ chức tiêm phòng dịch bệnh, em rất sợ tiêm. Em tự vượt qua bằng cách nào?",
+    "options": {
+      "A": "Khóc lóc trốn trong nhà vệ sinh",
+      "B": "Hiểu rằng tiêm đau một chút nhưng bảo vệ mình khỏi bệnh nặng, dũng cảm đối mặt",
+      "C": "Đánh cô y tá",
+      "D": "Bỏ chạy về nhà"
+    },
+    "answer": "B",
+    "explanation": "Sử dụng nhận thức về lợi ích y tế để vượt qua nỗi sợ tâm lý cá nhân.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Bảo vệ sức khoẻ bản thân"
+  },
+  {
+    "number": 101,
+    "question": "Tự giác học tập là gì?",
+    "options": {
+      "A": "Chỉ học khi có bố mẹ cầm roi đứng cạnh",
+      "B": "Tự động ngồi vào bàn học, hoàn thành bài tập mà không cần ai nhắc nhở",
+      "C": "Đến lớp nhờ bạn làm bài hộ",
+      "D": "Vừa học vừa chơi game"
+    },
+    "answer": "B",
+    "explanation": "Tự giác là sự chủ động thực hiện nhiệm vụ học tập từ ý thức bên trong.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 102,
+    "question": "Dấu hiệu nào cho thấy một học sinh tự giác học tập?",
+    "options": {
+      "A": "Thường xuyên mượn vở chép bài",
+      "B": "Chủ động soạn sách vở cho ngày mai sau khi học xong",
+      "C": "Giấu bài kiểm tra điểm kém",
+      "D": "Chờ mẹ nhắc mới làm bài"
+    },
+    "answer": "B",
+    "explanation": "Soạn sách vở trước là thao tác chuẩn bị thể hiện sự sẵn sàng và chủ động với việc học.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 103,
+    "question": "Khi chưa hiểu bài trên lớp, em cần làm gì?",
+    "options": {
+      "A": "Giấu dốt, im lặng",
+      "B": "Mạnh dạn giơ tay hỏi lại cô giáo hoặc hỏi bạn bè",
+      "C": "Bỏ qua không thèm học môn đó",
+      "D": "Khóc nhè"
+    },
+    "answer": "B",
+    "explanation": "Biết cách tìm kiếm sự trợ giúp khi gặp khó khăn là một kỹ năng quan trọng của học sinh tự giác.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 104,
+    "question": "Góc học tập của người có ý thức tự giác thường như thế nào?",
+    "options": {
+      "A": "Bừa bộn đầy rác",
+      "B": "Sạch sẽ, gọn gàng và ngăn nắp",
+      "C": "Nhiều đồ chơi hơn sách vở",
+      "D": "Tối tăm, thiếu ánh sáng"
+    },
+    "answer": "B",
+    "explanation": "Môi trường vật lý (góc học tập) phản ánh tổ chức tư duy và sự tôn trọng việc học của học sinh.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 105,
+    "question": "Tại sao tính tự giác học tập lại quan trọng?",
+    "options": {
+      "A": "Vì giúp em tiếp thu kiến thức tốt hơn, tự lập và tự tin",
+      "B": "Vì bố mẹ thích thế",
+      "C": "Để được cho tiền ăn vặt",
+      "D": "Chẳng có gì quan trọng"
+    },
+    "answer": "A",
+    "explanation": "Sự tự giác biến việc học thành nhu cầu bản thân, từ đó nâng cao kết quả bền vững.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 106,
+    "question": "Làm bài tập về nhà có tác dụng gì?",
+    "options": {
+      "A": "Làm khổ học sinh",
+      "B": "Giúp ôn lại kiến thức đã học trên lớp để nhớ lâu hơn",
+      "C": "Làm cho hết thời gian",
+      "D": "Để cô giáo không phạt"
+    },
+    "answer": "B",
+    "explanation": "Hiểu được bản chất của bài tập về nhà là bước củng cố kiến thức cần thiết.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 107,
+    "question": "Sự khác biệt giữa học sinh tự giác và học sinh thụ động là gì?",
+    "options": {
+      "A": "Không có gì khác",
+      "B": "Học sinh tự giác tự tìm tòi, còn học sinh thụ động chỉ chờ người khác chỉ bảo",
+      "C": "Học sinh thụ động giỏi hơn",
+      "D": "Học sinh tự giác hay bị mắng"
+    },
+    "answer": "B",
+    "explanation": "Nhận thức được sự khác biệt giữa hai thái độ học tập để chọn đúng con đường phát triển.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 108,
+    "question": "Nếu luôn ỷ lại vào việc chép sách giải, học sinh sẽ gặp vấn đề gì?",
+    "options": {
+      "A": "Sẽ học rất giỏi",
+      "B": "Sẽ mất khả năng tư duy độc lập và không thực sự hiểu bài",
+      "C": "Được thầy cô khen",
+      "D": "Trở nên thông minh hơn"
+    },
+    "answer": "B",
+    "explanation": "Sử dụng sách giải sai cách triệt tiêu khả năng suy nghĩ logic và sự kiên nhẫn khi giải quyết vấn đề.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 109,
+    "question": "Bài toán hôm nay rất khó, em đã nghĩ 15 phút chưa ra. Em quyết định làm gì?",
+    "options": {
+      "A": "Bỏ trống ngày mai đến chép bài bạn",
+      "B": "Xem lại phần lý thuyết ví dụ trong SGK, nếu vẫn không hiểu thì nhờ người lớn hướng dẫn cách làm",
+      "C": "Gấp sách đi ngủ",
+      "D": "Khóc ầm ĩ lên"
+    },
+    "answer": "B",
+    "explanation": "Quyết định xử lý khó khăn bằng phương pháp khoa học (tìm tài liệu -> nhờ hướng dẫn) thay vì bỏ cuộc.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 110,
+    "question": "Bạn rủ em đi đá bóng nhưng em chưa làm xong bài tập. Em sẽ trả lời bạn thế nào?",
+    "options": {
+      "A": "Đi ngay, bài tập để sau tính",
+      "B": "Tớ phải làm nốt bài, cậu đợi tớ 20 phút làm xong rồi mình cùng đi",
+      "C": "Nghỉ chơi với bạn luôn",
+      "D": "Nói dối là đã làm xong rồi đi"
+    },
+    "answer": "B",
+    "explanation": "Lựa chọn hoàn thành trách nhiệm ưu tiên (học tập) trước khi thỏa mãn sở thích vui chơi.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 111,
+    "question": "Đến giờ tự học buổi tối theo lịch, nhưng tivi đang chiếu phim siêu nhân. Em xử lý sao?",
+    "options": {
+      "A": "Vào phòng đóng cửa, ngồi học nghiêm túc",
+      "B": "Vừa xem phim vừa làm bài",
+      "C": "Xin mẹ cho xem nốt rồi học sau",
+      "D": "Bỏ học luôn"
+    },
+    "answer": "A",
+    "explanation": "Khả năng cưỡng lại cám dỗ giải trí để tuân thủ thời gian biểu cá nhân.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 112,
+    "question": "Cô giáo không giao bài tập về nhà môn Lịch sử. Em sẽ làm gì vào buổi tối?",
+    "options": {
+      "A": "Tuyệt quá, chơi thả ga",
+      "B": "Đọc trước bài mới của ngày mai hoặc đọc thêm sách kỹ năng",
+      "C": "Chỉ xem điện thoại",
+      "D": "Đi ngủ sớm"
+    },
+    "answer": "B",
+    "explanation": "Tự giác mở rộng việc học ngoài khuôn khổ bài tập bắt buộc để rèn luyện thói quen tự học.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 113,
+    "question": "Cường luôn lén dùng điện thoại trong giờ tự học. Đánh giá hành vi của Cường:",
+    "options": {
+      "A": "Thiếu tự giác, lừa dối bản thân và phụ huynh",
+      "B": "Thông minh vì biết làm nhiều việc",
+      "C": "Đáng khen",
+      "D": "Bình thường"
+    },
+    "answer": "A",
+    "explanation": "Học đối phó là biểu hiện tồi tệ nhất của việc thiếu ý thức tự giác.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 114,
+    "question": "Mai không chỉ làm đủ bài tập mà còn tìm thêm bài nâng cao trên mạng để giải. Hành vi của Mai:",
+    "options": {
+      "A": "Rảnh rỗi sinh nông nổi",
+      "B": "Tinh thần hiếu học và tự giác rất đáng khâm phục",
+      "C": "Gây áp lực cho bạn bè",
+      "D": "Chỉ để lấy le với cô giáo"
+    },
+    "answer": "B",
+    "explanation": "Sự đam mê khám phá tri thức là bậc cao nhất của việc tự định hướng học tập.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 115,
+    "question": "Quân được điểm kém nhưng đã giấu bài đi sửa điểm báo cho bố mẹ. Hành vi này thể hiện:",
+    "options": {
+      "A": "Sự thiếu trung thực và không dám đối mặt để sửa sai trong học tập",
+      "B": "Sự khôn ngoan để không bị đòn",
+      "C": "Tính cẩn thận",
+      "D": "Trách nhiệm với gia đình"
+    },
+    "answer": "A",
+    "explanation": "Gian dối điểm số hủy hoại quá trình tự nhìn nhận năng lực để tiến bộ.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 116,
+    "question": "Trong nhóm làm việc chung, Linh nhận phần khó và chủ động nộp đúng hạn. Linh là người:",
+    "options": {
+      "A": "Thích ôm rơm rặm bụng",
+      "B": "Có tinh thần tự giác học hỏi và trách nhiệm nhóm rất tốt",
+      "C": "Muốn làm nổi bật bản thân",
+      "D": "Bị ép buộc"
+    },
+    "answer": "B",
+    "explanation": "Tự giác không chỉ diễn ra cá nhân mà còn ứng dụng tuyệt vời vào làm việc nhóm.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 117,
+    "question": "Để không bị sao nhãng khi học bài ở nhà, em có thể lập quy tắc gì cho bản thân?",
+    "options": {
+      "A": "Bật nhạc sàn thật to",
+      "B": "Để mọi đồ chơi, điện thoại ở phòng khác trước khi ngồi vào bàn học",
+      "C": "Vừa ăn vừa học",
+      "D": "Học 5 phút, chơi 10 phút"
+    },
+    "answer": "B",
+    "explanation": "Vận dụng kỹ năng dọn dẹp môi trường xung quanh để loại bỏ các yếu tố gây mất tập trung.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 118,
+    "question": "Sau một học kỳ kết quả học tập sa sút do lười biếng, em phản tư và làm gì?",
+    "options": {
+      "A": "Chấp nhận mình học dốt và bỏ cuộc",
+      "B": "Tự nhận lỗi, thiết lập lại thời gian biểu và nhờ cô giáo hỗ trợ ôn tập",
+      "C": "Đổ lỗi cho đề thi khó",
+      "D": "Xin chuyển trường"
+    },
+    "answer": "B",
+    "explanation": "Khả năng đứng lên sau thất bại, tìm ra điểm yếu và thay đổi hành động là sự phản tư cốt lõi.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 119,
+    "question": "Làm thế nào để việc đọc sách trở thành một thói quen tự giác thay vì bị ép buộc?",
+    "options": {
+      "A": "Mua sách thật đắt tiền",
+      "B": "Chọn đọc những cuốn sách về chủ đề mình yêu thích vào khung giờ cố định mỗi ngày",
+      "C": "Bắt mẹ đọc cho nghe",
+      "D": "Chỉ đọc truyện tranh"
+    },
+    "answer": "B",
+    "explanation": "Áp dụng phương pháp tạo thói quen: bắt đầu từ sở thích và lặp lại đều đặn.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Tự giác học tập"
+  },
+  {
+    "number": 120,
+    "question": "Hôm nay em vừa học được cách làm sơ đồ tư duy trên lớp. Tối nay em sẽ:",
+    "options": {
+      "A": "Gấp sách vở đi ngủ quên luôn",
+      "B": "Vận dụng vẽ thử một sơ đồ tư duy tóm tắt bài học Toán để nhớ bài tốt hơn",
+      "C": "Xé giấy vẽ máy bay",
+      "D": "Bắt bạn làm hộ sơ đồ"
+    },
+    "answer": "B",
+    "explanation": "Thực hành ngay kiến thức mới học là biểu hiện xuất sắc của tinh thần tự giác sáng tạo.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Tự giác học tập"
+  }
+]

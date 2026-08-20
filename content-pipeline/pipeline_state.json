@@ -1,0 +1,15 @@
+{
+  "status": "FROZEN_PLAN_V1",
+  "package_id": "CP-001",
+  "current_stage": "Stage 1: Lesson Planning",
+  "active_version": "v1.0.0",
+  "hashes": {
+    "competency_package": "ef2750a0fe78331256e15d4702fa16173b3b7e290d3bc2903e08db09ead03e1d",
+    "lesson_plan_v1": "b2bf1d2fbc3bb0e1a8a03653727090b38e470c646b73720c5a217960d5e10624"
+  },
+  "history": [
+    "Ingested package CP-001",
+    "Registered draft Lesson Plan LP-001. Awaiting Human Review Gate 1.",
+    "Gate 1 APPROVED by Lead_Pedagogy_Editor_01. Comments: 'Kế hoạch bài học cấu trúc xuất sắc, đáp ứng 100% NLAS 5 stages và phân bổ thời lượng 20 phút hợp lý.'. State locked as v1.0.0 Hash: b2bf1d2fbc..."
+  ]
+}

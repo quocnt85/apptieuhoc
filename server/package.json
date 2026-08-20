@@ -1,0 +1,19 @@
+{
+  "name": "novastars-serverless-api",
+  "version": "1.0.0",
+  "description": "NovaStars Cloudflare Workers API connected to Neon PostgreSQL & Cloudflare R2",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "hono": "^4.6.20"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250214.0",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.109.2"
+  }
+}

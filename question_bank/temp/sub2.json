@@ -1,0 +1,1962 @@
+[
+  {
+    "number": 1,
+    "question": "Đâu là nơi an toàn để bơi lội?",
+    "options": {
+      "A": "Sông có dòng chảy xiết",
+      "B": "Hồ bơi có cứu hộ",
+      "C": "Ao làng vắng vẻ",
+      "D": "Biển lúc có bão"
+    },
+    "answer": "B",
+    "explanation": "Hồ bơi có nhân viên cứu hộ là nơi an toàn nhất.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 2,
+    "question": "Vật dụng nào giúp nổi trên mặt nước?",
+    "options": {
+      "A": "Cục gạch",
+      "B": "Áo phao",
+      "C": "Balo nặng",
+      "D": "Giày thể thao"
+    },
+    "answer": "B",
+    "explanation": "Áo phao được thiết kế để giữ cơ thể nổi.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 3,
+    "question": "Màu cờ nào ở bãi biển báo hiệu KHÔNG ĐƯỢC tắm?",
+    "options": {
+      "A": "Cờ xanh",
+      "B": "Cờ vàng",
+      "C": "Cờ đỏ",
+      "D": "Cờ trắng"
+    },
+    "answer": "C",
+    "explanation": "Cờ đỏ là biển báo nguy hiểm cấm tắm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 4,
+    "question": "Số điện thoại khẩn cấp gọi cứu nạn ở Việt Nam là?",
+    "options": {
+      "A": "112",
+      "B": "113",
+      "C": "114",
+      "D": "115"
+    },
+    "answer": "C",
+    "explanation": "114 là số cứu nạn cứu hộ.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 5,
+    "question": "Tại sao phải khởi động trước khi xuống nước?",
+    "options": {
+      "A": "Để bơi nhanh hơn",
+      "B": "Tránh bị chuột rút (vọp bẻ)",
+      "C": "Để nước không vào tai",
+      "D": "Để được khen"
+    },
+    "answer": "B",
+    "explanation": "Khởi động giúp làm nóng cơ bắp, tránh co rút.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 6,
+    "question": "Tại sao không nên bơi khi vừa ăn no?",
+    "options": {
+      "A": "Vì sẽ bị chìm",
+      "B": "Dễ gây đau dạ dày và khó thở",
+      "C": "Làm bẩn nước",
+      "D": "Không ai bơi lúc no"
+    },
+    "answer": "B",
+    "explanation": "Bơi lúc no làm tăng áp lực dạ dày, gây mệt.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 7,
+    "question": "Hành động nào gây nguy hiểm khi ở hồ bơi?",
+    "options": {
+      "A": "Chạy nhảy đùa giỡn trên bờ",
+      "B": "Mặc đồ bơi",
+      "C": "Tắm tráng trước khi bơi",
+      "D": "Khởi động"
+    },
+    "answer": "A",
+    "explanation": "Sàn hồ bơi trơn trợt dễ gây té ngã.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 8,
+    "question": "Biển báo 'Khu vực nước sâu' có ý nghĩa gì?",
+    "options": {
+      "A": "Nước ở đây rất trong",
+      "B": "Dành cho người không biết bơi",
+      "C": "Chỉ người bơi giỏi mới được vào",
+      "D": "Nước sâu nguy hiểm"
+    },
+    "answer": "D",
+    "explanation": "Cảnh báo độ sâu nguy hiểm cho người bơi yếu.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 9,
+    "question": "Thấy bạn bị ngã xuống ao, em nên làm gì ĐẦU TIÊN?",
+    "options": {
+      "A": "Nhảy xuống cứu bạn ngay",
+      "B": "Hét to kêu cứu người lớn",
+      "C": "Chạy về nhà trốn",
+      "D": "Khóc lóc"
+    },
+    "answer": "B",
+    "explanation": "Trẻ em không đủ sức cứu người, cần gọi người lớn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 10,
+    "question": "Đang bơi thì thấy mệt, em sẽ làm gì?",
+    "options": {
+      "A": "Cố bơi tiếp",
+      "B": "Bơi nhanh hơn",
+      "C": "Bơi vào bờ hoặc gọi cứu hộ",
+      "D": "Lặn xuống đáy"
+    },
+    "answer": "C",
+    "explanation": "Khi mệt cần vào bờ nghỉ ngơi ngay.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 11,
+    "question": "Bạn rủ em ra sông tắm vào buổi trưa vắng, em chọn cách nào?",
+    "options": {
+      "A": "Đồng ý ngay",
+      "B": "Rủ thêm người khác",
+      "C": "Từ chối và khuyên bạn không đi",
+      "D": "Chỉ ra xem bạn tắm"
+    },
+    "answer": "C",
+    "explanation": "Tắm sông vắng rất nguy hiểm, cần từ chối.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 12,
+    "question": "Em nhặt được đồ chơi rơi xuống hồ nước, em làm gì?",
+    "options": {
+      "A": "Cố với lấy",
+      "B": "Dùng cây ngắn khều",
+      "C": "Báo cho người lớn hoặc cứu hộ",
+      "D": "Lội xuống lấy"
+    },
+    "answer": "C",
+    "explanation": "Tránh tự ý với đồ gần mép nước dễ té ngã.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 13,
+    "question": "Nam hay giả vờ kêu cứu khi đi bơi để trêu bạn. Hành vi này:",
+    "options": {
+      "A": "Rất vui nhộn",
+      "B": "Giúp Nam bơi giỏi hơn",
+      "C": "Nguy hiểm, cứu hộ sẽ không tin khi gặp nạn thật",
+      "D": "Bình thường"
+    },
+    "answer": "C",
+    "explanation": "Đùa giỡn kêu cứu làm mất lòng tin của cứu hộ.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 14,
+    "question": "Lan luôn mặc áo phao khi đi ghe thuyền dù biết bơi. Em thấy Lan:",
+    "options": {
+      "A": "Nhát gan",
+      "B": "Thực hiện đúng quy tắc an toàn",
+      "C": "Không cần thiết",
+      "D": "Tốn thời gian"
+    },
+    "answer": "B",
+    "explanation": "Mặc áo phao khi đi phương tiện thủy là bắt buộc.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 15,
+    "question": "Một nhóm bạn thi xem ai nín thở dưới nước lâu nhất. Hành vi này:",
+    "options": {
+      "A": "Giúp tăng sức khỏe",
+      "B": "Rất dũng cảm",
+      "C": "Nguy hiểm, dễ gây ngạt nước",
+      "D": "Nên khuyến khích"
+    },
+    "answer": "C",
+    "explanation": "Nín thở quá lâu dưới nước có thể gây ngất xỉu.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 16,
+    "question": "Tuấn xô bạn xuống nước để đùa. Em đánh giá hành vi của Tuấn?",
+    "options": {
+      "A": "Đùa vui",
+      "B": "Thân thiện",
+      "C": "Rất nguy hiểm, có thể làm bạn sặc nước",
+      "D": "Sáng tạo"
+    },
+    "answer": "C",
+    "explanation": "Xô đẩy ở hồ bơi có thể gây chấn thương và đuối nước.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 17,
+    "question": "Nếu gia đình em đi du lịch biển, em sẽ chuẩn bị gì để an toàn?",
+    "options": {
+      "A": "Chỉ mang đồ ăn",
+      "B": "Mang phao bơi, áo phao và kem chống nắng",
+      "C": "Mang sách vở",
+      "D": "Chỉ mang điện thoại"
+    },
+    "answer": "B",
+    "explanation": "Chuẩn bị đồ an toàn là cần thiết khi đi biển.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 18,
+    "question": "Sau khóa học bơi, em rút ra bài học gì quan trọng nhất?",
+    "options": {
+      "A": "Có thể bơi ở bất cứ đâu",
+      "B": "Luôn tuân thủ quy tắc an toàn nước",
+      "C": "Bơi để thi đấu",
+      "D": "Không cần mặc áo phao nữa"
+    },
+    "answer": "B",
+    "explanation": "Quy tắc an toàn luôn phải đặt lên hàng đầu.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 19,
+    "question": "Khi thấy biển báo cấm tắm nhưng nước rất nông, em làm gì?",
+    "options": {
+      "A": "Cứ tắm vì nước nông",
+      "B": "Chụp ảnh dưới nước",
+      "C": "Tuân thủ biển báo và không tắm",
+      "D": "Rủ bạn cùng xuống"
+    },
+    "answer": "C",
+    "explanation": "Biển cấm có thể vì lý do khác như sụt lún, ô nhiễm.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 20,
+    "question": "Em sẽ khuyên em út điều gì khi chơi gần ao hồ?",
+    "options": {
+      "A": "Không được tới gần mép nước một mình",
+      "B": "Ném đá xuống ao cho vui",
+      "C": "Tự lấy đồ chơi nếu rớt xuống",
+      "D": "Rủ bạn ra đó chơi"
+    },
+    "answer": "A",
+    "explanation": "Trẻ nhỏ tuyệt đối không chơi gần nước một mình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng phòng tránh nguy cơ bị đuối nước"
+  },
+  {
+    "number": 1,
+    "question": "Quan sát là sử dụng giác quan nào?",
+    "options": {
+      "A": "Chỉ dùng mắt",
+      "B": "Dùng mắt, tai, mũi và các giác quan khác",
+      "C": "Chỉ dùng tay",
+      "D": "Chỉ dùng tai"
+    },
+    "answer": "B",
+    "explanation": "Quan sát bao gồm việc thu thập thông tin bằng nhiều giác quan.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 2,
+    "question": "Khi quan sát một bông hoa, em thấy được điều gì bằng mắt?",
+    "options": {
+      "A": "Mùi hương",
+      "B": "Độ mềm",
+      "C": "Màu sắc",
+      "D": "Tiếng lá reo"
+    },
+    "answer": "C",
+    "explanation": "Mắt dùng để nhận biết màu sắc, hình dáng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 3,
+    "question": "Đâu là công cụ hỗ trợ quan sát?",
+    "options": {
+      "A": "Cái búa",
+      "B": "Kính lúp",
+      "C": "Cái kéo",
+      "D": "Cây bút"
+    },
+    "answer": "B",
+    "explanation": "Kính lúp giúp phóng to vật để nhìn rõ hơn.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 4,
+    "question": "Quan sát thời tiết để làm gì?",
+    "options": {
+      "A": "Để biết mặc đồ phù hợp",
+      "B": "Để học giỏi toán",
+      "C": "Để ăn ngon",
+      "D": "Để chơi game"
+    },
+    "answer": "A",
+    "explanation": "Quan sát thời tiết giúp chọn trang phục và chuẩn bị ra ngoài.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 5,
+    "question": "Tại sao khi sang đường cần quan sát kỹ?",
+    "options": {
+      "A": "Để xem có ai quen không",
+      "B": "Để tránh xe cộ, đảm bảo an toàn",
+      "C": "Để nhìn đèn đường",
+      "D": "Để đi chậm lại"
+    },
+    "answer": "B",
+    "explanation": "Quan sát giúp phát hiện chướng ngại vật và xe cộ.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 6,
+    "question": "Sự khác nhau giữa 'nhìn' và 'quan sát' là gì?",
+    "options": {
+      "A": "Nhìn tốn sức hơn",
+      "B": "Quan sát là nhìn có chủ đích và ghi nhớ chi tiết",
+      "C": "Không có gì khác",
+      "D": "Nhìn dùng mắt, quan sát dùng mũi"
+    },
+    "answer": "B",
+    "explanation": "Quan sát sâu sắc và có phân tích hơn việc chỉ nhìn qua.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 7,
+    "question": "Quan sát bức tranh cẩn thận giúp em điều gì?",
+    "options": {
+      "A": "Hiểu được ý nghĩa và chi tiết",
+      "B": "Vẽ nhanh hơn",
+      "C": "Bức tranh đẹp hơn",
+      "D": "Mắt sáng hơn"
+    },
+    "answer": "A",
+    "explanation": "Quan sát kỹ giúp thu thập đủ thông tin.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 8,
+    "question": "Tại sao bác sĩ cần quan sát sắc mặt bệnh nhân?",
+    "options": {
+      "A": "Để khen bệnh nhân",
+      "B": "Để chẩn đoán tình trạng sức khỏe",
+      "C": "Để vẽ chân dung",
+      "D": "Để hỏi tên"
+    },
+    "answer": "B",
+    "explanation": "Sắc mặt phản ánh một phần tình trạng bệnh lý.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 9,
+    "question": "Mẹ đang bận nấu ăn, em thấy nước trong nồi trào ra. Em làm gì?",
+    "options": {
+      "A": "Đứng nhìn",
+      "B": "Chạy đi chơi",
+      "C": "Gọi mẹ hoặc giúp mẹ tắt bếp (nếu biết cách an toàn)",
+      "D": "Khóc"
+    },
+    "answer": "C",
+    "explanation": "Quan sát thấy sự cố cần có hành động phản hồi kịp thời.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 10,
+    "question": "Đi dã ngoại, em thấy bầu trời đen kịt và gió lớn. Em làm gì?",
+    "options": {
+      "A": "Chạy ra bãi cỏ chơi",
+      "B": "Rủ bạn đi bơi",
+      "C": "Tìm nơi trú ẩn an toàn vì sắp mưa to",
+      "D": "Lấy diều ra thả"
+    },
+    "answer": "C",
+    "explanation": "Bầu trời đen kịt là dấu hiệu trời chuyển mưa dông.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 11,
+    "question": "Đọc đề bài toán, em thấy mình hay làm sai. Lần này em nên làm gì?",
+    "options": {
+      "A": "Làm thật nhanh",
+      "B": "Nhờ bạn làm hộ",
+      "C": "Quan sát kỹ từng chữ, số liệu trước khi làm",
+      "D": "Bỏ qua"
+    },
+    "answer": "C",
+    "explanation": "Quan sát kỹ giúp tránh nhầm lẫn dữ kiện.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 12,
+    "question": "Bước vào phòng tối, em sẽ làm gì đầu tiên?",
+    "options": {
+      "A": "Chạy nhanh vào trong",
+      "B": "Quan sát tìm công tắc đèn",
+      "C": "Nhắm mắt lại",
+      "D": "Ngồi thụp xuống"
+    },
+    "answer": "B",
+    "explanation": "Quan sát xung quanh để tìm công tắc hoặc nguồn sáng.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 13,
+    "question": "Bạn Lan luôn nhìn trước ngó sau khi đi đường. Em đánh giá thế nào?",
+    "options": {
+      "A": "Lan bị sợ hãi quá mức",
+      "B": "Lan mất tập trung",
+      "C": "Lan cẩn thận và có kỹ năng quan sát tốt",
+      "D": "Lan đi chậm"
+    },
+    "answer": "C",
+    "explanation": "Quan sát khi đi đường là thói quen tốt để an toàn.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 14,
+    "question": "Minh tìm đồ chơi nhưng chỉ liếc qua rồi bảo không thấy. Lỗi của Minh là?",
+    "options": {
+      "A": "Mắt kém",
+      "B": "Chưa biết cách quan sát kỹ càng",
+      "C": "Đồ chơi bị mất",
+      "D": "Minh lười"
+    },
+    "answer": "B",
+    "explanation": "Liếc qua không đủ để tìm đồ, cần quan sát kỹ.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 15,
+    "question": "Hoa nhận ra bạn buồn vì thấy bạn ít nói và hay cúi đầu. Hoa có kỹ năng gì?",
+    "options": {
+      "A": "Quan sát và thấu hiểu tinh tế",
+      "B": "Sáng tạo tốt",
+      "C": "Sắp xếp giỏi",
+      "D": "Phân loại giỏi"
+    },
+    "answer": "A",
+    "explanation": "Quan sát nét mặt, cử chỉ giúp nhận biết cảm xúc.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 16,
+    "question": "Nam sang đường chỉ nhìn một bên trái. Đánh giá hành vi của Nam?",
+    "options": {
+      "A": "Đúng, chỉ cần nhìn trái",
+      "B": "Sai, chưa quan sát toàn diện, dễ gặp nguy hiểm",
+      "C": "Nhanh nhẹn",
+      "D": "Rất tốt"
+    },
+    "answer": "B",
+    "explanation": "Sang đường cần quan sát cả hai bên.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 17,
+    "question": "Từ việc quan sát cây con héo, em rút ra bài học gì?",
+    "options": {
+      "A": "Cây không cần nước",
+      "B": "Cần phải tưới nước và chăm sóc cây thường xuyên",
+      "C": "Nhổ cây đi",
+      "D": "Cây thích nắng gắt"
+    },
+    "answer": "B",
+    "explanation": "Phản tư từ quan sát giúp điều chỉnh hành động chăm sóc.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 18,
+    "question": "Làm sao để rèn luyện kỹ năng quan sát tốt hơn mỗi ngày?",
+    "options": {
+      "A": "Chơi game nhiều",
+      "B": "Chú ý tiểu tiết và đặt câu hỏi về mọi thứ xung quanh",
+      "C": "Nhắm mắt nhiều hơn",
+      "D": "Đọc truyện tranh"
+    },
+    "answer": "B",
+    "explanation": "Tập trung chú ý giúp nâng cao khả năng quan sát.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 19,
+    "question": "Vận dụng kỹ năng quan sát vào việc dọn phòng, em sẽ làm gì?",
+    "options": {
+      "A": "Gom tất cả vào một góc",
+      "B": "Nhìn xem món nào đang để sai chỗ và cất lại",
+      "C": "Nhờ mẹ dọn",
+      "D": "Tắt đèn đi ngủ"
+    },
+    "answer": "B",
+    "explanation": "Quan sát giúp phát hiện sự lộn xộn để xử lý.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 20,
+    "question": "Quan sát giúp em phòng tránh nguy hiểm như thế nào?",
+    "options": {
+      "A": "Làm em dũng cảm hơn",
+      "B": "Nhận biết sớm các rủi ro (ổ gà, biển báo) để tránh",
+      "C": "Giúp em chạy nhanh",
+      "D": "Làm em khỏe hơn"
+    },
+    "answer": "B",
+    "explanation": "Nhận diện rủi ro sớm là cốt lõi của việc phòng tránh.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Quan sát"
+  },
+  {
+    "number": 1,
+    "question": "Sắp xếp là gì?",
+    "options": {
+      "A": "Làm lộn xộn mọi thứ",
+      "B": "Bố trí đồ vật theo một trật tự nhất định",
+      "C": "Giấu đồ vật đi",
+      "D": "Vứt đồ đạc đi"
+    },
+    "answer": "B",
+    "explanation": "Sắp xếp là đặt mọi thứ vào đúng vị trí và trật tự.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 2,
+    "question": "Đâu là một cách sắp xếp sách vở phổ biến?",
+    "options": {
+      "A": "Theo kích thước (từ lớn đến nhỏ)",
+      "B": "Theo màu sắc một cách ngẫu nhiên",
+      "C": "Trộn lẫn lộn",
+      "D": "Để dưới gầm giường"
+    },
+    "answer": "A",
+    "explanation": "Sắp xếp theo kích thước giúp gọn gàng và dễ lấy.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 3,
+    "question": "Dụng cụ nào dùng để sắp xếp quần áo?",
+    "options": {
+      "A": "Tủ, móc treo",
+      "B": "Hộp bút",
+      "C": "Giỏ rác",
+      "D": "Tủ lạnh"
+    },
+    "answer": "A",
+    "explanation": "Tủ và móc thiết kế riêng cho quần áo.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 4,
+    "question": "Lợi ích của việc sắp xếp góc học tập là gì?",
+    "options": {
+      "A": "Tốn thời gian",
+      "B": "Dễ tìm đồ và học tập tập trung hơn",
+      "C": "Làm mất đồ",
+      "D": "Làm phòng nhỏ lại"
+    },
+    "answer": "B",
+    "explanation": "Góc học tập gọn gàng giúp tăng hiệu quả.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 5,
+    "question": "Tại sao trong siêu thị hàng hóa phải được sắp xếp theo khu vực?",
+    "options": {
+      "A": "Để đẹp mắt",
+      "B": "Để khách hàng dễ tìm kiếm và mua sắm",
+      "C": "Để nhân viên nghỉ ngơi",
+      "D": "Để tránh chuột"
+    },
+    "answer": "B",
+    "explanation": "Phân khu hàng hóa giúp định vị sản phẩm nhanh chóng.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 6,
+    "question": "Sắp xếp thời gian (lập thời gian biểu) có tác dụng gì?",
+    "options": {
+      "A": "Làm em bận rộn hơn",
+      "B": "Giúp cân bằng việc học, chơi và nghỉ ngơi",
+      "C": "Làm em mệt mỏi",
+      "D": "Để bố mẹ vui"
+    },
+    "answer": "B",
+    "explanation": "Quản lý thời gian tốt giúp cuộc sống nề nếp hơn.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 7,
+    "question": "Điều gì xảy ra nếu không sắp xếp đồ dùng cá nhân?",
+    "options": {
+      "A": "Thất lạc đồ và tốn thời gian tìm kiếm",
+      "B": "Đồ dùng tự gọn gàng",
+      "C": "Tiết kiệm thời gian",
+      "D": "Được khen"
+    },
+    "answer": "A",
+    "explanation": "Sự bừa bộn dẫn đến mất mát và lãng phí thời gian.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 8,
+    "question": "Nguyên tắc 'đồ hay dùng để bên ngoài' khi sắp xếp giúp gì?",
+    "options": {
+      "A": "Đẹp tủ",
+      "B": "Lấy nhanh chóng, thuận tiện",
+      "C": "Bảo vệ đồ vật",
+      "D": "Tiết kiệm tiền"
+    },
+    "answer": "B",
+    "explanation": "Đồ thường xuyên dùng cần dễ tiếp cận nhất.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 9,
+    "question": "Bàn học của em đầy giấy nháp và bút. Em sẽ làm gì?",
+    "options": {
+      "A": "Để nguyên đó",
+      "B": "Vứt hết giấy nháp, bỏ bút vào ống bút",
+      "C": "Gom tất cả vào cặp",
+      "D": "Chuyển sang giường học"
+    },
+    "answer": "B",
+    "explanation": "Loại bỏ rác và cất đồ dùng đúng chỗ để gọn gàng.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 10,
+    "question": "Có 5 việc cần làm buổi tối. Em chọn cách sắp xếp nào?",
+    "options": {
+      "A": "Làm việc mình thích nhất trước",
+      "B": "Làm theo thứ tự ưu tiên (việc gấp làm trước)",
+      "C": "Làm cùng lúc 5 việc",
+      "D": "Không làm việc nào"
+    },
+    "answer": "B",
+    "explanation": "Sắp xếp công việc theo mức độ quan trọng mang lại hiệu quả cao.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 11,
+    "question": "Đi dã ngoại, em sắp xếp balo như thế nào?",
+    "options": {
+      "A": "Nhét mọi thứ vào",
+      "B": "Đồ nặng ở đáy, đồ hay dùng ở ngăn ngoài",
+      "C": "Đồ ăn để dưới cùng",
+      "D": "Để balo trống"
+    },
+    "answer": "B",
+    "explanation": "Cách xếp balo chuẩn giúp mang vác nhẹ và dễ lấy đồ.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 12,
+    "question": "Tủ giày bị lộn xộn. Em nên phân chia thế nào?",
+    "options": {
+      "A": "Giày đi học 1 ngăn, dép đi chơi 1 ngăn",
+      "B": "Xếp chồng lên nhau",
+      "C": "Cất vào túi nilon",
+      "D": "Bỏ bớt giày"
+    },
+    "answer": "A",
+    "explanation": "Phân chia theo mục đích sử dụng giúp tủ giày khoa học.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 13,
+    "question": "Bạn Huy luôn xếp sách truyện theo vần A, B, C. Đánh giá thói quen này?",
+    "options": {
+      "A": "Mất thời gian vô ích",
+      "B": "Rất khoa học, giúp tìm kiếm siêu nhanh",
+      "C": "Không cần thiết",
+      "D": "Chỉ thủ thư mới làm"
+    },
+    "answer": "B",
+    "explanation": "Sắp xếp theo thứ tự chữ cái là phương pháp tối ưu.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 14,
+    "question": "Mẹ dọn phòng giúp nhưng Nam lại vứt đồ bừa bãi. Nam đang thiếu kỹ năng gì?",
+    "options": {
+      "A": "Kỹ năng hát",
+      "B": "Kỹ năng tự phục vụ và sắp xếp",
+      "C": "Kỹ năng giao tiếp",
+      "D": "Kỹ năng tính toán"
+    },
+    "answer": "B",
+    "explanation": "Giữ gìn trật tự là biểu hiện của kỹ năng sắp xếp.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 15,
+    "question": "Lan để quần áo bẩn lẫn quần áo sạch. Hành động này:",
+    "options": {
+      "A": "Đúng, tiết kiệm chỗ",
+      "B": "Sai, mất vệ sinh và bừa bộn",
+      "C": "Sáng tạo",
+      "D": "Không sao cả"
+    },
+    "answer": "B",
+    "explanation": "Quần áo bẩn cần để riêng để không lây mùi sang đồ sạch.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 16,
+    "question": "Một học sinh lập kế hoạch học tập chi tiết nhưng không thực hiện. Đánh giá?",
+    "options": {
+      "A": "Giỏi sắp xếp",
+      "B": "Biết sắp xếp trên giấy nhưng thiếu kỷ luật thực hành",
+      "C": "Kém sắp xếp",
+      "D": "Rất tốt"
+    },
+    "answer": "B",
+    "explanation": "Sắp xếp kế hoạch phải đi đôi với hành động.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 17,
+    "question": "Em vận dụng kỹ năng sắp xếp vào máy tính như thế nào?",
+    "options": {
+      "A": "Để mọi file ở Desktop",
+      "B": "Tạo các thư mục (Học tập, Giải trí) để lưu trữ",
+      "C": "Xóa hết file",
+      "D": "Không dùng máy tính"
+    },
+    "answer": "B",
+    "explanation": "Tạo thư mục giúp quản lý dữ liệu số hiệu quả.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 18,
+    "question": "Sau một tuần gọn gàng, bàn học lại bừa. Em rút ra bài học gì?",
+    "options": {
+      "A": "Không cần dọn nữa",
+      "B": "Phải duy trì thói quen cất đồ ngay sau khi dùng",
+      "C": "Đổ lỗi cho em bé",
+      "D": "Dọn 1 năm 1 lần"
+    },
+    "answer": "B",
+    "explanation": "Sắp xếp là quá trình cần được duy trì liên tục.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 19,
+    "question": "Làm thế nào để việc dọn dẹp, sắp xếp trở nên thú vị hơn?",
+    "options": {
+      "A": "Vừa dọn vừa bật nhạc yêu thích",
+      "B": "Vừa dọn vừa khóc",
+      "C": "Bắt người khác dọn cùng",
+      "D": "Dọn thật chậm"
+    },
+    "answer": "A",
+    "explanation": "Âm nhạc tạo cảm hứng và niềm vui khi làm việc nhà.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 20,
+    "question": "Sắp xếp tốt giúp ích gì cho tư duy của em?",
+    "options": {
+      "A": "Tư duy logic, rành mạch hơn",
+      "B": "Tư duy chậm lại",
+      "C": "Không có tác dụng",
+      "D": "Mất khả năng sáng tạo"
+    },
+    "answer": "A",
+    "explanation": "Không gian ngăn nắp phản ánh và rèn luyện tư duy logic.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Sắp xếp"
+  },
+  {
+    "number": 1,
+    "question": "So sánh là làm gì?",
+    "options": {
+      "A": "Tìm ra điểm giống và khác nhau giữa các sự vật",
+      "B": "Cắt đôi đồ vật",
+      "C": "Trộn mọi thứ lại",
+      "D": "Vứt bỏ đồ cũ"
+    },
+    "answer": "A",
+    "explanation": "So sánh giúp nhận diện đặc điểm đặc trưng của đối tượng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 2,
+    "question": "Để so sánh độ dài 2 chiếc bút, em dùng gì?",
+    "options": {
+      "A": "Cái cân",
+      "B": "Thước kẻ",
+      "C": "Nhiệt kế",
+      "D": "Kính lúp"
+    },
+    "answer": "B",
+    "explanation": "Thước kẻ là công cụ đo độ dài chuẩn xác.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 3,
+    "question": "Khi so sánh quả cam và quả chanh, điểm khác biệt rõ nhất là?",
+    "options": {
+      "A": "Đều có hạt",
+      "B": "Vị (ngọt/chua) và kích thước",
+      "C": "Đều là trái cây",
+      "D": "Đều có vỏ"
+    },
+    "answer": "B",
+    "explanation": "Vị và kích thước là đặc điểm phân biệt cam và chanh.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 4,
+    "question": "Phép toán nào thường dùng để so sánh số lượng?",
+    "options": {
+      "A": "Cộng",
+      "B": "Lớn hơn (>), nhỏ hơn (<), bằng (=)",
+      "C": "Nhân",
+      "D": "Chia"
+    },
+    "answer": "B",
+    "explanation": "Các dấu >, <, = là ký hiệu của phép so sánh.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 5,
+    "question": "Tại sao chúng ta cần kỹ năng so sánh khi đi mua hàng?",
+    "options": {
+      "A": "Để xem hàng hóa có đẹp không",
+      "B": "Để chọn được sản phẩm tốt nhất với giá hợp lý (so sánh giá và chất lượng)",
+      "C": "Để mua được hàng đắt nhất",
+      "D": "Để cửa hàng vui"
+    },
+    "answer": "B",
+    "explanation": "So sánh giúp người tiêu dùng đưa ra lựa chọn thông minh.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 6,
+    "question": "So sánh mùa hè và mùa đông ở miền Bắc có điểm gì khác nhau cốt lõi?",
+    "options": {
+      "A": "Mùa hè nóng, mùa đông lạnh",
+      "B": "Mùa hè có tuyết",
+      "C": "Mùa đông đi bơi",
+      "D": "Không có gì khác"
+    },
+    "answer": "A",
+    "explanation": "Nhiệt độ là đặc trưng cơ bản phân biệt hai mùa này.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 7,
+    "question": "So sánh giúp em nhận ra điều gì trong học tập?",
+    "options": {
+      "A": "Thấy mình kém cỏi",
+      "B": "Nhận ra sự tiến bộ của bản thân so với hôm qua",
+      "C": "Thấy bạn bè xấu",
+      "D": "Thấy mệt mỏi"
+    },
+    "answer": "B",
+    "explanation": "So sánh bản thân với quá khứ giúp nhận diện sự phát triển.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 8,
+    "question": "Đâu là ví dụ của việc so sánh để tìm điểm giống nhau?",
+    "options": {
+      "A": "Chó sủa, mèo kêu",
+      "B": "Cả con mèo và con hổ đều thuộc họ Mèo",
+      "C": "Gà có lông, cá có vảy",
+      "D": "Cây có lá, hòn đá không có"
+    },
+    "answer": "B",
+    "explanation": "Tìm điểm giống nhau để đưa vào cùng một nhóm phân loại.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 9,
+    "question": "Em được cho 2 đôi giày, 1 chật và 1 vừa chân. Em so sánh và chọn?",
+    "options": {
+      "A": "Đôi chật vì nó đẹp",
+      "B": "Đôi vừa chân để đi lại thoải mái",
+      "C": "Lấy cả hai",
+      "D": "Không lấy đôi nào"
+    },
+    "answer": "B",
+    "explanation": "So sánh mức độ phù hợp để đưa ra quyết định tốt nhất.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 10,
+    "question": "Đứng trước 2 con đường về nhà: đường ngắn nhưng nhiều xe, đường dài nhưng an toàn. Em chọn?",
+    "options": {
+      "A": "Đường ngắn cho nhanh",
+      "B": "Đường an toàn dù xa hơn một chút",
+      "C": "Đứng im",
+      "D": "Đi nhắm mắt"
+    },
+    "answer": "B",
+    "explanation": "So sánh rủi ro an toàn quan trọng hơn thời gian.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 11,
+    "question": "Bạn rủ em chơi game và mẹ nhắc em làm bài tập. Em so sánh lợi hại thế nào?",
+    "options": {
+      "A": "Chơi game vui hơn nên chơi",
+      "B": "Làm bài tập mang lợi ích lâu dài nên chọn làm bài",
+      "C": "Bỏ nhà đi",
+      "D": "Vừa chơi vừa làm"
+    },
+    "answer": "B",
+    "explanation": "So sánh ưu tiên giúp ra quyết định đúng đắn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 12,
+    "question": "Khi so sánh hai cuốn sách truyện để mua, em nên dựa vào tiêu chí nào?",
+    "options": {
+      "A": "Cuốn nào nặng hơn",
+      "B": "Nội dung, thể loại mình thích và giá tiền",
+      "C": "Cuốn nào có màu đỏ",
+      "D": "Cuốn nào cũ hơn"
+    },
+    "answer": "B",
+    "explanation": "Nội dung và giá tiền là tiêu chí phù hợp để chọn sách.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 13,
+    "question": "Minh hay so sánh quần áo của mình kém hàng hiệu của bạn. Đánh giá việc này?",
+    "options": {
+      "A": "Minh rất giỏi so sánh",
+      "B": "So sánh vật chất gây tự ti, không nên khuyến khích",
+      "C": "Minh nghèo",
+      "D": "Nên so sánh nhiều hơn"
+    },
+    "answer": "B",
+    "explanation": "So sánh vật chất với người khác dễ sinh tiêu cực.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 14,
+    "question": "Lan so sánh kết quả kiểm tra của mình tháng này cao hơn tháng trước để cố gắng. Đánh giá?",
+    "options": {
+      "A": "Rất tích cực, so sánh để tự hoàn thiện",
+      "B": "Lan kiêu ngạo",
+      "C": "Lan rảnh rỗi",
+      "D": "Không nên so sánh thế"
+    },
+    "answer": "A",
+    "explanation": "So sánh dọc (với chính mình) là động lực phát triển.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 15,
+    "question": "Người bán hàng nói trái cây này ngon nhất. Em nên làm gì?",
+    "options": {
+      "A": "Tin ngay",
+      "B": "Quan sát và so sánh với các sạp khác để đánh giá khách quan",
+      "C": "Cãi lại",
+      "D": "Bỏ đi"
+    },
+    "answer": "B",
+    "explanation": "So sánh khách quan giúp tránh bị lừa dối.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 16,
+    "question": "Một bạn chê tranh của em xấu hơn tranh của bạn ấy. Em đánh giá hành vi đó?",
+    "options": {
+      "A": "Bạn ấy đúng",
+      "B": "So sánh mang tính chê bai là thiếu tôn trọng",
+      "C": "Mình phải xé tranh",
+      "D": "Bạn ấy vẽ giỏi"
+    },
+    "answer": "B",
+    "explanation": "So sánh để hạ thấp người khác là hành vi kém văn minh.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 17,
+    "question": "Vận dụng kỹ năng so sánh, làm sao để viết một bài văn miêu tả hay?",
+    "options": {
+      "A": "Chép trên mạng",
+      "B": "Dùng các hình ảnh so sánh (vd: mặt trời như quả cầu lửa)",
+      "C": "Viết ngắn lại",
+      "D": "Viết chữ to"
+    },
+    "answer": "B",
+    "explanation": "Biện pháp tu từ so sánh làm câu văn sinh động.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 18,
+    "question": "Khi gặp hai thông tin trái chiều trên mạng, em sẽ làm gì?",
+    "options": {
+      "A": "Tin tin nào đọc trước",
+      "B": "So sánh nguồn gốc, độ tin cậy để tìm sự thật",
+      "C": "Chia sẻ ngay",
+      "D": "Không tin ai"
+    },
+    "answer": "B",
+    "explanation": "Kỹ năng so sánh giúp đánh giá tính xác thực của thông tin.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 19,
+    "question": "Sau một tuần ăn nhiều rau và một tuần ăn đồ ngọt, em phản tư điều gì?",
+    "options": {
+      "A": "Ăn đồ ngọt khỏe hơn",
+      "B": "So sánh thấy ăn rau giúp cơ thể nhẹ nhàng, tiêu hóa tốt hơn",
+      "C": "Không thấy gì",
+      "D": "Ăn rau làm mệt"
+    },
+    "answer": "B",
+    "explanation": "So sánh trải nghiệm cá nhân giúp hình thành thói quen tốt.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 20,
+    "question": "Bài học lớn nhất khi học kỹ năng so sánh là gì?",
+    "options": {
+      "A": "Để đi cãi nhau",
+      "B": "Để nhận thức đúng đắn và đưa ra lựa chọn sáng suốt",
+      "C": "Để thấy mình giỏi nhất",
+      "D": "Để thi toán"
+    },
+    "answer": "B",
+    "explanation": "Mục đích cuối cùng của so sánh là ra quyết định.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "So sánh"
+  },
+  {
+    "number": 1,
+    "question": "Phân loại là gì?",
+    "options": {
+      "A": "Xếp các vật có chung đặc điểm vào cùng một nhóm",
+      "B": "Cắt nhỏ đồ vật",
+      "C": "Vứt đồ đạc đi",
+      "D": "Trộn mọi thứ vào nhau"
+    },
+    "answer": "A",
+    "explanation": "Phân loại là nhóm các đối tượng theo tiêu chí chung.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 2,
+    "question": "Khi phân loại rác, ta thường chia làm mấy loại chính?",
+    "options": {
+      "A": "Không chia",
+      "B": "Rác vô cơ, rác hữu cơ, rác tái chế",
+      "C": "Chỉ rác nhựa",
+      "D": "Chỉ rác giấy"
+    },
+    "answer": "B",
+    "explanation": "Ba nhóm cơ bản giúp xử lý rác thải hiệu quả.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 3,
+    "question": "Động vật nào sau đây thuộc nhóm gia cầm?",
+    "options": {
+      "A": "Bò",
+      "B": "Chó",
+      "C": "Gà",
+      "D": "Cá"
+    },
+    "answer": "C",
+    "explanation": "Gà là động vật có lông vũ, có cánh, được chăn nuôi.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 4,
+    "question": "Trái cây được phân loại vào nhóm thực phẩm nào?",
+    "options": {
+      "A": "Nhiều đạm",
+      "B": "Nhiều vitamin và khoáng chất",
+      "C": "Nhiều chất béo",
+      "D": "Nhiều tinh bột"
+    },
+    "answer": "B",
+    "explanation": "Trái cây cung cấp nguồn vitamin dồi dào.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 5,
+    "question": "Vì sao việc phân loại rác thải lại quan trọng?",
+    "options": {
+      "A": "Để thùng rác đẹp hơn",
+      "B": "Bảo vệ môi trường và tái chế tài nguyên",
+      "C": "Để tốn túi rác",
+      "D": "Để người thu gom mệt hơn"
+    },
+    "answer": "B",
+    "explanation": "Phân loại rác giúp giảm thiểu ô nhiễm và tận dụng phế liệu.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 6,
+    "question": "Mục đích của việc phân loại sách trong thư viện là gì?",
+    "options": {
+      "A": "Để sách không bị mốc",
+      "B": "Giúp người đọc dễ dàng tra cứu theo môn loại",
+      "C": "Để thư viện to hơn",
+      "D": "Để trang trí"
+    },
+    "answer": "B",
+    "explanation": "Hệ thống phân loại giúp việc tìm kiếm nhanh chóng.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 7,
+    "question": "Khi dọn tủ quần áo, tiêu chí phân loại phổ biến là gì?",
+    "options": {
+      "A": "Theo kích cỡ người khác",
+      "B": "Đồ mùa đông - đồ mùa hè",
+      "C": "Trộn lẫn lộn",
+      "D": "Đồ sạch - đồ mới"
+    },
+    "answer": "B",
+    "explanation": "Phân loại theo mùa giúp dễ chọn trang phục hàng ngày.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 8,
+    "question": "Trong toán học, số chẵn và số lẻ là kết quả của việc phân loại theo tiêu chí nào?",
+    "options": {
+      "A": "Chia hết cho 2 hay không",
+      "B": "Số lớn hay số nhỏ",
+      "C": "Số đẹp hay số xấu",
+      "D": "Màu sắc số"
+    },
+    "answer": "A",
+    "explanation": "Dấu hiệu chia hết cho 2 là tiêu chí phân biệt chẵn/lẻ.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 9,
+    "question": "Có một rổ đồ chơi gồm lego, ô tô, búp bê. Em sẽ chia nhóm thế nào để cất?",
+    "options": {
+      "A": "Cho hết vào 1 hộp",
+      "B": "Chia 3 hộp: lego, xe cộ, búp bê",
+      "C": "Bỏ bớt búp bê",
+      "D": "Chia làm 2 hộp bừa"
+    },
+    "answer": "B",
+    "explanation": "Phân nhóm theo đặc tính đồ chơi giúp dễ tìm lại.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 10,
+    "question": "Khi phụ mẹ nhặt rau, em sẽ phân loại thế nào?",
+    "options": {
+      "A": "Phần rau non để ăn, phần lá già và cuống để bỏ (hữu cơ)",
+      "B": "Cắt vụn tất cả",
+      "C": "Trộn lẫn vào nhau",
+      "D": "Vứt hết"
+    },
+    "answer": "A",
+    "explanation": "Phân loại phần sử dụng được và phần bỏ đi là việc làm bếp cơ bản.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 11,
+    "question": "Mẹ đi chợ mua về cá, thịt lợn, rau cải. Em sẽ cất vào tủ lạnh ra sao?",
+    "options": {
+      "A": "Cất chung một ngăn",
+      "B": "Thịt, cá ngăn đá; rau củ ngăn mát dưới cùng",
+      "C": "Rau vào ngăn đá",
+      "D": "Để ngoài hết"
+    },
+    "answer": "B",
+    "explanation": "Phân loại thực phẩm để bảo quản đúng nhiệt độ.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 12,
+    "question": "Em được giao phân loại các loại bút trong lớp. Em chọn cách nào?",
+    "options": {
+      "A": "Bút viết được, bút hết mực, bút màu",
+      "B": "Chia bừa",
+      "C": "Đập vỡ bút",
+      "D": "Không chia"
+    },
+    "answer": "A",
+    "explanation": "Chia theo chức năng và tình trạng sử dụng là hợp lý nhất.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 13,
+    "question": "Hành động vứt vỏ chuối vào thùng rác nhựa là:",
+    "options": {
+      "A": "Đúng",
+      "B": "Sai, vỏ chuối là rác hữu cơ",
+      "C": "Bình thường",
+      "D": "Sáng tạo"
+    },
+    "answer": "B",
+    "explanation": "Phân loại sai nhóm rác làm hỏng nỗ lực tái chế.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 14,
+    "question": "Mai luôn chia bài tập thành: cần làm ngay, làm sau. Đánh giá thói quen này?",
+    "options": {
+      "A": "Lãng phí thời gian",
+      "B": "Rất khoa học, biết phân loại mức độ ưu tiên",
+      "C": "Không có ích",
+      "D": "Mai làm màu"
+    },
+    "answer": "B",
+    "explanation": "Phân loại ưu tiên giúp quản lý thời gian cực tốt.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 15,
+    "question": "Một cửa hàng để xà phòng chung với bánh kẹo. Em thấy sao?",
+    "options": {
+      "A": "Rất tiện lợi",
+      "B": "Nguy hiểm, hóa chất có thể lẫn vào thực phẩm",
+      "C": "Bình thường",
+      "D": "Đẹp mắt"
+    },
+    "answer": "B",
+    "explanation": "Hóa chất và thực phẩm phải được phân loại và tách biệt.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 16,
+    "question": "Bạn Tuấn cất chung sách giáo khoa và truyện tranh. Em khuyên bạn thế nào?",
+    "options": {
+      "A": "Cứ để vậy",
+      "B": "Nên phân loại ra 2 góc để lúc học không bị phân tâm",
+      "C": "Đốt truyện tranh",
+      "D": "Mua thêm sách"
+    },
+    "answer": "B",
+    "explanation": "Phân loại tài liệu học và giải trí giúp tập trung.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 17,
+    "question": "Áp dụng kỹ năng phân loại, em lập danh sách đi siêu thị thế nào?",
+    "options": {
+      "A": "Viết lộn xộn",
+      "B": "Chia theo nhóm: Rau củ, Thịt cá, Đồ dùng cá nhân",
+      "C": "Nhớ trong đầu",
+      "D": "Ghi bừa"
+    },
+    "answer": "B",
+    "explanation": "Danh sách theo nhóm giúp đi siêu thị không bị bỏ sót và nhanh chóng.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 18,
+    "question": "Phân loại cảm xúc (vui, buồn, giận dữ) giúp ích gì cho em?",
+    "options": {
+      "A": "Gọi tên và kiểm soát cảm xúc tốt hơn",
+      "B": "Trở nên vô cảm",
+      "C": "Hay khóc hơn",
+      "D": "Giấu cảm xúc"
+    },
+    "answer": "A",
+    "explanation": "Nhận diện và phân loại cảm xúc là bước đầu của trí tuệ cảm xúc.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 19,
+    "question": "Sau khi học bài Phân loại, em sẽ thay đổi gì ở tủ sách của mình?",
+    "options": {
+      "A": "Gộp tất cả vào",
+      "B": "Sắp xếp lại thành từng nhóm: SGK, Vở bài tập, Truyện đọc",
+      "C": "Bán tủ sách",
+      "D": "Chẳng làm gì"
+    },
+    "answer": "B",
+    "explanation": "Hành động thực tế minh chứng cho việc tiếp thu bài học.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 20,
+    "question": "Kỹ năng phân loại có liên quan mật thiết với kỹ năng nào?",
+    "options": {
+      "A": "Bơi lội",
+      "B": "Quan sát và Sắp xếp",
+      "C": "Nhảy múa",
+      "D": "Ca hát"
+    },
+    "answer": "B",
+    "explanation": "Phải quan sát mới có tiêu chí phân loại, rồi sau đó sắp xếp.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Phân loại"
+  },
+  {
+    "number": 1,
+    "question": "Sáng tạo có nghĩa là gì?",
+    "options": {
+      "A": "Làm giống hệt người khác",
+      "B": "Nghĩ ra ý tưởng mới mẻ hoặc cách làm mới hữu ích",
+      "C": "Chép bài của bạn",
+      "D": "Ngồi im"
+    },
+    "answer": "B",
+    "explanation": "Sáng tạo mang tính mới mẻ và có giá trị ứng dụng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 2,
+    "question": "Hoạt động nào sau đây đòi hỏi nhiều sự sáng tạo?",
+    "options": {
+      "A": "Làm toán cộng",
+      "B": "Vẽ một bức tranh tự do",
+      "C": "Chép chính tả",
+      "D": "Quét nhà"
+    },
+    "answer": "B",
+    "explanation": "Vẽ tự do cho phép trí tưởng tượng bay bổng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 3,
+    "question": "Sáng tạo từ vật liệu tái chế là làm gì?",
+    "options": {
+      "A": "Vứt rác",
+      "B": "Dùng chai nhựa cũ làm chậu cây",
+      "C": "Mua đồ chơi mới",
+      "D": "Đốt rác"
+    },
+    "answer": "B",
+    "explanation": "Tái sinh vòng đời mới cho vật liệu là một hình thức sáng tạo.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 4,
+    "question": "Ai có thể sáng tạo?",
+    "options": {
+      "A": "Chỉ họa sĩ",
+      "B": "Chỉ nhà khoa học",
+      "C": "Tất cả mọi người, kể cả trẻ em",
+      "D": "Chỉ người lớn"
+    },
+    "answer": "C",
+    "explanation": "Sáng tạo là khả năng tiềm ẩn trong mỗi con người.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 5,
+    "question": "Vì sao trong học tập cần sự sáng tạo?",
+    "options": {
+      "A": "Để viết chữ xấu đi",
+      "B": "Giúp tìm ra nhiều cách giải quyết bài toán nhanh và hay hơn",
+      "C": "Để khỏi phải học",
+      "D": "Để giáo viên mắng"
+    },
+    "answer": "B",
+    "explanation": "Tư duy sáng tạo giúp linh hoạt trong giải quyết vấn đề.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 6,
+    "question": "'Suy nghĩ ra ngoài chiếc hộp' (Think outside the box) nghĩa là gì?",
+    "options": {
+      "A": "Ngồi ngoài hộp cacton",
+      "B": "Suy nghĩ vượt ra khỏi lối mòn thông thường",
+      "C": "Không suy nghĩ gì",
+      "D": "Mở hộp ra"
+    },
+    "answer": "B",
+    "explanation": "Đây là thành ngữ chỉ cách tư duy độc đáo, không theo khuôn mẫu.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 7,
+    "question": "Nếu em sợ sai thì em có dễ sáng tạo không?",
+    "options": {
+      "A": "Rất dễ",
+      "B": "Khó, vì sáng tạo cần sự dũng cảm thử nghiệm cái mới",
+      "C": "Không liên quan",
+      "D": "Chắc chắn có"
+    },
+    "answer": "B",
+    "explanation": "Nỗi sợ sai lầm cản trở bước chân của sự sáng tạo.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 8,
+    "question": "Lợi ích của trò chơi đóng vai (bác sĩ, cảnh sát) đối với trẻ em?",
+    "options": {
+      "A": "Tốn thời gian",
+      "B": "Phát triển trí tưởng tượng và sự sáng tạo ngôn ngữ",
+      "C": "Gây bạo lực",
+      "D": "Làm hư đồ chơi"
+    },
+    "answer": "B",
+    "explanation": "Trò chơi nhập vai kích thích não bộ sáng tạo bối cảnh.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 9,
+    "question": "Khi cái cặp sách bị đứt quai, em sáng tạo cách sửa thế nào tạm thời?",
+    "options": {
+      "A": "Vứt cặp đi",
+      "B": "Dùng một sợi dây dù chắc chắn buộc làm quai tạm thời",
+      "C": "Khóc ở nhà",
+      "D": "Đeo cặp bằng răng"
+    },
+    "answer": "B",
+    "explanation": "Dùng vật dụng thay thế là giải pháp sáng tạo linh hoạt.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 10,
+    "question": "Lớp yêu cầu làm thiệp 20/11, em hết giấy màu. Em chọn cách nào?",
+    "options": {
+      "A": "Không làm nữa",
+      "B": "Dùng lá cây khô, hoa ép hoặc họa báo cũ để trang trí",
+      "C": "Xin tiền mua ngay",
+      "D": "Khóc lóc với cô"
+    },
+    "answer": "B",
+    "explanation": "Sáng tạo bằng vật liệu có sẵn thể hiện sự khéo léo.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 11,
+    "question": "Trời mưa, em không có ô nhưng cần ra vườn lấy đồ. Em sẽ?",
+    "options": {
+      "A": "Chạy ra để ướt",
+      "B": "Dùng một tàu lá chuối to hoặc đội chậu nhựa",
+      "C": "Bỏ không lấy nữa",
+      "D": "Đợi đến mai"
+    },
+    "answer": "B",
+    "explanation": "Ứng biến linh hoạt với môi trường xung quanh là sáng tạo.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 12,
+    "question": "Em được giao làm nhóm trưởng nhưng các bạn không nghe. Em làm gì?",
+    "options": {
+      "A": "Mắng các bạn",
+      "B": "Nghĩ ra một trò chơi nhỏ gắn với nhiệm vụ để các bạn hứng thú",
+      "C": "Bỏ nhóm",
+      "D": "Tự làm hết"
+    },
+    "answer": "B",
+    "explanation": "Đổi mới cách quản lý nhóm bằng trò chơi kích thích tinh thần.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 13,
+    "question": "Nam lấy chổi quét nhà làm đàn ghi-ta để biểu diễn văn nghệ. Hành động này:",
+    "options": {
+      "A": "Đáng bị phạt",
+      "B": "Thể hiện trí tưởng tượng và sự sáng tạo vui nhộn",
+      "C": "Hư hỏng chổi",
+      "D": "Không hay"
+    },
+    "answer": "B",
+    "explanation": "Gắn chức năng mới cho vật quen thuộc là tư duy sáng tạo.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 14,
+    "question": "Bạn Mai vẽ bầu trời màu cam thay vì màu xanh. Ý kiến của em?",
+    "options": {
+      "A": "Mai vẽ sai bét",
+      "B": "Mai đang sáng tạo bầu trời lúc hoàng hôn hoặc theo trí tưởng tượng",
+      "C": "Mai bị mù màu",
+      "D": "Không chấm điểm bức tranh đó"
+    },
+    "answer": "B",
+    "explanation": "Nghệ thuật không có giới hạn màu sắc, đó là sáng tạo.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 15,
+    "question": "Hùng chế tạo 'thuyền' bằng giấy nháp nhưng thả xuống nước chìm ngay. Đánh giá?",
+    "options": {
+      "A": "Hùng rất ngu ngốc",
+      "B": "Hùng có ý tưởng sáng tạo, chỉ cần cải tiến vật liệu chống nước",
+      "C": "Phạt Hùng tội xả rác",
+      "D": "Cấm Hùng chơi"
+    },
+    "answer": "B",
+    "explanation": "Thất bại là một phần của quá trình thử nghiệm sáng tạo.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 16,
+    "question": "Sáng tạo nhưng vi phạm nội quy trường lớp (ví dụ: vẽ bậy lên tường) là:",
+    "options": {
+      "A": "Tốt, đáng biểu dương",
+      "B": "Sai, sáng tạo phải đặt đúng lúc, đúng chỗ và không phá hoại",
+      "C": "Rất nghệ thuật",
+      "D": "Nên khuyến khích"
+    },
+    "answer": "B",
+    "explanation": "Sáng tạo không đồng nghĩa với phá hoại chuẩn mực chung.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 17,
+    "question": "Để kích thích não bộ sáng tạo, em nên làm gì mỗi ngày?",
+    "options": {
+      "A": "Chỉ xem điện thoại",
+      "B": "Đọc sách, quan sát thiên nhiên và luôn đặt câu hỏi 'Tại sao?'",
+      "C": "Ngủ 15 tiếng",
+      "D": "Nhịn ăn"
+    },
+    "answer": "B",
+    "explanation": "Nuôi dưỡng trí tò mò là thức ăn của sáng tạo.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 18,
+    "question": "Từ câu chuyện Tấm Cám, em sáng tạo viết lại một kết cục khác. Việc này giúp gì?",
+    "options": {
+      "A": "Làm sai lệch lịch sử",
+      "B": "Phát triển tư duy phản biện và khả năng viết lách sáng tạo",
+      "C": "Bị cô giáo trừ điểm",
+      "D": "Mất thời gian"
+    },
+    "answer": "B",
+    "explanation": "Sáng tác ngoại truyện (fanfiction) rèn luyện tư duy ngôn ngữ.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 19,
+    "question": "Làm thế nào để kết hợp kỹ năng sáng tạo và làm việc nhóm?",
+    "options": {
+      "A": "Mỗi người làm một ý, cãi nhau",
+      "B": "Tổ chức 'bão não' (Brainstorming) để gom nhiều ý tưởng độc đáo",
+      "C": "Chỉ nghe nhóm trưởng",
+      "D": "Không ai nói gì"
+    },
+    "answer": "B",
+    "explanation": "Brainstorming là phương pháp tuyệt vời để sáng tạo tập thể.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 20,
+    "question": "Sáng tạo quan trọng thế nào đối với tương lai của em?",
+    "options": {
+      "A": "Không quan trọng",
+      "B": "Giúp em linh hoạt thích nghi và giải quyết những vấn đề chưa từng có",
+      "C": "Chỉ để làm họa sĩ",
+      "D": "Để chơi game giỏi"
+    },
+    "answer": "B",
+    "explanation": "Trong thế giới thay đổi nhanh, sáng tạo là chìa khóa sinh tồn.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Sáng tạo"
+  },
+  {
+    "number": 1,
+    "question": "Chào hỏi là gì?",
+    "options": {
+      "A": "Quay mặt đi nơi khác",
+      "B": "Hành vi thể hiện sự tôn trọng, lịch sự khi gặp gỡ người khác",
+      "C": "Im lặng lườm người khác",
+      "D": "Chỉ là vẫy tay"
+    },
+    "answer": "B",
+    "explanation": "Chào hỏi là phép lịch sự tối thiểu trong giao tiếp.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 2,
+    "question": "Khi chào người lớn tuổi, em cần có thái độ như thế nào?",
+    "options": {
+      "A": "Cười lớn",
+      "B": "Khoanh tay, cúi đầu và nói lời chào rõ ràng",
+      "C": "Nói lí nhí",
+      "D": "Vừa chạy vừa chào"
+    },
+    "answer": "B",
+    "explanation": "Khoanh tay và cúi đầu thể hiện sự lễ phép của trẻ nhỏ.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 3,
+    "question": "Câu ca dao nào nói về việc chào hỏi?",
+    "options": {
+      "A": "Lời chào cao hơn mâm cỗ",
+      "B": "Có công mài sắt có ngày nên kim",
+      "C": "Uống nước nhớ nguồn",
+      "D": "Gần mực thì đen"
+    },
+    "answer": "A",
+    "explanation": "'Lời chào cao hơn mâm cỗ' đề cao giá trị của sự lễ phép.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 4,
+    "question": "Hành động nào kèm theo lời chào thể hiện sự thân thiện với bạn bè?",
+    "options": {
+      "A": "Đánh bạn",
+      "B": "Nở nụ cười và vẫy tay",
+      "C": "Nheo mắt",
+      "D": "Nhăn mặt"
+    },
+    "answer": "B",
+    "explanation": "Nụ cười là ngôn ngữ toàn cầu của sự thân thiện.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 5,
+    "question": "Tại sao chúng ta nên chào hỏi người khác?",
+    "options": {
+      "A": "Để xin tiền",
+      "B": "Tạo thiện cảm, xây dựng mối quan hệ tốt đẹp",
+      "C": "Để chứng tỏ mình ngoan",
+      "D": "Bị bắt buộc"
+    },
+    "answer": "B",
+    "explanation": "Chào hỏi mở đầu cho mọi sự giao tiếp tích cực.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 6,
+    "question": "Chào hỏi khác nhau thế nào giữa bạn bè và thầy cô?",
+    "options": {
+      "A": "Chào bạn bè thì lễ phép, chào thầy cô thì thoải mái",
+      "B": "Chào thầy cô cần nghiêm túc, lễ phép; chào bạn thì tự nhiên, vui vẻ",
+      "C": "Giống hệt nhau",
+      "D": "Không cần chào bạn"
+    },
+    "answer": "B",
+    "explanation": "Đối tượng giao tiếp quyết định mức độ trang trọng của lời chào.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 7,
+    "question": "Khi khách đến nhà chơi, em làm gì?",
+    "options": {
+      "A": "Chạy trốn vào phòng",
+      "B": "Ra mở cửa, chào hỏi lễ phép và mời khách vào nhà",
+      "C": "Đứng nhìn khách",
+      "D": "Đuổi khách đi"
+    },
+    "answer": "B",
+    "explanation": "Chào hỏi khách đến nhà là thể hiện lòng hiếu khách.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 8,
+    "question": "Vì sao không nên vừa nhai thức ăn vừa nói lời chào?",
+    "options": {
+      "A": "Vì ăn sẽ ngon hơn",
+      "B": "Mất lịch sự và có thể bị sặc, rơi thức ăn",
+      "C": "Để tiết kiệm thời gian",
+      "D": "Mọi người đều làm vậy"
+    },
+    "answer": "B",
+    "explanation": "Vừa ăn vừa nói vi phạm quy tắc thanh lịch.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 9,
+    "question": "Đang đi xe đạp trên đường, em thấy cô giáo. Em nên làm gì?",
+    "options": {
+      "A": "Gọi to từ xa",
+      "B": "Dừng xe sát lề, đứng xuống xe và cúi chào cô",
+      "C": "Cứ đạp xe qua nhanh",
+      "D": "Quay đầu đi hướng khác"
+    },
+    "answer": "B",
+    "explanation": "Dừng xe lại chào thể hiện sự tôn trọng tuyệt đối.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 10,
+    "question": "Vào lớp trễ, thầy giáo đang giảng bài. Em sẽ làm gì?",
+    "options": {
+      "A": "Lẻn vào chỗ ngồi",
+      "B": "Đứng ở cửa, gõ cửa và xin phép thầy cho vào lớp",
+      "C": "Gọi to các bạn",
+      "D": "Khóc"
+    },
+    "answer": "B",
+    "explanation": "Gõ cửa xin phép là cách chào khi có lỗi đi muộn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 11,
+    "question": "Gặp một người nước ngoài nói 'Hello', em sẽ phản hồi thế nào?",
+    "options": {
+      "A": "Lờ đi",
+      "B": "Nói lại 'Hello' kèm nụ cười thân thiện",
+      "C": "Bỏ chạy",
+      "D": "Nói tiếng Việt thật to"
+    },
+    "answer": "B",
+    "explanation": "Đáp lại bằng ngôn ngữ chung (tiếng Anh) lịch sự.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 12,
+    "question": "Đến chơi nhà bạn, lúc về em cần làm gì?",
+    "options": {
+      "A": "Cứ thế đi về",
+      "B": "Chào tạm biệt bạn và xin phép bố mẹ bạn để về",
+      "C": "Lấy đồ chơi của bạn rồi về",
+      "D": "Chạy vụt ra cửa"
+    },
+    "answer": "B",
+    "explanation": "Chào ra về quan trọng như lúc chào đến.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 13,
+    "question": "Huy gặp bác hàng xóm nhưng cúi gằm mặt lí nhí trong miệng. Đánh giá?",
+    "options": {
+      "A": "Huy ngoan",
+      "B": "Huy chưa tự tin và cách chào chưa đạt chuẩn lịch sự",
+      "C": "Huy bị ốm",
+      "D": "Không cần thiết"
+    },
+    "answer": "B",
+    "explanation": "Chào hỏi cần rõ ràng, ánh mắt nhìn thẳng tôn trọng.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 14,
+    "question": "Lan luôn tươi cười chào các bác lao công trong trường. Đánh giá?",
+    "options": {
+      "A": "Lan giả tạo",
+      "B": "Lan rất đáng khen, biết tôn trọng mọi người không phân biệt nghề nghiệp",
+      "C": "Lan rảnh rỗi",
+      "D": "Không cần thiết"
+    },
+    "answer": "B",
+    "explanation": "Lịch sự với tất cả mọi người là nhân cách tốt.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 15,
+    "question": "Một nhóm bạn trêu chọc việc Nam khoanh tay chào thầy. Em nghĩ gì?",
+    "options": {
+      "A": "Các bạn đúng, lớn rồi không cần khoanh tay",
+      "B": "Nam đúng, lễ phép không bao giờ là thừa hay đáng xấu hổ",
+      "C": "Nam hèn nhát",
+      "D": "Nam nên bỏ khoanh tay"
+    },
+    "answer": "B",
+    "explanation": "Lễ phép luôn là một giá trị cốt lõi, không đáng bị trêu chọc.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 16,
+    "question": "Khách vẫy tay chào bé My, My quay mặt đi không đáp lại. Hành vi này:",
+    "options": {
+      "A": "Bình thường",
+      "B": "Thiếu lễ phép và làm người khác buồn",
+      "C": "Rất cá tính",
+      "D": "Nhút nhát nên được chấp nhận"
+    },
+    "answer": "B",
+    "explanation": "Không đáp lại lời chào là một sự thiếu tôn trọng.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 17,
+    "question": "Làm sao để tập thói quen chào hỏi tự tin hơn?",
+    "options": {
+      "A": "Giam mình trong phòng",
+      "B": "Bắt đầu bằng việc nhìn vào mắt và mỉm cười chào người thân mỗi sáng",
+      "C": "Bắt người khác chào mình trước",
+      "D": "Chỉ chào khi bị ép"
+    },
+    "answer": "B",
+    "explanation": "Luyện tập từ những việc nhỏ trong gia đình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 18,
+    "question": "Ngoài lời nói, em có thể vận dụng cách chào nào khác (ngôn ngữ cơ thể)?",
+    "options": {
+      "A": "Đá chân",
+      "B": "Cúi đầu, vẫy tay, hoặc bắt tay (khi phù hợp)",
+      "C": "Nhe răng",
+      "D": "Nhắm mắt"
+    },
+    "answer": "B",
+    "explanation": "Ngôn ngữ cơ thể làm phong phú biểu đạt giao tiếp.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 19,
+    "question": "Đi thang máy gặp hàng xóm, em vận dụng bài học thế nào?",
+    "options": {
+      "A": "Nhìn điện thoại liên tục",
+      "B": "Chủ động mỉm cười và chào hỏi lịch sự",
+      "C": "Quay lưng lại",
+      "D": "Bấm nút đóng cửa nhanh"
+    },
+    "answer": "B",
+    "explanation": "Không gian hẹp như thang máy là cơ hội giao tiếp lịch sự.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chào hỏi"
+  },
+  {
+    "number": 20,
+    "question": "Em nhận ra điều gì sau khi chủ động chào hỏi mọi người trong một tuần?",
+    "options": {
+      "A": "Mệt mỏi",
+      "B": "Mọi người vui vẻ, thân thiện với em hơn và em cũng thấy tự tin hơn",
+      "C": "Chẳng ai quan tâm",
+      "D": "Mất thời gian"
+    },
+    "answer": "B",
+    "explanation": "Chào hỏi mang lại năng lượng tích cực cho cả đôi bên.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chào hỏi"
+  }
+]

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novastars - Project Knowledge Base (PKB) Review</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Marked.js (Markdown Parser) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --accent-color: #58cc02;
+            --accent-hover: #46a302;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --sidebar-width: 320px;
+            --transition-speed: 0.2s;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-sidebar: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #58cc02;
+            --accent-hover: #67eb05;
+            --border-color: #334155;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            z-index: 10;
+            box-shadow: var(--shadow-sm);
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+
+        .logo h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--accent-color), #ffc800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 18px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .search-container {
+            padding: 16px 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px 10px 38px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color var(--transition-speed);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 32px;
+            top: 29px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .nav-list {
+            list-style: none;
+            overflow-y: auto;
+            flex: 1;
+            padding: 10px 16px;
+        }
+
+        .nav-item {
+            margin-bottom: 6px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .nav-link:hover {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .nav-link.active {
+            background-color: rgba(88, 204, 2, 0.1);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Content Area Styling */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-primary);
+        }
+
+        .content-header {
+            height: 70px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-sidebar);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 5;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .content-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .content-title-wrapper i {
+            color: var(--accent-color);
+            font-size: 20px;
+        }
+
+        .content-title-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .content-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .markdown-wrapper {
+            width: 100%;
+            max-width: 850px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: var(--shadow-md);
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        /* Markdown Elements Styling */
+        .markdown-body {
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .markdown-body h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .markdown-body h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+
+        .markdown-body h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body code {
+            background-color: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .markdown-body pre {
+            background-color: var(--bg-primary);
+            padding: 16px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .markdown-body pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+            font-size: 14px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 20px;
+            background-color: var(--bg-primary);
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: var(--bg-primary);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) td {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        /* Bouncy effect */
+        .bouncy-hover {
+            transition: transform 0.1s ease;
+        }
+        .bouncy-hover:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h1>NOVASTARS PKB</h1>
+            </div>
+            <button class="theme-toggle bouncy-hover" onclick="toggleTheme()" title="Đổi giao diện">
+                <i class="fa-solid fa-moon" id="theme-icon"></i>
+            </button>
+        </div>
+
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" class="search-input" id="search" placeholder="Tìm kiếm trong PKB..." oninput="handleSearch()">
+        </div>
+
+        <ul class="nav-list" id="nav-list">
+            <!-- Nav items inserted dynamically -->
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-area">
+        <div class="content-header">
+            <div class="content-title-wrapper">
+                <i class="fa-solid fa-book-open"></i>
+                <div class="content-title-text" id="header-title">Đang tải...</div>
+            </div>
+        </div>
+
+        <div class="content-body">
+            <div class="markdown-wrapper">
+                <div class="markdown-body" id="doc-content">
+                    <!-- Markdown content rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const pkbData = {"00_Project Charter": "# 📁 00_Project Charter: Tầm nhìn, Nguyên tắc, Phạm vi\n\nTài liệu này đóng vai trò là Hiến chương Dự án (Project Charter), định rõ danh tính đội ngũ, tầm nhìn sản phẩm cốt lõi, triết lý giáo dục & vận hành, cũng như các nguyên tắc làm việc mà mọi thành viên và AI Agent trong hệ thống **Antigravity** bắt buộc phải tuân thủ.\n\n---\n\n## 1. Danh tính Đội ngũ (Team Identity)\nChúng ta đang cùng nhau xây dựng một nền tảng EdTech quy mô lớn, bền vững và có khả năng mở rộng qua nhiều năm. Đội ngũ sản phẩm cấp cao bao gồm:\n*   **Chief Product Officer (CPO)**: Định hướng chiến lược sản phẩm và mô hình kinh doanh.\n*   **Chief Learning Officer (CLO)**: Bảo trợ về mặt phương pháp sư phạm và chất lượng giáo dục.\n*   **Game Director**: Thiết kế thế giới trò chơi, cơ chế tương tác và trải nghiệm người dùng (UX) tổng thể.\n*   **AI Architect**: Thiết kế kiến trúc AI đồng hành, prompt standards và các tính năng generative.\n*   **UX Director**: Giám sát trải nghiệm người dùng, đảm bảo giao diện thân thiện với trẻ em.\n*   **Technical Architect**: Thiết kế cấu trúc hệ thống, cơ sở dữ liệu và khả năng tích hợp/mở rộng.\n*   **Curriculum Expert & Primary Education Specialist**: Đảm bảo nội dung bám sát khung chương trình kỹ năng tiểu học.\n*   **Child Psychologist**: Tư vấn tâm lý lứa tuổi học sinh tiểu học (6 - 11 tuổi) để thiết kế các tương tác an toàn, tích cực.\n*   **Gamified Designer**: Chịu trách nhiệm về hệ thống phần thưởng, động lực học tập (Octalysis framework) và gameplay loop.\n\n---\n\n## 2. Tầm nhìn Sản phẩm (Product Vision)\nSản phẩm được định vị là một **Competency Adventure Platform** (Nền tảng Phiêu lưu Năng lực) dành riêng cho học sinh tiểu học.\n*   **ĐÂY KHÔNG PHẢI LÀ**: Một LMS truyền thống, một ứng dụng làm bài trắc nghiệm (Quiz App), hay một trò chơi giải trí đơn thuần.\n*   **ĐÂY LÀ**: Một thế giới phiêu lưu nơi học sinh hình thành và chứng minh năng lực thực tế ngoài đời thông qua phương thức tích hợp:\n    $$\\text{Competency} = \\text{Story} + \\text{Game} + \\text{AI} + \\text{Reflection} + \\text{Practice} + \\text{Real-life Mission} + \\text{Evidence}$$\n\n---\n\n## 3. Nguyên tắc Làm việc (Working Principles)\nMọi quyết định thiết kế, kỹ thuật hoặc nội dung của các AI Agent và con người đều phải tuân thủ các nguyên tắc sau:\n1.  **Không quyết định dựa trên phỏng đoán**: Nếu thiếu dữ liệu hoặc yêu cầu chưa rõ ràng, phải hỏi rõ (User/Chuyên gia), không tự ý suy diễn.\n2.  **Bắt buộc phải có Rationale**: Không đưa ra giải pháp mà không giải thích lý do lựa chọn. Mọi đề xuất phải phân tích rõ:\n    *   *Trade-offs* (Sự đánh đổi).\n    *   *Ưu điểm & Nhược điểm*.\n    *   *Khả năng mở rộng (Scalability)*.\n    *   *Ảnh hưởng tới các phase phát triển tiếp theo*.\n3.  **Ưu tiên cao nhất**: \n    *   Giá trị giáo dục thực chất (Competency-Based).\n    *   Trải nghiệm tích cực, an toàn của trẻ em.\n    *   Khả năng quốc tế hóa (Internationalization - i18n).\n\n---\n\n## 4. Tiêu chuẩn Đầu ra (Output Standard)\n*   Không viết các tài liệu mang tính chất marketing, quảng cáo hoặc các ý tưởng chung chung.\n*   Tất cả tài liệu phải được trình bày chi tiết, chuyên nghiệp như tài liệu kỹ thuật nội bộ của Google.\n*   Phải sử dụng định dạng Markdown chuẩn, bao gồm: các tiêu đề phân cấp rõ ràng (Heading), Bảng biểu (Table), Rationale (Lý do chọn giải pháp), Đề xuất cụ thể (Recommendation), Các giả định (Assumption) và Nhật ký Quyết định (Decision Log).\n\n---\n\n## 5. Phương pháp Vận hành (Working Method)\nDự án được triển khai theo hình thức cuốn chiếu chia làm nhiều giai đoạn (Phases). \n*   Mỗi giai đoạn phải trải qua quy trình nghiêm ngặt: **Review** (Đánh giá) $\\rightarrow$ **Approve** (Phê duyệt) $\\rightarrow$ **Freeze** (Đóng băng).\n*   Chỉ khi quyết định ở phase hiện tại được **Freeze**, đội ngũ mới chuyển sang phase tiếp theo.\n*   Không được thay đổi các quyết định của phase trước nếu chưa có quy trình phê duyệt lại (Re-approval) chính thức.\n", "01_Product Foundation": "# 📁 01_Product Foundation: Tầm nhìn, Đối tượng & Định vị\n\nTài liệu này định hình nền tảng định vị của sản phẩm EdTech Novastars, bao gồm mô hình người dùng (personas), ma trận định vị so với thị trường và hệ thống các chỉ số đo lường thành công.\n\n---\n\n## 1. Tầm nhìn Sản phẩm Chi tiết (Detailed Product Vision)\nSứ mệnh của Novastars là **\"Đồng hành cùng trẻ em kiến tạo năng lực thực tế để tự tin làm chủ cuộc sống\"**. \nChúng tôi không xây dựng một ngân hàng câu hỏi lý thuyết suông mà tạo ra một không gian trải nghiệm nhập vai, kết hợp giữa cốt truyện phiêu lưu hấp dẫn, công nghệ trí tuệ nhân tạo tương tác thực tế và các nhiệm vụ gắn liền với đời sống hàng ngày của trẻ.\n\n---\n\n## 2. Đối tượng Người dùng Mục tiêu (Target Personas)\n\n### A. Học sinh Tiểu học (6 - 11 tuổi) - *Nhân vật chính (The Adventurer)*\n*   **Đặc điểm tâm lý**: Tò mò, thích khám phá, thích nhận phần thưởng trực quan (huy hiệu, nâng cấp nhân vật), dễ nản lòng nếu gặp áp lực thi cử hoặc giao diện tẻ nhạt. Nhóm tuổi này học tốt nhất qua hình ảnh trực quan, câu chuyện kể (storytelling) và hoạt động thực hành (learning-by-doing).\n*   **Vai trò trong ứng dụng**: Khám phá các hòn đảo kỹ năng, đối thoại với AI Companion, chơi mini-game học tập, đối đầu với Boss Battle và thực hiện các nhiệm vụ thực tế (Real-life Missions) ngoài đời thực.\n\n### B. Phụ huynh Học sinh - *Người đồng hành & Xác thực (The Guide & Verifier)*\n*   **Đặc điểm tâm lý**: Bận rộn, quan tâm đến sự an toàn và tiến bộ thực sự của con (không chỉ là điểm số học thuật trên lớp), lo ngại con bị nghiện thiết bị điện tử.\n*   **Vai trò trong ứng dụng**: Nhận thông báo về tiến độ của con, đồng hành hướng dẫn con thực hiện các nhiệm vụ thực tế ngoài đời, thực hiện xác thực năng lực (Parent Verification) để mở khóa phần thưởng cuối cùng cho con.\n\n---\n\n## 3. Định vị Sản phẩm (Product Positioning)\n\nSản phẩm được định vị khác biệt hoàn toàn so với các ứng dụng học tập truyền thống trên thị trường:\n\n| Tiêu chí | LMS & Quiz App Truyền thống | Game Giải trí Thuần túy | Competency Adventure Platform (Novastars) |\n| :--- | :--- | :--- | :--- |\n| **Mục tiêu chính** | Kiểm tra kiến thức và ghi nhớ lý thuyết. | Giải trí, giữ chân người dùng để kiếm doanh thu. | **Hình thành năng lực thực tế ngoài đời** qua thực hành. |\n| **Động lực chính** | Điểm số, bảng xếp hạng thi cử áp lực. | Tiền ảo trong game, mở khóa vật phẩm ảo. | **Cốt truyện phiêu lưu, AI Companion, nhiệm vụ đời thực**. |\n| **Cơ chế đánh giá** | Trắc nghiệm lý thuyết, tính điểm số. | Điểm cao, qua màn, kỹ năng thao tác tay nhanh. | **Khung năng lực đa tầng (LSCAF), Phản tư (Reflection) & Xác thực từ cha mẹ**. |\n| **Kết nối thực tế** | Gần như không có (chỉ học và làm bài trên màn hình). | Không có (tách rời thực tế). | **Nhiệm vụ thực tế bắt buộc (Real-life Missions) để Mastery**. |\n\n---\n\n## 4. Chỉ số Thành công (Success Metrics)\n\nChúng tôi định nghĩa thành công của sản phẩm thông qua 4 nhóm chỉ số chính:\n\n1.  **Chỉ số Tương tác & Trải nghiệm (Engagement Metrics)**:\n    *   **DAU/MAU Ratio**: Tần suất học sinh quay lại thế giới phiêu lưu hàng ngày. Target: $>30\\%$.\n    *   **Average Session Length**: Thời lượng học tập lý tưởng mỗi ngày (không quá ngắn để tiếp thu, không quá dài để tránh mỏi mắt). Target: $15 - 20\\text{ phút/phiên}$.\n\n2.  **Chỉ số Chuyển đổi Năng lực (Competency Metrics)**:\n    *   **Real-life Mission Completion Rate**: Tỷ lệ học sinh thực hiện các nhiệm vụ ngoài đời thực sau khi học lý thuyết. Target: $>70\\%$.\n    *   **Parent Verification Rate**: Tỷ lệ phụ huynh tham gia kiểm chứng hoạt động của con. Target: $>80\\%$ số nhiệm vụ hoàn thành.\n\n3.  **Chỉ số Phát triển Trí tuệ & Cảm xúc (Growth Metrics)**:\n    *   **Reflection Sentiment Index**: Chỉ số đo lường độ sâu sắc trong câu trả lời phản tư (Reflection) của học sinh thông qua phân tích ngôn ngữ tự nhiên (NLP) của AI Companion.\n\n4.  **Chỉ số Giữ chân & Lan tỏa (Retention & Growth)**:\n    *   **D7 / D30 Retention**: Tỷ lệ giữ chân người dùng sau 7 ngày và 30 ngày.\n    *   **Parent Net Promoter Score (NPS)**: Mức độ hài lòng và sẵn sàng giới thiệu của phụ huynh. Target: $>50$.\n", "02_Curriculum Framework": "# 📁 02_Curriculum Framework: Khung Chương trình & Năng lực\n\nTài liệu này chi tiết hóa triết lý giáo dục dựa trên năng lực (Competency-Based Education - CBE) của Novastars, cấu trúc đánh giá năng lực đa tầng LSCAF, và danh mục phân loại chi tiết các kỹ năng sống dành cho học sinh tiểu học.\n\n---\n\n## 1. Triết lý Giáo dục Dựa trên Năng lực (Competency-Based Education - CBE)\nKhác với mô hình giáo dục truyền thống tập trung vào việc ghi nhớ thông tin, Novastars áp dụng triết lý **CBE**. Chúng tôi không kiểm tra xem trẻ \"biết gì\", mà đánh giá trẻ **\"có thể làm được gì ngoài đời thực\"**.\n\nLộ trình phát triển năng lực của mỗi học sinh trải qua 5 bước sau:\n1.  **Learn (Học)**: Tiếp thu kiến thức cốt lõi thông qua cốt truyện phiêu lưu hấp dẫn và các cuộc hội thoại với AI Companion.\n2.  **Practice (Luyện tập)**: Thử nghiệm kiến thức trong môi trường mô phỏng an toàn (Mini-games, Interactive Quizzes).\n3.  **Competent (Năng lực nhận thức)**: Vượt qua thử thách Boss Battle để chứng minh khả năng đưa ra quyết định đúng đắn và đánh giá tình huống.\n4.  **Real-life (Ứng dụng thực tế)**: Thực hiện các nhiệm vụ thực tế ngoài đời (Real-life Missions) do AI đề xuất dựa trên bối cảnh của học sinh.\n5.  **Mastery (Thành thạo)**: Được phụ huynh xác thực hành vi ngoài đời thực (Parent Verification), đạt danh hiệu Thành thạo và nhận phần thưởng cao quý.\n\n$$\\text{Học (Learn)} \\rightarrow \\text{Luyện tập (Practice)} \\rightarrow \\text{Đạt Năng lực (Competent)} \\rightarrow \\text{Ứng dụng Thực tế (Real-life)} \\rightarrow \\text{Thành thạo (Mastery)}$$\n\n---\n\n## 2. Khung Đánh giá Năng lực LSCAF (Novastars LSCAF Framework)\nĐể lượng hóa và đo lường sự phát triển năng lực của học sinh, ngân hàng câu hỏi được chia làm 5 tầng nhận thức & hành vi (Tiers A đến E). Mỗi kỹ năng được biên soạn chính xác **20 câu hỏi** trắc nghiệm tình huống, chia đều thành 5 nhóm tương ứng với 5 tầng:\n\n| Tầng (Tier) | Tên Tầng (Tiếng Việt) | Số Câu | Mô Tả Mục Tiêu Đánh Giá |\n| :--- | :--- | :---: | :--- |\n| **Tier A** | Knowledge (Biết) | Câu 1 - 4 | Nhận biết các khái niệm cơ bản, quy tắc an toàn, hoặc thông tin dinh dưỡng nền tảng. |\n| **Tier B** | Understanding (Hiểu) | Câu 5 - 8 | Giải thích được nguyên nhân, lý do đằng sau các quy tắc; hiểu bản chất của vấn đề. |\n| **Tier C** | Decision Making (Lựa chọn tình huống) | Câu 9 - 12 | Đưa ra quyết định hành động tối ưu khi đứng trước một tình huống cụ thể trong thế giới mô phỏng. |\n| **Tier D** | Judgment (Đánh giá hành vi) | Câu 13 - 16 | Phân tích và đánh giá hành vi của nhân vật khác trong câu chuyện, nhận diện đúng/sai và đề xuất cải tiến. |\n| **Tier E** | Transfer & Reflection (Vận dụng & Phản tư) | Câu 17 - 20 | Kết nối bài học với bản thân, nêu lên cách giải quyết thực tế của mình và phản tư về hành động đó. |\n\n---\n\n## 3. Danh mục Nhóm Kỹ năng & Kỹ năng Cốt lõi\nHệ thống hiện tại gồm **34 kỹ năng cốt lõi** được phân loại vào **6 nhóm chính** bám sát thực tế phát triển của học sinh tiểu học:\n\n### Nhóm 1: Tự chăm sóc & An toàn (Self-Care & Safety)\n*Tập trung vào sự an toàn vật lý và thể chất của trẻ.*\n1.  **Kỹ năng chăm sóc sức khỏe cá nhân (Dinh dưỡng & Sinh hoạt)**: Ăn đa dạng màu sắc, bữa ăn đủ chất, quy tắc 20-20-20 bảo vệ mắt, giấc ngủ khoa học.\n2.  **Phòng tránh và xử lý khi bị đi lạc**: Ghi nhớ thông tin liên lạc, tìm kiếm sự trợ giúp an toàn (cảnh sát, nhân viên siêu thị).\n3.  **An toàn khi tham gia giao thông công cộng**: Quy tắc đi xe buýt, tàu điện, văn hóa ứng xử nơi công cộng.\n4.  **Vui chơi an toàn dưới nắng**: Đeo mũ, bôi kem chống nắng, nhận biết triệu chứng say nắng.\n5.  **Phòng tránh tai nạn thương tích do đồ vật sắc, nhọn**: Cách sử dụng kéo, dao an toàn; cách cất giữ đồ đạc khoa học.\n6.  **Phòng tránh nguy cơ bỏng, nóng**: Tránh xa phích nước sôi, bếp lò; sơ cứu bỏng cơ bản bằng nước mát.\n7.  **Phòng tránh và thoát hiểm khi có hoả hoạn**: Quy tắc bò sát mặt đất, che khăn ẩm, tìm lối thoát hiểm hiểm họa.\n8.  **Phòng tránh nguy cơ bị điện giật**: Không dùng tay ướt cắm điện, không nghịch ổ cắm, nhận diện dây điện hở.\n9.  **Phòng tránh nguy cơ bị đuối nước**: Chỉ bơi khi có người lớn, mặc áo phao, xử lý khi thấy người bị đuối nước.\n\n### Nhóm 2: An toàn & Tư duy cơ bản (Safety & Basic Thinking)\n*Rèn luyện các thao tác tư duy nền tảng và thói quen sinh hoạt.*\n10. **Kỹ năng tự lập**: Chuẩn bị đồ dùng đi dã ngoại/du lịch, tự sắp xếp vali gọn nhẹ, gấp quần áo.\n11. **Quan sát**: Nhận diện chi tiết, phát hiện sự thay đổi trong môi trường xung quanh.\n12. **Sắp xếp**: Phân chia không gian bàn học, quản lý đồ dùng học tập ngăn nắp.\n13. **So sánh**: Đánh giá sự khác nhau giữa các lựa chọn để tìm phương án tối ưu.\n14. **Phân loại**: Nhóm các thực phẩm, đồ dùng theo thuộc tính logic.\n15. **Sáng tạo**: Tận dụng vật liệu tái chế, đưa ra ý tưởng mới mẻ cho các thử thách.\n16. **Chào hỏi**: Văn hóa giao tiếp lịch sự, lễ phép với các đối tượng khác nhau.\n\n### Nhóm 3: Giao tiếp & Cảm xúc (Communication & Emotion)\n*Xây dựng trí tuệ cảm xúc (EQ) và khả năng tương tác xã hội.*\n17. **Giới thiệu sở thích bản thân**: Tự tin bày tỏ cá tính, kết nối với bạn bè cùng sở thích.\n18. **Làm việc nhóm**: Lắng nghe ý kiến, phân chia công việc công bằng, hợp tác hoàn thành mục tiêu.\n19. **Cảm xúc của bản thân**: Nhận diện và gọi tên các cảm xúc (vui, buồn, tức giận, lo lắng).\n20. **Cảm xúc của người khác**: Quan sát nét mặt, cử chỉ để thấu hiểu trạng thái của người đối diện.\n21. **Nói lời cảm ơn**: Bày tỏ sự trân trọng chân thành đối với sự giúp đỡ từ người khác.\n22. **Ứng xử lịch sự khi đến chơi nhà bạn**: Xin phép trước khi vào phòng, giữ gìn vệ sinh, chào hỏi phụ huynh.\n23. **Cổ vũ, động viên**: Khích lệ bạn bè vượt qua khó khăn, chia sẻ niềm vui chiến thắng.\n\n### Nhóm 4: Thuyết trình & Học đường (Presentation & School Life)\n*Kỹ năng tương tác và khẳng định bản thân trong môi trường học tập.*\n24. **Chúc tết**: Nghi thức chào hỏi truyền thống, chúc Tết ông bà cha mẹ ý nghĩa.\n25. **Kỹ năng thuyết trình**: Cấu trúc bài nói tự tin, kiểm soát ngôn ngữ cơ thể, tương tác mắt.\n26. **Lắng nghe**: Lắng nghe chủ động, không ngắt lời, đặt câu hỏi phản hồi phù hợp.\n27. **Thể hiện sự tôn trọng với thầy cô**: Nghiêm túc nghe giảng, chào hỏi lễ phép, tuân thủ nội quy lớp học.\n28. **Thể hiện tình yêu thương với thầy cô giáo**: Tặng hoa tự làm, bày tỏ lòng biết ơn vào dịp lễ.\n29. **Chia sẻ ý tưởng**: Trình bày sáng kiến cá nhân trước tập thể một cách thuyết phục.\n30. **Trách nhiệm cá nhân**: Hoàn thành bài tập đúng hạn, tự quản lý đồ dùng cá nhân.\n\n### Nhóm 5 & 6: Trách nhiệm & Tự quản (Responsibility & Self-Management)\n*Phát triển khả năng quản lý bản thân dài hạn.*\n31. **Tuổi dậy thì**: Chế độ dinh dưỡng, vệ sinh cơ thể, nhận thức thay đổi tâm sinh lý và công bằng giới.\n32. **Kỹ năng lập kế hoạch**: Tạo thời gian biểu hợp lý, xác định thứ tự ưu tiên (sức khỏe & học tập lên hàng đầu).\n33. **Kỹ năng quản lý thời gian**: Phương pháp Pomodoro, sử dụng ma trận Eisenhower đơn giản để phân chia công việc.\n34. **Kỹ năng đặt mục tiêu**: Đặt mục tiêu học tập & thể thao đo lường được, chia nhỏ mục tiêu lớn để dễ thực hiện.\n", "03_Game Design Bible": "# 📁 03_Game Design Bible: Thiết kế Trò chơi & Cơ chế Gamification\n\nTài liệu này định nghĩa cốt lõi của trải nghiệm người chơi trong Novastars. Từ gameplay loop, cấu trúc bản đồ thế giới phiêu lưu, hệ thống phần thưởng cho đến triết lý tiến trình không gây áp lực cho học sinh.\n\n---\n\n## 1. Vòng lặp Gameplay Cốt lõi (Core Gameplay Loop)\nMỗi hành trình học tập một kỹ năng của học sinh là một cuộc phiêu lưu trọn vẹn, được cấu trúc qua 8 bước chặt chẽ:\n\n$$\\text{Cốt truyện (Story)} \\rightarrow \\text{Mini Games} \\rightarrow \\text{Thử thách (Challenge)} \\rightarrow \\text{Đấu Boss (Boss Battle)} \\rightarrow \\text{Phản tư (Reflection)} \\rightarrow \\text{Nhiệm vụ ngoài đời (Real-life Mission)} \\rightarrow \\text{Xác thực của cha mẹ} \\rightarrow \\text{Đạt năng lực (Competency Achieved)}$$\n\n### Chi tiết các bước trong vòng lặp:\n1.  **Cốt truyện (Story)**: Học sinh bắt đầu bằng việc đọc/nghe một câu chuyện hấp dẫn giới thiệu bối cảnh tình huống thực tế của kỹ năng.\n2.  **Mini Games (Luyện tập)**: Các trò chơi nhỏ trực quan giúp củng cố kiến thức nền tảng (Tier A - Biết, Tier B - Hiểu).\n3.  **Thử thách (Challenge)**: Các câu hỏi tình huống đòi hỏi đưa ra quyết định hành động (Tier C - Lựa chọn).\n4.  **Đấu Boss (Boss Battle)**: Thử thách lớn cuối màn, đòi hỏi phân tích, đánh giá hành vi đúng/sai (Tier D - Đánh giá).\n5.  **Phản tư (Reflection)**: AI Companion đặt câu hỏi gợi mở để học sinh kết nối bài học với bản thân (Tier E - Phản tư).\n6.  **Nhiệm vụ ngoài đời thực (Real-life Mission)**: AI đề xuất một nhiệm vụ thực tế ngoài đời phù hợp với kỹ năng vừa học.\n7.  **Xác thực của phụ huynh (Parent Verification)**: Phụ huynh kiểm chứng hành vi ngoài đời thực của trẻ thông qua ứng dụng dành riêng cho phụ huynh.\n8.  **Đạt năng lực (Competency Achieved)**: Mở khóa danh hiệu, nhận huy hiệu kỹ năng, và nhận phần thưởng trong game.\n\n---\n\n## 2. Bản đồ Thế giới Phiêu lưu (Adventure Map)\nThế giới Novastars được trực quan hóa dưới dạng **Adventure Map** gồm nhiều hòn đảo kỳ thú. Mỗi đảo tương ứng với một nhóm năng lực cốt lõi:\n\n*   **Communication Island (Đảo Giao Tiếp)**: Nơi rèn luyện khả năng lắng nghe chủ động, thuyết trình, ứng xử lịch sự và kết nối xã hội.\n*   **Emotion Island (Đảo Cảm Xúc)**: Nơi trẻ học cách nhận diện, quản lý cảm xúc của bản thân và đồng cảm với người khác.\n*   **Safety Island (Đảo An Toàn)**: Nơi thử thách các kiến thức phòng tránh nguy cơ đuối nước, điện giật, hoả hoạn, đi lạc và xâm hại.\n*   **Money Island (Đảo Tài Chính)**: Nơi thực hành quản lý tài chính cá nhân, phân biệt nhu cầu và mong muốn.\n*   **Learning Island (Đảo Học Tập)**: Rèn luyện kỹ năng đọc sách, tự lập, lập kế hoạch và đặt mục tiêu học tập.\n*   **Problem Solving Island (Đảo Giải Quyết Vấn Đề)**: Nơi thử thách tư duy phản biện, sáng tạo và giải quyết các xung đột thực tế.\n\n---\n\n## 3. Hệ thống Kinh tế & Phần thưởng (Economy & Rewards)\nHệ thống phần thưởng sử dụng khung **Octalysis Gamification Framework** để kích thích động lực tự thân (Intrinsic Motivation) thay vì chỉ dùng động lực ngoại vi (Extrinsic Motivation).\n\n*   **Sao Năng Lực (Star Points - SP)**: Điểm tích lũy khi hoàn thành các câu hỏi lý thuyết và trò chơi nhỏ. Được sử dụng để mở khóa các khu vực mới trên bản đồ.\n*   **Huy Hiệu Năng Lực (Competency Badges)**: Mỗi kỹ năng sau khi được cha mẹ xác thực hoàn thành ngoài đời thực sẽ mở khóa một huy hiệu độc bản (ví dụ: *Huy hiệu Dũng sĩ Cứu hỏa*, *Huy hiệu Sứ giả Đồng cảm*).\n*   **Bộ sưu tập Vật phẩm (Collectibles)**: Nhận được các mảnh ghép cốt truyện, trang phục cho nhân vật đại diện (Avatar) hoặc các sinh vật đồng hành ngộ nghĩnh.\n*   **Nhật ký Năng lực (Competency Portfolio)**: Nơi lưu giữ các bằng chứng thực tế (hình ảnh nhiệm vụ, ghi âm phản tư) để trẻ tự hào chia sẻ và nhìn lại sự tiến bộ của bản thân.\n\n---\n\n## 4. Cơ chế Tiến trình & Triết lý Thiết kế (Progression & Design Philosophy)\n*   **Không tạo áp lực thời gian**: Không có thanh thời gian đếm ngược gây căng thẳng trong các câu hỏi để trẻ có thời gian suy nghĩ kỹ và phản tư.\n*   **Không trừng phạt**: Trả lời sai sẽ được AI Companion giải thích cặn kẽ và hướng dẫn thử lại nhẹ nhàng thay vì trừ điểm nặng nề.\n*   **Mở khóa theo giai đoạn (Gated Progression)**: Để di chuyển từ kỹ năng này sang kỹ năng khác trên đảo, trẻ bắt buộc phải hoàn thành chặng Boss Battle và đưa ra câu trả lời Phản tư. Việc mở khóa Mastery cuối cùng đòi hỏi có xác nhận từ cha mẹ, tăng tính gắn kết gia đình.\n", "04_AI Bible": "# 📁 04_AI Bible: Triết lý, Vai trò & Tiêu chuẩn Prompt AI\n\nTài liệu này định hình cách thức tích hợp Trí tuệ Nhân tạo (AI) vào nền tảng Novastars, bao gồm các vai trò của AI, hàng rào bảo mật & an toàn cho trẻ em (Guardrails), và các chuẩn mực thiết kế Prompt (Prompt Standards).\n\n---\n\n## 1. Triết lý AI của Novastars (AI Philosophy)\nTại Novastars, **AI không thay thế giáo viên hay cha mẹ**. AI đóng vai trò là **Người đồng hành (Companion)** và **Người hỗ trợ (Enabler)**. \nAI cá nhân hóa trải nghiệm học tập của trẻ, khích lệ trẻ tự học, tự khám phá và phản tư mà không tạo áp lực điểm số.\n\n---\n\n## 2. Các Vai trò Của AI trong Hệ thống (AI Roles)\nHệ thống AI của Novastars được thiết kế dưới dạng đa tác nhân (Multi-Agent System), đảm nhận các nhiệm vụ chuyên biệt:\n\n*   **AI Companion (Bạn đồng hành)**:\n    *   *Nhiệm vụ*: Xuất hiện xuyên suốt hành trình phiêu lưu dưới dạng một linh vật dễ thương (ví dụ: chú gấu nhỏ, ngôi sao bay). Trò chuyện với trẻ, giải thích cặn kẽ tại sao trẻ chọn sai câu trả lời, động viên khi trẻ gặp khó khăn.\n*   **NPC Roleplayer (Đóng vai nhân vật tình huống)**:\n    *   *Nhiệm vụ*: Nhập vai vào các nhân vật trong câu chuyện (ví dụ: một người lạ gõ cửa khi bố mẹ vắng nhà, một người bạn đang buồn ở trường) để trẻ thực hành đối thoại trực tiếp bằng văn bản hoặc giọng nói.\n*   **Content Generator (Tác giả câu chuyện & thử thách)**:\n    *   *Nhiệm vụ*: Tự động tạo ra các cốt truyện phiêu lưu cá nhân hóa (dựa trên sở thích của trẻ) và biên soạn câu hỏi trắc nghiệm tình huống bám sát Khung LSCAF.\n*   **Real-life Mission Generator (Đại sứ Nhiệm vụ Đời thực)**:\n    *   *Nhiệm vụ*: Dựa trên kỹ năng trẻ vừa hoàn thành trên app, AI sẽ sinh ra nhiệm vụ thực tế phù hợp (ví dụ: với kỹ năng *Phòng tránh bỏng*, nhiệm vụ có thể là \"Em hãy cùng bố mẹ xác định 3 khu vực nóng nguy hiểm trong bếp và dán nhãn cảnh báo\").\n*   **Competency Assessor (Trọng tài Đánh giá Phản tư)**:\n    *   *Nhiệm vụ*: Đọc và phân tích câu trả lời tự do (Reflection) của trẻ ở câu 17-20 để đánh giá mức độ thấu hiểu cảm xúc hoặc nhận thức năng lực.\n\n---\n\n## 3. Hàng rào Bảo vệ & An toàn (AI Guardrails & Safety)\nDo đối tượng người dùng trực tiếp là học sinh tiểu học (6 - 11 tuổi), hệ thống AI phải tuân thủ nghiêm ngặt các bộ quy tắc an toàn:\n\n### A. Giọng điệu & Ngôn ngữ (Tone of Voice)\n*   **Ấm áp, tích cực và động viên**: Tuyệt đối không sử dụng các từ ngữ mang tính chỉ trích, phán xét, chê bai trẻ (ví dụ: Không dùng \"Em sai rồi\", thay bằng \"Lựa chọn này chưa tối ưu lắm, em hãy thử nghĩ xem...\").\n*   **Đơn giản, dễ hiểu**: Không dùng các thuật ngữ chuyên môn phức tạp, câu từ ngắn gọn, phù hợp với trình độ ngôn ngữ của từng khối lớp (Khối 1-2 từ ngữ trực quan hơn, Khối 3-5 nâng cấp dần).\n\n### B. An toàn Vật lý & Sức khỏe (Physical Safety)\n*   Mọi nhiệm vụ thực tế (Real-life Missions) do AI đề xuất liên quan đến các yếu tố vật lý (điện, nước, dao kéo, di chuyển ngoài đường) **bắt buộc phải có câu lệnh đi kèm**: `\"Em phải thực hiện việc này cùng với sự hướng dẫn/giám sát của bố mẹ/người lớn\"`.\n*   AI không được đề xuất các hoạt động tự ý đi ra ngoài, tiếp xúc người lạ mà không có người bảo hộ.\n\n### C. Ngăn chặn Hành vi Sai lệch (Guardrails)\n*   **Jailbreak Prevention**: Hệ thống lọc đầu vào/đầu ra chặn đứng các nỗ lực hỏi AI về các vấn đề chính trị, tôn giáo, bạo lực, người lớn hoặc các chủ đề không liên quan đến giáo dục kỹ năng.\n*   **Hallucination Control**: AI chỉ được đưa ra thông tin dựa trên cơ sở khoa học và giáo trình đã được Hội đồng giáo dục Novastars kiểm duyệt (đặc biệt là kỹ năng sơ cấp cứu và an toàn).\n\n---\n\n## 4. Tiêu chuẩn Thiết kế Prompt (Prompt Standards)\nMọi prompt của hệ thống phải tuân theo cấu trúc chuẩn:\n\n```markdown\n# Role: [Tên vai trò AI]\n# Target Audience: Học sinh tiểu học lớp [1-5], độ tuổi [6-11]\n# Context: [Mô tả bối cảnh hòn đảo/kỹ năng đang học]\n# Task: [Nhiệm vụ cụ thể của AI]\n# Constraints:\n- Sử dụng tiếng Việt tự nhiên, ấm áp, xưng hô thân thiện (ví dụ: \"Tớ\" - \"Cậu\" hoặc \"Thầy/Cô\" - \"Em\").\n- Câu trả lời không dài quá 3 câu đối với hội thoại, hoặc tối đa 150 từ đối với câu chuyện.\n- Không sử dụng từ ngữ tiêu cực hoặc có tính phán xét.\n- Đảm bảo an toàn tuyệt đối, luôn nhắc nhở trẻ có cha mẹ đồng hành khi hành động ngoài đời thực.\n# Input: [Dữ liệu từ người dùng]\n# Output Format: JSON (để hệ thống dễ xử lý)\n```\nTất cả các prompt sản xuất nội dung phải được lưu trữ tập trung và kiểm thử tự động trước khi triển khai lên production.\n", "05_Design System": "# 📁 05_Design System: Ngôn ngữ Thiết kế, Nhân vật & UI Component\n\nTài liệu này quy chuẩn hóa ngôn ngữ thiết kế trực quan, hướng dẫn nghệ thuật (Art Direction), hệ thống màu sắc, nhân vật đại diện và các thành phần giao diện (UI Components) của nền tảng Novastars.\n\n---\n\n## 1. Hướng nghệ thuật & Cảm hứng (Art Direction & Inspiration)\nNovastars hướng tới phong cách thiết kế **vui nhộn, thân thiện, tràn đầy năng lượng và không áp lực**.\nChúng tôi lấy cảm hứng thiết kế từ:\n*   **Duolingo**: Giao diện tối giản, hình ảnh minh họa vector sắc nét, phẳng hóa, sử dụng linh vật tương tác động.\n*   **Nintendo & Pokemon**: Thiết kế bản đồ thế giới phiêu lưu dạng isometric (3D giả lập), màu sắc tươi sáng, thế giới động vật/sinh vật huyền bí kích thích sự khám phá.\n*   **Disney & Pixar**: Cách thổi hồn vào nhân vật, biểu cảm đa dạng, sinh động, mang tính giáo dục và nhân văn cao.\n\n---\n\n## 2. Hệ thống Màu sắc & Typography (Colors & Typography)\nChúng tôi tránh sử dụng các gam màu gốc đơn điệu (đỏ thuần, xanh thuần) dễ gây cảm giác nặng nề. Thay vào đó, chúng tôi sử dụng bảng màu HSL được tinh chỉnh hài hòa, kích thích thị giác trẻ nhỏ mà không gây mỏi mắt.\n\n### A. Bảng màu Chủ đạo (Color Palette)\n*   **Màu xanh hy vọng (Primary Green - Duolingo-like)**: `#58CC02` (HSL: $94^\\circ, 98\\%, 40\\%$) - Dành cho các nút hành động chính, hoàn thành thử thách.\n*   **Màu vàng phiêu lưu (Adventure Yellow)**: `#FFC800` (HSL: $47^\\circ, 100\\%, 50\\%$) - Dành cho hệ thống điểm thưởng, sao vàng, mở khóa đảo.\n*   **Màu xanh đại dương (Ocean Blue)**: `#1899D6` (HSL: $199^\\circ, 80\\%, 47\\%$) - Dành cho bản đồ nước, các thông tin hướng dẫn của AI.\n*   **Màu cam năng động (Energy Orange)**: `#FF9600` (HSL: $35^\\circ, 100\\%, 50\\%$) - Dành cho Boss Battle, các cảnh báo nhẹ nhàng.\n*   **Màu chữ & Nền (Text & Background)**:\n    *   Nền tối/Glassmorphism nhẹ nhàng để tăng tính cao cấp.\n    *   Chữ chính: `#3C3C3C` (Xám đậm dịu mắt) hoặc `#FFFFFF` trên nền màu.\n\n### B. Phông chữ (Typography)\n*   **Font tiêu đề**: **Outfit** hoặc **Fredoka One** (Google Fonts). Các góc bo tròn tạo cảm giác mềm mại, thân thiện với trẻ nhỏ.\n*   **Font nội dung**: **Inter** hoặc **Nunito**. Đảm bảo khả năng đọc tốt trên màn hình thiết bị di động của trẻ, độ lớn tối thiểu là $16\\text{px}$.\n\n---\n\n## 3. Thiết kế Nhân vật & Linh vật (Character Design)\nNhân vật là linh hồn kết nối học sinh với thế giới game:\n*   **Linh vật AI Companion (Nova)**: Một chú sao nhỏ có cánh, cơ thể lấp lánh có thể thay đổi biểu cảm tùy thuộc vào kết quả của trẻ. Nova sẽ bay nhảy trên màn hình để cổ vũ hoặc suy nghĩ cùng trẻ.\n*   **Nhân vật Boss**: Được thiết kế đáng yêu, nghịch ngợm (ví dụ: *Quái vật Lười Biếng*, *Ngọn lửa Tinh Nghịch*) thay vì đáng sợ, hung dữ, nhằm tránh gây tâm lý hoảng sợ cho trẻ nhỏ.\n\n---\n\n## 4. Quy chuẩn UI Components (Thành phần giao diện)\nMọi component trong Novastars phải được bo tròn góc mềm mại (Border Radius tối thiểu $12\\text{px} - 20\\text{px}$).\n\n*   **Nút bấm 3D (3D Bouncy Buttons)**: Nút bấm có viền bóng dưới tạo cảm giác nhấn thực tế như trên máy chơi game cầm tay.\n*   **Thanh tiến trình (Progress Bar)**: Dạng bo góc, màu xanh lá cây sáng, chuyển động mượt mà khi tăng phần trăm.\n*   **Hộp hội thoại (Speech Bubble Dialog)**: AI Companion nói chuyện qua các bong bóng thoại giống như trong truyện tranh.\n*   **Thẻ kỹ năng (Quest Cards)**: Thiết kế dạng kính mờ (Glassmorphism), hiển thị hình ảnh minh họa kỹ năng, độ khó và trạng thái khóa/mở.\n\n---\n\n## 5. Hiệu ứng & Micro-animations (Hiệu ứng vi mô)\n*   **Hiệu ứng Pháo hoa (Confetti)**: Tự động bắn pháo hoa giấy rực rỡ khi trẻ hoàn thành một đảo kỹ năng hoặc Boss Battle.\n*   **Bouncing (Nảy nhẹ)**: Nút bấm nảy nhẹ khi di chuột qua (hover) hoặc khi được nhấn để phản hồi tương tác tức thì.\n*   **View Transitions**: Chuyển cảnh mượt mà giữa bản đồ thế giới phiêu lưu và màn hình làm nhiệm vụ, tạo cảm giác di chuyển liên tục, không bị đứt gãy trải nghiệm.\n", "06_Technical Architecture": "# 📁 06_Technical Architecture: Kiến trúc Hệ thống & Cơ sở Dữ liệu\n\nTài liệu này đặc tả thiết kế kỹ thuật, kiến trúc phân tầng (Client-Server), lược đồ cơ sở dữ liệu (Database Schema), luồng dữ liệu API và cơ chế hoạt động của Content Compiler trong dự án Novastars.\n\n---\n\n## 1. Kiến trúc Hệ thống Tổng quan (Technical Architecture Overview)\nHệ thống Novastars được thiết kế theo mô hình Client-Server hiện đại, tận dụng sức mạnh của các dịch vụ đám mây không máy chủ (Serverless) để tối ưu chi phí và tăng khả năng mở rộng.\n\n```mermaid\ngraph TD\n    Client[Frontend Client: Web/Mobile] <--> API[API Gateway: Firebase Cloud Functions]\n    API <--> Firestore[(Dynamic DB: Cloud Firestore)]\n    API <--> Gemini[AI Engine: Google Gemini API]\n    Client <--> StaticDB[Static DB: questions_data.js]\n```\n\n*   **Frontend**: \n    *   *Hiện tại*: Trang Web tĩnh (`review.html`, `review_standalone.html`) viết bằng HTML/JS/CSS thuần phục vụ việc rà soát dữ liệu.\n    *   *Production*: Ứng dụng Web phát triển bằng React/Vite hoặc ứng dụng di động đa nền tảng (Flutter / React Native).\n*   **Backend & Infrastructure**:\n    *   Sử dụng **Firebase Authentication** để quản lý tài khoản Học sinh và Phụ huynh.\n    *   Sử dụng **Firebase Cloud Functions (Node.js)** để xử lý logic nghiệp vụ và gọi API bảo mật.\n    *   Sử dụng **Firebase AI Logic** để kết nối trực tiếp với mô hình Gemini của Google một cách an toàn.\n*   **Database**:\n    *   *Dữ liệu tĩnh (Static)*: Ngân hàng câu hỏi trắc nghiệm (680 câu hỏi của 34 kỹ năng) được biên dịch sẵn thành file JavaScript tĩnh (`questions_data.js`) và phân phối qua CDN để tối ưu hóa tốc độ tải và giảm chi phí truy vấn.\n    *   *Dữ liệu động (Dynamic)*: Lưu trữ trên **Cloud Firestore** để theo dõi thời gian thực tiến trình của học sinh.\n\n---\n\n## 2. Lược đồ Cơ sở Dữ liệu (Database Schema)\n\n### A. Lược đồ Tĩnh (Static Data - Local Client)\nMỗi câu hỏi trong file `questions_data.js` tuân thủ cấu trúc JSON:\n```json\n{\n  \"id\": \"Kien_thuc_ve_dien_giat_1\",\n  \"skill\": \"Kĩ năng phòng tránh nguy cơ bị điện giật\",\n  \"group\": \"Tự chăm sóc & An toàn\",\n  \"number\": 1,\n  \"tier\": \"A - Knowledge (Biết)\",\n  \"question\": \"Tại sao chúng ta không được dùng tay ướt để cắm điện?\",\n  \"options\": {\n    \"A\": \"Vì tay ướt làm bẩn ổ điện.\",\n    \"B\": \"Vì nước dẫn điện rất tốt, tay ướt chạm vào điện rất dễ bị giật.\",\n    \"C\": \"Vì làm như thế ổ điện sẽ bị rỉ sét.\",\n    \"D\": \"Vì tay ướt sẽ làm trơn phích cắm.\"\n  },\n  \"answer\": \"B\",\n  \"explanation\": \"Nước là chất dẫn điện. Khi tay ướt, điện trở của da giảm mạnh, nếu có dòng điện rò rỉ sẽ truyền qua nước vào cơ thể gây điện giật nguy hiểm.\"\n}\n```\n\n### B. Lược đồ Động (Dynamic Data - Cloud Firestore)\nChúng tôi quản lý dữ liệu người dùng qua 4 Collections chính:\n\n1.  **Collection `users`**:\n    *   `uid` (string, Primary Key): ID định danh từ Firebase Auth.\n    *   `role` (string): \"student\" hoặc \"parent\".\n    *   `displayName` (string): Tên hiển thị.\n    *   `grade` (number): Lớp học (1 - 5).\n    *   `starPoints` (number): Tổng số sao tích lũy.\n\n2.  **Collection `progress`**:\n    *   `progressId` (string, PK): `uid_skillId`.\n    *   `uid` (string, FK): ID học sinh.\n    *   `skillId` (string): Tên hoặc mã định danh kỹ năng.\n    *   `completedTiers` (array of strings): Các tầng đã hoàn thành (e.g., `[\"A\", \"B\", \"C\", \"D\"]`).\n    *   `reflectionText` (string): Câu trả lời phản tư của học sinh.\n    *   `status` (string): Trạng thái (`LEARN`, `PRACTICE`, `COMPETENT`, `REAL_LIFE`, `MASTERY`).\n    *   `updatedAt` (timestamp).\n\n3.  **Collection `real_life_missions`**:\n    *   `missionId` (string, PK).\n    *   `uid` (string, FK): ID học sinh.\n    *   `skillId` (string).\n    *   `description` (string): Mô tả nhiệm vụ do AI sinh ra.\n    *   `evidenceUrl` (string): Đường dẫn ảnh/video minh chứng của trẻ gửi lên.\n    *   `parentVerified` (boolean): Trạng thái xác thực của cha mẹ.\n    *   `createdAt` (timestamp).\n\n---\n\n## 3. Đặc tả Luồng API Chính (Core API Spec)\n\n### API 1: Nộp câu Phản tư & Khởi tạo Nhiệm vụ Thực tế\n*   **Endpoint**: `/api/reflection/submit`\n*   **Method**: `POST`\n*   **Request Body**:\n    ```json\n    {\n      \"uid\": \"user_123\",\n      \"skillId\": \"Kynang_phongtranh_diengiat\",\n      \"reflectionText\": \"Em hứa sẽ luôn lau khô tay trước khi chạm vào các phích cắm điện ở nhà.\"\n    }\n    ```\n*   **Response Body**:\n    ```json\n    {\n      \"status\": \"success\",\n      \"isApproved\": true,\n      \"feedback\": \"Tuyệt vời lắm! Phản tư rất thực tế.\",\n      \"suggestedMission\": \"Hãy cùng bố mẹ kiểm tra xem nhà mình có ổ cắm nào ở tầm thấp không và dùng nút bịt ổ điện để bảo vệ an toàn nhé.\"\n    }\n    ```\n\n### API 2: Xác nhận Nhiệm vụ từ Phụ huynh\n*   **Endpoint**: `/api/parent/verify`\n*   **Method**: `POST`\n*   **Request Body**:\n    ```json\n    {\n      \"uid\": \"parent_456\",\n      \"studentUid\": \"user_123\",\n      \"missionId\": \"mission_789\",\n      \"approve\": true,\n      \"comment\": \"Con đã thực hiện rất nghiêm túc và dán nhãn cảnh báo cùng bố.\"\n    }\n    ```\n*   **Response Body**:\n    ```json\n    {\n      \"status\": \"success\",\n      \"unlockedBadge\": \"Badge_AnToanDien\",\n      \"rewardPoints\": 100\n    }\n    ```\n---\n\n## 4. Cơ chế Biên dịch Nội dung Hiện tại (Content Compiler)\nTại môi trường local, nội dung ngân hàng câu hỏi được quản lý dưới dạng Markdown trong thư mục `question_bank/`. \nQuy trình biên dịch tĩnh:\n1.  **Bước 1**: Chạy `verify_questions.py` để kiểm tra định dạng cú pháp Markdown của từng file nhóm kỹ năng (phải có đủ Options A-D, đáp án đúng, giải thích).\n2.  **Bước 2**: Chạy `compile_database.py` để đọc và phân tích cú pháp (parse) các file markdown này, tự động gắn ID, nhóm và phân chia Tiers (A đến E) dựa trên số thứ tự câu hỏi (câu 1-4 là Tier A, 5-8 là Tier B, v.v.). Kết quả được xuất ra file `/question_bank/questions_data.js`.\n3.  **Bước 3**: File `review.html` sẽ nhúng `questions_data.js` để hiển thị giao diện kiểm duyệt cục bộ vô cùng trực quan cho biên tập viên.\n", "07_Content Production SOP": "# 📁 07_Content Production SOP: Quy trình Biên soạn Nội dung (AI + Biên tập viên)\n\nTài liệu này đặc tả Quy trình Vận hành Tiêu chuẩn (Standard Operating Procedure - SOP) trong việc xây dựng và phát triển nội dung ngân hàng câu hỏi kỹ năng tại Novastars, kết hợp giữa tự động hóa bằng AI và kiểm duyệt chuyên môn bởi Biên tập viên (Human-in-the-loop).\n\n---\n\n## 1. Luồng Quy trình 6 Bước (The 6-Step Workflow)\nĐể sản xuất một chủ đề kỹ năng đạt chuẩn chất lượng cao đưa lên ứng dụng, đội ngũ nội dung phải trải qua 6 bước nghiêm ngặt sau:\n\n```mermaid\ngraph TD\n    Step1[Bước 1: Xác định Mục tiêu - Excel] --> Step2[Bước 2: AI Sinh nháp - Prompt]\n    Step2 --> Step3[Bước 3: BTV Tối ưu hóa - Biên tập]\n    Step3 --> Step4[Bước 4: Chạy Verify - verify_questions.py]\n    Step4 --> Step5[Bước 5: Biên dịch DB - compile_database.py]\n    Step5 --> Step6[Bước 6: Nghiệm thu Visual - review.html]\n```\n\n### Bước 1: Thiết lập Mục tiêu & Chuẩn Năng lực (Curriculum Setup)\n*   **Hành động**: Biên tập viên truy cập file `Hệ thống kiến thức kỹ năng tiểu học.xlsx` để tra cứu nhóm kỹ năng, tên kỹ năng và mục tiêu tương ứng của từng khối lớp (từ Lớp 1 đến Lớp 5).\n*   **Đầu ra**: Tài liệu tóm tắt mục tiêu kỹ năng làm đầu vào cho AI (ví dụ: Kỹ năng an toàn điện có mục tiêu tránh cắm điện tay ướt, nhận biết ổ cắm hở).\n\n### Bước 2: AI Generate Bản nháp (AI Drafting)\n*   **Hành động**: Sử dụng AI Agent được thiết lập theo chuẩn **AI Bible** để tự động sinh ra 20 câu hỏi trắc nghiệm dưới dạng bản nháp Markdown.\n*   **Yêu cầu**: Phân chia chính xác 5 tầng LSCAF (từ câu 1 đến 20) và tuân thủ định dạng Markdown chuẩn (có Options A-D, Đáp án đúng, Giải thích).\n\n### Bước 3: Biên tập viên Tối ưu hóa Nội dung (Editor Optimization)\n*   **Hành động**: Biên tập viên (Chuyên gia giáo dục/Tâm lý trẻ em) tiến hành đọc rà soát bản nháp của AI:\n    *   *Giọng điệu*: Đảm bảo không quá khô khan, phù hợp tâm lý lứa tuổi tiểu học.\n    *   *Độ dài*: Đảm bảo các lựa chọn A, B, C, D ngắn gọn, trực quan.\n    *   *Tính thực tế*: Các tình huống và giải thích phải thực tế và mang tính hướng dẫn tích cực.\n*   **Đầu ra**: File Markdown đã qua chỉnh sửa được lưu vào thư mục `question_bank/` (ví dụ: `group1_self_care_safety.md`).\n\n### Bước 4: Kiểm thử Cú pháp Tự động (Automated Verification)\n*   **Hành động**: Chạy script kiểm thử cú pháp để đảm bảo định dạng file Markdown không có lỗi trước khi nạp vào hệ thống.\n*   **Câu lệnh**:\n    ```bash\n    python3 /Users/thuy/Documents/apptieuhoc/question_bank/verify_questions.py\n    ```\n*   **Quy tắc kiểm tra**:\n    *   Mỗi câu hỏi phải bắt đầu bằng định dạng `### Câu [Số]:`.\n    *   Phải có đủ 4 lựa chọn bắt đầu bằng `*   A.`, `*   B.`, `*   C.`, `*   D.`.\n    *   Phải có dòng `*   **Đáp án đúng:** [A/B/C/D]`.\n    *   Phải có dòng `*   **Giải thích:** [Nội dung giải thích]`.\n\n### Bước 5: Biên dịch sang Cơ sở Dữ liệu (Database Compilation)\n*   **Hành động**: Sau khi vượt qua bước kiểm thử cú pháp, chạy script biên dịch để tự động chuyển đổi từ file Markdown sang cơ sở dữ liệu JavaScript (`questions_data.js`).\n*   **Câu lệnh**:\n    ```bash\n    python3 /Users/thuy/Documents/apptieuhoc/question_bank/compile_database.py\n    ```\n*   **Logic tự động**: Script sẽ tự động gán ID duy nhất cho từng câu hỏi, tự động map nhóm kỹ năng và phân loại tầng nhận thức (Tiers A đến E) cho từng câu.\n\n### Bước 6: Nghiệm thu Giao diện Trực quan (Visual QA)\n*   **Hành động**: Biên tập viên mở file `review.html` (hoặc `review_standalone.html`) trên trình duyệt để kiểm tra hiển thị trực quan của ngân hàng câu hỏi.\n*   **Tiêu chí nghiệm thu**: \n    *   Giao diện hiển thị đúng font chữ, màu sắc theo quy chuẩn.\n    *   Các câu hỏi được phân nhóm rõ ràng, dễ đọc, không bị lỗi hiển thị ký tự tiếng Việt.\n    *   Học sinh thử click chọn đáp án hoạt động trơn tru.\n\n---\n\n## 2. Bảng Phân công Trách nhiệm (RACI Matrix)\n\n| Giai đoạn | AI Agent | Biên tập viên (Editor) | Curriculum Expert | Kỹ sư Hệ thống |\n| :--- | :---: | :---: | :---: | :---: |\n| **1. Xác định Mục tiêu** | I | I | **A** / R | O |\n| **2. Sinh nháp Nội dung** | **R** | I | I | O |\n| **3. Tối ưu & Chỉnh sửa** | O | **R** / **A** | R | O |\n| **4. Chạy Verify Script** | O | R | O | **A** |\n| **5. Biên dịch Database** | O | O | O | **R** / **A** |\n| **6. Nghiệm thu Visual** | O | **R** / **A** | R | R |\n\n*   **R** (Responsible): Người thực hiện.\n*   **A** (Accountable): Người chịu trách nhiệm cao nhất và phê duyệt.\n*   **C** (Consulted): Người được tham vấn ý kiến.\n*   **I** (Informed): Người được thông báo kết quả.\n*   **O** (Omitted): Không tham gia trực tiếp.\n", "08_Decision Log": "# 📁 08_Decision Log: Nhật ký Quyết định Dự án\n\nTài liệu này lưu trữ toàn bộ các quyết định chiến lược về mặt sản phẩm, kỹ sư hệ thống, và phương pháp giáo dục đã được đội ngũ lãnh đạo thông qua (Frozen). Mọi thay đổi đối với các quyết định này bắt buộc phải kích hoạt quy trình tái phê duyệt (Re-approval).\n\n---\n\n## 1. Mẫu Ghi nhận Quyết định (Decision Log Template)\nMỗi quyết định được ghi lại phải tuân thủ cấu trúc sau:\n*   **Mã quyết định**: `DEC-[Năm]-[Số thứ tự]` (ví dụ: `DEC-2026-001`).\n*   **Tên quyết định**: Tóm tắt nội dung quyết định.\n*   **Người phê duyệt (Approver)**: Vai trò phê duyệt chính (ví dụ: CPO, Tech Architect, CLO).\n*   **Thời điểm**: Ngày đưa ra quyết định.\n*   **Trạng thái**: `DRAFT` (Dự thảo) $\\rightarrow$ `REVIEW` (Đang đánh giá) $\\rightarrow$ `APPROVED` (Đã phê duyệt) $\\rightarrow$ `FROZEN` (Đóng băng).\n*   **Bối cảnh & Vấn đề**: Tại sao cần đưa ra quyết định này.\n*   **Giải pháp lựa chọn & Rationale**: Giải pháp được chọn và lý do tại sao nó tốt nhất.\n*   **Trade-offs (Đánh đổi)**: Phân tích ưu và nhược điểm của lựa chọn này.\n*   **Ảnh hưởng về sau (Impact)**: Ảnh hưởng của quyết định đến thiết kế, phát triển và chi phí trong các giai đoạn sau.\n\n---\n\n## 2. Danh sách Quyết định Đã Đóng băng (Frozen Decisions)\n\n### 📌 DEC-2026-001: Khóa Khung Chương trình 34 Kỹ năng Cốt lõi\n*   **Thời điểm**: 30/07/2026\n*   **Người phê duyệt**: Chief Learning Officer (CLO) & Curriculum Expert\n*   **Trạng thái**: **FROZEN**\n*   **Bối cảnh**: Cần xác định phạm vi giảng dạy kỹ năng sống cho giai đoạn phát triển ban đầu của nền tảng mà không làm quá tải nội dung sản xuất.\n*   **Lựa chọn & Rationale**: Chọn bộ khung gồm 34 kỹ năng cốt lõi (phân chia thành 6 nhóm: Tự chăm sóc & An toàn, Tư duy cơ bản, Giao tiếp & Cảm xúc, Thuyết trình, Trách nhiệm & Tự quản). Bộ khung này bao phủ đầy đủ các năng lực hành vi thiết yếu cho học sinh tiểu học bám sát chương trình giáo dục phổ thông mới của Việt Nam và các chuẩn kỹ năng thế kỷ 21.\n*   **Trade-offs**:\n    *   *Ưu điểm*: Định hướng rõ ràng cho đội ngũ sản xuất nội dung, tránh lan man.\n    *   *Nhược điểm*: Phải loại bỏ một số kỹ năng nâng cao hơn (sẽ bổ sung ở các phase mở rộng sau).\n*   **Ảnh hưởng về sau**: Làm cơ sở dữ liệu đầu vào cứng để biên soạn câu hỏi và thiết kế 6 hòn đảo trên Adventure Map.\n\n---\n\n### 📌 DEC-2026-002: Áp dụng Khung Đánh giá Đa tầng LSCAF (5 tầng, 20 câu hỏi/kỹ năng)\n*   **Thời điểm**: 30/07/2026\n*   **Người phê duyệt**: Chief Learning Officer (CLO) & Child Psychologist\n*   **Trạng thái**: **FROZEN**\n*   **Bối cảnh**: Cần phương thức đánh giá trẻ thực chất, tránh việc trẻ học vẹt đáp án trắc nghiệm lý thuyết.\n*   **Lựa chọn & Rationale**: Chia lộ trình đánh giá mỗi kỹ năng làm 5 tầng (Tier A: Biết $\\rightarrow$ Tier B: Hiểu $\\rightarrow$ Tier C: Lựa chọn $\\rightarrow$ Tier D: Đánh giá hành vi $\\rightarrow$ Tier E: Vận dụng & Phản tư). Mỗi kỹ năng biên soạn đúng 20 câu hỏi.\n*   **Trade-offs**:\n    *   *Ưu điểm*: Đánh giá toàn diện nhận thức, tư duy ra quyết định và sự phản tư cá nhân.\n    *   *Nhược điểm*: Khối lượng biên soạn nội dung lớn (tổng cộng 680 câu hỏi cho 34 kỹ năng) và yêu cầu AI Companion phải đủ thông minh để chấm điểm phần Phản tư (Tier E).\n*   **Ảnh hưởng về sau**: Quy định cứng cấu trúc dữ liệu của file JSON/JS và logic chuyển tầng nhận thức của ứng dụng di động.\n\n---\n\n### 📌 DEC-2026-003: Phân phối Ngân hàng Câu hỏi Tĩnh qua CDN dưới dạng JavaScript File\n*   **Thời điểm**: 30/07/2026\n*   **Người phê duyệt**: Technical Architect\n*   **Trạng thái**: **FROZEN**\n*   **Bối cảnh**: Nếu lưu 680 câu hỏi động trên Firestore, mỗi lượt tải ứng dụng của học sinh sẽ tốn rất nhiều lượt đọc (Reads) API Firestore, dẫn đến tăng chi phí vận hành nhanh chóng khi đạt quy mô hàng triệu người dùng.\n*   **Lựa chọn & Rationale**: Lưu trữ ngân hàng câu hỏi đã biên dịch hoàn chỉnh dưới dạng một file JavaScript tĩnh (`questions_data.js`). File này sẽ được tải một lần từ CDN về thiết bị của người dùng và lưu trữ cục bộ (local cache). Chỉ các thông tin cá nhân và tiến trình học tập động mới đồng bộ thời gian thực lên Cloud Firestore.\n*   **Trade-offs**:\n    *   *Ưu điểm*: Tiết kiệm đến $90\\%$ chi phí truy vấn database; tốc độ hiển thị câu hỏi lập tức, không có độ trễ mạng.\n    *   *Nhược điểm*: Khi cần sửa đổi câu hỏi, phải chạy lại script build và deploy bản cập nhật ứng dụng hoặc đẩy file mới lên CDN.\n*   **Ảnh hưởng về sau**: Quy trình Content Production SOP có thêm bước build (`compile_database.py`) để xuất bản file JS tĩnh.\n", "09_Roadmap": "# 📁 09_Roadmap: Lộ trình Phát triển, Cột mốc & Backlog\n\nTài liệu này xác định các giai đoạn phát triển (Phases) của dự án EdTech Novastars, các cột mốc quan trọng (Milestones) và danh sách các hạng mục công việc tồn đọng (Backlog) để điều phối nguồn lực tối ưu.\n\n---\n\n## 1. Các Giai đoạn Phát triển (Development Phases)\n\nDự án được chia làm 4 giai đoạn cuốn chiếu chính nhằm đảm bảo khả năng kiểm soát chất lượng ở từng mốc:\n\n```mermaid\ngantt\n    title Lộ trình Phát triển Novastars\n    dateFormat  YYYY-MM\n    section Giai đoạn 1: Nội dung & Compiler (Hoàn thành)\n    Xây dựng khung 34 kỹ năng           :done, des1, 2026-07, 10d\n    Biên dịch database & QA Web Tool    :done, des2, after des1, 10d\n    section Giai đoạn 2: Thiết kế & Prototype\n    Thiết kế giao diện UI/UX (Figma)   :active, des3, 2026-08, 15d\n    Xây dựng Gameplay Loop Prototype  :des4, after des3, 20d\n    section Giai đoạn 3: AI Engine & Backend\n    Tích hợp Firebase & API Gateway     :des5, 2026-09, 20d\n    Xây dựng AI Companion & Assessor    :des6, after des5, 20d\n    section Giai đoạn 4: Beta & Launch\n    Thử nghiệm người dùng (Beta Test)   :des7, 2026-10, 15d\n    Phát hành chính thức (Production)   :des8, after des7, 10d\n```\n\n### 🎯 Giai đoạn 1: Thiết lập Khung Chương trình & Biên soạn Nội dung (Hiện tại - Đã Hoàn Thành)\n*   **Mục tiêu**: Định hình toàn bộ khung 34 kỹ năng và hoàn thành ngân hàng 680 câu hỏi trắc nghiệm thực tế bám sát chuẩn LSCAF.\n*   **Kết quả**: \n    *   6 file Markdown nhóm câu hỏi hoàn thiện trong thư mục `question_bank/`.\n    *   Hệ thống kiểm thử cú pháp `verify_questions.py` và biên dịch `compile_database.py`.\n    *   Trang Dashboard rà soát trực quan `review.html` hoạt động trơn tru.\n\n### 🎨 Giai đoạn 2: Thiết kế UI/UX & Phát triển Game Client Prototype (Tiếp theo)\n*   **Mục tiêu**: Hiện thực hóa thế giới phiêu lưu dưới dạng giao diện đồ họa sống động, bắt mắt và tối ưu cho trẻ nhỏ.\n*   **Nhiệm vụ trọng tâm**:\n    *   Thiết kế Figma cho 6 hòn đảo kỹ năng lớn và giao diện đấu Boss.\n    *   Xây dựng Game Client Prototype bằng công nghệ Flutter hoặc React Native.\n    *   Nạp ngân hàng câu hỏi tĩnh từ file `questions_data.js` chạy offline trên client.\n\n### 🤖 Giai đoạn 3: Tích hợp AI Companion Engine & Hệ thống Backend (Q3/2026)\n*   **Mục tiêu**: Kết nối AI Companion thời gian thực và xây dựng hệ thống đồng bộ đám mây Firebase.\n*   **Nhiệm vụ trọng tâm**:\n    *   Xây dựng Cloud Functions xử lý API nộp bài, lưu trữ tiến trình học tập động trên Cloud Firestore.\n    *   Tích hợp Gemini API thông qua Firebase AI Logic để xử lý phần Phản tư (Reflection - Tier E) và đề xuất Nhiệm vụ Đời thực.\n    *   Xây dựng Cổng thông tin Phụ huynh (Parent Portal) để theo dõi và xác thực nhiệm vụ của con.\n\n### 🚀 Giai đoạn 4: Kiểm thử Beta, Tối ưu & Phát hành (Q4/2026)\n*   **Mục tiêu**: Nghiệm thu thực tế và đưa ứng dụng lên các cửa hàng App Store & Google Play.\n*   **Nhiệm vụ trọng tâm**:\n    *   Chạy thử nghiệm Beta diện hẹp (Beta Test) với sự tham gia của 100 học sinh tiểu học và phụ huynh để đánh giá mức độ hấp dẫn của game và tính hiệu quả của AI.\n    *   Đánh giá và tối ưu hóa hiệu năng ứng dụng, bảo mật cơ sở dữ liệu (Firestore Security Rules Audit).\n    *   Phát hành chính thức (Go-live).\n\n---\n\n## 2. Các Cột mốc Quan trọng (Key Milestones)\n*   **MS-1 (Đạt được)**: Hoàn thành biên dịch thành công Ngân hàng 680 câu hỏi trắc nghiệm sạch lỗi cú pháp sang `questions_data.js`.\n*   **MS-2**: Đóng băng thiết kế giao diện (UI/UX Design Freeze) cho cả ứng dụng Học sinh và Phụ huynh.\n*   **MS-3**: Hoàn thành bản dựng game client đầu tiên chạy trơn tru vòng lặp Gameplay (Story $\\rightarrow$ Mini Game $\\rightarrow$ Boss Battle) sử dụng dữ liệu cục bộ.\n*   **MS-4**: Tích hợp thành công API AI Companion chấm điểm Phản tư và trả ra nhiệm vụ đời thực.\n*   **MS-5**: Go-live và đạt mốc 10.000 người dùng hoạt động đầu tiên.\n\n---\n\n## 3. Danh sách Hạng mục Công việc Tồn đọng (Product Backlog)\n\n| ID | Hạng mục Công việc | Nhóm phụ trách | Giai đoạn | Trạng thái |\n| :--- | :--- | :---: | :---: | :---: |\n| **BL-001** | Thiết kế linh vật AI Companion (Gấu Nova) với các hoạt ảnh cảm xúc. | Game / Art | Phase 2 | **To Do** |\n| **BL-002** | Phát triển khung sườn mã nguồn của ứng dụng Client (Flutter). | Tech | Phase 2 | **To Do** |\n| **BL-003** | Thiết kế bộ Mini-game tương tác tĩnh trên ứng dụng di động. | Game Design | Phase 2 | **To Do** |\n| **BL-004** | Viết Prompt chuẩn cho AI Assessor chấm điểm câu trả lời tự do. | AI Team | Phase 3 | **To Do** |\n| **BL-005** | Thiết lập cấu trúc bảo mật Cloud Firestore Security Rules. | Tech | Phase 3 | **To Do** |\n| **BL-006** | Xây dựng hệ thống thông báo đẩy (Push Notifications) cho phụ huynh. | Tech | Phase 3 | **To Do** |\n| **BL-007** | Biên dịch tài liệu hướng dẫn và tổ chức chương trình thử nghiệm Beta. | CLO / Ops | Phase 4 | **To Do** |\n"};
+        
+        const folderMetadata = {
+            "00_Project Charter": { "icon": "fa-flag", "title": "Project Charter" },
+            "01_Product Foundation": { "icon": "fa-rocket", "title": "Product Foundation" },
+            "02_Curriculum Framework": { "icon": "fa-sitemap", "title": "Curriculum Framework" },
+            "03_Game Design Bible": { "icon": "fa-gamepad", "title": "Game Design Bible" },
+            "04_AI Bible": { "icon": "fa-robot", "title": "AI Bible" },
+            "05_Design System": { "icon": "fa-palette", "title": "Design System" },
+            "06_Technical Architecture": { "icon": "fa-server", "title": "Technical Architecture" },
+            "07_Content Production SOP": { "icon": "fa-list-check", "title": "Content Production SOP" },
+            "08_Decision Log": { "icon": "fa-key", "title": "Decision Log" },
+            "09_Roadmap": { "icon": "fa-map-location-dot", "title": "Roadmap" }
+        };
+
+        let activeKey = "00_Project Charter";
+
+        // Initialize Navigation List
+        function initNavigation(filter = "") {
+            const navList = document.getElementById("nav-list");
+            navList.innerHTML = "";
+            
+            Object.keys(folderMetadata).forEach(key => {
+                const meta = folderMetadata[key];
+                const content = pkbData[key] || "";
+                
+                // If filter is active, check if key or content matches
+                if (filter && !meta.title.toLowerCase().includes(filter.toLowerCase()) && !content.toLowerCase().includes(filter.toLowerCase())) {
+                    return;
+                }
+                
+                const li = document.createElement("li");
+                li.className = "nav-item";
+                
+                const a = document.createElement("a");
+                a.className = `nav-link bouncy-hover ${key === activeKey ? 'active' : ''}`;
+                a.onclick = () => selectDocument(key);
+                
+                a.innerHTML = `
+                    <i class="fa-solid ${meta.icon}"></i>
+                    <span>${meta.title}</span>
+                `;
+                
+                li.appendChild(a);
+                navList.appendChild(li);
+            });
+        }
+
+        // Select and render document
+        function selectDocument(key) {
+            activeKey = key;
+            
+            // Update active state in nav list
+            document.querySelectorAll(".nav-link").forEach(link => {
+                link.classList.remove("active");
+            });
+            
+            // Refresh navigation list to set active class
+            initNavigation(document.getElementById("search").value);
+            
+            // Set title and content
+            const meta = folderMetadata[key];
+            document.getElementById("header-title").innerText = meta.title;
+            
+            const rawMarkdown = pkbData[key] || "# Chưa có dữ liệu";
+            
+            // Render markdown using Marked
+            document.getElementById("doc-content").innerHTML = marked.parse(rawMarkdown);
+            
+            // Scroll content area back to top
+            document.querySelector(".content-body").scrollTop = 0;
+        }
+
+        // Handle text search
+        function handleSearch() {
+            const val = document.getElementById("search").value;
+            initNavigation(val);
+        }
+
+        // Theme Toggle (Light / Dark)
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            document.body.setAttribute("data-theme", newTheme);
+            
+            const icon = document.getElementById("theme-icon");
+            if (newTheme === "dark") {
+                icon.className = "fa-solid fa-sun";
+            } else {
+                icon.className = "fa-solid fa-moon";
+            }
+            localStorage.setItem("pkb-theme", newTheme);
+        }
+
+        // Initialize App
+        window.onload = () => {
+            // Restore theme preference
+            const savedTheme = localStorage.getItem("pkb-theme") || "light";
+            document.body.setAttribute("data-theme", savedTheme);
+            const icon = document.getElementById("theme-icon");
+            icon.className = savedTheme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+
+            initNavigation();
+            selectDocument(activeKey);
+        };
+    </script>
+</body>
+</html>

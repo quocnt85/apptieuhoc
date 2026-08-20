@@ -1,0 +1,1962 @@
+[
+  {
+    "number": 1,
+    "question": "Câu hỏi về việc nhận biết phong tục chúc tết (Tình huống 1)",
+    "options": {
+      "A": "Biết được phong tục",
+      "B": "Không biết",
+      "C": "Chưa rõ",
+      "D": "Sai"
+    },
+    "answer": "A",
+    "explanation": "Học sinh cần biết phong tục cơ bản.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 2,
+    "question": "Câu hỏi về việc nhận biết phong tục chúc tết (Tình huống 2)",
+    "options": {
+      "A": "Biết được phong tục",
+      "B": "Không biết",
+      "C": "Chưa rõ",
+      "D": "Sai"
+    },
+    "answer": "A",
+    "explanation": "Học sinh cần biết phong tục cơ bản.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 3,
+    "question": "Câu hỏi về việc nhận biết phong tục chúc tết (Tình huống 3)",
+    "options": {
+      "A": "Biết được phong tục",
+      "B": "Không biết",
+      "C": "Chưa rõ",
+      "D": "Sai"
+    },
+    "answer": "A",
+    "explanation": "Học sinh cần biết phong tục cơ bản.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 4,
+    "question": "Câu hỏi về việc nhận biết phong tục chúc tết (Tình huống 4)",
+    "options": {
+      "A": "Biết được phong tục",
+      "B": "Không biết",
+      "C": "Chưa rõ",
+      "D": "Sai"
+    },
+    "answer": "A",
+    "explanation": "Học sinh cần biết phong tục cơ bản.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 5,
+    "question": "Câu hỏi hiểu ý nghĩa của lời chúc (Tình huống 1)",
+    "options": {
+      "A": "Hiểu ý nghĩa mong bình an",
+      "B": "Chỉ để nhận lì xì",
+      "C": "Là bắt buộc",
+      "D": "Không có ý nghĩa"
+    },
+    "answer": "A",
+    "explanation": "Hiểu được giá trị tinh thần của lời chúc.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 6,
+    "question": "Câu hỏi hiểu ý nghĩa của lời chúc (Tình huống 2)",
+    "options": {
+      "A": "Hiểu ý nghĩa mong bình an",
+      "B": "Chỉ để nhận lì xì",
+      "C": "Là bắt buộc",
+      "D": "Không có ý nghĩa"
+    },
+    "answer": "A",
+    "explanation": "Hiểu được giá trị tinh thần của lời chúc.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 7,
+    "question": "Câu hỏi hiểu ý nghĩa của lời chúc (Tình huống 3)",
+    "options": {
+      "A": "Hiểu ý nghĩa mong bình an",
+      "B": "Chỉ để nhận lì xì",
+      "C": "Là bắt buộc",
+      "D": "Không có ý nghĩa"
+    },
+    "answer": "A",
+    "explanation": "Hiểu được giá trị tinh thần của lời chúc.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 8,
+    "question": "Câu hỏi hiểu ý nghĩa của lời chúc (Tình huống 4)",
+    "options": {
+      "A": "Hiểu ý nghĩa mong bình an",
+      "B": "Chỉ để nhận lì xì",
+      "C": "Là bắt buộc",
+      "D": "Không có ý nghĩa"
+    },
+    "answer": "A",
+    "explanation": "Hiểu được giá trị tinh thần của lời chúc.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 9,
+    "question": "Khi đến nhà người lớn, em sẽ làm gì đầu tiên? (Tình huống 1)",
+    "options": {
+      "A": "Khoanh tay chúc tết",
+      "B": "Chạy đi chơi",
+      "C": "Đòi lì xì",
+      "D": "Im lặng"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn hành vi lễ phép khi gặp người lớn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 10,
+    "question": "Khi đến nhà người lớn, em sẽ làm gì đầu tiên? (Tình huống 2)",
+    "options": {
+      "A": "Khoanh tay chúc tết",
+      "B": "Chạy đi chơi",
+      "C": "Đòi lì xì",
+      "D": "Im lặng"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn hành vi lễ phép khi gặp người lớn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 11,
+    "question": "Khi đến nhà người lớn, em sẽ làm gì đầu tiên? (Tình huống 3)",
+    "options": {
+      "A": "Khoanh tay chúc tết",
+      "B": "Chạy đi chơi",
+      "C": "Đòi lì xì",
+      "D": "Im lặng"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn hành vi lễ phép khi gặp người lớn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 12,
+    "question": "Khi đến nhà người lớn, em sẽ làm gì đầu tiên? (Tình huống 4)",
+    "options": {
+      "A": "Khoanh tay chúc tết",
+      "B": "Chạy đi chơi",
+      "C": "Đòi lì xì",
+      "D": "Im lặng"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn hành vi lễ phép khi gặp người lớn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 13,
+    "question": "Bạn A nhận lì xì và xé ngay trước mặt khách. Em đánh giá thế nào? (Tình huống 1)",
+    "options": {
+      "A": "Rất vô lễ",
+      "B": "Bình thường",
+      "C": "Nên làm thế",
+      "D": "Không sao"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá hành vi sai trái khi nhận lì xì.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 14,
+    "question": "Bạn A nhận lì xì và xé ngay trước mặt khách. Em đánh giá thế nào? (Tình huống 2)",
+    "options": {
+      "A": "Rất vô lễ",
+      "B": "Bình thường",
+      "C": "Nên làm thế",
+      "D": "Không sao"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá hành vi sai trái khi nhận lì xì.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 15,
+    "question": "Bạn A nhận lì xì và xé ngay trước mặt khách. Em đánh giá thế nào? (Tình huống 3)",
+    "options": {
+      "A": "Rất vô lễ",
+      "B": "Bình thường",
+      "C": "Nên làm thế",
+      "D": "Không sao"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá hành vi sai trái khi nhận lì xì.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 16,
+    "question": "Bạn A nhận lì xì và xé ngay trước mặt khách. Em đánh giá thế nào? (Tình huống 4)",
+    "options": {
+      "A": "Rất vô lễ",
+      "B": "Bình thường",
+      "C": "Nên làm thế",
+      "D": "Không sao"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá hành vi sai trái khi nhận lì xì.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 17,
+    "question": "Em sẽ áp dụng cách chúc tết ông bà thế nào vào năm nay? (Tình huống 1)",
+    "options": {
+      "A": "Tự chuẩn bị câu chúc ý nghĩa",
+      "B": "Đợi bố mẹ nhắc",
+      "C": "Chỉ chúc khi có lì xì",
+      "D": "Không chúc"
+    },
+    "answer": "A",
+    "explanation": "Vận dụng kỹ năng vào thực tế của bản thân.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 18,
+    "question": "Em sẽ áp dụng cách chúc tết ông bà thế nào vào năm nay? (Tình huống 2)",
+    "options": {
+      "A": "Tự chuẩn bị câu chúc ý nghĩa",
+      "B": "Đợi bố mẹ nhắc",
+      "C": "Chỉ chúc khi có lì xì",
+      "D": "Không chúc"
+    },
+    "answer": "A",
+    "explanation": "Vận dụng kỹ năng vào thực tế của bản thân.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 19,
+    "question": "Em sẽ áp dụng cách chúc tết ông bà thế nào vào năm nay? (Tình huống 3)",
+    "options": {
+      "A": "Tự chuẩn bị câu chúc ý nghĩa",
+      "B": "Đợi bố mẹ nhắc",
+      "C": "Chỉ chúc khi có lì xì",
+      "D": "Không chúc"
+    },
+    "answer": "A",
+    "explanation": "Vận dụng kỹ năng vào thực tế của bản thân.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 20,
+    "question": "Em sẽ áp dụng cách chúc tết ông bà thế nào vào năm nay? (Tình huống 4)",
+    "options": {
+      "A": "Tự chuẩn bị câu chúc ý nghĩa",
+      "B": "Đợi bố mẹ nhắc",
+      "C": "Chỉ chúc khi có lì xì",
+      "D": "Không chúc"
+    },
+    "answer": "A",
+    "explanation": "Vận dụng kỹ năng vào thực tế của bản thân.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chúc tết"
+  },
+  {
+    "number": 21,
+    "question": "Thuyết trình là gì? (Tình huống 1)",
+    "options": {
+      "A": "Trình bày thông tin trước người khác",
+      "B": "Đọc sách một mình",
+      "C": "Hát karaoke",
+      "D": "Viết bài"
+    },
+    "answer": "A",
+    "explanation": "Biết khái niệm cơ bản về thuyết trình.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 22,
+    "question": "Thuyết trình là gì? (Tình huống 2)",
+    "options": {
+      "A": "Trình bày thông tin trước người khác",
+      "B": "Đọc sách một mình",
+      "C": "Hát karaoke",
+      "D": "Viết bài"
+    },
+    "answer": "A",
+    "explanation": "Biết khái niệm cơ bản về thuyết trình.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 23,
+    "question": "Thuyết trình là gì? (Tình huống 3)",
+    "options": {
+      "A": "Trình bày thông tin trước người khác",
+      "B": "Đọc sách một mình",
+      "C": "Hát karaoke",
+      "D": "Viết bài"
+    },
+    "answer": "A",
+    "explanation": "Biết khái niệm cơ bản về thuyết trình.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 24,
+    "question": "Thuyết trình là gì? (Tình huống 4)",
+    "options": {
+      "A": "Trình bày thông tin trước người khác",
+      "B": "Đọc sách một mình",
+      "C": "Hát karaoke",
+      "D": "Viết bài"
+    },
+    "answer": "A",
+    "explanation": "Biết khái niệm cơ bản về thuyết trình.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 25,
+    "question": "Tại sao cần giao tiếp bằng mắt khi thuyết trình? (Tình huống 1)",
+    "options": {
+      "A": "Để kết nối với khán giả",
+      "B": "Để dọa khán giả",
+      "C": "Để nhìn trần nhà",
+      "D": "Không cần thiết"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lý do của ngôn ngữ cơ thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 26,
+    "question": "Tại sao cần giao tiếp bằng mắt khi thuyết trình? (Tình huống 2)",
+    "options": {
+      "A": "Để kết nối với khán giả",
+      "B": "Để dọa khán giả",
+      "C": "Để nhìn trần nhà",
+      "D": "Không cần thiết"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lý do của ngôn ngữ cơ thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 27,
+    "question": "Tại sao cần giao tiếp bằng mắt khi thuyết trình? (Tình huống 3)",
+    "options": {
+      "A": "Để kết nối với khán giả",
+      "B": "Để dọa khán giả",
+      "C": "Để nhìn trần nhà",
+      "D": "Không cần thiết"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lý do của ngôn ngữ cơ thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 28,
+    "question": "Tại sao cần giao tiếp bằng mắt khi thuyết trình? (Tình huống 4)",
+    "options": {
+      "A": "Để kết nối với khán giả",
+      "B": "Để dọa khán giả",
+      "C": "Để nhìn trần nhà",
+      "D": "Không cần thiết"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lý do của ngôn ngữ cơ thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 29,
+    "question": "Khi quên lời lúc thuyết trình, em nên làm gì? (Tình huống 1)",
+    "options": {
+      "A": "Bình tĩnh xem lại dàn ý",
+      "B": "Khóc",
+      "C": "Bỏ chạy",
+      "D": "Đứng im mãi mãi"
+    },
+    "answer": "A",
+    "explanation": "Xử lý tình huống khi gặp sự cố.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 30,
+    "question": "Khi quên lời lúc thuyết trình, em nên làm gì? (Tình huống 2)",
+    "options": {
+      "A": "Bình tĩnh xem lại dàn ý",
+      "B": "Khóc",
+      "C": "Bỏ chạy",
+      "D": "Đứng im mãi mãi"
+    },
+    "answer": "A",
+    "explanation": "Xử lý tình huống khi gặp sự cố.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 31,
+    "question": "Khi quên lời lúc thuyết trình, em nên làm gì? (Tình huống 3)",
+    "options": {
+      "A": "Bình tĩnh xem lại dàn ý",
+      "B": "Khóc",
+      "C": "Bỏ chạy",
+      "D": "Đứng im mãi mãi"
+    },
+    "answer": "A",
+    "explanation": "Xử lý tình huống khi gặp sự cố.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 32,
+    "question": "Khi quên lời lúc thuyết trình, em nên làm gì? (Tình huống 4)",
+    "options": {
+      "A": "Bình tĩnh xem lại dàn ý",
+      "B": "Khóc",
+      "C": "Bỏ chạy",
+      "D": "Đứng im mãi mãi"
+    },
+    "answer": "A",
+    "explanation": "Xử lý tình huống khi gặp sự cố.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 33,
+    "question": "Bạn B nói rất nhỏ và cúi gằm mặt. Đánh giá kỹ năng của B? (Tình huống 1)",
+    "options": {
+      "A": "Cần tự tin và nói to hơn",
+      "B": "Rất xuất sắc",
+      "C": "Nên giữ nguyên",
+      "D": "Tốt rồi"
+    },
+    "answer": "A",
+    "explanation": "Nhận xét và rút kinh nghiệm từ bạn.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 34,
+    "question": "Bạn B nói rất nhỏ và cúi gằm mặt. Đánh giá kỹ năng của B? (Tình huống 2)",
+    "options": {
+      "A": "Cần tự tin và nói to hơn",
+      "B": "Rất xuất sắc",
+      "C": "Nên giữ nguyên",
+      "D": "Tốt rồi"
+    },
+    "answer": "A",
+    "explanation": "Nhận xét và rút kinh nghiệm từ bạn.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 35,
+    "question": "Bạn B nói rất nhỏ và cúi gằm mặt. Đánh giá kỹ năng của B? (Tình huống 3)",
+    "options": {
+      "A": "Cần tự tin và nói to hơn",
+      "B": "Rất xuất sắc",
+      "C": "Nên giữ nguyên",
+      "D": "Tốt rồi"
+    },
+    "answer": "A",
+    "explanation": "Nhận xét và rút kinh nghiệm từ bạn.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 36,
+    "question": "Bạn B nói rất nhỏ và cúi gằm mặt. Đánh giá kỹ năng của B? (Tình huống 4)",
+    "options": {
+      "A": "Cần tự tin và nói to hơn",
+      "B": "Rất xuất sắc",
+      "C": "Nên giữ nguyên",
+      "D": "Tốt rồi"
+    },
+    "answer": "A",
+    "explanation": "Nhận xét và rút kinh nghiệm từ bạn.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 37,
+    "question": "Để thuyết trình tốt bài tập ngày mai, em sẽ làm gì tối nay? (Tình huống 1)",
+    "options": {
+      "A": "Luyện tập trước gương",
+      "B": "Chơi game",
+      "C": "Đi ngủ sớm không cần chuẩn bị",
+      "D": "Nhờ bạn làm hộ"
+    },
+    "answer": "A",
+    "explanation": "Chuẩn bị thực tiễn cho nhiệm vụ.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 38,
+    "question": "Để thuyết trình tốt bài tập ngày mai, em sẽ làm gì tối nay? (Tình huống 2)",
+    "options": {
+      "A": "Luyện tập trước gương",
+      "B": "Chơi game",
+      "C": "Đi ngủ sớm không cần chuẩn bị",
+      "D": "Nhờ bạn làm hộ"
+    },
+    "answer": "A",
+    "explanation": "Chuẩn bị thực tiễn cho nhiệm vụ.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 39,
+    "question": "Để thuyết trình tốt bài tập ngày mai, em sẽ làm gì tối nay? (Tình huống 3)",
+    "options": {
+      "A": "Luyện tập trước gương",
+      "B": "Chơi game",
+      "C": "Đi ngủ sớm không cần chuẩn bị",
+      "D": "Nhờ bạn làm hộ"
+    },
+    "answer": "A",
+    "explanation": "Chuẩn bị thực tiễn cho nhiệm vụ.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 40,
+    "question": "Để thuyết trình tốt bài tập ngày mai, em sẽ làm gì tối nay? (Tình huống 4)",
+    "options": {
+      "A": "Luyện tập trước gương",
+      "B": "Chơi game",
+      "C": "Đi ngủ sớm không cần chuẩn bị",
+      "D": "Nhờ bạn làm hộ"
+    },
+    "answer": "A",
+    "explanation": "Chuẩn bị thực tiễn cho nhiệm vụ.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Kĩ năng thuyết trình"
+  },
+  {
+    "number": 41,
+    "question": "Biểu hiện của việc lắng nghe là gì? (Tình huống 1)",
+    "options": {
+      "A": "Mắt nhìn người nói",
+      "B": "Bấm điện thoại",
+      "C": "Nói chuyện riêng",
+      "D": "Ngủ gật"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết hành vi lắng nghe tích cực.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 42,
+    "question": "Biểu hiện của việc lắng nghe là gì? (Tình huống 2)",
+    "options": {
+      "A": "Mắt nhìn người nói",
+      "B": "Bấm điện thoại",
+      "C": "Nói chuyện riêng",
+      "D": "Ngủ gật"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết hành vi lắng nghe tích cực.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 43,
+    "question": "Biểu hiện của việc lắng nghe là gì? (Tình huống 3)",
+    "options": {
+      "A": "Mắt nhìn người nói",
+      "B": "Bấm điện thoại",
+      "C": "Nói chuyện riêng",
+      "D": "Ngủ gật"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết hành vi lắng nghe tích cực.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 44,
+    "question": "Biểu hiện của việc lắng nghe là gì? (Tình huống 4)",
+    "options": {
+      "A": "Mắt nhìn người nói",
+      "B": "Bấm điện thoại",
+      "C": "Nói chuyện riêng",
+      "D": "Ngủ gật"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết hành vi lắng nghe tích cực.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 45,
+    "question": "Lắng nghe giúp chúng ta điều gì? (Tình huống 1)",
+    "options": {
+      "A": "Hiểu đúng vấn đề",
+      "B": "Mất thời gian",
+      "C": "Cãi nhau dễ hơn",
+      "D": "Không có tác dụng"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lợi ích của việc lắng nghe.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 46,
+    "question": "Lắng nghe giúp chúng ta điều gì? (Tình huống 2)",
+    "options": {
+      "A": "Hiểu đúng vấn đề",
+      "B": "Mất thời gian",
+      "C": "Cãi nhau dễ hơn",
+      "D": "Không có tác dụng"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lợi ích của việc lắng nghe.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 47,
+    "question": "Lắng nghe giúp chúng ta điều gì? (Tình huống 3)",
+    "options": {
+      "A": "Hiểu đúng vấn đề",
+      "B": "Mất thời gian",
+      "C": "Cãi nhau dễ hơn",
+      "D": "Không có tác dụng"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lợi ích của việc lắng nghe.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 48,
+    "question": "Lắng nghe giúp chúng ta điều gì? (Tình huống 4)",
+    "options": {
+      "A": "Hiểu đúng vấn đề",
+      "B": "Mất thời gian",
+      "C": "Cãi nhau dễ hơn",
+      "D": "Không có tác dụng"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lợi ích của việc lắng nghe.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 49,
+    "question": "Khi bạn đang kể chuyện buồn, em sẽ? (Tình huống 1)",
+    "options": {
+      "A": "Im lặng lắng nghe và an ủi",
+      "B": "Cười to",
+      "C": "Kể chuyện khác",
+      "D": "Bỏ đi"
+    },
+    "answer": "A",
+    "explanation": "Chọn phản ứng phù hợp với cảm xúc của bạn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 50,
+    "question": "Khi bạn đang kể chuyện buồn, em sẽ? (Tình huống 2)",
+    "options": {
+      "A": "Im lặng lắng nghe và an ủi",
+      "B": "Cười to",
+      "C": "Kể chuyện khác",
+      "D": "Bỏ đi"
+    },
+    "answer": "A",
+    "explanation": "Chọn phản ứng phù hợp với cảm xúc của bạn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 51,
+    "question": "Khi bạn đang kể chuyện buồn, em sẽ? (Tình huống 3)",
+    "options": {
+      "A": "Im lặng lắng nghe và an ủi",
+      "B": "Cười to",
+      "C": "Kể chuyện khác",
+      "D": "Bỏ đi"
+    },
+    "answer": "A",
+    "explanation": "Chọn phản ứng phù hợp với cảm xúc của bạn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 52,
+    "question": "Khi bạn đang kể chuyện buồn, em sẽ? (Tình huống 4)",
+    "options": {
+      "A": "Im lặng lắng nghe và an ủi",
+      "B": "Cười to",
+      "C": "Kể chuyện khác",
+      "D": "Bỏ đi"
+    },
+    "answer": "A",
+    "explanation": "Chọn phản ứng phù hợp với cảm xúc của bạn.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 53,
+    "question": "Bạn C vừa nghe giảng vừa vẽ bậy. Hành vi này đúng hay sai? (Tình huống 1)",
+    "options": {
+      "A": "Sai, không tôn trọng giáo viên",
+      "B": "Đúng",
+      "C": "Bình thường",
+      "D": "Rất sáng tạo"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá sự tập trung trong học tập.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 54,
+    "question": "Bạn C vừa nghe giảng vừa vẽ bậy. Hành vi này đúng hay sai? (Tình huống 2)",
+    "options": {
+      "A": "Sai, không tôn trọng giáo viên",
+      "B": "Đúng",
+      "C": "Bình thường",
+      "D": "Rất sáng tạo"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá sự tập trung trong học tập.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 55,
+    "question": "Bạn C vừa nghe giảng vừa vẽ bậy. Hành vi này đúng hay sai? (Tình huống 3)",
+    "options": {
+      "A": "Sai, không tôn trọng giáo viên",
+      "B": "Đúng",
+      "C": "Bình thường",
+      "D": "Rất sáng tạo"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá sự tập trung trong học tập.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 56,
+    "question": "Bạn C vừa nghe giảng vừa vẽ bậy. Hành vi này đúng hay sai? (Tình huống 4)",
+    "options": {
+      "A": "Sai, không tôn trọng giáo viên",
+      "B": "Đúng",
+      "C": "Bình thường",
+      "D": "Rất sáng tạo"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá sự tập trung trong học tập.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 57,
+    "question": "Em áp dụng kỹ năng lắng nghe ở nhà như thế nào? (Tình huống 1)",
+    "options": {
+      "A": "Chú ý nghe lời bố mẹ dặn dò",
+      "B": "Bật tivi to khi mẹ nói",
+      "C": "Chỉ nghe điều mình thích",
+      "D": "Bỏ ngoài tai"
+    },
+    "answer": "A",
+    "explanation": "Vận dụng vào đời sống gia đình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 58,
+    "question": "Em áp dụng kỹ năng lắng nghe ở nhà như thế nào? (Tình huống 2)",
+    "options": {
+      "A": "Chú ý nghe lời bố mẹ dặn dò",
+      "B": "Bật tivi to khi mẹ nói",
+      "C": "Chỉ nghe điều mình thích",
+      "D": "Bỏ ngoài tai"
+    },
+    "answer": "A",
+    "explanation": "Vận dụng vào đời sống gia đình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 59,
+    "question": "Em áp dụng kỹ năng lắng nghe ở nhà như thế nào? (Tình huống 3)",
+    "options": {
+      "A": "Chú ý nghe lời bố mẹ dặn dò",
+      "B": "Bật tivi to khi mẹ nói",
+      "C": "Chỉ nghe điều mình thích",
+      "D": "Bỏ ngoài tai"
+    },
+    "answer": "A",
+    "explanation": "Vận dụng vào đời sống gia đình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 60,
+    "question": "Em áp dụng kỹ năng lắng nghe ở nhà như thế nào? (Tình huống 4)",
+    "options": {
+      "A": "Chú ý nghe lời bố mẹ dặn dò",
+      "B": "Bật tivi to khi mẹ nói",
+      "C": "Chỉ nghe điều mình thích",
+      "D": "Bỏ ngoài tai"
+    },
+    "answer": "A",
+    "explanation": "Vận dụng vào đời sống gia đình.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Lắng nghe"
+  },
+  {
+    "number": 61,
+    "question": "Hành động nào thể hiện sự tôn trọng thầy cô? (Tình huống 1)",
+    "options": {
+      "A": "Chào hỏi lễ phép",
+      "B": "Lờ đi",
+      "C": "Trêu đùa quá trớn",
+      "D": "Nói leo"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết hành vi chuẩn mực.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 62,
+    "question": "Hành động nào thể hiện sự tôn trọng thầy cô? (Tình huống 2)",
+    "options": {
+      "A": "Chào hỏi lễ phép",
+      "B": "Lờ đi",
+      "C": "Trêu đùa quá trớn",
+      "D": "Nói leo"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết hành vi chuẩn mực.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 63,
+    "question": "Hành động nào thể hiện sự tôn trọng thầy cô? (Tình huống 3)",
+    "options": {
+      "A": "Chào hỏi lễ phép",
+      "B": "Lờ đi",
+      "C": "Trêu đùa quá trớn",
+      "D": "Nói leo"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết hành vi chuẩn mực.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 64,
+    "question": "Hành động nào thể hiện sự tôn trọng thầy cô? (Tình huống 4)",
+    "options": {
+      "A": "Chào hỏi lễ phép",
+      "B": "Lờ đi",
+      "C": "Trêu đùa quá trớn",
+      "D": "Nói leo"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết hành vi chuẩn mực.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 65,
+    "question": "Tại sao phải tôn trọng thầy cô? (Tình huống 1)",
+    "options": {
+      "A": "Vì thầy cô dạy dỗ chúng ta",
+      "B": "Vì sợ bị phạt",
+      "C": "Vì bị bắt buộc",
+      "D": "Không cần thiết"
+    },
+    "answer": "A",
+    "explanation": "Hiểu đạo lý tôn sư trọng đạo.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 66,
+    "question": "Tại sao phải tôn trọng thầy cô? (Tình huống 2)",
+    "options": {
+      "A": "Vì thầy cô dạy dỗ chúng ta",
+      "B": "Vì sợ bị phạt",
+      "C": "Vì bị bắt buộc",
+      "D": "Không cần thiết"
+    },
+    "answer": "A",
+    "explanation": "Hiểu đạo lý tôn sư trọng đạo.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 67,
+    "question": "Tại sao phải tôn trọng thầy cô? (Tình huống 3)",
+    "options": {
+      "A": "Vì thầy cô dạy dỗ chúng ta",
+      "B": "Vì sợ bị phạt",
+      "C": "Vì bị bắt buộc",
+      "D": "Không cần thiết"
+    },
+    "answer": "A",
+    "explanation": "Hiểu đạo lý tôn sư trọng đạo.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 68,
+    "question": "Tại sao phải tôn trọng thầy cô? (Tình huống 4)",
+    "options": {
+      "A": "Vì thầy cô dạy dỗ chúng ta",
+      "B": "Vì sợ bị phạt",
+      "C": "Vì bị bắt buộc",
+      "D": "Không cần thiết"
+    },
+    "answer": "A",
+    "explanation": "Hiểu đạo lý tôn sư trọng đạo.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 69,
+    "question": "Thầy giáo đang xách nhiều đồ nặng, em sẽ làm gì? (Tình huống 1)",
+    "options": {
+      "A": "Chạy lại giúp thầy",
+      "B": "Đứng nhìn",
+      "C": "Tránh đi đường khác",
+      "D": "Chỉ trỏ"
+    },
+    "answer": "A",
+    "explanation": "Hành động thực tế thể hiện sự quan tâm.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 70,
+    "question": "Thầy giáo đang xách nhiều đồ nặng, em sẽ làm gì? (Tình huống 2)",
+    "options": {
+      "A": "Chạy lại giúp thầy",
+      "B": "Đứng nhìn",
+      "C": "Tránh đi đường khác",
+      "D": "Chỉ trỏ"
+    },
+    "answer": "A",
+    "explanation": "Hành động thực tế thể hiện sự quan tâm.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 71,
+    "question": "Thầy giáo đang xách nhiều đồ nặng, em sẽ làm gì? (Tình huống 3)",
+    "options": {
+      "A": "Chạy lại giúp thầy",
+      "B": "Đứng nhìn",
+      "C": "Tránh đi đường khác",
+      "D": "Chỉ trỏ"
+    },
+    "answer": "A",
+    "explanation": "Hành động thực tế thể hiện sự quan tâm.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 72,
+    "question": "Thầy giáo đang xách nhiều đồ nặng, em sẽ làm gì? (Tình huống 4)",
+    "options": {
+      "A": "Chạy lại giúp thầy",
+      "B": "Đứng nhìn",
+      "C": "Tránh đi đường khác",
+      "D": "Chỉ trỏ"
+    },
+    "answer": "A",
+    "explanation": "Hành động thực tế thể hiện sự quan tâm.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 73,
+    "question": "Bạn D cãi lại cô giáo khi bị nhắc nhở. Em thấy sao? (Tình huống 1)",
+    "options": {
+      "A": "Hành vi sai, cần xin lỗi cô",
+      "B": "Rất dũng cảm",
+      "C": "Bình thường",
+      "D": "Nên làm vậy"
+    },
+    "answer": "A",
+    "explanation": "Phân biệt đúng sai trong giao tiếp.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 74,
+    "question": "Bạn D cãi lại cô giáo khi bị nhắc nhở. Em thấy sao? (Tình huống 2)",
+    "options": {
+      "A": "Hành vi sai, cần xin lỗi cô",
+      "B": "Rất dũng cảm",
+      "C": "Bình thường",
+      "D": "Nên làm vậy"
+    },
+    "answer": "A",
+    "explanation": "Phân biệt đúng sai trong giao tiếp.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 75,
+    "question": "Bạn D cãi lại cô giáo khi bị nhắc nhở. Em thấy sao? (Tình huống 3)",
+    "options": {
+      "A": "Hành vi sai, cần xin lỗi cô",
+      "B": "Rất dũng cảm",
+      "C": "Bình thường",
+      "D": "Nên làm vậy"
+    },
+    "answer": "A",
+    "explanation": "Phân biệt đúng sai trong giao tiếp.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 76,
+    "question": "Bạn D cãi lại cô giáo khi bị nhắc nhở. Em thấy sao? (Tình huống 4)",
+    "options": {
+      "A": "Hành vi sai, cần xin lỗi cô",
+      "B": "Rất dũng cảm",
+      "C": "Bình thường",
+      "D": "Nên làm vậy"
+    },
+    "answer": "A",
+    "explanation": "Phân biệt đúng sai trong giao tiếp.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 77,
+    "question": "Em sẽ làm gì để thể hiện sự tôn trọng cô giáo mới? (Tình huống 1)",
+    "options": {
+      "A": "Lắng nghe cô giảng bài và phát biểu",
+      "B": "Nói chuyện riêng",
+      "C": "Kiểm tra kiến thức của cô",
+      "D": "Không quan tâm"
+    },
+    "answer": "A",
+    "explanation": "Áp dụng thái độ tích cực trong môi trường học.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 78,
+    "question": "Em sẽ làm gì để thể hiện sự tôn trọng cô giáo mới? (Tình huống 2)",
+    "options": {
+      "A": "Lắng nghe cô giảng bài và phát biểu",
+      "B": "Nói chuyện riêng",
+      "C": "Kiểm tra kiến thức của cô",
+      "D": "Không quan tâm"
+    },
+    "answer": "A",
+    "explanation": "Áp dụng thái độ tích cực trong môi trường học.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 79,
+    "question": "Em sẽ làm gì để thể hiện sự tôn trọng cô giáo mới? (Tình huống 3)",
+    "options": {
+      "A": "Lắng nghe cô giảng bài và phát biểu",
+      "B": "Nói chuyện riêng",
+      "C": "Kiểm tra kiến thức của cô",
+      "D": "Không quan tâm"
+    },
+    "answer": "A",
+    "explanation": "Áp dụng thái độ tích cực trong môi trường học.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 80,
+    "question": "Em sẽ làm gì để thể hiện sự tôn trọng cô giáo mới? (Tình huống 4)",
+    "options": {
+      "A": "Lắng nghe cô giảng bài và phát biểu",
+      "B": "Nói chuyện riêng",
+      "C": "Kiểm tra kiến thức của cô",
+      "D": "Không quan tâm"
+    },
+    "answer": "A",
+    "explanation": "Áp dụng thái độ tích cực trong môi trường học.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Thể hiện sự tôn trọng với thầy cô"
+  },
+  {
+    "number": 81,
+    "question": "Cách thể hiện tình yêu thương thầy cô là? (Tình huống 1)",
+    "options": {
+      "A": "Tặng thiệp do mình tự làm",
+      "B": "Trốn học",
+      "C": "Phá đồ của lớp",
+      "D": "Làm ồn"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết cách biểu đạt tình cảm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 82,
+    "question": "Cách thể hiện tình yêu thương thầy cô là? (Tình huống 2)",
+    "options": {
+      "A": "Tặng thiệp do mình tự làm",
+      "B": "Trốn học",
+      "C": "Phá đồ của lớp",
+      "D": "Làm ồn"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết cách biểu đạt tình cảm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 83,
+    "question": "Cách thể hiện tình yêu thương thầy cô là? (Tình huống 3)",
+    "options": {
+      "A": "Tặng thiệp do mình tự làm",
+      "B": "Trốn học",
+      "C": "Phá đồ của lớp",
+      "D": "Làm ồn"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết cách biểu đạt tình cảm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 84,
+    "question": "Cách thể hiện tình yêu thương thầy cô là? (Tình huống 4)",
+    "options": {
+      "A": "Tặng thiệp do mình tự làm",
+      "B": "Trốn học",
+      "C": "Phá đồ của lớp",
+      "D": "Làm ồn"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết cách biểu đạt tình cảm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 85,
+    "question": "Tình yêu thương thầy cô mang lại điều gì? (Tình huống 1)",
+    "options": {
+      "A": "Sự gắn kết và niềm vui",
+      "B": "Sự mệt mỏi",
+      "C": "Điểm số cao",
+      "D": "Không gì cả"
+    },
+    "answer": "A",
+    "explanation": "Hiểu giá trị của tình cảm thầy trò.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 86,
+    "question": "Tình yêu thương thầy cô mang lại điều gì? (Tình huống 2)",
+    "options": {
+      "A": "Sự gắn kết và niềm vui",
+      "B": "Sự mệt mỏi",
+      "C": "Điểm số cao",
+      "D": "Không gì cả"
+    },
+    "answer": "A",
+    "explanation": "Hiểu giá trị của tình cảm thầy trò.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 87,
+    "question": "Tình yêu thương thầy cô mang lại điều gì? (Tình huống 3)",
+    "options": {
+      "A": "Sự gắn kết và niềm vui",
+      "B": "Sự mệt mỏi",
+      "C": "Điểm số cao",
+      "D": "Không gì cả"
+    },
+    "answer": "A",
+    "explanation": "Hiểu giá trị của tình cảm thầy trò.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 88,
+    "question": "Tình yêu thương thầy cô mang lại điều gì? (Tình huống 4)",
+    "options": {
+      "A": "Sự gắn kết và niềm vui",
+      "B": "Sự mệt mỏi",
+      "C": "Điểm số cao",
+      "D": "Không gì cả"
+    },
+    "answer": "A",
+    "explanation": "Hiểu giá trị của tình cảm thầy trò.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 89,
+    "question": "Cô giáo bị ốm giọng khàn, em nên làm gì? (Tình huống 1)",
+    "options": {
+      "A": "Giữ trật tự để cô không phải nói to",
+      "B": "La hét",
+      "C": "Bắt cô giảng lại nhiều lần",
+      "D": "Không học nữa"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn hành vi chia sẻ khó khăn với thầy cô.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 90,
+    "question": "Cô giáo bị ốm giọng khàn, em nên làm gì? (Tình huống 2)",
+    "options": {
+      "A": "Giữ trật tự để cô không phải nói to",
+      "B": "La hét",
+      "C": "Bắt cô giảng lại nhiều lần",
+      "D": "Không học nữa"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn hành vi chia sẻ khó khăn với thầy cô.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 91,
+    "question": "Cô giáo bị ốm giọng khàn, em nên làm gì? (Tình huống 3)",
+    "options": {
+      "A": "Giữ trật tự để cô không phải nói to",
+      "B": "La hét",
+      "C": "Bắt cô giảng lại nhiều lần",
+      "D": "Không học nữa"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn hành vi chia sẻ khó khăn với thầy cô.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 92,
+    "question": "Cô giáo bị ốm giọng khàn, em nên làm gì? (Tình huống 4)",
+    "options": {
+      "A": "Giữ trật tự để cô không phải nói to",
+      "B": "La hét",
+      "C": "Bắt cô giảng lại nhiều lần",
+      "D": "Không học nữa"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn hành vi chia sẻ khó khăn với thầy cô.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 93,
+    "question": "Nhóm bạn E cùng nhau làm thơ tặng thầy nhân ngày 20/11. Đánh giá? (Tình huống 1)",
+    "options": {
+      "A": "Rất đáng khen ngợi",
+      "B": "Lãng phí thời gian",
+      "C": "Không cần thiết",
+      "D": "Kém cỏi"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá hoạt động tri ân.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 94,
+    "question": "Nhóm bạn E cùng nhau làm thơ tặng thầy nhân ngày 20/11. Đánh giá? (Tình huống 2)",
+    "options": {
+      "A": "Rất đáng khen ngợi",
+      "B": "Lãng phí thời gian",
+      "C": "Không cần thiết",
+      "D": "Kém cỏi"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá hoạt động tri ân.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 95,
+    "question": "Nhóm bạn E cùng nhau làm thơ tặng thầy nhân ngày 20/11. Đánh giá? (Tình huống 3)",
+    "options": {
+      "A": "Rất đáng khen ngợi",
+      "B": "Lãng phí thời gian",
+      "C": "Không cần thiết",
+      "D": "Kém cỏi"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá hoạt động tri ân.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 96,
+    "question": "Nhóm bạn E cùng nhau làm thơ tặng thầy nhân ngày 20/11. Đánh giá? (Tình huống 4)",
+    "options": {
+      "A": "Rất đáng khen ngợi",
+      "B": "Lãng phí thời gian",
+      "C": "Không cần thiết",
+      "D": "Kém cỏi"
+    },
+    "answer": "A",
+    "explanation": "Đánh giá hoạt động tri ân.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 97,
+    "question": "Hằng ngày, em làm gì để thầy cô vui lòng? (Tình huống 1)",
+    "options": {
+      "A": "Chăm chỉ làm bài tập",
+      "B": "Đến lớp trễ",
+      "C": "Hay cãi bạn",
+      "D": "Quên sách vở"
+    },
+    "answer": "A",
+    "explanation": "Biến tình yêu thương thành hành động học tập tốt.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 98,
+    "question": "Hằng ngày, em làm gì để thầy cô vui lòng? (Tình huống 2)",
+    "options": {
+      "A": "Chăm chỉ làm bài tập",
+      "B": "Đến lớp trễ",
+      "C": "Hay cãi bạn",
+      "D": "Quên sách vở"
+    },
+    "answer": "A",
+    "explanation": "Biến tình yêu thương thành hành động học tập tốt.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 99,
+    "question": "Hằng ngày, em làm gì để thầy cô vui lòng? (Tình huống 3)",
+    "options": {
+      "A": "Chăm chỉ làm bài tập",
+      "B": "Đến lớp trễ",
+      "C": "Hay cãi bạn",
+      "D": "Quên sách vở"
+    },
+    "answer": "A",
+    "explanation": "Biến tình yêu thương thành hành động học tập tốt.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 100,
+    "question": "Hằng ngày, em làm gì để thầy cô vui lòng? (Tình huống 4)",
+    "options": {
+      "A": "Chăm chỉ làm bài tập",
+      "B": "Đến lớp trễ",
+      "C": "Hay cãi bạn",
+      "D": "Quên sách vở"
+    },
+    "answer": "A",
+    "explanation": "Biến tình yêu thương thành hành động học tập tốt.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Thể hiện tình yêu thương với thầy cô giáo"
+  },
+  {
+    "number": 101,
+    "question": "Chia sẻ ý tưởng là gì? (Tình huống 1)",
+    "options": {
+      "A": "Nói ra suy nghĩ của mình cho người khác",
+      "B": "Giấu kín không cho ai biết",
+      "C": "Lấy ý tưởng của bạn",
+      "D": "Chép bài"
+    },
+    "answer": "A",
+    "explanation": "Biết định nghĩa về chia sẻ ý tưởng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 102,
+    "question": "Chia sẻ ý tưởng là gì? (Tình huống 2)",
+    "options": {
+      "A": "Nói ra suy nghĩ của mình cho người khác",
+      "B": "Giấu kín không cho ai biết",
+      "C": "Lấy ý tưởng của bạn",
+      "D": "Chép bài"
+    },
+    "answer": "A",
+    "explanation": "Biết định nghĩa về chia sẻ ý tưởng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 103,
+    "question": "Chia sẻ ý tưởng là gì? (Tình huống 3)",
+    "options": {
+      "A": "Nói ra suy nghĩ của mình cho người khác",
+      "B": "Giấu kín không cho ai biết",
+      "C": "Lấy ý tưởng của bạn",
+      "D": "Chép bài"
+    },
+    "answer": "A",
+    "explanation": "Biết định nghĩa về chia sẻ ý tưởng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 104,
+    "question": "Chia sẻ ý tưởng là gì? (Tình huống 4)",
+    "options": {
+      "A": "Nói ra suy nghĩ của mình cho người khác",
+      "B": "Giấu kín không cho ai biết",
+      "C": "Lấy ý tưởng của bạn",
+      "D": "Chép bài"
+    },
+    "answer": "A",
+    "explanation": "Biết định nghĩa về chia sẻ ý tưởng.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 105,
+    "question": "Vì sao chúng ta nên chia sẻ ý tưởng trong làm việc nhóm? (Tình huống 1)",
+    "options": {
+      "A": "Để có nhiều sáng kiến hay hơn",
+      "B": "Để cãi nhau",
+      "C": "Để khoe khoang",
+      "D": "Để được cô khen"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lợi ích của trí tuệ tập thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 106,
+    "question": "Vì sao chúng ta nên chia sẻ ý tưởng trong làm việc nhóm? (Tình huống 2)",
+    "options": {
+      "A": "Để có nhiều sáng kiến hay hơn",
+      "B": "Để cãi nhau",
+      "C": "Để khoe khoang",
+      "D": "Để được cô khen"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lợi ích của trí tuệ tập thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 107,
+    "question": "Vì sao chúng ta nên chia sẻ ý tưởng trong làm việc nhóm? (Tình huống 3)",
+    "options": {
+      "A": "Để có nhiều sáng kiến hay hơn",
+      "B": "Để cãi nhau",
+      "C": "Để khoe khoang",
+      "D": "Để được cô khen"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lợi ích của trí tuệ tập thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 108,
+    "question": "Vì sao chúng ta nên chia sẻ ý tưởng trong làm việc nhóm? (Tình huống 4)",
+    "options": {
+      "A": "Để có nhiều sáng kiến hay hơn",
+      "B": "Để cãi nhau",
+      "C": "Để khoe khoang",
+      "D": "Để được cô khen"
+    },
+    "answer": "A",
+    "explanation": "Hiểu lợi ích của trí tuệ tập thể.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 109,
+    "question": "Khi có một cách giải toán mới, em sẽ làm gì? (Tình huống 1)",
+    "options": {
+      "A": "Giơ tay phát biểu chia sẻ với lớp",
+      "B": "Giấu đi",
+      "C": "Sợ sai không dám nói",
+      "D": "Bắt bạn phải làm theo"
+    },
+    "answer": "A",
+    "explanation": "Dũng cảm thể hiện sáng kiến cá nhân.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 110,
+    "question": "Khi có một cách giải toán mới, em sẽ làm gì? (Tình huống 2)",
+    "options": {
+      "A": "Giơ tay phát biểu chia sẻ với lớp",
+      "B": "Giấu đi",
+      "C": "Sợ sai không dám nói",
+      "D": "Bắt bạn phải làm theo"
+    },
+    "answer": "A",
+    "explanation": "Dũng cảm thể hiện sáng kiến cá nhân.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 111,
+    "question": "Khi có một cách giải toán mới, em sẽ làm gì? (Tình huống 3)",
+    "options": {
+      "A": "Giơ tay phát biểu chia sẻ với lớp",
+      "B": "Giấu đi",
+      "C": "Sợ sai không dám nói",
+      "D": "Bắt bạn phải làm theo"
+    },
+    "answer": "A",
+    "explanation": "Dũng cảm thể hiện sáng kiến cá nhân.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 112,
+    "question": "Khi có một cách giải toán mới, em sẽ làm gì? (Tình huống 4)",
+    "options": {
+      "A": "Giơ tay phát biểu chia sẻ với lớp",
+      "B": "Giấu đi",
+      "C": "Sợ sai không dám nói",
+      "D": "Bắt bạn phải làm theo"
+    },
+    "answer": "A",
+    "explanation": "Dũng cảm thể hiện sáng kiến cá nhân.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 113,
+    "question": "Bạn F chê cười ý tưởng của người khác. Đánh giá hành vi? (Tình huống 1)",
+    "options": {
+      "A": "Không tốt, cần tôn trọng mọi ý kiến",
+      "B": "Rất ngầu",
+      "C": "Bình thường",
+      "D": "Đúng đắn"
+    },
+    "answer": "A",
+    "explanation": "Xây dựng thái độ tôn trọng ý tưởng.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 114,
+    "question": "Bạn F chê cười ý tưởng của người khác. Đánh giá hành vi? (Tình huống 2)",
+    "options": {
+      "A": "Không tốt, cần tôn trọng mọi ý kiến",
+      "B": "Rất ngầu",
+      "C": "Bình thường",
+      "D": "Đúng đắn"
+    },
+    "answer": "A",
+    "explanation": "Xây dựng thái độ tôn trọng ý tưởng.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 115,
+    "question": "Bạn F chê cười ý tưởng của người khác. Đánh giá hành vi? (Tình huống 3)",
+    "options": {
+      "A": "Không tốt, cần tôn trọng mọi ý kiến",
+      "B": "Rất ngầu",
+      "C": "Bình thường",
+      "D": "Đúng đắn"
+    },
+    "answer": "A",
+    "explanation": "Xây dựng thái độ tôn trọng ý tưởng.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 116,
+    "question": "Bạn F chê cười ý tưởng của người khác. Đánh giá hành vi? (Tình huống 4)",
+    "options": {
+      "A": "Không tốt, cần tôn trọng mọi ý kiến",
+      "B": "Rất ngầu",
+      "C": "Bình thường",
+      "D": "Đúng đắn"
+    },
+    "answer": "A",
+    "explanation": "Xây dựng thái độ tôn trọng ý tưởng.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 117,
+    "question": "Em có một ý tưởng trang trí lớp học, em sẽ làm gì? (Tình huống 1)",
+    "options": {
+      "A": "Vẽ phác thảo và trình bày với cô giáo",
+      "B": "Ngồi im",
+      "C": "Làm hỏng tường",
+      "D": "Chê lớp xấu"
+    },
+    "answer": "A",
+    "explanation": "Biến suy nghĩ thành kế hoạch cụ thể.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 118,
+    "question": "Em có một ý tưởng trang trí lớp học, em sẽ làm gì? (Tình huống 2)",
+    "options": {
+      "A": "Vẽ phác thảo và trình bày với cô giáo",
+      "B": "Ngồi im",
+      "C": "Làm hỏng tường",
+      "D": "Chê lớp xấu"
+    },
+    "answer": "A",
+    "explanation": "Biến suy nghĩ thành kế hoạch cụ thể.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 119,
+    "question": "Em có một ý tưởng trang trí lớp học, em sẽ làm gì? (Tình huống 3)",
+    "options": {
+      "A": "Vẽ phác thảo và trình bày với cô giáo",
+      "B": "Ngồi im",
+      "C": "Làm hỏng tường",
+      "D": "Chê lớp xấu"
+    },
+    "answer": "A",
+    "explanation": "Biến suy nghĩ thành kế hoạch cụ thể.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 120,
+    "question": "Em có một ý tưởng trang trí lớp học, em sẽ làm gì? (Tình huống 4)",
+    "options": {
+      "A": "Vẽ phác thảo và trình bày với cô giáo",
+      "B": "Ngồi im",
+      "C": "Làm hỏng tường",
+      "D": "Chê lớp xấu"
+    },
+    "answer": "A",
+    "explanation": "Biến suy nghĩ thành kế hoạch cụ thể.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Chia sẻ ý tưởng"
+  },
+  {
+    "number": 121,
+    "question": "Trách nhiệm cá nhân là gì? (Tình huống 1)",
+    "options": {
+      "A": "Tự giác hoàn thành nhiệm vụ của mình",
+      "B": "Đổ lỗi cho người khác",
+      "C": "Nhờ người khác làm hộ",
+      "D": "Bỏ cuộc"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết khái niệm trách nhiệm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 122,
+    "question": "Trách nhiệm cá nhân là gì? (Tình huống 2)",
+    "options": {
+      "A": "Tự giác hoàn thành nhiệm vụ của mình",
+      "B": "Đổ lỗi cho người khác",
+      "C": "Nhờ người khác làm hộ",
+      "D": "Bỏ cuộc"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết khái niệm trách nhiệm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 123,
+    "question": "Trách nhiệm cá nhân là gì? (Tình huống 3)",
+    "options": {
+      "A": "Tự giác hoàn thành nhiệm vụ của mình",
+      "B": "Đổ lỗi cho người khác",
+      "C": "Nhờ người khác làm hộ",
+      "D": "Bỏ cuộc"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết khái niệm trách nhiệm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 124,
+    "question": "Trách nhiệm cá nhân là gì? (Tình huống 4)",
+    "options": {
+      "A": "Tự giác hoàn thành nhiệm vụ của mình",
+      "B": "Đổ lỗi cho người khác",
+      "C": "Nhờ người khác làm hộ",
+      "D": "Bỏ cuộc"
+    },
+    "answer": "A",
+    "explanation": "Nhận biết khái niệm trách nhiệm.",
+    "tier": "A - Knowledge (Biết)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 125,
+    "question": "Người có trách nhiệm sẽ nhận được gì? (Tình huống 1)",
+    "options": {
+      "A": "Sự tin tưởng của mọi người",
+      "B": "Sự ghét bỏ",
+      "C": "Hình phạt",
+      "D": "Không có gì"
+    },
+    "answer": "A",
+    "explanation": "Hiểu kết quả của lối sống có trách nhiệm.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 126,
+    "question": "Người có trách nhiệm sẽ nhận được gì? (Tình huống 2)",
+    "options": {
+      "A": "Sự tin tưởng của mọi người",
+      "B": "Sự ghét bỏ",
+      "C": "Hình phạt",
+      "D": "Không có gì"
+    },
+    "answer": "A",
+    "explanation": "Hiểu kết quả của lối sống có trách nhiệm.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 127,
+    "question": "Người có trách nhiệm sẽ nhận được gì? (Tình huống 3)",
+    "options": {
+      "A": "Sự tin tưởng của mọi người",
+      "B": "Sự ghét bỏ",
+      "C": "Hình phạt",
+      "D": "Không có gì"
+    },
+    "answer": "A",
+    "explanation": "Hiểu kết quả của lối sống có trách nhiệm.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 128,
+    "question": "Người có trách nhiệm sẽ nhận được gì? (Tình huống 4)",
+    "options": {
+      "A": "Sự tin tưởng của mọi người",
+      "B": "Sự ghét bỏ",
+      "C": "Hình phạt",
+      "D": "Không có gì"
+    },
+    "answer": "A",
+    "explanation": "Hiểu kết quả của lối sống có trách nhiệm.",
+    "tier": "B - Understanding (Hiểu)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 129,
+    "question": "Em lỡ làm vỡ bình hoa của lớp, em sẽ làm gì? (Tình huống 1)",
+    "options": {
+      "A": "Tự nhận lỗi và dọn dẹp",
+      "B": "Đổ cho con mèo",
+      "C": "Khóc lóc ăn vạ",
+      "D": "Chạy trốn"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn dũng cảm đối mặt với sai lầm.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 130,
+    "question": "Em lỡ làm vỡ bình hoa của lớp, em sẽ làm gì? (Tình huống 2)",
+    "options": {
+      "A": "Tự nhận lỗi và dọn dẹp",
+      "B": "Đổ cho con mèo",
+      "C": "Khóc lóc ăn vạ",
+      "D": "Chạy trốn"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn dũng cảm đối mặt với sai lầm.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 131,
+    "question": "Em lỡ làm vỡ bình hoa của lớp, em sẽ làm gì? (Tình huống 3)",
+    "options": {
+      "A": "Tự nhận lỗi và dọn dẹp",
+      "B": "Đổ cho con mèo",
+      "C": "Khóc lóc ăn vạ",
+      "D": "Chạy trốn"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn dũng cảm đối mặt với sai lầm.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 132,
+    "question": "Em lỡ làm vỡ bình hoa của lớp, em sẽ làm gì? (Tình huống 4)",
+    "options": {
+      "A": "Tự nhận lỗi và dọn dẹp",
+      "B": "Đổ cho con mèo",
+      "C": "Khóc lóc ăn vạ",
+      "D": "Chạy trốn"
+    },
+    "answer": "A",
+    "explanation": "Lựa chọn dũng cảm đối mặt với sai lầm.",
+    "tier": "C - Decision Making (Lựa chọn trong tình huống)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 133,
+    "question": "Bạn G quên làm bài tập và nói dối là để quên vở. Đánh giá? (Tình huống 1)",
+    "options": {
+      "A": "Thiếu trung thực và vô trách nhiệm",
+      "B": "Rất thông minh",
+      "C": "Nên học tập",
+      "D": "Không sao"
+    },
+    "answer": "A",
+    "explanation": "Phê phán hành vi trốn tránh trách nhiệm.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 134,
+    "question": "Bạn G quên làm bài tập và nói dối là để quên vở. Đánh giá? (Tình huống 2)",
+    "options": {
+      "A": "Thiếu trung thực và vô trách nhiệm",
+      "B": "Rất thông minh",
+      "C": "Nên học tập",
+      "D": "Không sao"
+    },
+    "answer": "A",
+    "explanation": "Phê phán hành vi trốn tránh trách nhiệm.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 135,
+    "question": "Bạn G quên làm bài tập và nói dối là để quên vở. Đánh giá? (Tình huống 3)",
+    "options": {
+      "A": "Thiếu trung thực và vô trách nhiệm",
+      "B": "Rất thông minh",
+      "C": "Nên học tập",
+      "D": "Không sao"
+    },
+    "answer": "A",
+    "explanation": "Phê phán hành vi trốn tránh trách nhiệm.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 136,
+    "question": "Bạn G quên làm bài tập và nói dối là để quên vở. Đánh giá? (Tình huống 4)",
+    "options": {
+      "A": "Thiếu trung thực và vô trách nhiệm",
+      "B": "Rất thông minh",
+      "C": "Nên học tập",
+      "D": "Không sao"
+    },
+    "answer": "A",
+    "explanation": "Phê phán hành vi trốn tránh trách nhiệm.",
+    "tier": "D - Judgment (Đánh giá hành vi)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 137,
+    "question": "Để rèn luyện tính trách nhiệm, em sẽ bắt đầu từ đâu? (Tình huống 1)",
+    "options": {
+      "A": "Tự giác gấp chăn màn mỗi sáng",
+      "B": "Chờ mẹ nhắc",
+      "C": "Làm qua loa",
+      "D": "Không làm gì"
+    },
+    "answer": "A",
+    "explanation": "Áp dụng vào công việc nhỏ hằng ngày.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 138,
+    "question": "Để rèn luyện tính trách nhiệm, em sẽ bắt đầu từ đâu? (Tình huống 2)",
+    "options": {
+      "A": "Tự giác gấp chăn màn mỗi sáng",
+      "B": "Chờ mẹ nhắc",
+      "C": "Làm qua loa",
+      "D": "Không làm gì"
+    },
+    "answer": "A",
+    "explanation": "Áp dụng vào công việc nhỏ hằng ngày.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 139,
+    "question": "Để rèn luyện tính trách nhiệm, em sẽ bắt đầu từ đâu? (Tình huống 3)",
+    "options": {
+      "A": "Tự giác gấp chăn màn mỗi sáng",
+      "B": "Chờ mẹ nhắc",
+      "C": "Làm qua loa",
+      "D": "Không làm gì"
+    },
+    "answer": "A",
+    "explanation": "Áp dụng vào công việc nhỏ hằng ngày.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm cá nhân"
+  },
+  {
+    "number": 140,
+    "question": "Để rèn luyện tính trách nhiệm, em sẽ bắt đầu từ đâu? (Tình huống 4)",
+    "options": {
+      "A": "Tự giác gấp chăn màn mỗi sáng",
+      "B": "Chờ mẹ nhắc",
+      "C": "Làm qua loa",
+      "D": "Không làm gì"
+    },
+    "answer": "A",
+    "explanation": "Áp dụng vào công việc nhỏ hằng ngày.",
+    "tier": "E - Transfer & Reflection (Vận dụng & Phản tư)",
+    "skill": "Trách nhiệm cá nhân"
+  }
+]
