@@ -1,31 +1,35 @@
-# NovaStars Operating System (NovaStars OS) v1.0
-**The AI-Native Single Source of Truth (SSOT) Knowledge Operating System**
+# NovaStars Operating System (NovaStars OS) v2.0
+**The AI-Native Single Source of Truth (SSOT) & Web-First EdTech Platform**
 
 Welcome to **NovaStars OS**, the constitutional, AI-native Knowledge Operating System governing the entire NovaStars ecosystem across Product, Education, Game Design, AI Systems, Software Engineering, Content Production, and Operations.
 
 ---
 
-## 🌟 Quick Links
+## 🌟 Live Production Links
 
-- 🧭 **[Master Navigation Portal](file:///Users/thuy/Documents/apptieuhoc/00_HOME/index.md)** (`NS-HOM-INDX-001`)
-- 🗺️ **[System Architecture Map](file:///Users/thuy/Documents/apptieuhoc/00_HOME/architecture_map.md)** (`NS-HOM-MAP-001`)
-- 📖 **[Table of Contents (SUMMARY.md)](file:///Users/thuy/Documents/apptieuhoc/SUMMARY.md)**
-- ⚙️ **[System Manifest (SYSTEM.md)](file:///Users/thuy/Documents/apptieuhoc/SYSTEM.md)**
-- 📚 **[Central Master Glossary](file:///Users/thuy/Documents/apptieuhoc/10_GLOSSARY/master_glossary.md)** (`NS-GLO-MAST-001`)
-- 📜 **[Architecture Decision Records (ADR Index)](file:///Users/thuy/Documents/apptieuhoc/11_ADR/adr_index.md)** (`NS-ADR-INDX-001`)
+- 🌐 **Web App Live (Cloudflare Pages)**: [https://novastars-app.pages.dev](https://novastars-app.pages.dev)
+- ⚡ **Serverless API (Cloudflare Workers)**: [https://novastars-api.novastar-8c7.workers.dev](https://novastars-api.novastar-8c7.workers.dev)
+- 📦 **GitHub Repository**: [https://github.com/quocnt85/apptieuhoc](https://github.com/quocnt85/apptieuhoc)
 
 ---
 
-## 🚀 Design Philosophy
+## 🚀 Tech Stack v2.0 (Modern Serverless & Edge-First)
 
-NovaStars OS is built on 6 core architectural principles inspired by modern AI-native engineering:
+- **Frontend & App Shell**: React 18/19, TypeScript, Vite, Tailwind CSS, Zustand.
+- **Gameplay & Interaction**: HTML5 Canvas 2D (60 FPS), Web Audio API Synthesizer, 10-Stage Universal Lesson Runner.
+- **Mobile Container**: Capacitor v6 (Biên dịch trực tiếp sang iOS & Android native app).
+- **Database & Auth**: Neon Serverless PostgreSQL (`@neondatabase/serverless`) & Neon Auth.
+- **Hosting & Compute**: Cloudflare Pages (Web CDN) + Cloudflare Workers (Serverless API Layer).
+- **Object Storage**: Cloudflare R2 Storage (Lưu trữ bài học JSON và media assets không tốn phí egress).
 
-1. **AI First**: Machine-parsable metadata (YAML Front Matter), deterministic tags, and explicit type constraints for RAG and context engineering.
-2. **Atomic Knowledge**: Every concept has exactly one canonical file. No duplicate definitions.
-3. **Modular Structure**: Minimal inter-file coupling, clear boundaries.
-4. **Linked Knowledge**: Explicit Directed Acyclic Graph (DAG) cross-referencing upstream dependencies (`depends_on`) and downstream consumers (`used_by`).
-5. **Single Source of Truth (SSOT)**: Every rule, model, or schema exists in one canonical location.
-6. **Context Window Optimization**: Token-efficient headers and precise semantic chunking for LLM agent execution.
+---
+
+## 🧭 System Quick Links
+
+- 🗺️ **[System Architecture Map](file:///00_HOME/architecture_map.md)** (`NS-HOM-MAP-001`)
+- 📜 **[Architecture Decision Records (ADR Index)](file:///11_ADR/adr_index.md)** (`NS-ADR-INDX-001`)
+- ⚙️ **[Technical Platform Architecture](file:///07_ENGINEERING/technical_architecture.md)** (`NS-ENG-ARCH-001`)
+- 📚 **[Central Master Glossary](file:///10_GLOSSARY/master_glossary.md)** (`NS-GLO-MAST-001`)
 
 ---
 
@@ -33,29 +37,33 @@ NovaStars OS is built on 6 core architectural principles inspired by modern AI-n
 
 | Folder | Purpose | Canonical Master Spec |
 | :--- | :--- | :--- |
-| `00_HOME/` | Navigation, Dashboard, & System Health | [Index](file:///Users/thuy/Documents/apptieuhoc/00_HOME/index.md) |
-| `01_VISION/` | Product Vision, Mission, & Strategic OKRs | [Product Philosophy](file:///Users/thuy/Documents/apptieuhoc/01_VISION/product_philosophy.md) |
-| `02_PRODUCT/` | Product Foundation & Modular Feature Catalog | [Product Foundation](file:///Users/thuy/Documents/apptieuhoc/02_PRODUCT/product_foundation.md) |
-| `03_EDUCATION/`| Competency Framework, Experience OS & NLAS | [Competency Framework](file:///Users/thuy/Documents/apptieuhoc/03_EDUCATION/competency_framework.md) |
-| `04_GAME/` | Game Design Bible, Loops, & Economy | [Game Design Bible](file:///Users/thuy/Documents/apptieuhoc/04_GAME/game_design_bible.md) |
-| `05_CONTENT/` | Content Model & Schemas | [Content Model](file:///Users/thuy/Documents/apptieuhoc/05_CONTENT/content_model.md) |
-| `06_AI/` | AIPS, Agent Contracts (ACS), & AIOB Blueprint | [ACS Standard](file:///Users/thuy/Documents/apptieuhoc/06_AI/acs_standard.md) |
-| `07_ENGINEERING/`| Technical Architecture & Data Schemas | [Tech Architecture](file:///Users/thuy/Documents/apptieuhoc/07_ENGINEERING/technical_architecture.md) |
-| `08_OPERATIONS/` | Content Production SOP & Quality Review Gates | [Content SOP](file:///Users/thuy/Documents/apptieuhoc/08_OPERATIONS/content_factory_sop.md) |
-| `09_LIBRARY/` | Markdown Templates & Design Tokens | Standard Templates |
-| `10_GLOSSARY/` | Central Master Term Dictionary | [Master Glossary](file:///Users/thuy/Documents/apptieuhoc/10_GLOSSARY/master_glossary.md) |
-| `11_ADR/` | Architecture Decision Records | [ADR Index](file:///Users/thuy/Documents/apptieuhoc/11_ADR/adr_index.md) |
+| `client/` | React 19 + Vite Web & Mobile Shell App (Capacitor) | [Client Readme](file:///client/README_MOBILE.md) |
+| `server/` | Cloudflare Workers API & Cloudflare R2 Bindings | [Wrangler Config](file:///server/wrangler.toml) |
+| `scripts/` | Database DDL schema & seed scripts for Neon PostgreSQL | [Schema SQL](file:///scripts/db/schema.sql) |
+| `00_HOME/` | Navigation, Dashboard, & System Health | [Index](file:///00_HOME/index.md) |
+| `01_VISION/` | Product Vision, Mission, & Strategic OKRs | [Product Philosophy](file:///01_VISION/product_philosophy.md) |
+| `02_PRODUCT/` | Product Foundation & Modular Feature Catalog | [Product Foundation](file:///02_PRODUCT/product_foundation.md) |
+| `03_EDUCATION/`| Competency Framework, Experience OS & NLAS | [Competency Framework](file:///03_EDUCATION/competency_framework.md) |
+| `04_GAME/` | Game Design Bible, Loops, & Economy | [Game Design Bible](file:///04_GAME/game_design_bible.md) |
+| `05_CONTENT/` | Content Model & Schemas | [Content Model](file:///05_CONTENT/content_model.md) |
+| `06_AI/` | AIPS, Agent Contracts (ACS), & AIOB Blueprint | [ACS Standard](file:///06_AI/acs_standard.md) |
+| `07_ENGINEERING/`| Technical Architecture & Data Schemas | [Tech Architecture](file:///07_ENGINEERING/technical_architecture.md) |
+| `08_OPERATIONS/` | Content Production SOP & Quality Review Gates | [Content SOP](file:///08_OPERATIONS/content_factory_sop.md) |
+| `10_GLOSSARY/` | Central Master Term Dictionary | [Master Glossary](file:///10_GLOSSARY/master_glossary.md) |
+| `11_ADR/` | Architecture Decision Records | [ADR Index](file:///11_ADR/adr_index.md) |
 
 ---
 
-## 🛠️ Governance & Quality Enforcement
+## 🛠️ Quick Start (Phát triển cục bộ)
 
-All Markdown documents are validated by automated CI/CD checks:
-- **YAML Front Matter Validation** (`lint_yaml`)
-- **Relative Link & Anchor Verification** (`check_links`)
-- **Bidirectional Reference Symmetry** (`check_dependencies`)
-- **Orphan Page Detection** (`detect_orphans`)
+```bash
+# 1. Khởi chạy Web App
+cd client
+npm install
+npm run dev
 
----
-
-*NovaStars OS v1.0 — Permanent Knowledge Architecture for NovaStars Ecosystem.*
+# 2. Đóng gói Mobile với Capacitor
+npm run build
+npx cap sync
+npx cap open android # Mở Android Studio
+```
