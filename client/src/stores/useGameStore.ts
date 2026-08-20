@@ -7,6 +7,8 @@ interface GameState {
   user: UserProfile;
   settings: GameSettings;
   activeTab: ActiveTab;
+  hasSeenFTUE: boolean;
+  completedNodes: Record<string, boolean>;
   selectedDomain: DomainId | null;
   activeQuestion: QuestionItem | null;
   domainProgress: Record<DomainId, DomainProgress>;
@@ -15,12 +17,15 @@ interface GameState {
 
   // Actions
   setActiveTab: (tab: ActiveTab) => void;
+  setFTUESeen: () => void;
+  completeLessonNode: (nodeId: string) => void;
   selectDomain: (domainId: DomainId | null) => void;
   setActiveQuestion: (q: QuestionItem | null) => void;
   toggleSound: () => void;
   consumeEnergy: (amount?: number) => boolean;
   addXP: (amount: number) => { leveledUp: boolean; newLevel: number };
   addGems: (amount: number) => void;
+  addStars: (amount: number) => void;
   answerQuestion: (question: QuestionItem, optionId: string) => { isCorrect: boolean; xpEarned: number; gemsEarned: number };
   saveToLocalStorage: () => void;
   loadFromLocalStorage: () => void;
@@ -39,19 +44,21 @@ const defaultProgress: Record<DomainId, DomainProgress> = {
 export const useGameStore = create<GameState>((set, get) => ({
   user: {
     id: 'user_001',
-    name: 'Bé Minh Triết',
+    name: 'Bé Su',
     grade: 3,
-    avatar: '🦁',
-    level: 2,
-    xp: 280,
-    xpToNextLevel: 500,
+    avatar: '👧',
+    level: 1,
+    xp: 150,
+    xpToNextLevel: 300,
     energy: 5,
     maxEnergy: 5,
-    gems: 45,
-    stars: 12,
+    gems: 25,
+    stars: 3,
     streakDays: 3,
     lastActiveDate: new Date().toISOString(),
   },
+  hasSeenFTUE: false,
+  completedNodes: {},
   settings: {
     soundEnabled: true,
     musicEnabled: true,
@@ -70,6 +77,26 @@ export const useGameStore = create<GameState>((set, get) => ({
   setActiveTab: (tab) => {
     soundService.playClick();
     set({ activeTab: tab });
+  },
+
+  setFTUESeen: () => {
+    set({ hasSeenFTUE: true });
+    get().saveToLocalStorage();
+  },
+
+  completeLessonNode: (nodeId: string) => {
+    set((state) => ({
+      completedNodes: { ...state.completedNodes, [nodeId]: true }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  addStars: (amount: number) => {
+    soundService.playCoin();
+    set((state) => ({
+      user: { ...state.user, stars: state.user.stars + amount }
+    }));
+    get().saveToLocalStorage();
   },
 
   selectDomain: (domainId) => {
