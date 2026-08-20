@@ -51,10 +51,10 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
   const selectedOption = question.options.find(o => o.id === selectedOptionId);
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-hidden">
+    <div className="absolute inset-0 z-40 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-hidden">
       {/* Top Header with Safe Area */}
-      <div className="sticky top-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-b-2 border-slate-800 px-4 pt-[max(0.85rem,var(--sat))] pb-3 shrink-0">
-        <div className="max-w-md mx-auto flex items-center justify-between">
+      <div className="sticky top-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-b-2 border-slate-800 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 shrink-0">
+        <div className="w-full max-w-xl mx-auto flex items-center justify-between">
           <button
             onClick={() => { interactionService.playTap(); onClose(); }}
             aria-label="Quay lại"
@@ -70,7 +70,7 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
       </div>
 
       {/* Question Content (Scrollable) */}
-      <div className="max-w-md mx-auto w-full flex-1 px-4 py-4 overflow-y-auto space-y-4 animate-fadeIn">
+      <div className="w-full max-w-xl mx-auto flex-1 px-4 sm:px-6 py-4 overflow-y-auto space-y-4 animate-fadeIn">
         {/* Question Header Card */}
         <div className="rounded-3xl bg-slate-900 border-2 border-slate-800 p-4 sm:p-5 shadow-xl space-y-3">
           <div className="flex items-center gap-1.5 text-blue-400 font-black text-xs">
@@ -195,8 +195,8 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
       </div>
 
       {/* Sticky Bottom Action Bar (Thumb Zone with Safe Area) */}
-      <div className="sticky bottom-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-t-2 border-slate-800 px-4 pt-3 pb-[max(0.85rem,var(--sab))] shrink-0">
-        <div className="max-w-md mx-auto w-full">
+      <div className="sticky bottom-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-t-2 border-slate-800 px-4 sm:px-6 pt-3 pb-[max(0.85rem,var(--sab))] shrink-0">
+        <div className="max-w-xl mx-auto w-full">
           {!isSubmitted ? (
             <button
               disabled={!selectedOptionId}

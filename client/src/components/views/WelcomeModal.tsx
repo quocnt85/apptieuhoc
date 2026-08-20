@@ -12,8 +12,8 @@ export const WelcomeModal: React.FC<Props> = ({ onStart }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-white rounded-[36px] border-4 border-indigo-600 p-6 max-w-sm w-full text-center space-y-4 shadow-2xl animate-scaleUp">
+    <div className="absolute inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-fadeIn select-none">
+      <div className="bg-white rounded-[32px] border-4 border-indigo-600 p-6 max-w-sm sm:max-w-md w-full text-center space-y-4 shadow-2xl animate-scaleUp">
         <div className="text-6xl animate-bounce-slow">🌟</div>
         <h2 className="text-xl sm:text-2xl font-black text-[#1e1b4b]">Chào Mừng Đến NovaStars!</h2>
         <p className="text-sm font-bold text-slate-700 leading-relaxed">
