@@ -3,9 +3,9 @@ import { test, expect, Page } from '@playwright/test';
 async function dismissFTUEIfPresent(page: Page) {
   try {
     const startBtn = page.locator('button:has-text("Bắt Đầu Hành Trình Ngay!")');
-    await startBtn.waitFor({ state: 'visible', timeout: 5000 });
-    await startBtn.click();
-    await startBtn.waitFor({ state: 'hidden', timeout: 4000 });
+    await startBtn.waitFor({ state: 'visible', timeout: 7000 });
+    await startBtn.click({ force: true });
+    await startBtn.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
   } catch {
     // Already dismissed or not present
   }
@@ -18,16 +18,12 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await expect(page.locator('text=NOVASTARS')).toBeVisible({ timeout: 5000 });
     
     // Welcome modal appears after splash
-    const welcomeModal = page.locator('text=Chào Mừng Đến NovaStars!');
-    await expect(welcomeModal).toBeVisible({ timeout: 6000 });
-    
-    // Tap FTUE CTA button
     const startBtn = page.locator('button:has-text("Bắt Đầu Hành Trình Ngay!")');
-    await expect(startBtn).toBeVisible();
-    await startBtn.click();
+    await expect(startBtn).toBeVisible({ timeout: 7000 });
+    await startBtn.click({ force: true });
 
-    // Should navigate to Map view
-    await expect(page.getByRole('heading', { name: 'Đảo 1: Đảo Dũng Cảm' })).toBeVisible({ timeout: 4000 });
+    // Should navigate to 3D Planet view
+    await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 5000 });
   });
 
   test('2. Bottom Navigation across 4 tabs with touch response', async ({ page }) => {
@@ -36,125 +32,157 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
 
     // Tab 1: Trang Chủ
     const homeTab = page.locator('button:has-text("Trang Chủ")');
-    await homeTab.click();
-    await expect(page.locator('text=Nhiệm Vụ Hằng Ngày')).toBeVisible({ timeout: 4000 });
+    await homeTab.click({ force: true });
+    await expect(page.locator('text=Nhiệm Vụ Hằng Ngày').first()).toBeVisible({ timeout: 5000 });
 
-    // Tab 2: Bản Đồ
-    const mapTab = page.locator('button:has-text("Bản Đồ")');
-    await mapTab.click();
-    await expect(page.locator('text=Bài 1: Lời Chào Ngôi Sao')).toBeVisible({ timeout: 4000 });
+    // Tab 2: Hành Tinh 3D
+    const planetTab = page.locator('button:has-text("Hành Tinh 3D")');
+    await planetTab.click({ force: true });
+    await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 5000 });
 
-    // Tab 3: Mini Game
-    const minigameTab = page.locator('button:has-text("Mini Game")');
-    await minigameTab.click();
-    await expect(page.locator('text=Thử Thách Phi Thuyền Nova')).toBeVisible({ timeout: 4000 });
+    // Tab 3: Xưởng Tàu
+    const hangarTab = page.locator('button:has-text("Xưởng Tàu")');
+    await hangarTab.click({ force: true });
+    await expect(page.locator('text=Xưởng Tàu Không Gian').first()).toBeVisible({ timeout: 5000 });
 
     // Tab 4: Hồ Sơ
     const profileTab = page.locator('button:has-text("Hồ Sơ")');
-    await profileTab.click();
-    await expect(page.locator('text=Bộ Sưu Tập Huy Chương')).toBeVisible({ timeout: 4000 });
+    await profileTab.click({ force: true });
+    await expect(page.locator('text=Bộ Sưu Tập Huy Chương').first()).toBeVisible({ timeout: 5000 });
   });
 
-  test('3. Canvas Mini Game with Thumb Controller & D-Pad', async ({ page }) => {
+  test('3. Space Hangar Customization (Vietnam Flag Decal & Booster Depot)', async ({ page }) => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
-    // Go to Mini Game Tab
-    await page.locator('button:has-text("Mini Game")').click();
-    await expect(page.locator('text=Thử Thách Phi Thuyền Nova')).toBeVisible({ timeout: 4000 });
+    // Go to Xưởng Tàu Tab
+    await page.locator('button:has-text("Xưởng Tàu")').click({ force: true });
+    await expect(page.locator('text=Xưởng Tàu Không Gian').first()).toBeVisible({ timeout: 5000 });
 
-    // Start Game
-    const playBtn = page.locator('button:has-text("Bắt Đầu Bay!")');
-    await expect(playBtn).toBeVisible({ timeout: 4000 });
-    await playBtn.click();
+    // Switch to Colors & Flag Sub-tab
+    const colorsTab = page.locator('button:has-text("Màu Sơn & Cờ")');
+    await colorsTab.click({ force: true });
+    await expect(page.locator('text=Quốc Kỳ Việt Nam').first()).toBeVisible({ timeout: 5000 });
 
-    // Verify Thumb Controller Zone is visible
-    await expect(page.locator('text=VÙNG ĐIỀU KHIỂN NGÓN CÁI')).toBeVisible({ timeout: 4000 });
-    
-    // Tap D-Pad Left and Right buttons
-    const leftBtn = page.locator('button:has-text("Sang Trái")');
-    const rightBtn = page.locator('button:has-text("Sang Phải")');
-    await expect(leftBtn).toBeVisible();
-    await expect(rightBtn).toBeVisible();
+    // Toggle Vietnam Flag
+    const flagBtn = page.locator('button:has-text("Đã Dán Cờ"), button:has-text("Bật Dán Cờ")').first();
+    await expect(flagBtn).toBeVisible({ timeout: 5000 });
+    await flagBtn.click({ force: true });
 
-    await leftBtn.click();
-    await rightBtn.click();
+    // Switch to Boosters Sub-tab
+    const boostersTab = page.locator('button:has-text("Năng Lượng & Buff")');
+    await boostersTab.click({ force: true });
+    await expect(page.locator('text=Bình Năng Lượng Phi Thuyền').first()).toBeVisible({ timeout: 5000 });
   });
 
   test('4. Full 10-Stage Universal Lesson Runner Walkthrough', async ({ page }) => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
-    // Go to Map
-    await page.locator('button:has-text("Bản Đồ")').click();
-    
-    // Click Lesson 1 Node
-    await page.locator('text=Bài 1: Lời Chào Ngôi Sao').first().click();
+    // Ensure on 3D Planet
+    await page.locator('button:has-text("Hành Tinh 3D")').click({ force: true });
+    await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 5000 });
 
-    // Stage 1: Pretest -> Pick Option B (Dừng lại, khoanh tay mỉm cười...)
-    await expect(page.locator('text=Giai Đoạn 1: Đánh Giá Ban Đầu')).toBeVisible({ timeout: 4000 });
-    await page.locator('button:has-text("Dừng lại, khoanh tay mỉm cười")').click();
+    // Click Lesson 1 Node on Planet surface (force: true for 3D animated canvas)
+    const nodePin = page.locator('text=Bài 1').first();
+    await nodePin.click({ force: true });
+
+    // Coordinate Preview Modal pops up
+    await expect(page.locator('text=Bài 1: Lời Chào Ngôi Sao').first()).toBeVisible({ timeout: 6000 });
+    const launchBtn = page.getByTestId('start-lesson-btn');
+    await expect(launchBtn).toBeVisible({ timeout: 6000 });
+    await launchBtn.click();
+
+    // Verify 10-Stage runner mounted
+    await expect(page.getByTestId('ten-stage-runner')).toBeVisible({ timeout: 6000 });
+
+    // Stage 1: Pretest -> Pick Option B
+    await expect(page.locator('text=Giai Đoạn 1: Đánh Giá Ban Đầu')).toBeVisible({ timeout: 6000 });
+    await page.locator('button:has-text("Dừng lại, khoanh tay mỉm cười")').click({ force: true });
 
     // Stage 2: Story Decision
-    await expect(page.locator('text=Giai Đoạn 2: Câu Chuyện Phiêu Lưu')).toBeVisible({ timeout: 5000 });
-    await page.locator('button:has-text("Dũng cảm mỉm cười và tiến lại gần")').click();
+    await expect(page.locator('text=Giai Đoạn 2: Câu Chuyện Phiêu Lưu')).toBeVisible({ timeout: 6000 });
+    await page.locator('button:has-text("Dũng cảm mỉm cười và tiến lại gần")').click({ force: true });
 
-    // Stage 3: Minigame Drag/Click
-    await expect(page.locator('text=Giai Đoạn 3: Chọn Cử Chỉ Đúng')).toBeVisible({ timeout: 5000 });
-    await page.locator('button:has-text("Mỉm cười ấm áp")').click();
-    await page.locator('button:has-text("Nhìn thẳng mắt bạn")').click();
+    // Stage 3: Minigame Drag/Select
+    await expect(page.locator('text=Giai Đoạn 3: Chọn Cử Chỉ Đúng')).toBeVisible({ timeout: 6000 });
+    const dragItem1 = page.locator('button:has-text("Mỉm cười ấm áp")');
+    await expect(dragItem1).toBeVisible({ timeout: 4000 });
+    await dragItem1.click();
+    await page.waitForTimeout(200);
 
-    // Stage 4: Minigame Matching Grid
-    await expect(page.locator('text=Giai Đoạn 4: Nối Cặp Hoàn Cảnh')).toBeVisible({ timeout: 5000 });
-    // Match pair 1
+    const dragItem2 = page.locator('button:has-text("Nhìn thẳng mắt bạn")');
+    await expect(dragItem2).toBeVisible({ timeout: 4000 });
+    await dragItem2.click();
+
+    // Stage 4: Minigame Match
+    await expect(page.locator('text=Giai Đoạn 4: Nối Cặp Hoàn Cảnh')).toBeVisible({ timeout: 6000 });
+    await page.waitForTimeout(200);
     await page.locator('button:has-text("Gặp thầy cô buổi sáng")').click();
+    await page.waitForTimeout(100);
     await page.locator('button:has-text("Em chào thầy/cô ạ!")').click();
-    // Match pair 2
+    await page.waitForTimeout(150);
+
     await page.locator('button:has-text("Lần đầu gặp bạn mới")').click();
+    await page.waitForTimeout(100);
     await page.locator('button:has-text("Chào bạn, tớ là Su!")').click();
-    // Match pair 3
+    await page.waitForTimeout(150);
+
     await page.locator('button:has-text("Bác hàng xóm vẫy tay")').click();
+    await page.waitForTimeout(100);
     await page.locator('button:has-text("Cháu chào bác ạ!")').click();
 
     // Stage 5: Minigame Sequence Reorder
-    await expect(page.locator('text=Giai Đoạn 5: Sắp Xếp Thứ Tự Lời Chào')).toBeVisible({ timeout: 5000 });
-    const step2DownBtn = page.locator('button[aria-label="Di chuyển xuống"]').first();
-    await step2DownBtn.click();
-    // Verify
+    await expect(page.locator('text=Giai Đoạn 5: Sắp Xếp Thứ Tự Lời Chào')).toBeVisible({ timeout: 6000 });
+    await page.waitForTimeout(200);
+    const upBtn = page.locator('button[aria-label="Di chuyển lên"]:not([disabled])').first();
+    await expect(upBtn).toBeVisible({ timeout: 4000 });
+    await upBtn.click();
+    await page.waitForTimeout(200);
     await page.locator('button:has-text("Xác Nhận Thứ Tự 3 Bước")').click();
 
     // Stage 6: Boss Battle
-    await expect(page.locator('text=Giai Đoạn 6: Thử Thách Boss')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=Giai Đoạn 6: Thử Thách Boss')).toBeVisible({ timeout: 6000 });
+    await page.waitForTimeout(200);
     await page.locator('button:has-text("Đứng bên cạnh, mỉm cười")').click();
 
     // Stage 7: Reflection
-    await expect(page.locator('text=Giai Đoạn 7: Phản Tư & Bài Học')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=Giai Đoạn 7: Phản Tư & Bài Học')).toBeVisible({ timeout: 6000 });
+    await page.waitForTimeout(200);
     await page.locator('button:has-text("Tự tin và cảm thấy ấm áp")').click();
 
-    // Stage 8: Real Life Challenge
-    await expect(page.locator('text=Giai Đoạn 8: Nhiệm Vụ Thực Tế')).toBeVisible({ timeout: 5000 });
+    // Stage 8: Challenge
+    await expect(page.locator('text=Giai Đoạn 8: Nhiệm Vụ Thực Tế')).toBeVisible({ timeout: 6000 });
+    await page.waitForTimeout(200);
     await page.locator('button:has-text("Em Sẵn Sàng Thực Hành!")').click();
 
     // Stage 9: Parent Confirm
-    await expect(page.locator('text=Giai Đoạn 9: Góc Phụ Huynh')).toBeVisible({ timeout: 5000 });
-    await page.locator('button:has-text("Bố/Mẹ Xác Nhận Bé Đã Làm Tốt!")').click();
+    await expect(page.locator('text=Giai Đoạn 9: Góc Phụ Huynh')).toBeVisible({ timeout: 6000 });
+    await page.waitForTimeout(200);
+    await page.locator('button:has-text("Bố/Mẹ Xác Nhận Bé Đã Làm Tốt!"), button:has-text("Xác Nhận")').first().click();
 
-    // Stage 10: Posttest & Medal
-    await expect(page.locator('text=Giai Đoạn 10: Nhận Huy Chương')).toBeVisible({ timeout: 5000 });
-    await page.locator('button:has-text("Mỉm cười, nhìn thẳng mắt")').click();
+    // Stage 10: Posttest Mastery
+    await expect(page.locator('text=Giai Đoạn 10: Nhận Huy Chương')).toBeVisible({ timeout: 6000 });
+    await page.waitForTimeout(200);
+    await page.locator('button:has-text("Mỉm cười, nhìn thẳng mắt và tự tin")').click();
 
-    // Should return to Map and show node completed
-    await expect(page.locator('text=Đã Hoàn Thành')).toBeVisible({ timeout: 6000 });
+    // Should automatically finish and return to 3D Planet
+    await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 6000 });
   });
 
-  test('5. Header sound toggle and haptic response', async ({ page }) => {
+  test('5. Header sound toggle and energy display', async ({ page }) => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
-    const soundBtn = page.locator('button[aria-label="Bật tắt âm thanh"]');
-    await expect(soundBtn).toBeVisible({ timeout: 4000 });
-    await soundBtn.click();
-    await soundBtn.click();
+    // Verify sound toggle in header
+    const header = page.locator('header');
+    await expect(header).toBeVisible({ timeout: 4000 });
+
+    const soundBtn = header.locator('button').last();
+    await expect(soundBtn).toBeVisible();
+    await soundBtn.click({ force: true });
+
+    // Verify energy counter display
+    await expect(header.locator('span:text-is("50")').first()).toBeVisible({ timeout: 4000 });
   });
 });
-

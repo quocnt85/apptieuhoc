@@ -3,21 +3,20 @@ import { useGameStore } from './stores/useGameStore';
 import { SplashScreen } from './components/views/SplashScreen';
 import { WelcomeModal } from './components/views/WelcomeModal';
 import { HomeView } from './components/views/HomeView';
-import { IslandMapView } from './components/views/IslandMapView';
+import { Planet3DView } from './components/views/Planet3DView';
+import { SpaceHangarView } from './components/views/SpaceHangarView';
 import { ProfileView } from './components/views/ProfileView';
 import { CanvasMiniGame } from './components/game/CanvasMiniGame';
 import { VercelHeader } from './components/ui/VercelHeader';
 import { VercelBottomNav, VercelTab } from './components/ui/VercelBottomNav';
 import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
-import { DemoStyleSwitcher } from './components/ui/DemoStyleSwitcher';
 
 export const App: React.FC = () => {
-  const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage, demoStyleMode } = useGameStore();
+  const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage, isLessonRunning, startLesson, closeLesson } = useGameStore();
 
   const [isSplashing, setIsSplashing] = useState(true);
   const [showFTUEModal, setShowFTUEModal] = useState(false);
   const [activeTab, setActiveTab] = useState<VercelTab>('home');
-  const [isLessonRunning, setIsLessonRunning] = useState(false);
 
   useEffect(() => {
     loadFromLocalStorage();
@@ -33,91 +32,72 @@ export const App: React.FC = () => {
   const handleStartFTUE = () => {
     setFTUESeen();
     setShowFTUEModal(false);
-    setActiveTab('map');
+    setActiveTab('planet');
   };
 
   const getHeaderTitle = () => {
     switch (activeTab) {
       case 'home':
-        return 'NovaStars';
-      case 'map':
-        return 'Đảo 1: Đảo Dũng Cảm';
-      case 'minigame':
-        return 'Thử Thách Phi Thuyền';
+        return 'Hành Tinh Tri Thức';
+      case 'planet':
+        return 'Tinh Cầu Dũng Khí 3D';
+      case 'hangar':
+        return 'Xưởng Tàu Không Gian';
       case 'profile':
-        return 'Hồ Sơ Anh Hùng';
+        return 'Hồ Sơ Phi Hành Gia';
       default:
-        return 'NovaStars';
+        return 'Hành Tinh Tri Thức';
     }
   };
 
-  // Outer desktop background
-  const getOuterBg = () => {
-    if (demoStyleMode === 'sunnyclay') return 'bg-gradient-to-b from-sky-200 via-sky-100 to-indigo-100';
-    if (demoStyleMode === 'gloss3d') return 'bg-[#030712]';
-    if (demoStyleMode === 'neopop') return 'bg-[#fef08a]';
-    return 'bg-gradient-to-br from-indigo-200 via-sky-100 to-pink-100';
-  };
-
-  // Inner App shell background
-  const getShellClass = () => {
-    if (demoStyleMode === 'sunnyclay') return 'bg-gradient-to-b from-[#e0f2fe] via-[#f0fdf4] to-[#fefce8] text-slate-800 sm:border-x-2 sm:border-sky-200 sm:shadow-2xl';
-    if (demoStyleMode === 'gloss3d') return 'bg-slate-950 text-white sm:border-x sm:border-slate-800 sm:shadow-2xl';
-    if (demoStyleMode === 'neopop') return 'bg-[#fef9c3] text-slate-900 sm:border-x-3 sm:border-slate-900 sm:shadow-[8px_8px_0_0_#0f172a]';
-    return 'bg-gradient-to-b from-indigo-50/90 via-sky-50/90 to-rose-50/90 text-slate-900 sm:border-x sm:border-white sm:shadow-[0_20px_50px_rgba(99,102,241,0.15)]';
-  };
-
   return (
-    <div className={`h-[100dvh] w-full ${getOuterBg()} flex items-center justify-center overflow-hidden transition-colors duration-300`}>
-      {/* Unified App Shell */}
-      <div className={`w-full h-[100dvh] max-w-2xl ${getShellClass()} flex flex-col overflow-hidden relative transition-all duration-300`}>
+    <div className="h-[100dvh] w-full bg-[#030712] flex items-center justify-center overflow-hidden transition-colors duration-300 select-none">
+      {/* Unified App Shell (Deep Cosmic Navy) */}
+      <div className="w-full h-[100dvh] max-w-2xl bg-[#050814] text-white sm:border sm:border-sky-500/30 sm:shadow-[0_0_60px_rgba(56,189,248,0.25)] flex flex-col overflow-hidden relative transition-all duration-300">
         
-        {/* Top Demo Style Switcher Banner */}
-        {!isSplashing && !isLessonRunning && <DemoStyleSwitcher />}
-
         {/* Splash Screen */}
         {isSplashing ? (
           <SplashScreen onFinish={handleSplashFinish} />
         ) : (
           <>
-            {/* Header */}
+            {/* Cosmic Header */}
             {!isLessonRunning && <VercelHeader title={getHeaderTitle()} />}
 
-            {/* Dynamic Views */}
-            <main className="flex-1 flex flex-col overflow-hidden relative">
-              {activeTab === 'home' && (
-                <HomeView 
-                  onNavigateToMap={() => setActiveTab('map')}
-                  onNavigateToMiniGame={() => setActiveTab('minigame')}
+            {/* Dynamic Views or Fullscreen Lesson Runner */}
+            {!isLessonRunning ? (
+              <>
+                <main className="flex-1 flex flex-col overflow-hidden relative">
+                  {activeTab === 'home' && (
+                    <HomeView 
+                      onNavigateToMap={() => setActiveTab('planet')}
+                      onNavigateToMiniGame={() => setActiveTab('planet')}
+                    />
+                  )}
+                  {activeTab === 'planet' && (
+                    <Planet3DView onStartLesson={(nodeId) => startLesson(nodeId)} />
+                  )}
+                  {activeTab === 'hangar' && (
+                    <SpaceHangarView />
+                  )}
+                  {activeTab === 'profile' && <ProfileView />}
+                </main>
+
+                {/* Bottom Navigation Bar */}
+                <VercelBottomNav
+                  activeTab={activeTab}
+                  onChangeTab={(tab) => setActiveTab(tab)}
                 />
-              )}
-              {activeTab === 'map' && (
-                <IslandMapView onStartLessonZero={() => setIsLessonRunning(true)} />
-              )}
-              {activeTab === 'minigame' && (
-                <div className="flex-1 p-3 sm:p-6 overflow-y-auto pb-20 bg-slate-900">
-                  <CanvasMiniGame />
-                </div>
-              )}
-              {activeTab === 'profile' && <ProfileView />}
-            </main>
 
-            {/* Bottom Navigation Bar */}
-            {!isLessonRunning && (
-              <VercelBottomNav
-                activeTab={activeTab}
-                onChangeTab={(tab) => setActiveTab(tab)}
-              />
-            )}
-
-            {/* First-Time User Experience (FTUE) Welcome Modal */}
-            {showFTUEModal && (
-              <WelcomeModal onStart={handleStartFTUE} />
-            )}
-
-            {/* 10-Stage Universal Lesson Runner */}
-            {isLessonRunning && (
-              <TenStageLessonRunner onClose={() => setIsLessonRunning(false)} />
+                {/* First-Time User Experience (FTUE) Welcome Modal */}
+                {showFTUEModal && (
+                  <WelcomeModal onStart={handleStartFTUE} />
+                )}
+              </>
+            ) : (
+              /* 10-Stage Universal Lesson Runner */
+              <div className="flex-1 flex flex-col overflow-hidden relative">
+                <TenStageLessonRunner onClose={closeLesson} />
+              </div>
             )}
           </>
         )}
@@ -128,5 +108,3 @@ export const App: React.FC = () => {
 };
 
 export default App;
-
-
