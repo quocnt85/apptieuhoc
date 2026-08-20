@@ -16,6 +16,77 @@ export const IslandMapView: React.FC<Props> = ({ onStartLessonZero }) => {
     onStartLessonZero();
   };
 
+  // 0. Sunny Playful Clay (Default Kids World)
+  if (demoStyleMode === 'sunnyclay') {
+    return (
+      <div className="flex-1 p-4 sm:p-6 bg-gradient-to-b from-sky-200 via-blue-50 to-emerald-100 relative overflow-y-auto flex flex-col items-center gap-4 pb-24 animate-fadeIn select-none text-slate-800">
+        {/* Island Title Banner */}
+        <div className="w-full text-center pt-1">
+          <span className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-600 text-white font-black text-xs sm:text-sm px-5 py-2.5 rounded-full border-2 border-sky-300 shadow-[0_4px_0_0_#0369a1]">
+            <span className="text-base">🏝️</span>
+            <span>Đảo 1: Đảo Dũng Cảm & Tự Tin</span>
+          </span>
+        </div>
+
+        {/* Node 1: Lesson Zero - Active Master Node */}
+        <div className="w-full max-w-xs flex flex-col items-center gap-2">
+          <div
+            onClick={handleStart}
+            className="w-full p-5.5 text-center cursor-pointer transition-all duration-200 hover:scale-105 active:translate-y-1 bg-white border-3 border-sky-400 shadow-[0_10px_0_0_#38bdf8] rounded-[32px] relative overflow-hidden"
+          >
+            <div className="text-5xl mb-2 animate-float">🌟</div>
+            <h3 className="font-black text-base text-sky-950">Bài 1: Lời Chào Ngôi Sao</h3>
+            <p className="text-xs font-bold text-slate-500 my-1.5">Chào Hỏi Lịch Sự & Tự Tin</p>
+
+            <div className="flex justify-center items-center gap-2 mt-3">
+              <span className="bg-amber-100 text-amber-950 border-2 border-amber-300 font-black text-xs px-3.5 py-1 rounded-full flex items-center gap-1 shadow-[0_2px_0_0_#f59e0b]">
+                <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                <span>3 Stars</span>
+              </span>
+              <span className={`font-black text-xs px-4 py-1 rounded-full border-2 transition-all ${
+                isNode1Completed 
+                  ? 'bg-emerald-500 text-white border-emerald-300 shadow-[0_3px_0_0_#047857]' 
+                  : 'bg-gradient-to-b from-sky-400 to-blue-600 text-white border-sky-200 shadow-[0_4px_0_0_#0284c7] animate-pulse'
+              }`}>
+                {isNode1Completed ? '✅ Đã Hoàn Thành' : '🚀 Học Ngay'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Connecting Line with Glow */}
+        <div className="w-2.5 h-10 bg-gradient-to-b from-sky-400 to-teal-400 rounded-full shadow-md" />
+
+        {/* Node 2 */}
+        <div className={`w-full max-w-xs flex flex-col items-center gap-2 ${isNode1Completed ? 'opacity-100' : 'opacity-70'}`}>
+          <div className="w-full p-4 text-center bg-white border-3 border-slate-200 shadow-[0_6px_0_0_#cbd5e1] rounded-[28px]">
+            <div className="text-4xl mb-1.5">🛡️</div>
+            <h3 className="font-black text-sm text-slate-800">Bài 2: Từ Chối Người Lạ</h3>
+            <p className="text-xs font-bold text-slate-500 mt-1 flex items-center justify-center gap-1.5">
+              {!isNode1Completed && <Lock className="w-3.5 h-3.5 text-slate-400" />}
+              <span>{isNode1Completed ? '✨ Sẵn sàng mở bài' : 'Mở khóa khi xong Bài 1'}</span>
+            </p>
+          </div>
+        </div>
+
+        {/* Connecting Line */}
+        <div className="w-2.5 h-10 bg-slate-300 rounded-full" />
+
+        {/* Boss Node */}
+        <div className="w-full max-w-xs flex flex-col items-center gap-2 opacity-70">
+          <div className="w-full p-5 text-center bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white border-3 border-purple-400 shadow-[0_8px_0_0_#4c1d95] rounded-[30px]">
+            <div className="text-4xl mb-1.5 animate-bounce-slow">🐉</div>
+            <h3 className="font-black text-sm text-yellow-300">Boss Đảo Dũng Cảm</h3>
+            <p className="text-xs text-purple-200 font-bold mt-1 flex items-center justify-center gap-1">
+              <Lock className="w-3.5 h-3.5 text-yellow-400" />
+              <span>Cần 5 Ngôi Sao để mở khóa</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // 1. High-Gloss 3D Game Style
   if (demoStyleMode === 'gloss3d') {
     return (

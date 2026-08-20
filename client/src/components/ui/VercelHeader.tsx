@@ -1,134 +1,72 @@
+
 import React from 'react';
 import { useGameStore } from '../../stores/useGameStore';
-import { Volume2, VolumeX, Zap, Star } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 import { interactionService } from '../../services/interaction';
 
-interface Props {
+interface VercelHeaderProps {
   title: string;
 }
 
-export const VercelHeader: React.FC<Props> = ({ title }) => {
-  const { user, settings, toggleSound, demoStyleMode } = useGameStore();
+export const VercelHeader: React.FC<VercelHeaderProps> = ({ title }) => {
+  const { user, settings, toggleSound } = useGameStore();
 
   const handleToggle = () => {
     interactionService.playTap();
     toggleSound();
   };
 
-  // 1. High-Gloss 3D Game Style
-  if (demoStyleMode === 'gloss3d') {
-    return (
-      <header className="w-full bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950/95 backdrop-blur-md border-b-2 border-indigo-500/40 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 flex items-center justify-between shadow-xl shrink-0 z-30 touch-action-manipulation select-none">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl animate-float filter drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]">⭐</span>
-          <h1 className="font-black text-lg sm:text-xl text-yellow-300 tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{title}</h1>
-        </div>
-
-        <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* XP Badge 3D Glossy */}
-          <div className="bg-gradient-to-b from-amber-400 via-amber-500 to-amber-600 text-amber-950 border-2 border-amber-200/90 shadow-[0_3px_0_0_#78350f,0_4px_10px_rgba(245,158,11,0.4)] font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
-            <Zap className="w-4 h-4 fill-amber-950 text-amber-950 animate-pulse" />
-            <span className="font-black font-mono tracking-wide">{user.xp}</span>
-          </div>
-
-          {/* Stars Badge 3D Glossy */}
-          <div className="bg-gradient-to-b from-yellow-300 via-yellow-400 to-yellow-500 text-yellow-950 border-2 border-yellow-100 shadow-[0_3px_0_0_#854d0e,0_4px_10px_rgba(234,179,8,0.4)] font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
-            <Star className="w-4 h-4 fill-yellow-950 text-yellow-950 animate-bounce-slow" />
-            <span className="font-black font-mono tracking-wide">{user.stars}</span>
-          </div>
-
-          {/* Sound Toggle */}
-          <button
-            onClick={handleToggle}
-            aria-label="Bật tắt âm thanh"
-            className={`w-11 h-11 rounded-2xl border-2 flex items-center justify-center transition-all duration-120 active:translate-y-1 ${
-              settings.soundEnabled 
-                ? 'bg-gradient-to-b from-sky-400 to-blue-600 border-sky-300 text-white shadow-[0_4px_0_0_#075985]' 
-                : 'bg-slate-800 border-slate-700 text-slate-400 shadow-[0_3px_0_0_#0f172a]'
-            }`}
-          >
-            {settings.soundEnabled ? <Volume2 className="w-5 h-5 drop-shadow" /> : <VolumeX className="w-5 h-5" />}
-          </button>
-        </div>
-      </header>
-    );
-  }
-
-  // 2. Playful Neo-Pop Style
-  if (demoStyleMode === 'neopop') {
-    return (
-      <header className="w-full bg-white border-b-3 border-slate-900 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 flex items-center justify-between shadow-[0_4px_0_0_#0f172a] shrink-0 z-30 touch-action-manipulation select-none">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl animate-float">⭐</span>
-          <h1 className="font-black text-lg sm:text-xl text-slate-900 tracking-tight">{title}</h1>
-        </div>
-
-        <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* XP Chip Neo-Pop */}
-          <div className="bg-[#fde047] text-slate-950 border-2 border-slate-900 shadow-[2px_2px_0_0_#0f172a] font-black text-xs sm:text-sm px-3 py-1.5 rounded-full flex items-center gap-1.5">
-            <Zap className="w-4 h-4 fill-slate-950 text-slate-950" />
-            <span className="font-black font-mono">{user.xp}</span>
-          </div>
-
-          {/* Stars Chip Neo-Pop */}
-          <div className="bg-[#86efac] text-slate-950 border-2 border-slate-900 shadow-[2px_2px_0_0_#0f172a] font-black text-xs sm:text-sm px-3 py-1.5 rounded-full flex items-center gap-1.5">
-            <Star className="w-4 h-4 fill-slate-950 text-slate-950" />
-            <span className="font-black font-mono">{user.stars}</span>
-          </div>
-
-          {/* Sound Toggle Neo-Pop */}
-          <button
-            onClick={handleToggle}
-            aria-label="Bật tắt âm thanh"
-            className={`w-11 h-11 rounded-2xl border-2 border-slate-900 flex items-center justify-center transition-all duration-120 active:translate-x-0.5 active:translate-y-0.5 ${
-              settings.soundEnabled 
-                ? 'bg-[#93c5fd] text-slate-900 shadow-[3px_3px_0_0_#0f172a]' 
-                : 'bg-slate-200 text-slate-500 shadow-[2px_2px_0_0_#0f172a]'
-            }`}
-          >
-            {settings.soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-          </button>
-        </div>
-      </header>
-    );
-  }
-
-  // 3. Apple Arcade Glassmorphism Style
   return (
-    <header className="w-full backdrop-blur-2xl bg-white/75 border-b border-white/80 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 flex items-center justify-between shadow-[0_4px_25px_rgba(0,0,0,0.03)] shrink-0 z-30 touch-action-manipulation select-none">
-      <div className="flex items-center gap-2">
-        <span className="text-2xl animate-float">⭐</span>
-        <h1 className="font-black text-lg sm:text-xl text-indigo-950 tracking-tight">{title}</h1>
+    <header className="w-full bg-white/90 backdrop-blur-xl border-b border-sky-200/70 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 flex items-center justify-between shadow-[0_4px_20px_rgba(56,189,248,0.12)] shrink-0 z-30 touch-action-manipulation select-none">
+      {/* Brand & Mascot */}
+      <div className="flex items-center gap-2.5">
+        <div className="relative">
+          <img 
+            src="/assets/3d/star_mascot.png" 
+            alt="Sao Nova" 
+            className="w-10 h-10 object-contain drop-shadow-[0_4px_10px_rgba(251,191,36,0.5)] animate-float" 
+          />
+          <div className="absolute -inset-1 bg-yellow-400/20 blur-md rounded-full -z-10 animate-pulse" />
+        </div>
+        <div>
+          <h1 className="font-black text-lg sm:text-xl text-sky-950 tracking-tight leading-none flex items-center gap-1.5">
+            {title}
+          </h1>
+          <span className="text-[10px] font-black text-sky-500 uppercase tracking-wider">Hành Tinh Tri Thức</span>
+        </div>
       </div>
 
-      <div className="flex items-center gap-2 sm:gap-2.5">
-        {/* XP Badge Glass */}
-        <div className="backdrop-blur-md bg-white/80 text-amber-900 border border-amber-200/80 shadow-[0_4px_12px_rgba(245,158,11,0.15)] font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
-          <Zap className="w-4 h-4 fill-amber-500 text-amber-500 animate-pulse" />
-          <span className="font-black font-mono">{user.xp}</span>
+      {/* 3D HUD Stats */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* 3D XP Diamond Crystal */}
+        <div className="bg-gradient-to-r from-sky-50 to-blue-50 border-2 border-sky-300 shadow-[0_3px_0_0_#38bdf8,0_4px_12px_rgba(56,189,248,0.2)] font-black text-xs sm:text-sm px-3 py-1.5 rounded-full flex items-center gap-2 transition-all">
+          <img 
+            src="/assets/3d/gem_xp.png" 
+            alt="XP Crystal" 
+            className="w-5 h-5 object-contain drop-shadow-[0_0_6px_rgba(56,189,248,0.8)] animate-pulse" 
+          />
+          <span className="font-black font-mono text-sky-950">{user.xp} XP</span>
         </div>
 
-        {/* Stars Badge Glass */}
-        <div className="backdrop-blur-md bg-white/80 text-yellow-900 border border-yellow-200/80 shadow-[0_4px_12px_rgba(234,179,8,0.15)] font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
-          <Star className="w-4 h-4 fill-yellow-400 text-yellow-500 animate-bounce-slow" />
-          <span className="font-black font-mono">{user.stars}</span>
+        {/* 3D Star Badge */}
+        <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-300 shadow-[0_3px_0_0_#f59e0b,0_4px_12px_rgba(245,158,11,0.2)] font-black text-xs sm:text-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 transition-all">
+          <span className="text-base animate-bounce-slow filter drop-shadow">⭐</span>
+          <span className="font-black font-mono text-amber-950">{user.stars}</span>
         </div>
 
-        {/* Sound Toggle Glass */}
+        {/* 3D Sound Toggle */}
         <button
           onClick={handleToggle}
           aria-label="Bật tắt âm thanh"
-          className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-120 active:scale-90 ${
+          className={`w-11 h-11 rounded-2xl border-2 flex items-center justify-center transition-all duration-120 active:translate-y-1 ${
             settings.soundEnabled 
-              ? 'bg-gradient-to-r from-blue-500 to-indigo-600 border-white/60 text-white shadow-[0_4px_12px_rgba(79,70,229,0.3)]' 
-              : 'bg-white/70 border-slate-200 text-slate-400'
+              ? 'bg-gradient-to-b from-sky-400 to-sky-500 border-sky-300 text-white shadow-[0_4px_0_0_#0284c7,0_4px_12px_rgba(2,132,199,0.3)]' 
+              : 'bg-slate-100 border-slate-300 text-slate-400 shadow-[0_3px_0_0_#cbd5e1]'
           }`}
         >
-          {settings.soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+          {settings.soundEnabled ? <Volume2 className="w-5 h-5 drop-shadow" /> : <VolumeX className="w-5 h-5" />}
         </button>
       </div>
     </header>
   );
 };
-
-

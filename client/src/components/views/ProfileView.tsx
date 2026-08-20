@@ -18,6 +18,103 @@ export const ProfileView: React.FC = () => {
     setShowAvatarPicker(false);
   };
 
+  // 0. Sunny Playful Clay (Default Kids World)
+  if (demoStyleMode === 'sunnyclay') {
+    return (
+      <div className="flex-1 p-4 sm:p-6 flex flex-col gap-4 overflow-y-auto pb-24 animate-fadeIn bg-gradient-to-b from-[#e0f2fe] via-[#f0fdf4] to-[#fefce8] text-slate-800 select-none">
+        {/* Profile Card */}
+        <div className="p-6 text-center bg-white border-3 border-sky-300 shadow-[0_8px_0_0_#bae6fd] rounded-[32px]">
+          <div className="relative inline-block mx-auto mb-3">
+            <div 
+              onClick={() => { interactionService.playTap(); setShowAvatarPicker(!showAvatarPicker); }}
+              className="w-24 h-24 rounded-3xl bg-gradient-to-b from-sky-100 to-indigo-100 border-3 border-sky-400 flex items-center justify-center text-5xl shadow-inner cursor-pointer hover:scale-105 active:scale-95 transition-all animate-float"
+            >
+              {user.avatar}
+            </div>
+            <div className="absolute -bottom-1 -right-1 bg-sky-500 text-white font-black text-[11px] px-2.5 py-0.5 rounded-full border-2 border-white shadow-md">
+              Đổi ✨
+            </div>
+          </div>
+
+          {/* Avatar Picker */}
+          {showAvatarPicker && (
+            <div className="bg-slate-900 border-2 border-sky-300 p-3 rounded-2xl mb-4 shadow-xl animate-scaleUp">
+              <div className="text-xs font-black text-white mb-2">CHỌN AVATAR MỚI</div>
+              <div className="grid grid-cols-5 gap-2">
+                {avatars.map((av) => (
+                  <button
+                    key={av}
+                    onClick={() => handleSelectAvatar(av)}
+                    className={`w-11 h-11 rounded-xl text-2xl border-2 flex items-center justify-center transition-all ${
+                      user.avatar === av ? 'bg-sky-500 border-white shadow scale-105' : 'bg-slate-800 border-slate-700 text-white'
+                    }`}
+                  >
+                    {av}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <h2 className="font-black text-2xl text-sky-950">{user.name}</h2>
+          <p className="font-extrabold text-xs text-slate-500 mt-0.5">Cấp Độ: Ngôi Sao Tập Sự (Lớp {user.grade})</p>
+
+          {/* 3D Chunky Stat Chips */}
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-4">
+            <div className="bg-gradient-to-b from-amber-50 to-amber-100 border-2 border-amber-300 p-3 rounded-2xl flex flex-col items-center justify-center font-black text-xs text-amber-950 shadow-[0_4px_0_0_#d97706]">
+              <div className="flex items-center gap-1">
+                <Zap className="w-4 h-4 fill-amber-500 text-amber-600 animate-pulse" />
+                <span className="font-black text-sm">{user.xp}</span>
+              </div>
+              <span className="text-[11px] text-amber-800 font-bold mt-0.5">Điểm XP</span>
+            </div>
+
+            <div className="bg-gradient-to-b from-yellow-50 to-yellow-100 border-2 border-yellow-300 p-3 rounded-2xl flex flex-col items-center justify-center font-black text-xs text-yellow-950 shadow-[0_4px_0_0_#ca8a04]">
+              <div className="flex items-center gap-1">
+                <Star className="w-4 h-4 fill-yellow-400 text-yellow-500 animate-bounce-slow" />
+                <span className="font-black text-sm">{user.stars}</span>
+              </div>
+              <span className="text-[11px] text-yellow-800 font-bold mt-0.5">Ngôi Sao</span>
+            </div>
+
+            <div className="bg-gradient-to-b from-orange-50 to-orange-100 border-2 border-orange-300 p-3 rounded-2xl flex flex-col items-center justify-center font-black text-xs text-orange-950 shadow-[0_4px_0_0_#ea580c]">
+              <div className="flex items-center gap-1">
+                <Flame className="w-4 h-4 fill-orange-500 text-orange-500 animate-pulse" />
+                <span className="font-black text-sm">{user.streakDays}</span>
+              </div>
+              <span className="text-[11px] text-orange-800 font-bold mt-0.5">Ngày Chuỗi</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Badges Collection Gallery */}
+        <div className="p-5 sm:p-6 bg-white border-3 border-amber-200 shadow-[0_8px_0_0_#fde68a] rounded-[32px] space-y-3">
+          <h3 className="font-black text-base text-sky-950 flex items-center gap-1.5">
+            <span>🏅</span> Bộ Sưu Tập Huy Chương
+          </h3>
+
+          <div className="grid grid-cols-1 gap-2.5">
+            {isCompletedNode1 ? (
+              <div className="bg-gradient-to-r from-amber-100 to-yellow-100 border-2 border-amber-300 p-3.5 rounded-2xl flex items-center gap-3 font-black text-xs sm:text-sm text-amber-950 shadow-[0_3px_0_0_#d97706] animate-scaleUp">
+                <span className="text-3xl animate-float">🏅</span>
+                <div>
+                  <p className="font-black text-sm text-amber-950">Huy Chương: Ngôi Sao Giao Tiếp</p>
+                  <p className="text-xs text-amber-800 font-bold mt-0.5">Hoàn thành xuất sắc Bài 1: Lời Chào Ngôi Sao</p>
+                </div>
+              </div>
+            ) : (
+              <div className="p-4 bg-sky-50 border-2 border-dashed border-sky-300 rounded-2xl text-center">
+                <p className="font-bold text-xs text-slate-500">
+                  Chưa có huy chương nào. Hoàn thành Bài 1 trên Bản Đồ để mở khóa huy chương đầu tiên nhé! 🌟
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // 1. High-Gloss 3D Game Style
   if (demoStyleMode === 'gloss3d') {
     return (
