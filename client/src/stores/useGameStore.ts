@@ -3,10 +3,13 @@ import { UserProfile, GameSettings, DomainId, DomainProgress, QuestionItem, Acti
 import { soundService } from '../services/audio';
 import { DOMAINS_DATA, INITIAL_QUESTIONS } from '../data/mockQuestions';
 
+export type DemoStyleMode = 'gloss3d' | 'neopop' | 'appleglass';
+
 interface GameState {
   user: UserProfile;
   settings: GameSettings;
   activeTab: ActiveTab;
+  demoStyleMode: DemoStyleMode;
   hasSeenFTUE: boolean;
   completedNodes: Record<string, boolean>;
   selectedDomain: DomainId | null;
@@ -16,6 +19,7 @@ interface GameState {
   allQuestions: QuestionItem[];
 
   // Actions
+  setDemoStyleMode: (mode: DemoStyleMode) => void;
   setActiveTab: (tab: ActiveTab) => void;
   setFTUESeen: () => void;
   completeLessonNode: (nodeId: string) => void;
@@ -57,6 +61,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     streakDays: 3,
     lastActiveDate: new Date().toISOString(),
   },
+  demoStyleMode: 'gloss3d',
   hasSeenFTUE: false,
   completedNodes: {},
   settings: {
@@ -73,6 +78,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   domainProgress: defaultProgress,
   answeredHistory: {},
   allQuestions: INITIAL_QUESTIONS,
+
+  setDemoStyleMode: (mode) => {
+    set({ demoStyleMode: mode });
+  },
 
   setActiveTab: (tab) => {
     soundService.playClick();

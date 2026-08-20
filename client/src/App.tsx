@@ -9,9 +9,10 @@ import { CanvasMiniGame } from './components/game/CanvasMiniGame';
 import { VercelHeader } from './components/ui/VercelHeader';
 import { VercelBottomNav, VercelTab } from './components/ui/VercelBottomNav';
 import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
+import { DemoStyleSwitcher } from './components/ui/DemoStyleSwitcher';
 
 export const App: React.FC = () => {
-  const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage } = useGameStore();
+  const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage, demoStyleMode } = useGameStore();
 
   const [isSplashing, setIsSplashing] = useState(true);
   const [showFTUEModal, setShowFTUEModal] = useState(false);
@@ -50,11 +51,28 @@ export const App: React.FC = () => {
     }
   };
 
+  // Outer desktop background
+  const getOuterBg = () => {
+    if (demoStyleMode === 'gloss3d') return 'bg-[#030712]';
+    if (demoStyleMode === 'neopop') return 'bg-[#fef08a]';
+    return 'bg-gradient-to-br from-indigo-200 via-sky-100 to-pink-100';
+  };
+
+  // Inner App shell background
+  const getShellClass = () => {
+    if (demoStyleMode === 'gloss3d') return 'bg-slate-950 text-white sm:border-x sm:border-slate-800 sm:shadow-2xl';
+    if (demoStyleMode === 'neopop') return 'bg-[#fef9c3] text-slate-900 sm:border-x-3 sm:border-slate-900 sm:shadow-[8px_8px_0_0_#0f172a]';
+    return 'bg-gradient-to-b from-indigo-50/90 via-sky-50/90 to-rose-50/90 text-slate-900 sm:border-x sm:border-white sm:shadow-[0_20px_50px_rgba(99,102,241,0.15)]';
+  };
+
   return (
-    <div className="h-[100dvh] w-full bg-slate-100 flex items-center justify-center overflow-hidden">
-      {/* Unified App Shell (Full-bleed on Mobile & Tablet, centered container on Desktop) */}
-      <div className="w-full h-[100dvh] max-w-2xl bg-white sm:shadow-lg sm:border-x sm:border-slate-200 flex flex-col overflow-hidden relative">
+    <div className={`h-[100dvh] w-full ${getOuterBg()} flex items-center justify-center overflow-hidden transition-colors duration-300`}>
+      {/* Unified App Shell */}
+      <div className={`w-full h-[100dvh] max-w-2xl ${getShellClass()} flex flex-col overflow-hidden relative transition-all duration-300`}>
         
+        {/* Top Demo Style Switcher Banner */}
+        {!isSplashing && !isLessonRunning && <DemoStyleSwitcher />}
+
         {/* Splash Screen */}
         {isSplashing ? (
           <SplashScreen onFinish={handleSplashFinish} />
@@ -64,7 +82,7 @@ export const App: React.FC = () => {
             {!isLessonRunning && <VercelHeader title={getHeaderTitle()} />}
 
             {/* Dynamic Views */}
-            <main className="flex-1 flex flex-col overflow-hidden relative bg-slate-50">
+            <main className="flex-1 flex flex-col overflow-hidden relative">
               {activeTab === 'home' && (
                 <HomeView 
                   onNavigateToMap={() => setActiveTab('map')}
@@ -108,4 +126,5 @@ export const App: React.FC = () => {
 };
 
 export default App;
+
 

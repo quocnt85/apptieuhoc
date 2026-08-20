@@ -8,18 +8,33 @@
   --sal: env(safe-area-inset-left, 0px);
   --sar: env(safe-area-inset-right, 0px);
 
-  --primary-blue: #2563eb;
-  --primary-blue-dark: #1e1b4b;
-  --primary-blue-light: #60a5fa;
-  --accent-yellow: #fde047;
-  --accent-orange: #f59e0b;
-  --accent-green: #10b981;
-  --accent-red: #ef4444;
+  /* Kid-Centric Vibrant Candy Palette */
+  --primary-sky: #0284c7;
+  --primary-sky-light: #38bdf8;
+  --primary-sky-dark: #0369a1;
+
+  --primary-amber: #f59e0b;
+  --primary-amber-light: #fbbf24;
+  --primary-amber-dark: #d97706;
+
+  --accent-emerald: #10b981;
+  --accent-emerald-light: #34d399;
+  --accent-emerald-dark: #047857;
+
+  --accent-coral: #f43f5e;
+  --accent-coral-light: #fb7185;
+  --accent-coral-dark: #be123c;
+
+  --accent-purple: #8b5cf6;
+  --accent-purple-light: #a78bfa;
+  --accent-purple-dark: #6d28d9;
+
   --bg-page: #f1f5f9;
-  --bg-app: #ffffff;
+  --bg-app: #f8fafc;
   --text-main: #0f172a;
   --text-muted: #64748b;
-  --radius-card: 24px;
+  --radius-card: 28px;
+  --radius-pill: 9999px;
 }
 
 html, body {
@@ -41,87 +56,117 @@ html, body {
 
 /* Custom Scrollbar for Smooth Touch UI */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
+  background: rgba(148, 163, 184, 0.35);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
+  background: rgba(148, 163, 184, 0.6);
 }
 
-/* 3D Kid Button Effects - Tactile Spring Physics */
+/* =========================================================
+   3D KID BUTTON EFFECTS - TACTILE SPRING PHYSICS (CANDY-POP)
+   ========================================================= */
 .ns-btn-3d {
   position: relative;
   font-weight: 800;
-  border-radius: 18px;
-  border: 2px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 5px 0 0 rgba(0, 0, 0, 0.2);
-  transition: transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.1s ease, filter 0.1s ease;
+  border-radius: 22px;
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.18);
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease, filter 0.12s ease;
   transform: translateY(0);
   cursor: pointer;
   touch-action: manipulation;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ns-btn-3d:active {
   transform: translateY(4px);
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.18);
   filter: brightness(0.96);
 }
 
+/* Primary Sky Blue */
 .ns-btn-primary {
-  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
   color: #ffffff;
-  border-color: #1d4ed8;
-  box-shadow: 0 5px 0 0 #1e40af;
+  border-color: #0369a1;
+  box-shadow: 0 6px 0 0 #075985;
 }
-
 .ns-btn-primary:active {
-  box-shadow: 0 1px 0 0 #1e40af;
+  box-shadow: 0 2px 0 0 #075985;
 }
 
+/* Mint Emerald Green */
 .ns-btn-green {
   background: linear-gradient(180deg, #34d399 0%, #10b981 100%);
   color: #ffffff;
   border-color: #059669;
-  box-shadow: 0 5px 0 0 #047857;
+  box-shadow: 0 6px 0 0 #047857;
 }
-
 .ns-btn-green:active {
-  box-shadow: 0 1px 0 0 #047857;
+  box-shadow: 0 2px 0 0 #047857;
 }
 
-.ns-btn-orange {
+/* Sunny Gold Amber */
+.ns-btn-orange, .ns-btn-amber {
   background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
-  color: #1e1b4b;
+  color: #451a03;
   border-color: #d97706;
-  box-shadow: 0 5px 0 0 #b45309;
+  box-shadow: 0 6px 0 0 #b45309;
+}
+.ns-btn-orange:active, .ns-btn-amber:active {
+  box-shadow: 0 2px 0 0 #b45309;
 }
 
-.ns-btn-orange:active {
-  box-shadow: 0 1px 0 0 #b45309;
-}
-
-.ns-btn-purple {
-  background: linear-gradient(180deg, #a855f7 0%, #7c3aed 100%);
+/* Coral Rose Pink */
+.ns-btn-coral {
+  background: linear-gradient(180deg, #fb7185 0%, #f43f5e 100%);
   color: #ffffff;
-  border-color: #6d28d9;
-  box-shadow: 0 5px 0 0 #5b21b6;
+  border-color: #e11d48;
+  box-shadow: 0 6px 0 0 #be123c;
+}
+.ns-btn-coral:active {
+  box-shadow: 0 2px 0 0 #be123c;
 }
 
+/* Lilac Purple */
+.ns-btn-purple {
+  background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 100%);
+  color: #ffffff;
+  border-color: #7c3aed;
+  box-shadow: 0 6px 0 0 #6d28d9;
+}
 .ns-btn-purple:active {
-  box-shadow: 0 1px 0 0 #5b21b6;
+  box-shadow: 0 2px 0 0 #6d28d9;
 }
 
-/* 3D Cards */
+/* White Ghost 3D Button */
+.ns-btn-ghost-3d {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: #cbd5e1;
+  box-shadow: 0 5px 0 0 #94a3b8;
+}
+.ns-btn-ghost-3d:active {
+  box-shadow: 0 2px 0 0 #94a3b8;
+}
+
+/* =========================================================
+   3D CARDS & JELLY SURFACES
+   ========================================================= */
 .ns-card-3d {
   background: #ffffff;
-  border: 3px solid #e2e8f0;
+  border: 2.5px solid #e2e8f0;
   border-radius: var(--radius-card);
   box-shadow: 0 6px 0 0 #cbd5e1;
   transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
@@ -132,20 +177,55 @@ html, body {
   box-shadow: 0 3px 0 0 #cbd5e1;
 }
 
-.ns-card-active {
-  border-color: #3b82f6;
-  box-shadow: 0 6px 0 0 #2563eb;
+.ns-card-bubble {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 2.5px solid #e2e8f0;
+  border-radius: var(--radius-card);
+  box-shadow: 0 6px 0 0 rgba(203, 213, 225, 0.8);
 }
 
-/* Animations */
+.ns-chip-3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  border-radius: 9999px;
+  border: 2px solid;
+  transition: transform 0.1s ease;
+}
+.ns-chip-3d:active {
+  transform: translateY(1px);
+}
+
+/* =========================================================
+   ANIMATIONS & MICRO-INTERACTIONS
+   ========================================================= */
 @keyframes bounceSlow {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
 
 @keyframes pulseGlow {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.85; }
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.4)); }
+  50% { transform: scale(1.04); filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.75)); }
+}
+
+@keyframes floatAnim {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes jellyAnim {
+  0%, 100% { transform: scale(1, 1); }
+  30% { transform: scale(1.12, 0.88); }
+  50% { transform: scale(0.92, 1.08); }
+  70% { transform: scale(1.04, 0.96); }
+}
+
+@keyframes starPopAnim {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes slideUpFade {
@@ -159,6 +239,18 @@ html, body {
 
 .animate-pulse-glow {
   animation: pulseGlow 1.8s infinite ease-in-out;
+}
+
+.animate-float {
+  animation: floatAnim 2.2s infinite ease-in-out;
+}
+
+.animate-jelly {
+  animation: jellyAnim 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-star-pop {
+  animation: starPopAnim 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .animate-slide-up-fade {
