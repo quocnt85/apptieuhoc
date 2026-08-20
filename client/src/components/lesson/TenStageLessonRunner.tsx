@@ -199,10 +199,10 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
   const progressPercentage = Math.round(((currentStageIndex + 1) / stages.length) * 100);
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-hidden">
+    <div className="absolute inset-0 z-40 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-hidden">
       {/* Top Header & Stage Progress with Safe-Area Inset */}
-      <div className="sticky top-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-b-2 border-slate-800 px-4 pt-[max(0.85rem,var(--sat))] pb-3 shrink-0">
-        <div className="max-w-md mx-auto flex items-center justify-between gap-3">
+      <div className="sticky top-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-b-2 border-slate-800 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 shrink-0">
+        <div className="w-full max-w-xl mx-auto flex items-center justify-between gap-3">
           <button
             onClick={() => { interactionService.playTap(); onClose(); }}
             aria-label="Thoát bài học"
@@ -227,7 +227,7 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
       </div>
 
       {/* Stage Body Container with Scrollable Area */}
-      <div className="max-w-md mx-auto w-full flex-1 px-4 py-4 overflow-y-auto flex flex-col justify-between animate-fadeIn">
+      <div className="w-full max-w-xl mx-auto flex-1 px-4 sm:px-6 py-4 overflow-y-auto flex flex-col justify-between animate-fadeIn">
         
         {/* Stage 1: Pretest */}
         {currentStage.type === 'pretest' && (

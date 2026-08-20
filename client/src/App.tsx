@@ -51,9 +51,9 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="h-[100dvh] w-full bg-[#080c14] flex items-center justify-center p-0 sm:p-4 overflow-hidden">
-      {/* Mobile Device Frame Container (Full-bleed on mobile, elegant frame on desktop) */}
-      <div className="w-full h-[100dvh] sm:max-w-[430px] sm:h-[880px] sm:max-h-[94vh] bg-white sm:rounded-[40px] shadow-2xl sm:border-[6px] sm:border-slate-800 flex flex-col overflow-hidden relative">
+    <div className="h-[100dvh] w-full bg-slate-100 flex items-center justify-center overflow-hidden">
+      {/* Unified App Shell (Full-bleed on Mobile & Tablet, centered container on Desktop) */}
+      <div className="w-full h-[100dvh] max-w-2xl bg-white sm:shadow-lg sm:border-x sm:border-slate-200 flex flex-col overflow-hidden relative">
         
         {/* Splash Screen */}
         {isSplashing ? (
@@ -75,7 +75,7 @@ export const App: React.FC = () => {
                 <IslandMapView onStartLessonZero={() => setIsLessonRunning(true)} />
               )}
               {activeTab === 'minigame' && (
-                <div className="flex-1 p-3 overflow-y-auto pb-20 bg-slate-900">
+                <div className="flex-1 p-3 sm:p-6 overflow-y-auto pb-20 bg-slate-900">
                   <CanvasMiniGame />
                 </div>
               )}

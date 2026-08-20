@@ -23,7 +23,7 @@ export const VercelBottomNav: React.FC<Props> = ({ activeTab, onChangeTab }) => 
   };
 
   return (
-    <nav className="w-full bg-white/95 backdrop-blur-md border-t-2 border-slate-200/80 px-2 pt-2 pb-[max(0.75rem,var(--sab))] flex items-center justify-around shadow-lg shrink-0 z-30 touch-action-manipulation">
+    <nav className="w-full bg-white/95 backdrop-blur-md border-t-2 border-slate-200/80 px-2 sm:px-6 pt-2 pb-[max(0.75rem,var(--sab))] flex items-center justify-around shadow-lg shrink-0 z-30 touch-action-manipulation">
       {tabs.map((t) => {
         const isActive = activeTab === t.id;
         return (

@@ -16,7 +16,7 @@ export const VercelHeader: React.FC<Props> = ({ title }) => {
   };
 
   return (
-    <header className="w-full bg-white/95 backdrop-blur-md border-b-2 border-slate-200/80 px-4 pt-[max(0.85rem,var(--sat))] pb-3 flex items-center justify-between shadow-sm shrink-0 z-30 touch-action-manipulation">
+    <header className="w-full bg-white/95 backdrop-blur-md border-b-2 border-slate-200/80 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 flex items-center justify-between shadow-sm shrink-0 z-30 touch-action-manipulation">
       <div className="flex items-center gap-2">
         <span className="text-2xl animate-bounce-slow">⭐</span>
         <h1 className="font-black text-lg sm:text-xl text-[#1e1b4b] tracking-tight">{title}</h1>

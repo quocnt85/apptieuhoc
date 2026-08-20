@@ -23,7 +23,7 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
   };
 
   return (
-    <div className="flex-1 p-4 flex flex-col gap-4 overflow-y-auto pb-24 animate-fadeIn bg-slate-50">
+    <div className="flex-1 p-4 sm:p-6 flex flex-col gap-4 overflow-y-auto pb-24 animate-fadeIn bg-slate-50">
       {/* Welcome Hero Card */}
       <div className="ns-card-3d p-5 bg-gradient-to-br from-blue-100 via-indigo-50 to-purple-50 border-2 border-blue-200 shadow-lg">
         <div className="flex items-center gap-3.5">
