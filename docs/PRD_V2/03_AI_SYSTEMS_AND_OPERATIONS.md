@@ -1,121 +1,75 @@
 # 03. HỆ THỐNG SẢN XUẤT AI, VẬN HÀNH & TỪ ĐIỂN THUẬT NGỮ (AI Systems, Operations & Master Glossary)
 
 > **Mã Tài Liệu Hợp Nhất**: `NS-CANONICAL-PRD-03`  
-> **Nguồn Hợp Nhất Từ V2**: `06_AI/` (`aips_framework.md`, `acs_standard.md`, `aiob_blueprint.md`, `agent_registry/`), `08_OPERATIONS/` (`content_factory_sop.md`, `qa_framework.md`, `deployment_protocols.md`), `09_LIBRARY/`, `10_GLOSSARY/` (`master_glossary.md`).  
-> **Trạng Thái**: CANONICAL FROZEN (Bản Chuẩn Hóa V2.0.0)
+> **Phiên Bản**: `v2.1.0` (Cập nhật đồng bộ Pipeline nạp tri thức Modular Wiki 3-File Rule)  
+> **Nguồn Tri Thức**: `wiki/INDEX.md`, `wiki/00_CORE/`, `wiki/01_DOMAINS/`, `wiki/02_TEMPLATES/`, `content-pipeline/`.  
+> **Trạng Thái**: CANONICAL LIVING SPECIFICATION
 
 ---
 
-## 1. HỆ THỐNG SẢN XUẤT NỘI DUNG TỰ ĐỘNG (AIPS - AI Production System)
+## 1. QUY TẮC NẠP TRI THỨC MODULAR WIKI CHO AI (The 3-File Context Loading Protocol)
 
-AIPS là nhà máy sản xuất nội dung quy mô lớn, kết hợp giữa mạng lưới đa tác nhân AI chuyên biệt (Multi-Agent System) và các chuyên gia giáo dục con người (Human-in-the-Loop) để tạo ra $10,000+$ bài học chuẩn sư phạm.
+Để đảm bảo AI sinh bài học đạt độ chính xác $100\%$ về sư phạm và cấu trúc mà không gây tràn cửa sổ ngữ cảnh (Context Window Overflow), quy trình bắt buộc AI Agent chỉ nạp **đúng 3 file tri thức**:
 
-### Pipeline Sản Xuất Đa Tác Nhân (AIPS Pipeline)
 ```mermaid
 graph TD
-    A[Orchestrator Agent: Điều Phối] --> B[Story Agent: Sinh LO-STORY]
-    B --> C[Exploration Agent: Sinh LO-EXPLORE]
-    C --> D[Boss Agent: Sinh LO-BOSS]
-    D --> E[Reflection Agent: Sinh LO-REFL]
-    E --> F[Schema Validator Agent: Kiểm Tra Cú Pháp]
-    F --> G[Pedagogical QA Agent: Kiểm Tra Sư Phạm]
-    G --> H{Đạt Gate 1-4?}
-    H -- Có --> I[Human Editor: Chuyên Gia Duyệt Gate 5]
-    H -- Không --> B
-    I -- Phê Duyệt --> J[Đóng Băng & Xuất Bản Lên CMS]
+    subgraph Core Tri Thức Bắt Buộc [3 Files Nạp Cho AI]
+        F1[1. wiki/00_CORE/nlas_10_stages.md<br/>Đặc tả chuẩn 10 giai đoạn bài học]
+        F2[2. wiki/01_DOMAINS/{domain}.md<br/>Tri thức chuyên sâu kỹ năng lớp 1-5]
+        F3[3. wiki/02_TEMPLATES/prompt_generate_lesson.md<br/>System Prompt & JSON Schema Template]
+    end
+    
+    Core Tri Thức Bắt Buộc --> AI_GEN[Gemini / AI Generator Model]
+    AI_GEN --> OUT[10-Stage Lesson JSON Package]
 ```
 
-### 3 Trụ Cột Cốt Lõi Của AIPS
-1. **Chuyên Môn Hóa Tác Nhân (Multi-Agent Specialization)**: Mỗi tác nhân chỉ chịu trách nhiệm đúng 1 phần việc (Story, Puzzle, Boss, QA) thay vì dùng 1 prompt đơn lẻ khổng lồ.
-2. **Ép Buộc Ràng Buộc Schema (Schema-Enforced Generation)**: Mọi đầu ra bắt buộc phải validate thành công qua Zod / JSON Schema.
-3. **Cổng Kiểm Duyệt Quyết Định Luận (Deterministic Review Gates)**: 4 cổng tự động bằng AI + 1 cổng duyệt cuối cùng của chuyên gia giáo dục.
+### Lợi Ích Của Quy Tắc 3-File:
+- **Tiết kiệm $85\%$ chi phí Token**: Giữ ngữ cảnh tập trung, không nạp tài liệu thừa.
+- **Tránh ảo giác (Zero Hallucination)**: AI bám sát chính xác các mục tiêu kỹ năng theo từng khối lớp từ `wiki/01_DOMAINS/`.
+- **Đầu ra chuẩn xác 100%**: JSON sinh ra khớp hoàn toàn với `LessonZeroPackage` interface.
 
 ---
 
-## 2. CHUẨN HỢP ĐỒNG TÁC NHÂN AI (ACS - Agent Contract Standard)
+## 2. PIPELINE SẢN XUẤT & 5 CỔNG DUYỆT CHẤT LƯỢNG (AIPS & 5 Review Gates)
 
-Mọi tác nhân AI trong hệ thống đều phải tuân thủ bản đặc tả hợp đồng chuẩn (ACS Spec):
-
-```yaml
-agent_contract:
-  id: "NS-AI-AGNT-XXX"
-  name: "Tên Tác Nhân"
-  role: "Mô tả vai trò hệ thống của tác nhân"
-  version: "1.0.0"
-  model_tier: "PRO" # Tùy chọn: FLASH_LITE, FLASH, PRO
-  
-context_loading:
-  required_pages:
-    - "NS-XXX-001"
-  optional_pages:
-    - "NS-YYY-001"
-  forbidden_pages:
-    - "NS-ZZZ-001"
-
-inputs:
-  schema: "JSON / Zod Schema cho dữ liệu đầu vào"
-
-outputs:
-  schema: "JSON / Zod Schema cho dữ liệu đầu ra"
-
-quality_rubric:
-  metrics:
-    - name: "Schema Validity"
-      weight: 0.4
-    - name: "Grade Readability"
-      weight: 0.3
-    - name: "Pedagogical Alignment"
-      weight: 0.3
-```
-
-### Danh Mục Các Tác Nhân Cốt Lõi (Agent Registry)
-1. **Story Agent (`NS-AI-AGNT-001`)**: Chuyên gia sáng tác kịch bản, lời thoại nhân vật $\le 25$ từ, tạo tình huống nan giải (Dilemma).
-2. **Boss Agent (`NS-AI-AGNT-002`)**: Thiết kế trận đấu trùm tổng hợp, cơ chế tính sát thương HP động và lựa chọn chiến thuật.
-3. **Assessment Agent (`NS-AI-AGNT-003`)**: Thiết kế câu hỏi chẩn đoán Pre-test, Post-test và phân tích năng lực theo thang đo Bloom.
-
----
-
-## 3. QUY TRÌNH VẬN HÀNH NHÀ MÁY & 5 CỔNG DUYỆT CHẤT LƯỢNG (Content Factory SOP & Review Gates)
-
-Mỗi gói bài học bắt buộc phải vượt qua **5 Cổng Duyệt Chất Lượng** tuần tự trước khi được gắn nhãn `FROZEN` và phát hành:
+Mỗi gói bài học 10 giai đoạn sau khi sinh ra phải đi qua **5 Cổng Kiểm Duyệt Tuần Tự**:
 
 ```mermaid
 graph LR
-    G1[Gate 1: Schema Syntax Check] --> G2[Gate 2: Safety & Readability]
-    G2 --> G3[Gate 3: Pedagogical Alignment]
-    G3 --> G4[Gate 4: Fun & Game Balance]
-    G4 --> G5[Gate 5: Human Expert Signoff]
-    G5 --> RELEASE[Release & Freeze]
+    G1[Gate 1: Schema Syntax Check<br/>10 Stages Validation] --> G2[Gate 2: Safety & Readability<br/>Max 25 words/speech]
+    G2 --> G3[Gate 3: Pedagogical Alignment<br/>125 Skills Mapping]
+    G3 --> G4[Gate 4: Game Balance & Fun<br/>Boss 3-5 HP & 0 HP Penalty]
+    G4 --> G5[Gate 5: Human Expert Signoff<br/>Trưởng ban Sư phạm duyệt]
+    G5 --> CMS[Xuất bản lên Cloudflare R2 & Neon DB]
 ```
 
-- **Gate 1: Kiểm Tra Cú Pháp Schema (AI Tự Động)**: Kiểm tra cấu trúc JSON khớp $100\%$ với Content Model; từ chối nếu thiếu trường hoặc sai định dạng.
-- **Gate 2: Đánh Giá An Toàn & Độ Đọc (AI Tự Động)**: Đo chỉ số độ đọc Flesch-Kincaid theo đúng lứa tuổi Lớp 1-5; quét từ ngữ cấm, định kiến giới tính hay bạo lực.
-- **Gate 3: Khớp Nối Mục Tiêu Sư Phạm (AI Tự Động)**: Xác minh câu hỏi đo lường chính xác mã năng lực mục tiêu (`COMP-XXX`); giàn giáo hỗ trợ đúng quy chuẩn.
-- **Gate 4: Cân Bằng Trò Chơi & Độ Vui (AI Tự Động)**: Đánh giá độ khó trận đấu Boss, tính đa dạng của lựa chọn và thời lượng hoàn thành chuẩn 6–10 phút.
-- **Gate 5: Chuyên Gia Sư Phạm Phê Duyệt (Human-in-the-Loop)**: Ký duyệt cuối cùng bởi Trưởng ban Nội dung/Sư phạm trước khi bấm nút deploy tự động lên hệ thống.
+### Chi Tiết Tiêu Chí 5 Cổng Duyệt:
+1. **Gate 1: Kiểm Tra Cú Pháp Schema (Tự Động)**:
+   - Đủ đúng 10 giai đoạn (`PRETEST` $\rightarrow$ `POSTTEST`).
+   - `lesson_id` khớp regex `^NS-LES-[0-9]{5}$`.
+   - `competency_id` khớp regex `^COMP-[A-Z]{3}-[A-Z]{3}-[0-9]{3}$`.
+2. **Gate 2: An Toàn & Độ Đọc (Tự Động)**:
+   - 100% lời thoại $\le 25$ từ/câu.
+   - Quét từ khóa độc hại, phân biệt đối xử, bạo lực hoặc không an toàn cho trẻ nhỏ.
+3. **Gate 3: Khớp Nối Sư Phạm (Tự Động)**:
+   - Nội dung câu hỏi khớp chính xác với chuẩn kỹ năng của lớp (Grade 1 đến 5) được quy định trong `wiki/01_DOMAINS/`.
+   - Tối đa 3 lựa chọn cho mỗi câu hỏi.
+4. **Gate 4: Cân Bằng Gameplay & Độ Thân Thiện (Tự Động)**:
+   - Thử sai an toàn: Không trừ điểm số sinh mệnh khi trẻ chọn sai.
+   - Boss Battle có từ 3 đến 5 lượt đánh rõ ràng; lời giải thích mang tính xây dựng.
+5. **Gate 5: Chuyên Gia Giáo Dục Ký Duyệt (Human-in-the-Loop)**:
+   - Chuyên gia xem trước trực quan trên dashboard `project_knowledge_wiki_review.html` và bấm duyệt xuất bản.
 
 ---
 
-## 4. QUY TRÌNH PHÁT HÀNH & KIỂM THỬ TRIỂN KHAI (Deployment Protocols)
+## 3. TỪ ĐIỂN THUẬT NGỮ CHUẨN TOÀN HỆ THỐNG (Master Glossary)
 
-- **Kiểm Thử Môi Trường Staging**: Tự động chạy bộ kiểm thử giao diện Playwright E2E trên 4 giả lập thiết bị (iPhone, Pixel, iPad).
-- **Phát Hành Cắt Lớp (Canary Rollout)**: Mở bài học mới cho $10\%$ người dùng thử nghiệm trước khi mở toàn diện $100\%$.
-- **Cơ Chế Khôi Phục Tức Thì (Instant Rollback)**: Tự động hoàn tác về phiên bản trước nếu tỷ lệ hoàn thành bài học giảm đột ngột dưới $70\%$.
-
----
-
-## 5. TỪ ĐIỂN THUẬT NGỮ TOÀN HỆ THỐNG (Master Central Glossary)
-
-Bảng thuật ngữ chuẩn hóa áp dụng thống nhất trên toàn bộ hệ thống NovaStars:
-
-| Mã Thuật Ngữ | Thuật Ngữ | Định Nghĩa Chuẩn | Miền Áp Dụng |
-| :--- | :--- | :--- | :--- |
-| `TERM-AI-001` | **ACS (Agent Contract Standard)** | Tiêu chuẩn đặc tả vai trò, mô hình, giới hạn ngữ cảnh, JSON schema đầu vào/đầu ra và rubric chất lượng cho 1 Agent. | AI Systems |
-| `TERM-AI-002` | **AIPS (AI Production System)** | Nhà máy sản xuất nội dung đa tác nhân điều phối tự động hóa giữa AI và con người. | AI Systems |
-| `TERM-GAM-001` | **Boss Challenge** | Thử thách tổng hợp ở Stage 3/6 của bài học, đánh giá năng lực tích hợp qua cơ chế mini-game chiến đấu với Boss ảo. | Game / Pedagogy |
-| `TERM-EDU-001` | **Competency Package** | Gói học phần hoàn chỉnh gồm 5-8 năng lực nguyên tử tạo thành 1 cột mốc kỹ năng. | Education |
-| `TERM-EDU-002` | **Experience OS** | Khung tâm lý học giáo dục mô hình hóa đường cong cảm xúc và chu trình 4 pha chuyển đổi trạng thái của trẻ. | Education |
-| `TERM-OPS-001` | **Freeze Gate** | Trạng thái phê duyệt chính thức (Gate 1 đến Gate 5) khóa bài học không cho chỉnh sửa thêm trước khi phát hành. | Operations |
-| `TERM-EDU-003` | **NLAS (Lesson Architecture System)** | Hệ điều hành sư phạm hiến định cấu trúc bài học 4-10 giai đoạn (Hook, Exploration, Boss, Reflection). | Education |
-| `TERM-GAM-002` | **Star Shards (Mảnh Sao)** | Đơn vị tiền tệ ảo đạt được qua nỗ lực học tập và duy trì chuỗi học, dùng mở khóa trang phục cho thú cưng. | Game Economy |
-| `TERM-SEL-001` | **SEL (Social Emotional Learning)** | Giáo dục trí tuệ cảm xúc và kỹ năng xã hội theo chuẩn quốc tế CASEL. | Curriculum |
+| Mã Thuật Ngữ | Thuật Ngữ | Định Nghĩa Chuẩn |
+| :--- | :--- | :--- |
+| `TERM-NLAS-001` | **NLAS 10-Stage** | Kiến trúc bài học chuẩn hóa 10 giai đoạn từ Chẩn đoán $\rightarrow$ Cốt truyện $\rightarrow$ 3 Minigames $\rightarrow$ Boss $\rightarrow$ Phản tư $\rightarrow$ Nhiệm vụ thực tế $\rightarrow$ Phụ huynh $\rightarrow$ Posttest. |
+| `TERM-AI-001` | **AIPS** | AI Production System - Nhà máy tự động hóa sản xuất nội dung bài học đa tác nhân. |
+| `TERM-CORE-001` | **LessonZeroPackage** | Định dạng gói dữ liệu JSON hoàn chỉnh của 1 bài học 10 giai đoạn tuân thủ schema hệ thống. |
+| `TERM-GAM-001` | **Star Shards (Mảnh Sao)** | Đơn vị tiền tệ ảo đạt được qua nỗ lực học tập và duy trì chuỗi học, dùng mở khóa trang phục và phụ kiện cho thú cưng. |
+| `TERM-EDU-001` | **PVCMR** | Parent-Verified Competency Mastery Rate - Chỉ số Sao Bắc Đẩu đo lường tỷ lệ nhiệm vụ đời thực được phụ huynh xác thực trên mỗi MAU. |
+| `TERM-SEL-001` | **SEL** | Social Emotional Learning - Giáo dục trí tuệ cảm xúc và kỹ năng xã hội theo chuẩn CASEL. |
+| `TERM-SAF-001` | **Safe Failure** | Nguyên tắc thiết kế trò chơi không trừng phạt trẻ khi làm sai, chỉ cung cấp giàn giáo hỗ trợ từng bước. |
