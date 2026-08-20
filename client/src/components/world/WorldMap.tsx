@@ -4,7 +4,11 @@ import { DOMAINS_DATA } from '../../data/mockQuestions';
 import { DomainId } from '../../types';
 import { Sparkles, ChevronRight, Award, Flame, Play } from 'lucide-react';
 
-export const WorldMap: React.FC = () => {
+interface Props {
+  onStartLessonZero?: () => void;
+}
+
+export const WorldMap: React.FC<Props> = ({ onStartLessonZero }) => {
   const { 
     domainProgress, 
     selectDomain, 
@@ -34,6 +38,31 @@ export const WorldMap: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-24 animate-fadeIn">
+      {/* Featured Quest Banner: Gold Standard 10 Stages Lesson 0 */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-900/60 via-purple-900/50 to-indigo-900/70 border-2 border-amber-400/40 p-6 shadow-2xl">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold mb-2">
+              <span>⭐ Sứ Mệnh Đặc Biệt Chuẩn Vàng (10 Giai Đoạn)</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black text-white">
+              Bài Học 0: Lời Chào Ngôi Sao & Tự Tin
+            </h2>
+            <p className="text-slate-200 text-xs sm:text-sm mt-1 max-w-xl">
+              Cùng bé Su 👧 và Sao Nova 🌟 trải nghiệm hành trình 10 bước: Câu chuyện, 3 Mini-game kéo thả/ghép đôi, Đấu Boss công viên và nhận Huy chương 🏅!
+            </p>
+          </div>
+
+          <button
+            onClick={onStartLessonZero}
+            className="py-3 px-6 rounded-2xl bg-gradient-to-r from-amber-400 via-orange-500 to-pink-500 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/30 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all btn-kid-3d shrink-0"
+          >
+            <Play className="w-4 h-4 fill-slate-950" />
+            <span>Bắt Đầu Hành Trình 10 Bước</span>
+          </button>
+        </div>
+      </div>
+
       {/* Hero Welcome Banner */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900/60 via-purple-900/50 to-slate-900 border border-indigo-500/30 p-6 shadow-2xl">
         <div className="absolute top-0 right-0 -mt-8 -mr-8 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl" />

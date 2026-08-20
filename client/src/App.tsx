@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameStore } from './stores/useGameStore';
 import { Header } from './components/ui/Header';
 import { BottomNav } from './components/ui/BottomNav';
@@ -8,9 +8,11 @@ import { CanvasMiniGame } from './components/game/CanvasMiniGame';
 import { ParentDashboard } from './components/dashboard/ParentDashboard';
 import { SettingsView } from './components/settings/SettingsView';
 import { InteractiveQuizPlayer } from './components/game/InteractiveQuizPlayer';
+import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
 
 export const App: React.FC = () => {
   const { activeTab, activeQuestion, setActiveQuestion, loadFromLocalStorage } = useGameStore();
+  const [isPlayingLessonZero, setIsPlayingLessonZero] = useState(false);
 
   useEffect(() => {
     loadFromLocalStorage();
@@ -23,14 +25,21 @@ export const App: React.FC = () => {
 
       {/* Main Content Body */}
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 pt-4">
-        {activeTab === 'world' && <WorldMap />}
+        {activeTab === 'world' && (
+          <WorldMap onStartLessonZero={() => setIsPlayingLessonZero(true)} />
+        )}
         {activeTab === 'explore' && <QuestionExplorer />}
         {activeTab === 'practice' && <CanvasMiniGame />}
         {activeTab === 'parent' && <ParentDashboard />}
         {activeTab === 'settings' && <SettingsView />}
       </main>
 
-      {/* Interactive Modal Player for Questions */}
+      {/* 10 Stages Gold Standard Lesson Runner */}
+      {isPlayingLessonZero && (
+        <TenStageLessonRunner onClose={() => setIsPlayingLessonZero(false)} />
+      )}
+
+      {/* Interactive Modal Player for Single Questions */}
       {activeQuestion && (
         <InteractiveQuizPlayer
           question={activeQuestion}
