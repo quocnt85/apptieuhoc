@@ -5,6 +5,7 @@ import { WelcomeModal } from './components/views/WelcomeModal';
 import { HomeView } from './components/views/HomeView';
 import { IslandMapView } from './components/views/IslandMapView';
 import { ProfileView } from './components/views/ProfileView';
+import { CanvasMiniGame } from './components/game/CanvasMiniGame';
 import { VercelHeader } from './components/ui/VercelHeader';
 import { VercelBottomNav, VercelTab } from './components/ui/VercelBottomNav';
 import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
@@ -40,6 +41,8 @@ export const App: React.FC = () => {
         return 'NovaStars';
       case 'map':
         return 'Đảo 1: Đảo Dũng Cảm';
+      case 'minigame':
+        return 'Thử Thách Phi Thuyền';
       case 'profile':
         return 'Hồ Sơ Anh Hùng';
       default:
@@ -48,9 +51,9 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#0b1329] flex items-center justify-center p-0 sm:p-4">
-      {/* Mobile Device Frame Container (Phone Shell) */}
-      <div className="w-full max-w-[430px] h-screen sm:h-[880px] sm:max-h-[92vh] bg-white sm:rounded-[40px] shadow-2xl sm:border-[6px] sm:border-slate-700/60 flex flex-col overflow-hidden relative">
+    <div className="h-[100dvh] w-full bg-[#080c14] flex items-center justify-center p-0 sm:p-4 overflow-hidden">
+      {/* Mobile Device Frame Container (Full-bleed on mobile, elegant frame on desktop) */}
+      <div className="w-full h-[100dvh] sm:max-w-[430px] sm:h-[880px] sm:max-h-[94vh] bg-white sm:rounded-[40px] shadow-2xl sm:border-[6px] sm:border-slate-800 flex flex-col overflow-hidden relative">
         
         {/* Splash Screen */}
         {isSplashing ? (
@@ -61,12 +64,20 @@ export const App: React.FC = () => {
             {!isLessonRunning && <VercelHeader title={getHeaderTitle()} />}
 
             {/* Dynamic Views */}
-            <main className="flex-1 flex flex-col overflow-hidden relative">
+            <main className="flex-1 flex flex-col overflow-hidden relative bg-slate-50">
               {activeTab === 'home' && (
-                <HomeView onNavigateToMap={() => setActiveTab('map')} />
+                <HomeView 
+                  onNavigateToMap={() => setActiveTab('map')}
+                  onNavigateToMiniGame={() => setActiveTab('minigame')}
+                />
               )}
               {activeTab === 'map' && (
                 <IslandMapView onStartLessonZero={() => setIsLessonRunning(true)} />
+              )}
+              {activeTab === 'minigame' && (
+                <div className="flex-1 p-3 overflow-y-auto pb-20 bg-slate-900">
+                  <CanvasMiniGame />
+                </div>
               )}
               {activeTab === 'profile' && <ProfileView />}
             </main>
@@ -97,3 +108,4 @@ export const App: React.FC = () => {
 };
 
 export default App;
+
