@@ -5,15 +5,23 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy --env production",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:dry-run": "wrangler deploy --dry-run --env staging",
+    "types": "wrangler types",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.10.4",
-    "hono": "^4.6.20"
+    "@neondatabase/serverless": "^1.1.0",
+    "hono": "^4.13.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250214.0",
-    "typescript": "^5.7.2",
-    "wrangler": "^3.109.2"
+    "@cloudflare/workers-types": "^5.20260821.1",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.125.0"
   }
 }

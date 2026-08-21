@@ -3,15 +3,17 @@ import { useGameStore } from '../../stores/useGameStore';
 import { LESSON_ZERO_DATA } from '../../data/lessonZeroData';
 import { interactionService } from '../../services/interaction';
 import { ArrowLeft, Sparkles, CheckCircle2, ShieldCheck, ArrowUp, ArrowDown, Award, Trophy, Play } from 'lucide-react';
-import { QuickDevBar } from '../dev/QuickDevBar';
 import confetti from 'canvas-confetti';
+import { useParentZoneStore } from '../../stores/useParentZoneStore';
+
+const QuickDevBar = import.meta.env.DEV ? React.lazy(() => import('../dev/QuickDevBar').then((module) => ({ default: module.QuickDevBar }))) : null;
 
 interface Props {
   onClose: () => void;
 }
 
 export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
-  const { addXP, addGems, addStars, completeLessonNode, instantCompleteCurrentLesson } = useGameStore();
+  const { addXP, addStars, completeLessonNode, instantCompleteCurrentLesson } = useGameStore();
 
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [bossHp, setBossHp] = useState(100);
@@ -184,9 +186,13 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     }
   };
 
-  // 9. Parent Confirm
+  // 9. Child marks the pre-programmed real-life mission as done.
   const handleParentConfirm = () => {
     interactionService.playVictory();
+    const parentState = useParentZoneStore.getState();
+    parentState.suggestMission('island_1_node_1', currentStage.parentPrompt ?? 'Thực hành nhiệm vụ ngoài đời từ bài học');
+    const mission = useParentZoneStore.getState().missions.find((item) => item.profileId === parentState.activeProfileId && item.sourceLessonId === 'island_1_node_1');
+    if (mission) parentState.markMissionDone(mission.id);
     handleNextStage();
   };
 
@@ -195,7 +201,6 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     if (idx === 0) {
       interactionService.playVictory();
       addXP(100);
-      addGems(5);
       addStars(3);
       completeLessonNode('island_1_node_1');
       try {
@@ -217,12 +222,12 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
   return (
     <div data-testid="ten-stage-runner" className="absolute inset-0 z-50 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-hidden">
       {/* Dev Quick Action Bar */}
-      <QuickDevBar
+      {QuickDevBar && <React.Suspense fallback={null}><QuickDevBar
         onSkipStage={handleDevSkipStage}
         onInstantComplete={handleDevInstantComplete}
         currentStageIndex={currentStageIndex}
         totalStages={stages.length}
-      />
+      /></React.Suspense>}
 
       {/* Top Header & Stage Progress with Safe-Area Inset */}
       <div className="sticky top-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-b-2 border-slate-800 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 shrink-0">
@@ -563,16 +568,16 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
           </div>
         )}
 
-        {/* Chặng 9: Bố mẹ duyệt */}
+        {/* Chặng 9: Trẻ báo đã hoàn thành; phụ huynh duyệt sau trong Góc phụ huynh */}
         {currentStage.type === 'parent_confirm' && (
           <div className="space-y-4 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-black">
               <ShieldCheck className="w-4 h-4" />
-              <span>Chặng 9: Bố mẹ duyệt</span>
+              <span>Chặng 9: Con báo hoàn thành</span>
             </div>
             <div className="p-5 rounded-3xl bg-slate-900 border-2 border-purple-500/40 text-center space-y-3.5 shadow-xl">
               <div className="text-5xl animate-bounce-slow">👨‍👩‍👧</div>
-              <h2 className="text-lg font-black text-white">Bố Mẹ Xác Nhận</h2>
+              <h2 className="text-lg font-black text-white">Con Đã Thực Hiện</h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
                 {currentStage.parentPrompt}
               </p>
@@ -580,7 +585,7 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
                 onClick={handleParentConfirm}
                 className="w-full min-h-[54px] py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black text-sm shadow-lg shadow-purple-600/30 active:scale-95 ns-btn-3d ns-btn-purple"
               >
-                Bố Mẹ Xác Nhận ✨
+                Con đã làm xong ✨
               </button>
             </div>
           </div>

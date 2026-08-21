@@ -151,6 +151,7 @@ export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radi
         >
           <button
             type="button"
+            data-testid={`lesson-node-${node.id}`}
             disabled={hasOverlay}
             onClick={handleClick}
             title={node.title}

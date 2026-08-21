@@ -160,7 +160,6 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
               </div>
               <div className="flex items-center gap-2 text-xs font-black">
                 <span className="text-amber-300">+{result.xpEarned} XP</span>
-                <span className="text-cyan-300">+{result.gemsEarned} 💎</span>
               </div>
             </div>
 

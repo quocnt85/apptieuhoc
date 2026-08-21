@@ -1,115 +1,140 @@
-import React from 'react';
-import { useGameStore } from '../../stores/useGameStore';
+import React, { useEffect, useRef, useState } from 'react';
+import { BarChart3, Clock, Download, HeartHandshake, LogOut, ShieldCheck, ShoppingBag, Upload, UserRound, WalletCards } from 'lucide-react';
 import { DOMAINS_DATA } from '../../data/mockQuestions';
-import { ShieldCheck, Clock, Award, CheckCircle, TrendingUp, Sparkles, HeartHandshake } from 'lucide-react';
+import { createEncryptedBackup, restoreEncryptedBackup } from '../../services/parentBackup';
+import { parentApi } from '../../services/parentApi';
+import { parentBiometric } from '../../services/parentBiometric';
+import { PRODUCT_IDS, purchaseProvider, type LocalizedProduct, type ParentProductId } from '../../services/purchaseProvider';
+import { useGameStore } from '../../stores/useGameStore';
+import { useParentZoneStore } from '../../stores/useParentZoneStore';
+import type { ChildGrade } from '../../types/parentZone';
+
+type Section = 'overview' | 'profiles' | 'missions' | 'guides' | 'limits' | 'store' | 'account';
+type AuthStep = 'email' | 'otp' | 'setup-pin' | 'pin';
+const Field: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (props) => <input {...props} className={`w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-400 ${props.className ?? ''}`} />;
+const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ className = '', ...props }) => <button {...props} className={`rounded-xl px-4 py-2.5 text-sm font-black transition active:scale-[.98] disabled:opacity-40 ${className}`} />;
+
+const ParentAuth: React.FC<{ onUnlocked: () => void }> = ({ onUnlocked }) => {
+  const [step, setStep] = useState<AuthStep>('email');
+  const [email, setEmail] = useState(localStorage.getItem('novastars_parent_email') ?? '');
+  const [otp, setOtp] = useState(''); const [pin, setPin] = useState(''); const [confirmPin, setConfirmPin] = useState('');
+  const [serviceConsent, setServiceConsent] = useState(false); const [marketingConsent, setMarketingConsent] = useState(false);
+  const [busy, setBusy] = useState(false); const [message, setMessage] = useState(''); const [error, setError] = useState('');
+  useEffect(() => { void parentApi.hasSession().then(async (hasSession) => { if (!hasSession) return; setStep('pin'); if (parentBiometric.isEnabled()) { try { await parentBiometric.authenticate(); onUnlocked(); } catch { /* PIN remains available */ } } }); }, []);
+  const run = async (operation: () => Promise<void>) => { setBusy(true); setError(''); try { await operation(); } catch (value) { setError(value instanceof Error ? value.message : 'Không thể thực hiện.'); } finally { setBusy(false); } };
+  const sendOtp = () => run(async () => { if (!serviceConsent) throw new Error('Bạn cần đồng ý điều khoản dịch vụ.'); const result = await parentApi.register(email, marketingConsent); localStorage.setItem('novastars_parent_email', email); setMessage(result.debugOtp ? `Mã thử nghiệm: ${result.debugOtp}` : 'Mã 6 số đã được gửi tới email.'); setStep('otp'); });
+  const verifyOtp = () => run(async () => { const result = await parentApi.verifyEmail(email, otp); localStorage.setItem('novastars_parent_id', result.parentId); setStep(result.requiresPinSetup ? 'setup-pin' : 'pin'); });
+  const savePin = () => run(async () => { if (pin !== confirmPin) throw new Error('Hai mã PIN không trùng nhau.'); await parentApi.setupPin(pin); await parentApi.verifyPin(pin); onUnlocked(); });
+  const verifyPin = () => run(async () => { await parentApi.verifyPin(pin); onUnlocked(); });
+  const resetPin = () => run(async () => {
+    const savedEmail = email || localStorage.getItem('novastars_parent_email') || prompt('Email phụ huynh:') || '';
+    if (!savedEmail) throw new Error('Cần nhập email phụ huynh.');
+    const requested = await parentApi.requestPinReset(savedEmail);
+    const resetOtp = prompt(requested.debugOtp ? `Mã thử nghiệm: ${requested.debugOtp}\nNhập OTP:` : 'Nhập OTP đã gửi tới email:') || '';
+    const newPin = prompt('Nhập PIN mới gồm 6 số:') || '';
+    if (!/^\d{6}$/.test(resetOtp) || !/^\d{6}$/.test(newPin)) throw new Error('OTP và PIN phải gồm đúng 6 số.');
+    await parentApi.confirmPinReset(savedEmail, resetOtp, newPin);
+    await parentApi.verifyPin(newPin);
+    onUnlocked();
+  });
+  return <div className="m-auto w-full max-w-sm rounded-3xl border border-cyan-500/30 bg-slate-900 p-6 shadow-2xl">
+    <div className="mb-5 text-center"><ShieldCheck className="mx-auto h-10 w-10 text-cyan-300"/><h1 className="mt-2 text-xl font-black">Góc phụ huynh</h1><p className="mt-1 text-xs text-slate-400">Dữ liệu học tập của trẻ chỉ lưu trên thiết bị này.</p></div>
+    {step === 'email' && <div className="space-y-3"><Field type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email phụ huynh"/><label className="flex gap-2 text-xs text-slate-300"><input type="checkbox" checked={serviceConsent} onChange={e=>setServiceConsent(e.target.checked)}/> Tôi đồng ý điều khoản dịch vụ (bắt buộc).</label><label className="flex gap-2 text-xs text-slate-400"><input type="checkbox" checked={marketingConsent} onChange={e=>setMarketingConsent(e.target.checked)}/> Nhận email cập nhật sản phẩm (tùy chọn).</label><Button disabled={busy || !email.includes('@') || !serviceConsent} onClick={sendOtp} className="w-full bg-cyan-500 text-slate-950">Nhận mã xác minh</Button></div>}
+    {step === 'otp' && <div className="space-y-3"><Field inputMode="numeric" maxLength={6} value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))} placeholder="Mã OTP 6 số"/><Button disabled={busy || otp.length !== 6} onClick={verifyOtp} className="w-full bg-cyan-500 text-slate-950">Xác minh email</Button><button onClick={sendOtp} className="w-full text-xs text-cyan-300">Gửi lại mã</button></div>}
+    {step === 'setup-pin' && <div className="space-y-3"><Field type="password" inputMode="numeric" maxLength={6} value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))} placeholder="Tạo PIN 6 số"/><Field type="password" inputMode="numeric" maxLength={6} value={confirmPin} onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, ''))} placeholder="Nhập lại PIN"/><Button disabled={busy || pin.length !== 6} onClick={savePin} className="w-full bg-cyan-500 text-slate-950">Lưu PIN</Button></div>}
+    {step === 'pin' && <div className="space-y-3"><Field autoFocus type="password" inputMode="numeric" maxLength={6} value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))} placeholder="PIN phụ huynh 6 số"/><Button disabled={busy || pin.length !== 6} onClick={verifyPin} className="w-full bg-cyan-500 text-slate-950">Mở khóa</Button><button onClick={()=>void resetPin()} className="w-full text-xs text-slate-400">Quên PIN / đặt lại bằng email</button></div>}
+    {message && <p className="mt-3 rounded-lg bg-cyan-950 p-2 text-xs text-cyan-200">{message}</p>}{error && <p role="alert" className="mt-3 rounded-lg bg-rose-950 p-2 text-xs text-rose-300">{error}</p>}
+  </div>;
+};
 
 export const ParentDashboard: React.FC = () => {
-  const { user, settings, domainProgress } = useGameStore();
+  const [unlocked, setUnlocked] = useState(false); const [section, setSection] = useState<Section>('overview');
+  const { user, domainProgress, setDiamonds } = useGameStore();
+  const parent = useParentZoneStore(); const profile = parent.profiles.find((item) => item.id === parent.activeProfileId) ?? parent.profiles[0];
+  const slotProvisioning = useRef(false);
+  const [vault, setVault] = useState(0); const [walletBalance, setWalletBalance] = useState(user.diamonds); const [isVip, setIsVip] = useState(false); const [notice, setNotice] = useState('');
+  const refreshWallet = async () => { try { const [result, subscriptions] = await Promise.all([parentApi.wallets(), parentApi.subscriptions()]); setVault(result.parentVault); const balance = result.children.find((item) => item.childSlotId === profile?.childSlotId)?.balance ?? 0; setWalletBalance(balance); setDiamonds(balance); setIsVip(subscriptions.subscriptions.some((item) => ['active','grace','billing_retry','cancelled'].includes(item.status) && (!item.periodEnd || new Date(item.periodEnd).getTime() > Date.now()))); } catch { /* offline cache remains visible */ } };
+  useEffect(() => {
+    if (!unlocked || !profile) return;
+    if (!profile.childSlotId && !slotProvisioning.current) {
+      slotProvisioning.current = true;
+      void parentApi.createChildSlot(`profile:${profile.id}`).then(({ childSlotId }) => parent.updateProfile(profile.id, { childSlotId })).catch(() => setNotice('Chưa thể tạo ví ẩn danh; dữ liệu học tập local vẫn dùng bình thường.')).finally(() => { slotProvisioning.current = false; });
+      return;
+    }
+    void refreshWallet();
+  }, [unlocked, profile?.id, profile?.childSlotId]);
+  useEffect(() => {
+    if (!unlocked) return;
+    let timer = window.setTimeout(() => setUnlocked(false), 3 * 60_000);
+    const reset = () => { window.clearTimeout(timer); timer = window.setTimeout(() => setUnlocked(false), 3 * 60_000); };
+    const visibility = () => { if (document.hidden) setUnlocked(false); };
+    window.addEventListener('pointerdown', reset); window.addEventListener('keydown', reset); document.addEventListener('visibilitychange', visibility);
+    return () => { window.clearTimeout(timer); window.removeEventListener('pointerdown', reset); window.removeEventListener('keydown', reset); document.removeEventListener('visibilitychange', visibility); };
+  }, [unlocked]);
+  if (!unlocked) return <div className="flex h-full overflow-y-auto p-4"><ParentAuth onUnlocked={() => setUnlocked(true)}/></div>;
+  const tabs: [Section, string, React.ReactNode][] = [['overview','Báo cáo',<BarChart3/>],['profiles','Hồ sơ',<UserRound/>],['missions','Nhiệm vụ',<HeartHandshake/>],['guides','Cẩm nang',<HeartHandshake/>],['limits','Thời gian',<Clock/>],['store','Cửa hàng',<ShoppingBag/>],['account','Tài khoản',<ShieldCheck/>]];
+  return <div className="flex h-full flex-col overflow-hidden bg-[#070b18]">
+    <div className="flex items-center justify-between border-b border-slate-800 px-4 py-3"><div><div className="text-sm font-black text-cyan-200">Góc phụ huynh</div><div className="text-[11px] text-slate-400">{profile?.name} · Kho 💎 {vault.toLocaleString('vi-VN')}</div></div><button onClick={() => setUnlocked(false)} className="rounded-lg bg-slate-800 p-2" aria-label="Khóa góc phụ huynh"><ShieldCheck className="h-4 w-4"/></button></div>
+    <nav className="flex shrink-0 gap-1 overflow-x-auto border-b border-slate-800 p-2">{tabs.map(([id,label,icon]) => <button key={id} onClick={() => setSection(id)} className={`flex min-w-fit items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold ${section===id?'bg-cyan-500 text-slate-950':'bg-slate-900 text-slate-300'}`}>{React.cloneElement(icon as React.ReactElement<{className:string}>,{className:'h-3.5 w-3.5'})}{label}</button>)}</nav>
+    <main className="flex-1 overflow-y-auto p-4 pb-24">{notice && <div className="mb-3 rounded-xl bg-cyan-950 p-3 text-xs text-cyan-200">{notice}</div>}
+      {section==='overview' && <Overview profileName={profile?.name ?? user.name} domainProgress={domainProgress} activities={parent.activities.filter((a)=>a.profileId===profile?.id)} walletBalance={walletBalance}/>}
+      {section==='profiles' && <Profiles/>}{section==='missions' && <Missions onWalletRefresh={refreshWallet}/>} {section==='guides' && <Guides isVip={isVip}/>} {section==='limits' && <Limits/>}
+      {section==='store' && <Store vault={vault} onNotice={setNotice} onRefresh={refreshWallet}/>} {section==='account' && <Account onNotice={setNotice}/>}
+    </main>
+  </div>;
+};
 
-  const totalQuestionsDone = Object.values(domainProgress).reduce((acc, curr) => acc + curr.questionsAnswered, 0);
-  const avgMastery = Math.round(
-    Object.values(domainProgress).reduce((acc, curr) => acc + curr.masteryPercentage, 0) / DOMAINS_DATA.length
-  );
-
+const Overview: React.FC<{profileName:string; domainProgress: ReturnType<typeof useGameStore.getState>['domainProgress']; activities: ReturnType<typeof useParentZoneStore.getState>['activities']; walletBalance:number}> = ({profileName,activities,walletBalance}) => {
+  const monday = new Date(); monday.setHours(0,0,0,0); monday.setDate(monday.getDate()-((monday.getDay()+6)%7));
+  const weekly = activities.filter((item) => item.completedAt >= monday.getTime());
+  const scored = activities.filter((item) => typeof item.score === 'number');
+  const average = scored.length ? Math.round(scored.reduce((sum,item)=>sum+(item.score??0),0)/scored.length) : 0;
   return (
-    <div className="space-y-6 pb-24 animate-fadeIn">
-      {/* Header Banner */}
-      <div className="rounded-3xl bg-gradient-to-r from-purple-900/60 via-slate-900 to-indigo-900/60 border border-purple-500/30 p-6 shadow-xl">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-bold mb-2">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Góc Đồng Hành Cùng Phụ Huynh</span>
-            </div>
-            <h1 className="text-2xl font-black text-white">
-              Báo Cáo Năng Lực Của {user.name}
-            </h1>
-            <p className="text-xs text-slate-300 mt-1">
-              Theo dõi tiến độ phát triển 5 miền kỹ năng sống và gợi ý trò chuyện cùng bé mỗi ngày.
-            </p>
-          </div>
-
-          {/* Quick Metrics */}
-          <div className="flex items-center gap-3">
-            <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center min-w-[100px]">
-              <div className="text-xs font-bold text-slate-400">Thời gian học</div>
-              <div className="text-lg font-black text-cyan-400 font-mono mt-0.5">
-                {settings.todayPlayedMinutes}/{settings.dailyTimeLimitMinutes} p
-              </div>
-            </div>
-            <div className="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center min-w-[100px]">
-              <div className="text-xs font-bold text-slate-400">Thành thục TB</div>
-              <div className="text-lg font-black text-purple-400 font-mono mt-0.5">
-                {avgMastery}%
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="space-y-4">
+      <div className="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-indigo-950 to-slate-900 p-5">
+        <h1 className="text-xl font-black">Báo cáo của {profileName}</h1>
+        <p className="mt-1 text-xs text-slate-400">Tổng hợp ngay trên thiết bị, không gửi đáp án hay tiến độ của trẻ lên máy chủ.</p>
+        <div className="mt-4 grid grid-cols-3 gap-2 text-center"><Metric label="Accuracy" value={`${average}%`}/><Metric label="Hoạt động" value={String(activities.length)}/><Metric label="Ví của bé" value={`💎 ${walletBalance}`}/></div>
       </div>
-
-      {/* 5 Domains Mastery Breakdown */}
-      <div className="rounded-3xl bg-slate-900/80 border border-slate-800 p-5 space-y-4 shadow-lg">
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-purple-400" />
-            <span>Phân Tích 5 Miền Năng Lực Cốt Lõi</span>
-          </h2>
-          <span className="text-xs text-slate-400">Đã hoàn thành {totalQuestionsDone} bài tập</span>
-        </div>
-
-        <div className="space-y-3">
-          {DOMAINS_DATA.map((domain) => {
-            const prog = domainProgress[domain.id] || { masteryPercentage: 0, streak: 0, questionsAnswered: 0 };
-            return (
-              <div key={domain.id} className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
-                <div className="flex items-center justify-between text-xs mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{domain.icon}</span>
-                    <span className="font-bold text-slate-200">{domain.nameVi}</span>
-                  </div>
-                  <div className="flex items-center gap-2 font-bold">
-                    <span className="text-slate-400">{prog.questionsAnswered} câu</span>
-                    <span className="text-purple-300 font-mono">{prog.masteryPercentage}%</span>
-                  </div>
-                </div>
-
-                <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-500"
-                    style={{ width: `${prog.masteryPercentage}%` }}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      <div className="grid grid-cols-2 gap-2"><Metric label="Tuần này" value={`${weekly.length} hoạt động`}/><Metric label="Toàn thời gian" value={`${activities.length} hoạt động`}/></div>
+      <div className="space-y-2 rounded-3xl border border-slate-800 bg-slate-900 p-4">
+        <h2 className="font-black">5 miền năng lực</h2>
+        {DOMAINS_DATA.map((domain) => {
+          const samples = activities.filter((item) => item.domainId===domain.id && typeof item.score==='number').slice(0,5);
+          const accuracy = samples.length ? Math.round(samples.reduce((sum,item)=>sum+(item.score??0),0)/samples.length) : 0;
+          const label = samples.length < 5 ? 'Chưa đủ dữ liệu' : `${accuracy}% · ${accuracy >= 80 ? 'Mastered' : 'Đang luyện'}`;
+          return <div key={domain.id}><div className="flex justify-between text-xs"><span>{domain.icon} {domain.nameVi}</span><span>{label}</span></div><div className="mt-1 h-2 overflow-hidden rounded bg-slate-800"><div className="h-full bg-gradient-to-r from-cyan-500 to-indigo-500" style={{width:`${samples.length<5?0:accuracy}%`}}/></div></div>;
+        })}
+        <p className="pt-2 text-[10px] text-slate-500">Đây là tiến độ trong ứng dụng, không phải đánh giá tâm lý hay chẩn đoán.</p>
       </div>
-
-      {/* Action Items for Parents (Cầu nối Gia đình) */}
-      <div className="rounded-3xl bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border border-indigo-500/30 p-5 space-y-3">
-        <h2 className="text-base font-bold text-indigo-300 flex items-center gap-2">
-          <HeartHandshake className="w-4 h-4" />
-          <span>Gợi Ý Trò Chuyện & Thực Hành Gia Đình Hôm Nay</span>
-        </h2>
-
-        <div className="space-y-2.5">
-          <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-start gap-3">
-            <div className="text-xl">💰</div>
-            <div className="text-xs text-slate-300 leading-relaxed">
-              <span className="font-bold text-amber-300">Về Tài chính: </span>
-              Khi đi siêu thị, hãy cho bé cầm 20.000đ và nhờ bé chọn 1 món rau củ phù hợp với ngân sách.
-            </div>
-          </div>
-
-          <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-start gap-3">
-            <div className="text-xl">❤️</div>
-            <div className="text-xs text-slate-300 leading-relaxed">
-              <span className="font-bold text-rose-300">Về Cảm xúc: </span>
-              Hỏi bé: "Hôm nay điều gì ở trường làm con vui nhất và có điều gì làm con hơi bối rối không?".
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="rounded-3xl border border-emerald-700/40 bg-emerald-950/20 p-4"><h2 className="font-black text-emerald-300">Gợi ý đồng hành đã biên tập</h2><p className="mt-2 text-xs leading-relaxed text-slate-300">Hỏi con: “Hôm nay điều gì làm con vui nhất, và có điều gì khiến con bối rối?” Hãy lắng nghe trước khi đưa lời khuyên.</p></div>
     </div>
   );
 };
+const Metric:React.FC<{label:string;value:string}>=({label,value})=><div className="rounded-2xl bg-slate-950 p-3"><div className="text-[10px] text-slate-400">{label}</div><div className="mt-1 font-black text-cyan-300">{value}</div></div>;
+
+const GUIDES = [
+  { title: 'Bảo vệ cơ thể và vùng riêng tư', category: 'Bảo vệ bản thân', checklist: ['Dùng tên gọi rõ ràng, phù hợp lứa tuổi.', 'Dạy con nói “không” và rời khỏi tình huống khó chịu.', 'Thống nhất 3 người lớn an toàn con có thể tìm đến.'], podcast: 'Cơ thể của con thuộc về con. Khi một hành động làm con khó chịu, con có thể nói không, rời đi và kể ngay với người lớn an toàn. Phụ huynh hãy lắng nghe bình tĩnh, tin lời con và tránh trách con.', review: 'Safety review · v1.0 · 2026-08-22' },
+  { title: 'Tiền tiêu vặt và lựa chọn', category: 'Tài chính gia đình', checklist: ['Chia tiền thành chi tiêu, tiết kiệm và sẻ chia.', 'Cho con chọn trong một ngân sách nhỏ.', 'Không gắn tiền với tình yêu hoặc sự vâng lời.'], podcast: 'Một ngân sách nhỏ giúp trẻ tập lựa chọn. Hãy cho con so sánh hai món, nói lý do và chấp nhận hệ quả an toàn của quyết định. Khen cách suy nghĩ thay vì chỉ khen tiết kiệm.', review: 'Editorial review · v1.0 · 2026-08-22' },
+  { title: 'An toàn số trong gia đình', category: 'An toàn số', checklist: ['Không chia sẻ địa chỉ, trường học hoặc mật khẩu.', 'Hỏi người lớn trước khi nhấn liên kết lạ.', 'Báo ngay khi nội dung làm con sợ hoặc xấu hổ.'], podcast: 'An toàn số bắt đầu từ một thỏa thuận không phán xét. Nếu con gặp điều đáng sợ trên mạng, con sẽ không bị phạt vì đã kể. Cả nhà cùng chặn, báo cáo và đổi mật khẩu khi cần.', review: 'Digital safety review · v1.0 · 2026-08-22' },
+  { title: 'Lắng nghe cảm xúc', category: 'Đồng hành cảm xúc', checklist: ['Gọi tên cảm xúc trước khi giải quyết vấn đề.', 'Hỏi con muốn được nghe hay muốn gợi ý.', 'Tránh dùng chẩn đoán tâm lý từ điểm trong app.'], podcast: 'Khi trẻ buồn, hãy bắt đầu bằng việc mô tả điều bạn quan sát và hỏi con có muốn chia sẻ không. Một khoảng im lặng an toàn thường hữu ích hơn lời khuyên quá sớm.', review: 'Wellbeing review · v1.0 · 2026-08-22' },
+];
+const Guides:React.FC<{isVip:boolean}>=({isVip})=>{const [playing,setPlaying]=useState<string|null>(null);useEffect(()=>()=>speechSynthesis.cancel(),[]);const play=(title:string,text:string)=>{speechSynthesis.cancel();if(playing===title){setPlaying(null);return;}const utterance=new SpeechSynthesisUtterance(text);utterance.lang='vi-VN';utterance.rate=.82;utterance.onend=()=>setPlaying(null);speechSynthesis.speak(utterance);setPlaying(title);};return <div className="space-y-3"><div className="rounded-2xl bg-indigo-950/40 p-4 text-xs text-indigo-200">Nội dung được biên soạn sẵn, không dùng AI. Bản đọc âm thanh chạy bằng giọng đọc trên thiết bị và chỉ hoạt động trong Góc phụ huynh.</div>{GUIDES.map((guide,index)=>{const locked=index>0&&!isVip;return <article key={guide.title} className="rounded-3xl border border-slate-800 bg-slate-900 p-4"><div className="text-[10px] font-black uppercase text-cyan-300">{guide.category}</div><h2 className="mt-1 font-black">{guide.title} {locked&&'🔒'}</h2>{locked?<p className="mt-2 text-xs text-slate-400">Nội dung này thuộc VIP. Gói tháng là lựa chọn chính.</p>:<><ul className="mt-3 list-disc space-y-1 pl-5 text-xs text-slate-300">{guide.checklist.map(item=><li key={item}>{item}</li>)}</ul><Button onClick={()=>play(guide.title,guide.podcast)} className="mt-3 bg-indigo-600">{playing===guide.title?'Dừng podcast':'Nghe podcast ~3 phút'}</Button><div className="mt-3 text-[10px] text-slate-500">{guide.review}</div></>}</article>})}<div className="rounded-2xl border border-amber-800 bg-amber-950/20 p-3 text-xs text-amber-200">Hướng dẫn mát-xa mắt đang gắn PENDING_HEALTH_REVIEW và chỉ được hiển thị trong bản nháp; phải hậu kiểm trước khi bật production.</div></div>};
+
+const Profiles = () => { const state=useParentZoneStore(); const [name,setName]=useState(''); const [grade,setGrade]=useState<ChildGrade|undefined>(); const [avatar,setAvatar]=useState('🧑‍🚀'); const [error,setError]=useState(''); const fileRef=useRef<HTMLInputElement>(null);
+  const selectProfile=(id:string)=>{if(id===state.activeProfileId)return;const current=localStorage.getItem('novastars_space_state_v2');if(current)localStorage.setItem(`novastars_space_state_profile_${state.activeProfileId}`,current);const target=localStorage.getItem(`novastars_space_state_profile_${id}`);if(target)localStorage.setItem('novastars_space_state_v2',target);else localStorage.removeItem('novastars_space_state_v2');state.setActiveProfile(id);location.reload();};
+  const create=async()=>{setError('');try{const slot=await parentApi.createChildSlot(crypto.randomUUID());const id=state.createProfile({name:name.trim(),grade,avatar,childSlotId:slot.childSlotId});state.setActiveProfile(id);setName('');}catch(value){setError(value instanceof Error?value.message:'Không thể tạo hồ sơ.');}};
+  const photo=async(file?:File)=>{if(!file)return;if(file.size>2_000_000){setError('Ảnh tối đa 2 MB.');return;}const reader=new FileReader();reader.onload=()=>state.updateProfile(state.activeProfileId,{photoDataUrl:String(reader.result)});reader.readAsDataURL(file)};
+  const remove=async()=>{const current=state.profiles.find(p=>p.id===state.activeProfileId);if(!current||!confirm(`Xóa hồ sơ ${current.name} và toàn bộ dữ liệu local của trẻ?`))return;try{if(current.childSlotId)await parentApi.closeChildSlot(current.childSlotId);state.removeProfileLocal(current.id);}catch(value){setError(value instanceof Error?value.message:'Không thể xóa hồ sơ.');}};
+  return <div className="space-y-4"><div className="grid grid-cols-2 gap-2">{state.profiles.map(p=><button key={p.id} onClick={()=>selectProfile(p.id)} className={`rounded-2xl border p-3 text-left ${p.id===state.activeProfileId?'border-cyan-400 bg-cyan-950':'border-slate-800 bg-slate-900'}`}><div className="text-2xl">{p.photoDataUrl?<img src={p.photoDataUrl} alt="" className="h-12 w-12 rounded-full object-cover"/>:p.avatar}</div><div className="mt-1 font-black">{p.name}</div><div className="text-xs text-slate-400">{p.grade?`Khối ${p.grade}`:'Chưa chọn khối'} · chỉ để hiển thị</div></button>)}</div>
+  <div className="space-y-3 rounded-3xl border border-slate-800 bg-slate-900 p-4"><h2 className="font-black">Thêm hồ sơ ({state.profiles.length}/4)</h2><Field value={name} onChange={e=>setName(e.target.value)} placeholder="Tên hiển thị local"/><div className="flex gap-2"><select value={grade??''} onChange={e=>setGrade(e.target.value?Number(e.target.value) as ChildGrade:undefined)} className="flex-1 rounded-xl bg-slate-950 p-2 text-sm"><option value="">Khối (tùy chọn)</option>{[1,2,3,4,5].map(v=><option key={v} value={v}>Khối {v}</option>)}</select><Field value={avatar} onChange={e=>setAvatar(e.target.value)} className="w-20"/></div><Button disabled={!name.trim()||state.profiles.length>=4} onClick={create} className="bg-cyan-500 text-slate-950">Tạo hồ sơ</Button></div>
+  <div className="flex gap-2"><input ref={fileRef} hidden type="file" accept="image/*" onChange={e=>void photo(e.target.files?.[0])}/><Button onClick={()=>fileRef.current?.click()} className="bg-slate-800">Chọn ảnh local</Button><Button onClick={remove} className="bg-rose-950 text-rose-300">Xóa hồ sơ</Button></div>{error&&<p className="text-xs text-rose-300">{error}</p>}<p className="text-xs text-slate-500">Tên, khối và ảnh không rời khỏi thiết bị. Khối hiện chỉ mang tính hiển thị.</p></div>;
+};
+
+const Missions:React.FC<{onWalletRefresh:()=>Promise<void>}>=({onWalletRefresh})=>{const state=useParentZoneStore();const missions=state.missions.filter(m=>m.profileId===state.activeProfileId);const [amounts,setAmounts]=useState<Record<string,string>>({});const [error,setError]=useState('');const approve=async(id:string)=>{const mission=missions.find(m=>m.id===id);const profile=state.profiles.find(p=>p.id===state.activeProfileId);if(!mission||!profile)return;const diamonds=Number(amounts[id]||0);if(diamonds>=500&&!confirm(`Trao ${diamonds} kim cương? Giao dịch không thể hoàn tác.`))return;try{if(diamonds>0){if(!profile.childSlotId)throw new Error('Hồ sơ chưa có ví máy chủ.');await parentApi.approveReward(id,profile.childSlotId,diamonds);}useGameStore.getState().addNovaCoins(50);state.approveMissionLocal(id,diamonds);await onWalletRefresh();}catch(value){setError(value instanceof Error?value.message:'Không thể duyệt.');}};return <div className="space-y-3"><p className="text-xs text-slate-400">Nhiệm vụ chỉ xuất hiện từ bài học. Trẻ báo hoàn thành; phụ huynh duyệt và có thể nhập thưởng ngay lúc duyệt. Nhiệm vụ hiện tại thuộc mức Easy, thưởng cố định 50 Xu; MVP không hoàn tác.</p>{missions.length===0&&<div className="rounded-2xl bg-slate-900 p-5 text-center text-sm text-slate-400">Chưa có nhiệm vụ từ bài học.</div>}{missions.map(m=><div key={m.id} className="rounded-2xl border border-slate-800 bg-slate-900 p-4"><div className="font-bold">{m.title}</div><div className="mt-1 text-xs text-amber-300">Thưởng cố định: 50 Xu Nova</div><div className="mt-1 text-xs text-slate-400">{m.status==='suggested'?'Đang chờ trẻ thực hiện':m.status==='done_by_child'?'Trẻ đã báo hoàn thành':'Đã duyệt'}</div>{m.status==='suggested'&&<Button onClick={()=>state.markMissionDone(m.id)} className="mt-3 bg-indigo-600">Con đã làm xong</Button>}{m.status==='done_by_child'&&<div className="mt-3 flex gap-2"><Field inputMode="numeric" value={amounts[m.id]??''} onChange={e=>setAmounts({...amounts,[m.id]:e.target.value.replace(/\D/g,'')})} placeholder="Kim cương (0 = không thưởng)"/><Button onClick={()=>void approve(m.id)} className="bg-cyan-500 text-slate-950">Duyệt</Button></div>}{m.status==='approved'&&<div className="mt-2 text-xs text-emerald-300">Đã duyệt · {m.diamondsAwarded??0} 💎</div>}</div>)}{error&&<p className="text-xs text-rose-300">{error}</p>}</div>};
+
+const Limits=()=>{const state=useParentZoneStore();const value=state.limits[state.activeProfileId]??{dailyMinutes:30,curfewStart:'21:30',curfewEnd:'06:00'};const extend=async()=>{const pin=prompt('Nhập lại PIN 6 số để gia hạn:')??'';try{await parentApi.verifyPin(pin);alert(state.extendToday(state.activeProfileId)?'Đã thêm 15 phút hôm nay.':'Đã dùng đủ 2 lần gia hạn hôm nay.');}catch(e){alert(e instanceof Error?e.message:'Không thể gia hạn.');}};return <div className="space-y-4"><div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 space-y-4"><label className="block text-sm font-bold">Giới hạn mỗi ngày: {value.dailyMinutes} phút<input type="range" min="10" max="120" step="5" value={value.dailyMinutes} onChange={e=>state.setLimits(state.activeProfileId,{...value,dailyMinutes:Number(e.target.value)})} className="mt-2 w-full"/></label><div className="grid grid-cols-2 gap-3"><label className="text-xs">Giờ nghỉ từ<Field type="time" value={value.curfewStart} onChange={e=>state.setLimits(state.activeProfileId,{...value,curfewStart:e.target.value})}/></label><label className="text-xs">Đến<Field type="time" value={value.curfewEnd} onChange={e=>state.setLimits(state.activeProfileId,{...value,curfewEnd:e.target.value})}/></label></div></div><Button onClick={()=>void extend()} className="bg-indigo-600">Thêm 15 phút hôm nay</Button><p className="text-xs text-slate-400">Tối đa 2 lần/ngày. Khi hết giờ, ứng dụng cho trẻ hoàn thành địa điểm bài học hoặc lượt chơi đang diễn ra rồi mới khóa.</p></div>};
+
+const Store:React.FC<{vault:number;onNotice:(v:string)=>void;onRefresh:()=>Promise<void>}>=({vault,onNotice,onRefresh})=>{const [products,setProducts]=useState<LocalizedProduct[]>([]);const parentId=localStorage.getItem('novastars_parent_id')??'';useEffect(()=>{void purchaseProvider.getProducts().then(setProducts).catch(()=>setProducts([]))},[]);const labels:Record<ParentProductId,string>={'novastars.vip.monthly':'VIP tháng · 150 💎/kỳ','novastars.vip.annual':'VIP năm · 2.000 💎/kỳ','novastars.diamonds.100':'100 kim cương','novastars.diamonds.350':'350 kim cương','novastars.diamonds.1000':'1.000 kim cương','novastars.diamonds.2500':'2.500 kim cương'};const reauth=async()=>{const pin=prompt('Nhập lại PIN 6 số để tiếp tục mua hàng:')??'';if(!/^\d{6}$/.test(pin))throw new Error('PIN phải gồm đúng 6 số.');await parentApi.verifyPin(pin);};const buy=async(id:ParentProductId)=>{try{await reauth();await purchaseProvider.purchase(id,parentId);onNotice('Cửa hàng đang xác nhận giao dịch. Số dư chỉ cập nhật sau webhook.');setTimeout(()=>void onRefresh(),1500);}catch(e){onNotice(e instanceof Error?e.message:'Không thể mua hàng.');}};const restore=async()=>{try{await reauth();await purchaseProvider.restore(parentId);onNotice('Đã yêu cầu khôi phục giao dịch; consumable cũ không được cấp lại.');}catch(e){onNotice(e instanceof Error?e.message:'Không thể khôi phục.');}};return <div className="space-y-4"><div className="rounded-3xl bg-gradient-to-br from-cyan-950 to-slate-900 p-5"><WalletCards className="h-7 w-7 text-cyan-300"/><div className="mt-2 text-sm text-slate-400">Kho phụ huynh</div><div className="text-2xl font-black">💎 {vault.toLocaleString('vi-VN')}</div></div><div className="grid grid-cols-2 gap-3">{PRODUCT_IDS.map(id=>{const product=products.find(p=>p.id===id);return <button key={id} onClick={()=>void buy(id)} className={`rounded-2xl border p-4 text-left ${id==='novastars.vip.monthly'?'border-amber-400 bg-amber-950/30':'border-slate-800 bg-slate-900'}`}><div className="font-black">{labels[id]}</div><div className="mt-2 text-sm text-cyan-300">{product?.localizedPrice??'Giá theo cửa hàng'}</div></button>})}</div><Button onClick={()=>void restore()} className="bg-slate-800">Khôi phục giao dịch</Button><p className="text-xs text-slate-500">VIP tháng là gói chính. Giá và thanh toán do App Store/Google Play hiển thị; máy chủ chỉ ghi nhận webhook hợp lệ.</p></div>};
+
+const Account:React.FC<{onNotice:(v:string)=>void}>=({onNotice})=>{const fileRef=useRef<HTMLInputElement>(null);const [biometricEnabled,setBiometricEnabled]=useState(parentBiometric.isEnabled());const backup=async()=>{const password=prompt('Đặt mật khẩu cho tệp sao lưu (ít nhất 8 ký tự):')??'';try{const blob=await createEncryptedBackup(password);const url=URL.createObjectURL(blob);const anchor=document.createElement('a');anchor.href=url;anchor.download=`novastars-backup-${new Date().toISOString().slice(0,10)}.json`;anchor.click();URL.revokeObjectURL(url);}catch(e){onNotice(e instanceof Error?e.message:'Không thể sao lưu.');}};const restore=async(file?:File)=>{if(!file)return;const password=prompt('Nhập mật khẩu tệp sao lưu:')??'';try{await restoreEncryptedBackup(file,password);location.reload();}catch{onNotice('Không thể giải mã. Kiểm tra mật khẩu và tệp sao lưu.');}};const toggleBiometric=async()=>{if(biometricEnabled){parentBiometric.setEnabled(false);setBiometricEnabled(false);return;}const pin=prompt('Nhập PIN 6 số trước khi bật sinh trắc học:')??'';try{await parentApi.verifyPin(pin);if(!await parentBiometric.isAvailable())throw new Error('Thiết bị chưa có sinh trắc học khả dụng.');await parentBiometric.authenticate();parentBiometric.setEnabled(true);setBiometricEnabled(true);}catch(e){onNotice(e instanceof Error?e.message:'Không thể bật sinh trắc học.');}};const deleteAccount=async()=>{if(!confirm('Xóa tài khoản phụ huynh, đóng các ví và xóa toàn bộ dữ liệu trẻ trên thiết bị này? Dữ liệu giao dịch bắt buộc có thể vẫn được lưu theo quy định.'))return;try{await parentApi.deleteAccount();for(const key of Object.keys(localStorage)){if(key.startsWith('novastars_'))localStorage.removeItem(key);}location.reload();}catch(e){onNotice(e instanceof Error?e.message:'Không thể xóa tài khoản.');}};return <div className="space-y-3"><div className="rounded-3xl border border-slate-800 bg-slate-900 p-4"><h2 className="font-black">Dữ liệu & quyền riêng tư</h2><p className="mt-2 text-xs leading-relaxed text-slate-400">Tiến độ, câu trả lời, thời lượng, nhiệm vụ và ảnh của trẻ chỉ nằm local. Máy chủ chỉ giữ tài khoản phụ huynh, đồng ý chính sách và dữ liệu tài chính gắn với mã hồ sơ ẩn danh.</p></div><Button onClick={()=>void toggleBiometric()} className="w-full bg-slate-800">{biometricEnabled?'Tắt':'Bật'} Face ID / vân tay</Button><Button onClick={()=>void backup()} className="flex w-full items-center justify-center gap-2 bg-indigo-600"><Download className="h-4 w-4"/>Sao lưu mã hóa thủ công</Button><input ref={fileRef} hidden type="file" accept="application/json" onChange={e=>void restore(e.target.files?.[0])}/><Button onClick={()=>fileRef.current?.click()} className="flex w-full items-center justify-center gap-2 bg-slate-800"><Upload className="h-4 w-4"/>Khôi phục từ tệp</Button><Button onClick={()=>void parentApi.logout().then(()=>location.reload())} className="flex w-full items-center justify-center gap-2 bg-slate-800"><LogOut className="h-4 w-4"/>Đăng xuất phụ huynh</Button><Button onClick={()=>void deleteAccount()} className="w-full bg-rose-950 text-rose-300">Xóa tài khoản và dữ liệu local</Button></div>};

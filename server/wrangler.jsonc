@@ -1,0 +1,89 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "novastars-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-22",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "ENVIRONMENT": "development",
+    "API_VERSION": "v1",
+    "ALLOWED_ORIGINS": "http://localhost:3000,https://localhost,capacitor://localhost",
+    "EMAIL_FROM": "security@novastars.vn",
+    "EMAIL_DELIVERY_MODE": "console",
+    "PARENT_ZONE_ENABLED": "true",
+    "REAL_LIFE_REWARDS_ENABLED": "true",
+    "PARENT_IAP_ENABLED": "false"
+  },
+  "r2_buckets": [
+    {
+      "binding": "CONTENT_BUCKET",
+      "bucket_name": "novastars-content-preview",
+      "remote": true
+    }
+  ],
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "allowed_sender_addresses": ["security@novastars.vn"]
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "logs": { "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+  },
+  // Add a Hyperdrive binding after provisioning it in each Cloudflare account:
+  // "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "<environment-specific-id>" }],
+  "env": {
+    "staging": {
+      "name": "novastars-api-staging",
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "API_VERSION": "v1",
+        "ALLOWED_ORIGINS": "https://staging.novastars.vn,https://localhost,capacitor://localhost",
+        "EMAIL_FROM": "security@novastars.vn",
+        "EMAIL_DELIVERY_MODE": "binding",
+        "PARENT_ZONE_ENABLED": "true",
+        "REAL_LIFE_REWARDS_ENABLED": "true",
+        "PARENT_IAP_ENABLED": "false"
+      },
+      "r2_buckets": [
+        {
+          "binding": "CONTENT_BUCKET",
+          "bucket_name": "novastars-content-preview"
+        }
+      ],
+      "send_email": [
+        {
+          "name": "EMAIL",
+          "allowed_sender_addresses": ["security@novastars.vn"]
+        }
+      ]
+    },
+    "production": {
+      "name": "novastars-api-production",
+      "vars": {
+        "ENVIRONMENT": "production",
+        "API_VERSION": "v1",
+        "ALLOWED_ORIGINS": "https://app.novastars.vn,https://localhost,capacitor://localhost",
+        "EMAIL_FROM": "security@novastars.vn",
+        "EMAIL_DELIVERY_MODE": "binding",
+        "PARENT_ZONE_ENABLED": "true",
+        "REAL_LIFE_REWARDS_ENABLED": "true",
+        "PARENT_IAP_ENABLED": "false"
+      },
+      "r2_buckets": [
+        {
+          "binding": "CONTENT_BUCKET",
+          "bucket_name": "novastars-content-production"
+        }
+      ],
+      "send_email": [
+        {
+          "name": "EMAIL",
+          "allowed_sender_addresses": ["security@novastars.vn"]
+        }
+      ]
+    }
+  }
+}

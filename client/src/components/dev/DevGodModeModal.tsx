@@ -529,7 +529,7 @@ export const DevGodModeModal: React.FC<DevGodModeModalProps> = ({ onOpenShowroom
                   <ShieldCheck className="w-5 h-5 text-purple-400" />
                   <div className="text-left">
                     <div>Tự Động Duyệt Nhiệm Vụ Phụ Huynh</div>
-                    <div className="text-[10px] text-slate-400 font-normal">Bypass mã PIN phụ huynh 1234</div>
+                    <div className="text-[10px] text-slate-400 font-normal">Chỉ dùng trong môi trường phát triển</div>
                   </div>
                 </div>
                 <span>✅ Duyệt</span>

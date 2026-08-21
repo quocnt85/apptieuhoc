@@ -83,9 +83,6 @@ export interface GameSettings {
   sfxEnabled: boolean;
   hapticEnabled: boolean;
   bgmStyle: BgmStyle;
-  parentPin: string;
-  dailyTimeLimitMinutes: number;
-  todayPlayedMinutes: number;
 }
 
 export type ActiveTab = 'home' | 'planet' | 'hangar' | 'profile' | 'showroom' | 'minigame' | 'world' | 'explore' | 'practice' | 'parent' | 'settings';

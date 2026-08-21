@@ -3,12 +3,34 @@ import { UserProfile, GameSettings, DomainId, DomainProgress, QuestionItem, Acti
 import { soundService } from '../services/audio';
 import { DOMAINS_DATA, INITIAL_QUESTIONS } from '../data/mockQuestions';
 import { PLANETS_DATA } from '../data/planetsData';
+import { useParentZoneStore } from './useParentZoneStore';
 
 export interface MiniGameProgress {
   lastFreeRunDate: string | null;
   totalRuns: number;
   totalWins: number;
   bestScore: number;
+  highestStageUnlocked: number;
+  endlessBestScore: number;
+  asteroidsDestroyed: number;
+  powerupsCollected: number;
+  maxCombo: number;
+  achievements: string[];
+  leaderboard: Array<{ score: number; mode: 'stage' | 'endless'; stage: number; at: string }>;
+  daily: { date: string; asteroids: number; coins: number; wins: number; claimed: string[] };
+  adEnergy: { date: string; claims: number };
+  instantRefuelCards: number;
+}
+
+export interface MiniGameRunResult {
+  won: boolean;
+  score: number;
+  collectedCoins: number;
+  mode?: 'stage' | 'endless';
+  stage?: number;
+  asteroidsDestroyed?: number;
+  powerupsCollected?: number;
+  maxCombo?: number;
 }
 
 const getLocalDateKey = () => {
@@ -55,16 +77,21 @@ interface GameState {
   addXP: (amount: number) => { leveledUp: boolean; newLevel: number };
   addStars: (amount: number) => void;
   startMiniGameRun: () => { success: boolean; cost: number; usedFreeRun: boolean; reason?: string };
-  finishMiniGameRun: (result: { won: boolean; score: number; collectedCoins: number }) => { awardedCoins: number; isBest: boolean };
+  finishMiniGameRun: (result: MiniGameRunResult) => { awardedCoins: number; isBest: boolean; newAchievements: string[] };
+  claimMiniGameAdEnergy: () => { success: boolean; remaining: number; reason?: string };
+  useMiniGameRefuel: () => boolean;
+  claimMiniGameDailyReward: (missionId: 'asteroids' | 'coins' | 'wins') => boolean;
 
   // Customization & Shop
   equipShip: (shipId: string) => void;
   buyShip: (shipId: string, price: number, currency?: 'coins' | 'diamonds') => boolean;
+  grantPurchasedShip: (shipId: string) => void;
   equipColor: (colorHex: string) => void;
   buyColor: (colorHex: string, priceCoins: number) => boolean;
   toggleVietnamFlag: () => void;
   equipAvatar: (avatarEmoji: string) => void;
   buyBooster: (type: 'double_regen' | 'boss_pass' | 'instant_refuel', costDiamonds: number) => boolean;
+  applyPurchasedBooster: (type: 'double_regen' | 'boss_pass' | 'instant_refuel') => void;
 
   // 3D Navigation
   selectPlanet: (planetId: string) => void;
@@ -126,6 +153,11 @@ const normalizeAudioSettings = (raw: Record<string, any>) => {
   const currentSettings = { ...raw };
   delete currentSettings.soundEnabled;
   delete currentSettings.musicEnabled;
+  // Remove obsolete parental-control fields from legacy game-state storage.
+  // Parent Zone owns these values and never persists a PIN.
+  delete currentSettings.parentPin;
+  delete currentSettings.dailyTimeLimitMinutes;
+  delete currentSettings.todayPlayedMinutes;
   const normalized = {
     ...currentSettings,
     audioSettingsVersion: 2 as const,
@@ -140,7 +172,10 @@ const normalizeAudioSettings = (raw: Record<string, any>) => {
     || raw.bgmEnabled !== normalized.bgmEnabled
     || raw.bgmStyle !== normalized.bgmStyle
     || 'soundEnabled' in raw
-    || 'musicEnabled' in raw;
+    || 'musicEnabled' in raw
+    || 'parentPin' in raw
+    || 'dailyTimeLimitMinutes' in raw
+    || 'todayPlayedMinutes' in raw;
   return { normalized, changed };
 };
 
@@ -193,9 +228,6 @@ export const useGameStore = create<GameState>((set, get) => ({
     sfxEnabled: true,
     hapticEnabled: true,
     bgmStyle: 'ambient',
-    parentPin: '1234',
-    dailyTimeLimitMinutes: 30,
-    todayPlayedMinutes: 12,
   },
   activeTab: 'home',
   selectedDomain: null,
@@ -208,6 +240,16 @@ export const useGameStore = create<GameState>((set, get) => ({
     totalRuns: 0,
     totalWins: 0,
     bestScore: 0,
+    highestStageUnlocked: 1,
+    endlessBestScore: 0,
+    asteroidsDestroyed: 0,
+    powerupsCollected: 0,
+    maxCombo: 0,
+    achievements: [],
+    leaderboard: [],
+    daily: { date: getLocalDateKey(), asteroids: 0, coins: 0, wins: 0, claimed: [] },
+    adEnergy: { date: getLocalDateKey(), claims: 0 },
+    instantRefuelCards: 1,
   },
 
   // 3D Space Navigation State
@@ -323,7 +365,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   completeLessonNode: (nodeId: string, starsEarned = 3) => {
     const currentPlanet = PLANETS_DATA.find((p) => p.id === get().activePlanetId);
     const node = currentPlanet?.nodes.find((n) => n.id === nodeId);
-    const coinsBonus = node?.rewardCoins || 50;
+    const coinsBonus = useParentZoneStore.getState().awardCoins(node?.rewardCoins || 50, `lesson:${nodeId}`);
     const xpBonus = node?.rewardXp || 100;
 
     set((state) => {
@@ -342,12 +384,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       };
     });
     get().saveToLocalStorage();
+    useParentZoneStore.getState().recordActivity({ type: 'lesson', sourceId: nodeId, title: node?.title ?? 'Bài học', domainId: node?.domainId });
+    const mission = get().allQuestions.find((question) => question.domainId === node?.domainId && question.realLifeTask)?.realLifeTask;
+    if (mission) useParentZoneStore.getState().suggestMission(nodeId, mission);
   },
 
   addNovaCoins: (amount: number) => {
+    const allowed = useParentZoneStore.getState().awardCoins(amount, 'general_reward');
+    if (allowed <= 0) return;
     soundService.playCoin();
     set((state) => ({
-      user: { ...state.user, novaCoins: state.user.novaCoins + amount }
+      user: { ...state.user, novaCoins: state.user.novaCoins + allowed }
     }));
     get().saveToLocalStorage();
   },
@@ -379,10 +426,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     const opt = question.options.find((o) => o.id === optionId);
     const isCorrect = Boolean(opt?.isCorrect);
     const xpEarned = isCorrect ? 50 : 10;
-    const gemsEarned = isCorrect ? 5 : 1;
+    const gemsEarned = 0;
 
     get().addXP(xpEarned);
-    get().addDiamonds(gemsEarned);
+    useParentZoneStore.getState().recordActivity({ type: 'quiz', sourceId: question.id, title: question.title, domainId: question.domainId, score: isCorrect ? 100 : 0 });
+    if (question.realLifeTask) useParentZoneStore.getState().suggestMission(question.id, question.realLifeTask);
     return { isCorrect, xpEarned, gemsEarned };
   },
 
@@ -449,11 +497,42 @@ export const useGameStore = create<GameState>((set, get) => ({
     return { success: true, cost: hasFreeRun || isUnlimitedMode ? 0 : 10, usedFreeRun: hasFreeRun };
   },
 
-  finishMiniGameRun: ({ won, score, collectedCoins }) => {
+  finishMiniGameRun: ({
+    won,
+    score,
+    collectedCoins,
+    mode = 'stage',
+    stage = 1,
+    asteroidsDestroyed = 0,
+    powerupsCollected = 0,
+    maxCombo = 0,
+  }) => {
     const cappedCoins = Math.min(32, Math.max(0, Math.floor(collectedCoins)));
-    const awardedCoins = won ? Math.min(45, Math.max(30, cappedCoins + 12)) : Math.min(15, Math.floor(cappedCoins * 0.5));
+    const requestedCoins = won ? Math.min(45, Math.max(30, cappedCoins + 12)) : cappedCoins;
+    const awardedCoins = useParentZoneStore.getState().awardCoins(requestedCoins, 'minigame');
     const previousBest = get().miniGameProgress.bestScore;
     const isBest = score > previousBest;
+    const today = getLocalDateKey();
+    const previous = get().miniGameProgress;
+    const daily = previous.daily.date === today
+      ? previous.daily
+      : { date: today, asteroids: 0, coins: 0, wins: 0, claimed: [] as string[] };
+    const totals = {
+      asteroids: previous.asteroidsDestroyed + asteroidsDestroyed,
+      powerups: previous.powerupsCollected + powerupsCollected,
+      combo: Math.max(previous.maxCombo, maxCombo),
+    };
+    const achievementChecks: Array<[string, boolean]> = [
+      ['first_clear', previous.totalWins + (won ? 1 : 0) >= 1],
+      ['asteroid_100', totals.asteroids >= 100],
+      ['powerup_25', totals.powerups >= 25],
+      ['combo_10', totals.combo >= 10],
+      ['stage_5', mode === 'stage' && won && stage >= 5],
+      ['endless_5000', mode === 'endless' && score >= 5000],
+    ];
+    const newAchievements = achievementChecks
+      .filter(([id, unlocked]) => unlocked && !previous.achievements.includes(id))
+      .map(([id]) => id);
 
     set((state) => ({
       user: { ...state.user, novaCoins: state.user.novaCoins + awardedCoins },
@@ -461,10 +540,79 @@ export const useGameStore = create<GameState>((set, get) => ({
         ...state.miniGameProgress,
         totalWins: state.miniGameProgress.totalWins + (won ? 1 : 0),
         bestScore: Math.max(state.miniGameProgress.bestScore, Math.floor(score)),
+        highestStageUnlocked: mode === 'stage' && won
+          ? Math.max(state.miniGameProgress.highestStageUnlocked, stage + 1)
+          : state.miniGameProgress.highestStageUnlocked,
+        endlessBestScore: mode === 'endless'
+          ? Math.max(state.miniGameProgress.endlessBestScore, Math.floor(score))
+          : state.miniGameProgress.endlessBestScore,
+        asteroidsDestroyed: totals.asteroids,
+        powerupsCollected: totals.powerups,
+        maxCombo: totals.combo,
+        achievements: [...state.miniGameProgress.achievements, ...newAchievements],
+        leaderboard: [
+          ...state.miniGameProgress.leaderboard,
+          { score: Math.floor(score), mode, stage, at: new Date().toISOString() },
+        ].sort((a, b) => b.score - a.score).slice(0, 10),
+        daily: {
+          ...daily,
+          asteroids: daily.asteroids + asteroidsDestroyed,
+          coins: daily.coins + awardedCoins,
+          wins: daily.wins + (won ? 1 : 0),
+        },
       },
     }));
     get().saveToLocalStorage();
-    return { awardedCoins, isBest };
+    useParentZoneStore.getState().recordActivity({ type: 'minigame', title: 'Vượt Dải Thiên Thạch', score: Math.floor(score) });
+    return { awardedCoins, isBest, newAchievements };
+  },
+
+  claimMiniGameAdEnergy: () => {
+    const today = getLocalDateKey();
+    const { miniGameProgress, user, isUnlimitedMode } = get();
+    const current = miniGameProgress.adEnergy.date === today ? miniGameProgress.adEnergy : { date: today, claims: 0 };
+    if (!isUnlimitedMode && current.claims >= 3) return { success: false, remaining: 0, reason: 'Đã dùng đủ 3 lượt tiếp tế hôm nay.' };
+    set((state) => ({
+      user: { ...state.user, energy: Math.min(state.user.maxEnergy, user.energy + 10), lastEnergyTimestamp: Date.now() },
+      miniGameProgress: {
+        ...state.miniGameProgress,
+        adEnergy: { date: today, claims: isUnlimitedMode ? current.claims : current.claims + 1 },
+      },
+    }));
+    get().saveToLocalStorage();
+    return { success: true, remaining: isUnlimitedMode ? 3 : Math.max(0, 2 - current.claims) };
+  },
+
+  useMiniGameRefuel: () => {
+    const { miniGameProgress, user, isUnlimitedMode } = get();
+    if (!isUnlimitedMode && miniGameProgress.instantRefuelCards <= 0) return false;
+    set((state) => ({
+      user: { ...state.user, energy: user.maxEnergy, lastEnergyTimestamp: Date.now() },
+      miniGameProgress: {
+        ...state.miniGameProgress,
+        instantRefuelCards: isUnlimitedMode ? state.miniGameProgress.instantRefuelCards : state.miniGameProgress.instantRefuelCards - 1,
+      },
+    }));
+    get().saveToLocalStorage();
+    return true;
+  },
+
+  claimMiniGameDailyReward: (missionId) => {
+    const today = getLocalDateKey();
+    const { miniGameProgress } = get();
+    const daily = miniGameProgress.daily.date === today
+      ? miniGameProgress.daily
+      : { date: today, asteroids: 0, coins: 0, wins: 0, claimed: [] };
+    const completed = missionId === 'asteroids' ? daily.asteroids >= 20 : missionId === 'coins' ? daily.coins >= 30 : daily.wins >= 1;
+    if (!completed || daily.claimed.includes(missionId)) return false;
+    const coinReward = missionId === 'asteroids' ? 20 : missionId === 'coins' ? 15 : 25;
+    const allowedReward = useParentZoneStore.getState().awardCoins(coinReward, `minigame_daily:${missionId}`);
+    set((state) => ({
+      user: { ...state.user, novaCoins: state.user.novaCoins + allowedReward },
+      miniGameProgress: { ...state.miniGameProgress, daily: { ...daily, claimed: [...daily.claimed, missionId] } },
+    }));
+    get().saveToLocalStorage();
+    return true;
   },
 
   // Customization & Shop
@@ -481,6 +629,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   buyShip: (shipId: string, price: number, currency = 'coins') => {
     const { user, isUnlimitedMode } = get();
+    if (currency === 'diamonds' && !isUnlimitedMode) return false;
     const balance = currency === 'diamonds' ? user.diamonds : user.novaCoins;
     if (!isUnlimitedMode && balance < price) return false;
 
@@ -500,6 +649,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     }));
     get().saveToLocalStorage();
     return true;
+  },
+
+  grantPurchasedShip: (shipId: string) => {
+    set((state) => ({ user: { ...state.user, customization: { ...state.user.customization, unlockedShips: state.user.customization.unlockedShips.includes(shipId) ? state.user.customization.unlockedShips : [...state.user.customization.unlockedShips, shipId], equippedShip: shipId } } }));
+    get().saveToLocalStorage();
   },
 
   equipColor: (colorHex: string) => {
@@ -557,6 +711,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   buyBooster: (type: 'double_regen' | 'boss_pass' | 'instant_refuel', costDiamonds: number) => {
     const { user, isUnlimitedMode } = get();
+    if (!isUnlimitedMode) return false;
     if (!isUnlimitedMode && user.diamonds < costDiamonds) return false;
 
     soundService.playVictory();
@@ -574,8 +729,13 @@ export const useGameStore = create<GameState>((set, get) => ({
       } else if (type === 'boss_pass') {
         updatedUser.freeBossPassCount += 1;
       } else if (type === 'instant_refuel') {
-        updatedUser.energy = updatedUser.maxEnergy;
-        updatedUser.lastEnergyTimestamp = now;
+        return {
+          user: updatedUser,
+          miniGameProgress: {
+            ...state.miniGameProgress,
+            instantRefuelCards: state.miniGameProgress.instantRefuelCards + 1,
+          },
+        };
       }
 
       return { user: updatedUser };
@@ -583,6 +743,20 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     get().saveToLocalStorage();
     return true;
+  },
+
+  applyPurchasedBooster: (type) => {
+    const now = Date.now();
+    set((state) => {
+      const updatedUser = { ...state.user };
+      if (type === 'double_regen') {
+        const currentEnd = updatedUser.doubleRegenUntil && updatedUser.doubleRegenUntil > now ? updatedUser.doubleRegenUntil : now;
+        updatedUser.doubleRegenUntil = currentEnd + 30 * 60 * 1000;
+      } else if (type === 'boss_pass') updatedUser.freeBossPassCount += 1;
+      else { updatedUser.energy = updatedUser.maxEnergy; updatedUser.lastEnergyTimestamp = now; }
+      return { user: updatedUser };
+    });
+    get().saveToLocalStorage();
   },
 
   // 3D Navigation
@@ -870,6 +1044,16 @@ export const useGameStore = create<GameState>((set, get) => ({
         totalRuns: 0,
         totalWins: 0,
         bestScore: 0,
+        highestStageUnlocked: 1,
+        endlessBestScore: 0,
+        asteroidsDestroyed: 0,
+        powerupsCollected: 0,
+        maxCombo: 0,
+        achievements: [],
+        leaderboard: [],
+        daily: { date: getLocalDateKey(), asteroids: 0, coins: 0, wins: 0, claimed: [] },
+        adEnergy: { date: getLocalDateKey(), claims: 0 },
+        instantRefuelCards: 1,
       },
     });
   },

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useGameStore } from '../../stores/useGameStore';
-import { Flame, Rocket, ChevronRight, Play, Check, X } from 'lucide-react';
+import { Flame, Rocket, ChevronRight, Play, Check } from 'lucide-react';
 import { soundService } from '../../services/audio';
 import { interactionService } from '../../services/interaction';
 
@@ -9,182 +9,15 @@ interface Props {
   onNavigateToMiniGame?: () => void;
 }
 
-// Modal for Parent Authentication & Greeting Quest Verification
-const ParentGreetingConfirmModal: React.FC<{
-  onClose: () => void;
-  onConfirmSuccess: () => void;
-}> = ({ onClose, onConfirmSuccess }) => {
-  const { settings } = useGameStore();
-  const [pinInput, setPinInput] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-  const [isPinVerified, setIsPinVerified] = useState(false);
-  const [isAgreed, setIsAgreed] = useState(true);
-
-  const parentPin = settings.parentPin || '1234';
-
-  const handleDigit = (digit: string) => {
-    soundService.playClick();
-    if (pinInput.length < 4) {
-      const next = pinInput + digit;
-      setPinInput(next);
-      setErrorMsg('');
-      if (next.length === 4) {
-        if (next === parentPin) {
-          setIsPinVerified(true);
-          soundService.playVictory();
-        } else {
-          setErrorMsg('Mã PIN chưa chính xác. Vui lòng nhập lại!');
-          setTimeout(() => setPinInput(''), 600);
-        }
-      }
-    }
-  };
-
-  const handleBackspace = () => {
-    soundService.playClick();
-    setPinInput((prev) => prev.slice(0, -1));
-    setErrorMsg('');
-  };
-
-  const handleComplete = () => {
-    if (!isAgreed) return;
-    onConfirmSuccess();
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 select-none animate-fadeIn">
-      <div className="bg-gradient-to-b from-[#0f172a] via-[#1e1b4b] to-[#0f172a] border-2 border-amber-400/80 rounded-[32px] p-5 sm:p-6 max-w-sm sm:max-w-md w-full text-white shadow-[0_0_50px_rgba(251,191,36,0.3)] relative">
-        {/* Close Button */}
-        <button
-          onClick={() => { soundService.playClick(); onClose(); }}
-          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 border border-white/20 flex items-center justify-center text-slate-300 hover:text-white active:scale-95 transition-all"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        {!isPinVerified ? (
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-3xl mb-3 shadow-lg">
-              👨‍👩‍👧
-            </div>
-
-            <h3 className="font-black text-lg sm:text-xl text-yellow-300">
-              Phụ Huynh Duyệt
-            </h3>
-            <p className="text-xs text-sky-200 font-bold mt-1 max-w-xs">
-              Nhập mã PIN để xác nhận bé đã chào hỏi lễ phép hôm nay.
-            </p>
-
-            {/* PIN Code Dots Indicator */}
-            <div className="flex gap-3 my-4">
-              {[0, 1, 2, 3].map((idx) => (
-                <div
-                  key={idx}
-                  className={`w-11 h-12 rounded-2xl border-2 flex items-center justify-center text-xl font-black transition-all ${
-                    pinInput.length > idx
-                      ? 'bg-amber-500 border-yellow-200 text-slate-950 shadow-md'
-                      : 'bg-slate-900 border-slate-700 text-slate-500'
-                  }`}
-                >
-                  {pinInput.length > idx ? '●' : '○'}
-                </div>
-              ))}
-            </div>
-
-            {errorMsg ? (
-              <p className="text-xs font-bold text-rose-400 mb-3 animate-shake">{errorMsg}</p>
-            ) : (
-              <p className="text-[11px] font-bold text-slate-400 mb-3">
-                Mã PIN mặc định: <b className="text-yellow-400 font-mono">1234</b>
-              </p>
-            )}
-
-            {/* Numeric Keypad */}
-            <div className="grid grid-cols-3 gap-2 w-full max-w-[260px]">
-              {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((num) => (
-                <button
-                  key={num}
-                  onClick={() => handleDigit(num)}
-                  className="h-12 rounded-2xl bg-slate-800/90 border border-slate-700 text-lg font-black text-white hover:bg-slate-700 active:scale-95 transition-all shadow"
-                >
-                  {num}
-                </button>
-              ))}
-              <button
-                onClick={() => setPinInput('')}
-                className="h-12 rounded-2xl bg-slate-900 border border-slate-700 text-xs font-black text-slate-400 hover:text-white active:scale-95"
-              >
-                Xóa
-              </button>
-              <button
-                onClick={() => handleDigit('0')}
-                className="h-12 rounded-2xl bg-slate-800/90 border border-slate-700 text-lg font-black text-white hover:bg-slate-700 active:scale-95"
-              >
-                0
-              </button>
-              <button
-                onClick={handleBackspace}
-                className="h-12 rounded-2xl bg-slate-900 border border-slate-700 text-xs font-black text-slate-400 hover:text-white active:scale-95"
-              >
-                ⌫
-              </button>
-            </div>
-          </div>
-        ) : (
-          /* Confirmation Check View */
-          <div className="flex flex-col items-center text-center animate-scaleUp">
-            <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-3xl mb-3 shadow-lg">
-              🎉
-            </div>
-
-            <h3 className="font-black text-lg sm:text-xl text-yellow-300">
-              PIN Hợp Lệ!
-            </h3>
-            <p className="text-xs text-sky-200 font-bold mt-1">
-              Phụ huynh xác nhận hành vi thực tế của bé:
-            </p>
-
-            <div
-              onClick={() => setIsAgreed(!isAgreed)}
-              className="my-4 p-4 rounded-2xl bg-slate-900/90 border-2 border-amber-400/60 flex items-center gap-3.5 text-left cursor-pointer shadow-lg w-full"
-            >
-              <div
-                className={`w-7 h-7 rounded-xl flex items-center justify-center text-white border transition-all ${
-                  isAgreed ? 'bg-emerald-500 border-white' : 'bg-slate-800 border-slate-600'
-                }`}
-              >
-                {isAgreed && <Check className="w-4 h-4 stroke-[3]" />}
-              </div>
-              <p className="text-xs sm:text-sm font-bold text-slate-200 leading-snug">
-                Bé đã chủ động chào hỏi lễ phép, mỉm cười và tự tin hôm nay.
-              </p>
-            </div>
-
-            <button
-              onClick={handleComplete}
-              disabled={!isAgreed}
-              className="w-full py-3.5 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-950 border-2 border-white shadow-xl active:scale-95 transition-all"
-            >
-              Duyệt & Nhận Thưởng (+30 Xu) ⭐
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
 export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGame }) => {
-  const { user, completedNodes, isGreetingQuestDone, setGreetingQuestDone, addNovaCoins, toggleGodMode } = useGameStore();
-
-  const [showParentModal, setShowParentModal] = useState(false);
-  const [rewardMsg, setRewardMsg] = useState<string | null>(null);
+  const { user, completedNodes } = useGameStore();
 
   // 5-click Easter Egg state
   const heroClickCountRef = React.useRef<number>(0);
   const heroLastClickRef = React.useRef<number>(0);
 
   const handleHeroAvatarClick = () => {
+    if (!import.meta.env.DEV) return;
     const now = Date.now();
     if (now - heroLastClickRef.current > 4000) {
       heroClickCountRef.current = 1;
@@ -197,7 +30,7 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
 
     if (heroClickCountRef.current >= 5) {
       heroClickCountRef.current = 0;
-      toggleGodMode();
+      useGameStore.getState().toggleGodMode();
     }
   };
 
@@ -209,21 +42,6 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
   const handleAction = (cb?: () => void) => {
     interactionService.playTap();
     if (cb) cb();
-  };
-
-  const handleGreetingQuestClick = () => {
-    if (isGreetingQuestDone) return;
-    soundService.playClick();
-    setShowParentModal(true);
-  };
-
-  const handleParentConfirmSuccess = () => {
-    setShowParentModal(false);
-    setGreetingQuestDone(true);
-    addNovaCoins(30);
-    soundService.playVictory();
-    setRewardMsg('🎉 Phụ huynh đã duyệt! Bé nhận được +30 Xu Nova 🟡!');
-    setTimeout(() => setRewardMsg(null), 4000);
   };
 
   const completedLessonsCount = Object.keys(completedNodes || {}).length;
@@ -239,16 +57,6 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
       done: completedLessonsCount >= 1,
       requiresParent: false,
       onClick: () => handleAction(onNavigateToMap)
-    },
-    {
-      id: 'q2',
-      title: 'Thực hành chào hỏi lễ phép ngoài đời thực',
-      progress: isGreetingQuestDone ? 1 : 0,
-      max: 1,
-      rewardCoins: 30,
-      done: isGreetingQuestDone,
-      requiresParent: true,
-      onClick: handleGreetingQuestClick
     },
     {
       id: 'q3',
@@ -274,10 +82,10 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
           {/* Avatar and Astronaut Info */}
           <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
             <div 
-              onClick={handleHeroAvatarClick}
+              onClick={import.meta.env.DEV ? handleHeroAvatarClick : undefined}
               data-testid="hero-avatar-btn"
               className="relative cursor-pointer active:scale-95 transition-transform shrink-0"
-              title="Nhấp 5 lần để bật/tắt Dev God Mode"
+              title={import.meta.env.DEV ? 'Nhấp 5 lần để bật/tắt chế độ phát triển' : undefined}
             >
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-2 border-sky-400 flex items-center justify-center text-3xl sm:text-4xl shadow-inner shrink-0">
                 {currentAvatar}
@@ -318,13 +126,6 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
           </div>
         </div>
       </div>
-
-      {/* Reward Message Alert */}
-      {rewardMsg && (
-        <div className="p-3.5 rounded-2xl bg-emerald-900/90 border-2 border-emerald-400 text-emerald-100 text-xs font-black text-center shadow-lg animate-scaleUp">
-          {rewardMsg}
-        </div>
-      )}
 
       {/* Space Challenge Banner */}
       <div 
@@ -409,13 +210,6 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
         </div>
       </div>
 
-      {/* Parent Greeting Verification Modal */}
-      {showParentModal && (
-        <ParentGreetingConfirmModal
-          onClose={() => setShowParentModal(false)}
-          onConfirmSuccess={handleParentConfirmSuccess}
-        />
-      )}
     </div>
   );
 };

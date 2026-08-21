@@ -6,6 +6,8 @@ import { SHIPS_DATA, SpaceshipModelData } from '../../data/shipsData';
 import { AerodynamicShipRenderer } from '../3d/ships/AerodynamicShips';
 import { Rocket, Palette, Zap, Check, Lock, RotateCw, X, Sparkles, Shield, Flame, Flag } from 'lucide-react';
 import { soundService } from '../../services/audio';
+import { parentApi } from '../../services/parentApi';
+import { useParentZoneStore } from '../../stores/useParentZoneStore';
 import * as THREE from 'three';
 
 // Helper function to resolve default native theme color per spaceship
@@ -332,20 +334,31 @@ export const SpaceHangarView: React.FC = () => {
     user,
     buyShip,
     equipShip,
-    buyBooster,
+    grantPurchasedShip,
+    applyPurchasedBooster,
+    setDiamonds,
     addNovaCoins,
-    addDiamonds,
   } = useGameStore();
 
   const [activeSubTab, setActiveSubTab] = useState<'ships' | 'boosters'>('ships');
   const [adRewardMsg, setAdRewardMsg] = useState<string | null>(null);
   const [selectedShipDetail, setSelectedShipDetail] = useState<SpaceshipModelData | null>(null);
+  const activeProfile = useParentZoneStore((state) => state.profiles.find((profile) => profile.id === state.activeProfileId));
+
+  const purchaseDiamondItem = async (sku: string, apply: () => void) => {
+    if (!activeProfile?.childSlotId) { alert('Phụ huynh cần tạo ví cho hồ sơ trong Góc phụ huynh.'); return; }
+    try {
+      await parentApi.purchaseItem(crypto.randomUUID(), activeProfile.childSlotId, sku);
+      const wallets = await parentApi.wallets();
+      setDiamonds(wallets.children.find((wallet) => wallet.childSlotId === activeProfile.childSlotId)?.balance ?? 0);
+      apply();
+    } catch (error) { alert(error instanceof Error ? error.message : 'Không thể mua vật phẩm.'); }
+  };
 
   const handleWatchAdReward = () => {
     soundService.playVictory();
     addNovaCoins(100);
-    addDiamonds(10);
-    setAdRewardMsg('🎉 Bạn đã nhận được +100 Xu Nova 🟡 & +10 Kim Cương 💎!');
+    setAdRewardMsg('🎉 Bạn đã nhận được Xu Nova trong giới hạn thưởng hôm nay!');
     setTimeout(() => setAdRewardMsg(null), 4000);
   };
 
@@ -359,12 +372,14 @@ export const SpaceHangarView: React.FC = () => {
     setSelectedShipDetail(null);
   };
 
-  const handleBuyShipInModal = (s: SpaceshipModelData) => {
+  const handleBuyShipInModal = async (s: SpaceshipModelData) => {
+    if (s.purchaseCurrency === 'diamonds') {
+      await purchaseDiamondItem(s.id, () => { grantPurchasedShip(s.id); setSelectedShipDetail(null); });
+      return;
+    }
     const ok = buyShip(s.id, s.price, s.purchaseCurrency);
     if (!ok) {
-      alert(s.purchaseCurrency === 'diamonds'
-        ? 'Bạn không đủ Kim Cương 💎 để mở khóa phi thuyền này!'
-        : 'Bạn không đủ Xu Nova 🟡! Hãy hoàn thành thêm bài học nhé.');
+      alert('Bạn không đủ Xu Nova 🟡! Hãy hoàn thành thêm bài học nhé.');
     } else {
       equipShip(s.id);
       setSelectedShipDetail(null);
@@ -543,10 +558,7 @@ export const SpaceHangarView: React.FC = () => {
               </div>
 
               <button
-                onClick={() => {
-                  const ok = buyBooster('double_regen', 15);
-                  if (!ok) alert('Bạn không đủ Kim Cương 💎!');
-                }}
+                onClick={() => void purchaseDiamondItem('double_regen', () => applyPurchasedBooster('double_regen'))}
                 className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-black text-xs px-4 py-2.5 rounded-2xl border border-purple-300 shadow-md active:scale-95 transition-all shrink-0"
               >
                 💎 15
@@ -566,10 +578,7 @@ export const SpaceHangarView: React.FC = () => {
               </div>
 
               <button
-                onClick={() => {
-                  const ok = buyBooster('boss_pass', 20);
-                  if (!ok) alert('Bạn không đủ Kim Cương 💎!');
-                }}
+                onClick={() => void purchaseDiamondItem('boss_pass', () => applyPurchasedBooster('boss_pass'))}
                 className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-amber-950 font-black text-xs px-4 py-2.5 rounded-2xl border border-yellow-200 shadow-md active:scale-95 transition-all shrink-0"
               >
                 💎 20
@@ -583,16 +592,13 @@ export const SpaceHangarView: React.FC = () => {
                   🔋
                 </div>
                 <div>
-                  <h4 className="font-black text-xs sm:text-sm text-emerald-300">Hồi Phục Đầy Bình 50 ⚡</h4>
-                  <p className="text-[11px] text-slate-300 font-medium mt-0.5">Đầy ngay 50 năng lượng tức thì</p>
+                  <h4 className="font-black text-xs sm:text-sm text-emerald-300">Thẻ Nạp Đầy 50 ⚡</h4>
+                  <p className="text-[11px] text-slate-300 font-medium mt-0.5">Lưu vào kho để dùng khi hết năng lượng</p>
                 </div>
               </div>
 
               <button
-                onClick={() => {
-                  const ok = buyBooster('instant_refuel', 25);
-                  if (!ok) alert('Bạn không đủ Kim Cương 💎!');
-                }}
+                onClick={() => void purchaseDiamondItem('instant_refuel', () => applyPurchasedBooster('instant_refuel'))}
                 className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-xs px-4 py-2.5 rounded-2xl border border-emerald-300 shadow-md active:scale-95 transition-all shrink-0"
               >
                 💎 25

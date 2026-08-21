@@ -16,7 +16,7 @@ interface Star {
 export const CanvasMiniGame: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const sliderBarRef = useRef<HTMLDivElement | null>(null);
-  const { addXP, addGems } = useGameStore();
+  const { addXP } = useGameStore();
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [score, setScore] = useState(0);
@@ -61,9 +61,7 @@ export const CanvasMiniGame: React.FC = () => {
   useEffect(() => {
     if (gameOver && score > 0) {
       const earnedXp = Math.round(score * 2);
-      const earnedGems = Math.max(1, Math.round(score / 10));
       addXP(earnedXp);
-      addGems(earnedGems);
     }
   }, [gameOver]);
 
@@ -338,7 +336,6 @@ export const CanvasMiniGame: React.FC = () => {
 
               <div className="flex items-center gap-3 bg-slate-900 border-2 border-slate-700 px-4 py-2 rounded-2xl">
                 <span className="text-xs font-black text-amber-300">+{Math.round(score * 2)} XP ⚡</span>
-                <span className="text-xs font-black text-cyan-300">+{Math.max(1, Math.round(score / 10))} 💎</span>
               </div>
 
               <button
