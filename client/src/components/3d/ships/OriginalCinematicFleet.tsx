@@ -17,6 +17,7 @@ import {
 interface ShipProps {
   shipColor?: string;
   showStreamlines?: boolean;
+  thrustPower?: number;
 }
 
 const DarkPanel: React.FC<{
@@ -41,7 +42,7 @@ const Fin: React.FC<{ side: -1 | 1; position: [number, number, number]; color: s
 );
 
 // 1. Forward-swept high-speed interceptor.
-export const NovaApexHunter: React.FC<ShipProps> = ({ shipColor = '#38bdf8', showStreamlines = false }) => {
+export const NovaApexHunter: React.FC<ShipProps> = ({ shipColor = '#38bdf8', showStreamlines = false, thrustPower = 1.0 }) => {
   const turbineRef = useRef<THREE.Group>(null);
   useFrame((_, delta) => {
     if (turbineRef.current) turbineRef.current.rotation.z -= delta * 7;
@@ -64,8 +65,8 @@ export const NovaApexHunter: React.FC<ShipProps> = ({ shipColor = '#38bdf8', sho
       <EnergyStrip position={[0, 0.294, 0.18]} scale={[0.7, 0.6, 1.55]} />
       <AeroPanel points={[[0, -0.74], [0.2, -0.48], [0.18, 0.52], [0, 0.72]]} thickness={0.035} position={[0.24, 0.12, -0.02]} color={shipColor} />
       <AeroPanel points={[[0, -0.74], [-0.2, -0.48], [-0.18, 0.52], [0, 0.72]]} thickness={0.035} position={[-0.24, 0.12, -0.02]} color={shipColor} />
-      <EnginePod position={[-0.58, -0.04, 0.52]} scale={0.9} accent={shipColor} />
-      <EnginePod position={[0.58, -0.04, 0.52]} scale={0.9} accent={shipColor} />
+      <EnginePod position={[-0.58, -0.04, 0.52]} scale={0.9} accent={shipColor} thrustPower={thrustPower} />
+      <EnginePod position={[0.58, -0.04, 0.52]} scale={0.9} accent={shipColor} thrustPower={thrustPower} />
       <group ref={turbineRef}>
         {[-0.58, 0.58].map((x) => <group key={x} position={[x, -0.04, 0.17]}>
           {Array.from({ length: 8 }).map((_, index) => <mesh key={index} rotation={[0, 0, index * Math.PI / 4]} position={[0.1, 0, 0]}>
@@ -82,7 +83,7 @@ export const NovaApexHunter: React.FC<ShipProps> = ({ shipColor = '#38bdf8', sho
 };
 
 // 2. Crescent deep-space explorer with a quantum core.
-export const ChronoVoyager: React.FC<ShipProps> = ({ shipColor = '#7c3aed', showStreamlines = false }) => {
+export const ChronoVoyager: React.FC<ShipProps> = ({ shipColor = '#7c3aed', showStreamlines = false, thrustPower = 1.0 }) => {
   const radarRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
   useFrame(({ clock }, delta) => {
@@ -108,7 +109,7 @@ export const ChronoVoyager: React.FC<ShipProps> = ({ shipColor = '#7c3aed', show
         <mesh position={[0, 0.13, 0]} rotation={[0.35, 0, 0]}><cylinderGeometry args={[0.28, 0.055, 0.07, 28]} /><meshPhysicalMaterial color={NOVA_PALETTE.white} metalness={0.9} roughness={0.15} /></mesh>
         <mesh position={[0, 0.18, 0.04]}><sphereGeometry args={[0.04, 12, 12]} /><meshBasicMaterial color="#4ff6ff" toneMapped={false} /></mesh>
       </group>
-      {[-0.78, -0.28, 0.28, 0.78].map((x) => <EnginePod key={x} position={[x, -0.06, 0.63]} scale={0.62} accent="#a855f7" />)}
+      {[-0.78, -0.28, 0.28, 0.78].map((x) => <EnginePod key={x} position={[x, -0.06, 0.63]} scale={0.62} accent="#a855f7" thrustPower={thrustPower} />)}
       <NavigationLights width={1.49} z={0.2} />
       <Streamlines visible={showStreamlines} width={1.3} length={4} color="#bd7cff" />
     </group>
@@ -116,7 +117,7 @@ export const ChronoVoyager: React.FC<ShipProps> = ({ shipColor = '#7c3aed', show
 };
 
 // 3. Heavy orbital carrier with twin drone runways.
-export const OrionSkyCarrier: React.FC<ShipProps> = ({ shipColor = '#2563eb', showStreamlines = false }) => {
+export const OrionSkyCarrier: React.FC<ShipProps> = ({ shipColor = '#2563eb', showStreamlines = false, thrustPower = 1.0 }) => {
   const beaconRef = useRef<THREE.Mesh>(null);
   useFrame(({ clock }) => {
     if (beaconRef.current) (beaconRef.current.material as THREE.MeshBasicMaterial).opacity = 0.5 + Math.sin(clock.elapsedTime * 5) * 0.35;
@@ -137,7 +138,7 @@ export const OrionSkyCarrier: React.FC<ShipProps> = ({ shipColor = '#2563eb', sh
       <mesh position={[0, 0.88, 0.12]}><cylinderGeometry args={[0.018, 0.028, 0.46, 8]} /><meshStandardMaterial color="#f7c84d" metalness={0.95} /></mesh>
       <mesh ref={beaconRef} position={[0, 1.12, 0.12]}><sphereGeometry args={[0.055, 12, 12]} /><meshBasicMaterial color="#ff405f" transparent toneMapped={false} /></mesh>
       <GreebleRail position={[-0.43, 0.25, 0.18]} count={10} spacing={0.16} /><GreebleRail position={[0.43, 0.25, 0.18]} count={10} spacing={0.16} />
-      {[-0.9, -0.3, 0.3, 0.9].map((x) => <EnginePod key={x} position={[x, -0.12, 1.04]} scale={0.82} accent={shipColor} />)}
+      {[-0.9, -0.3, 0.3, 0.9].map((x) => <EnginePod key={x} position={[x, -0.12, 1.04]} scale={0.82} accent={shipColor} thrustPower={thrustPower} />)}
       <NavigationLights width={1.43} z={0.78} />
       <Streamlines visible={showStreamlines} width={1.5} length={4.6} />
     </group>
@@ -145,7 +146,7 @@ export const OrionSkyCarrier: React.FC<ShipProps> = ({ shipColor = '#2563eb', sh
 };
 
 // 4. Seamless double-delta lifting-body shuttle.
-export const AeroShuttleX9: React.FC<ShipProps> = ({ shipColor = '#f1f5f9', showStreamlines = false }) => {
+export const AeroShuttleX9: React.FC<ShipProps> = ({ shipColor = '#f1f5f9', showStreamlines = false, thrustPower = 1.0 }) => {
   const delta = [[0, -1.34], [0.88, 0.04], [1.38, 0.92], [0.48, 0.62], [0, 1.12]] as Array<[number, number]>;
   const belly = [[0, -1.28], [0.73, 0.05], [1.15, 0.75], [0.38, 0.5], [0, 1.02]] as Array<[number, number]>;
   return (
@@ -158,7 +159,7 @@ export const AeroShuttleX9: React.FC<ShipProps> = ({ shipColor = '#f1f5f9', show
       <EnergyStrip position={[-0.43, 0.15, 0.1]} scale={[0.48, 0.65, 1.9]} /><EnergyStrip position={[0.43, 0.15, 0.1]} scale={[0.48, 0.65, 1.9]} />
       <Fin side={1} position={[0.27, 0.22, 0.72]} color={shipColor} /><Fin side={-1} position={[-0.27, 0.22, 0.72]} color={shipColor} />
       <DarkPanel position={[-0.88, 0.12, 0.5]} scale={[0.48, 0.025, 0.12]} rotation={[0, -0.12, 0]} /><DarkPanel position={[0.88, 0.12, 0.5]} scale={[0.48, 0.025, 0.12]} rotation={[0, 0.12, 0]} />
-      <EnginePod position={[-0.25, 0.01, 0.92]} scale={0.68} accent={shipColor} /><EnginePod position={[0, 0.13, 0.96]} scale={0.72} accent={shipColor} /><EnginePod position={[0.25, 0.01, 0.92]} scale={0.68} accent={shipColor} />
+      <EnginePod position={[-0.25, 0.01, 0.92]} scale={0.68} accent={shipColor} thrustPower={thrustPower} /><EnginePod position={[0, 0.13, 0.96]} scale={0.72} accent={shipColor} thrustPower={thrustPower} /><EnginePod position={[0.25, 0.01, 0.92]} scale={0.68} accent={shipColor} thrustPower={thrustPower} />
       <NavigationLights width={1.39} z={0.9} />
       <Streamlines visible={showStreamlines} width={1.25} length={4.5} />
     </group>
@@ -166,7 +167,7 @@ export const AeroShuttleX9: React.FC<ShipProps> = ({ shipColor = '#f1f5f9', show
 };
 
 // 5. Three-stage planetary launch ship.
-export const HyperionStarLifterV: React.FC<ShipProps> = ({ shipColor = '#f8fafc', showStreamlines = false }) => {
+export const HyperionStarLifterV: React.FC<ShipProps> = ({ shipColor = '#f8fafc', showStreamlines = false, thrustPower = 1.0 }) => {
   const ringRef = useRef<THREE.Group>(null);
   useFrame((_, delta) => { if (ringRef.current) ringRef.current.rotation.z += delta * 0.45; });
   return (
@@ -184,7 +185,7 @@ export const HyperionStarLifterV: React.FC<ShipProps> = ({ shipColor = '#f8fafc'
         <mesh position={[0.61, 0, 0]}><boxGeometry args={[0.4, 0.035, 0.42, 4, 1, 4]} /><meshStandardMaterial color={index % 2 ? NOVA_PALETTE.armor : shipColor} metalness={0.9} roughness={0.26} wireframe /></mesh>
         <mesh position={[0.53, 0, 0.92]} rotation={[0, -0.22, 0]}><boxGeometry args={[0.08, 0.07, 0.9]} /><meshStandardMaterial color={NOVA_PALETTE.metal} metalness={0.94} /></mesh>
       </group>)}
-      {[[0, 0], [-0.27, -0.27], [0.27, -0.27], [-0.27, 0.27], [0.27, 0.27]].map(([x, y], index) => <EnginePod key={index} position={[x, y, 1.42]} scale={0.64} accent="#ff8a20" flame="#ff7a18" rings={2} />)}
+      {[[0, 0], [-0.27, -0.27], [0.27, -0.27], [-0.27, 0.27], [0.27, 0.27]].map(([x, y], index) => <EnginePod key={index} position={[x, y, 1.42]} scale={0.64} accent="#ff8a20" flame="#ff7a18" rings={2} thrustPower={thrustPower} />)}
       <EnergyStrip position={[-0.435, 0, 0.45]} rotation={[0, 0, Math.PI / 2]} scale={[0.8, 0.7, 2.4]} color="#ffb02e" /><EnergyStrip position={[0.435, 0, 0.45]} rotation={[0, 0, Math.PI / 2]} scale={[0.8, 0.7, 2.4]} color="#ffb02e" />
       <Streamlines visible={showStreamlines} width={0.75} length={4.8} color="#ffb44a" />
     </group>
@@ -195,9 +196,10 @@ export const AerodynamicShipRenderer: React.FC<{
   shipId: string;
   shipColor?: string;
   showStreamlines?: boolean;
+  thrustPower?: number;
   scale?: number;
-}> = ({ shipId, shipColor = '#38bdf8', showStreamlines = false, scale = 1 }) => {
-  const props = { shipColor, showStreamlines };
+}> = ({ shipId, shipColor = '#38bdf8', showStreamlines = false, thrustPower = 1.0, scale = 1 }) => {
+  const props = { shipColor, showStreamlines, thrustPower };
   let model: React.ReactNode;
   switch (shipId) {
     case 'falcon_apex': model = <ChronoVoyager {...props} />; break;

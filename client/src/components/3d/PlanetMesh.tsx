@@ -15,10 +15,13 @@ import {
   createRealisticPlanetaryRingTexture,
 } from './planets/PhotorealisticPlanetTextures';
 
+import { Spaceship3D } from './Spaceship3D';
+
 interface Props {
   planet: PlanetData;
   radius?: number;
   onSelectNode?: (node: PlanetCoordinateNode) => void;
+  onShipArrival?: () => void;
   showNodes?: boolean;
   interactiveSpin?: boolean;
 }
@@ -176,6 +179,7 @@ export const PlanetMesh: React.FC<Props> = ({
   planet,
   radius = 1.0,
   onSelectNode,
+  onShipArrival,
   showNodes = true,
   interactiveSpin = true,
 }) => {
@@ -255,6 +259,15 @@ export const PlanetMesh: React.FC<Props> = ({
     }
   }, [selectedCoordinateNode, isFlyingToNode]);
 
+  // Warp Zoom-In Animation when entering a new planet (30% -> 100% scale)
+  const zoomProgressRef = useRef(0);
+  React.useEffect(() => {
+    zoomProgressRef.current = 0;
+    if (planetGroupRef.current) {
+      planetGroupRef.current.scale.set(0.3, 0.3, 0.3);
+    }
+  }, [planet.id]);
+
   // Pointer / Touch drag handlers for interactive 360 spinning
   React.useEffect(() => {
     if (!interactiveSpin) return;
@@ -299,6 +312,15 @@ export const PlanetMesh: React.FC<Props> = ({
 
   useFrame((_, delta) => {
     if (!planetGroupRef.current) return;
+
+    // Smooth Warp Zoom-In from 30% to 100%
+    if (zoomProgressRef.current < 1) {
+      zoomProgressRef.current = Math.min(1, zoomProgressRef.current + delta / 1.1);
+      const t = zoomProgressRef.current;
+      const ease = 1 - Math.pow(1 - t, 3);
+      const scale = 0.3 + 0.7 * ease;
+      planetGroupRef.current.scale.set(scale, scale, scale);
+    }
 
     if (autoAligningRef.current) {
       planetGroupRef.current.quaternion.slerp(targetRotationRef.current, Math.min(1, delta * 3.5));
@@ -408,6 +430,16 @@ export const PlanetMesh: React.FC<Props> = ({
             onSelectNode={onSelectNode}
           />
         ))}
+
+        {/* Docked / Orbiting Spaceship */}
+        {showNodes && (
+          <Spaceship3D
+            planetRadius={radius}
+            activeNode={selectedCoordinateNode}
+            onArrival={onShipArrival || (() => {})}
+            planetGroupRef={planetGroupRef}
+          />
+        )}
       </group>
     </group>
   );

@@ -21,15 +21,25 @@ async function triggerGodMode(page: Page) {
 test.describe('Dev God Mode & Performance Monitoring E2E Tests', () => {
   test.setTimeout(45000);
 
-  test('1. Activate Dev God Mode via 5-Clicks on Avatar', async ({ page }) => {
+  test('1. Activate Dev God Mode via 5-Clicks on Hero Avatar and Toggle Off', async ({ page }) => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
-    // Perform rapid clicks on Avatar until God Mode opens
-    await triggerGodMode(page);
+    const heroAvatar = page.getByTestId('hero-avatar-btn');
+    await expect(heroAvatar).toBeVisible();
+    await heroAvatar.scrollIntoViewIfNeeded();
+
+    // Click 5 times on hero avatar to toggle ON
+    for (let i = 0; i < 5; i++) {
+      await heroAvatar.click({ force: true });
+      await page.waitForTimeout(100);
+    }
+
+    // Modal should be visible
+    await expect(page.getByTestId('dev-god-mode-modal')).toBeVisible({ timeout: 6000 });
     await expect(page.locator('text=DEV GOD MODE')).toBeVisible();
 
-    // Close panel using testid
+    // Close panel using close button
     await page.getByTestId('dev-close-btn').click({ force: true });
     await expect(page.getByTestId('dev-god-mode-modal')).toBeHidden();
 
@@ -37,9 +47,14 @@ test.describe('Dev God Mode & Performance Monitoring E2E Tests', () => {
     const floatingBtn = page.getByTestId('dev-floating-btn');
     await expect(floatingBtn).toBeVisible();
 
-    // Reopen using floating button
-    await floatingBtn.click({ force: true });
-    await expect(page.getByTestId('dev-god-mode-modal')).toBeVisible();
+    // Click 5 times on hero avatar again to toggle OFF
+    for (let i = 0; i < 5; i++) {
+      await heroAvatar.click({ force: true });
+      await page.waitForTimeout(60);
+    }
+
+    // Floating Button should now be hidden
+    await expect(floatingBtn).toBeHidden();
   });
 
   test('2. Energy manipulation: +10, -10, Max, Set 0, Custom input', async ({ page }) => {
@@ -179,5 +194,54 @@ test.describe('Dev God Mode & Performance Monitoring E2E Tests', () => {
     // Runner closes immediately and returns to 3D Planet
     await expect(page.getByTestId('ten-stage-runner')).toBeHidden({ timeout: 6000 });
     await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 6000 });
+  });
+
+  test('6. Fresh user starts with 50 Energy, 0 Coins, 0 Diamonds, 0 XP, and turning OFF God Mode restores real stats', async ({ page }) => {
+    await page.goto('/');
+    await dismissFTUEIfPresent(page);
+
+    // Verify initial fresh user stats
+    const stats = await page.evaluate(() => {
+      const user = (window as any).__gameStore?.getState().user;
+      return {
+        energy: user?.energy,
+        coins: user?.novaCoins,
+        diamonds: user?.diamonds,
+        xp: user?.xp,
+      };
+    });
+
+    expect(stats.energy).toBe(50);
+    expect(stats.coins).toBe(0);
+    expect(stats.diamonds).toBe(0);
+    expect(stats.xp).toBe(0);
+
+    // Turn ON God Mode
+    await triggerGodMode(page);
+
+    // Alter stats in God Mode (+1000 coins)
+    await page.getByTestId('dev-tab-economy').click({ force: true });
+    await page.getByTestId('dev-add-coins-1000-btn').click({ force: true });
+
+    // Verify modified in God Mode
+    const alteredCoins = await page.evaluate(() => (window as any).__gameStore?.getState().user.novaCoins);
+    expect(alteredCoins).toBe(1000);
+
+    // Turn OFF God Mode via toggleGodMode
+    await page.evaluate(() => {
+      (window as any).__gameStore?.getState().toggleGodMode();
+    });
+
+    // Verify stats are restored back to real stats
+    const restoredStats = await page.evaluate(() => {
+      const store = (window as any).__gameStore?.getState();
+      return {
+        isUnlocked: store?.isGodModeUnlocked,
+        coins: store?.user.novaCoins,
+      };
+    });
+
+    expect(restoredStats.isUnlocked).toBe(false);
+    expect(restoredStats.coins).toBe(0);
   });
 });

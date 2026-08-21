@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { useGameStore } from '../../stores/useGameStore';
@@ -9,27 +9,47 @@ interface Props {
   planetRadius: number;
   activeNode: PlanetCoordinateNode | null;
   onArrival: () => void;
+  planetGroupRef?: React.RefObject<THREE.Group | null>;
 }
 
-export const Spaceship3D: React.FC<Props> = ({ planetRadius, activeNode, onArrival }) => {
+export const Spaceship3D: React.FC<Props> = ({
+  planetRadius,
+  activeNode,
+  onArrival,
+  planetGroupRef,
+}) => {
   const { user, isFlyingToNode } = useGameStore();
   const shipGroupRef = useRef<THREE.Group>(null);
-  const thrusterRef = useRef<THREE.Mesh>(null);
-  const smokeParticlesRef = useRef<THREE.Points>(null);
+  const [thrustPower, setThrustPower] = useState<number>(0.3);
 
   const shipColor = user.customization?.equippedColor || '#38bdf8';
 
-  // Animation interpolation state
-  const animState = useRef({
-    currentPos: new THREE.Vector3(0, 0.15, planetRadius + 0.12),
-    startPos: new THREE.Vector3(0, 0.15, planetRadius + 0.12),
-    targetPos: new THREE.Vector3(0, 0.15, planetRadius + 0.12),
+  // Base dimensions (Reduced by 30% for realistic planetary scale)
+  const BASE_SCALE = 0.15;
+  const SCALE_AMPLITUDE = 0.14; // Peaks at ~0.29 mid-flight near camera
+  const HOVER_RADIUS_OFFSET = 0.22;
+
+  // Animation state
+  const animState = useRef<{
+    hasLaunched: boolean;
+    currentPos: THREE.Vector3;
+    startPos: THREE.Vector3;
+    targetPos: THREE.Vector3;
+    progress: number;
+    flightDuration: number;
+    dockedQuaternion: THREE.Quaternion;
+  }>({
+    hasLaunched: false,
+    currentPos: new THREE.Vector3(0, -3.5, 1.8),
+    startPos: new THREE.Vector3(0, -3.5, 1.8),
+    targetPos: new THREE.Vector3(0, -3.5, 1.8),
     progress: 1,
-    flightDuration: 3.5,
+    flightDuration: 5.2,
+    dockedQuaternion: new THREE.Quaternion(),
   });
 
   // Calculate target 3D Cartesian position on spherical surface
-  const getCartesianForNode = (node: PlanetCoordinateNode, radiusOffset = 0.12) => {
+  const getCartesianForNode = (node: PlanetCoordinateNode, radiusOffset = HOVER_RADIUS_OFFSET) => {
     const r = planetRadius + radiusOffset;
     const phi = node.lat;
     const theta = node.lon;
@@ -43,93 +63,163 @@ export const Spaceship3D: React.FC<Props> = ({ planetRadius, activeNode, onArriv
   // Setup flight trajectory when a new node is selected
   React.useEffect(() => {
     if (activeNode && isFlyingToNode) {
-      const target = getCartesianForNode(activeNode, 0.12);
-      animState.current.startPos.copy(animState.current.currentPos);
+      const target = getCartesianForNode(activeNode, HOVER_RADIUS_OFFSET);
       animState.current.targetPos.copy(target);
-      
-      // Calculate angular distance on sphere to dynamically scale flight duration (3.0s to 5.0s)
-      const angle = animState.current.startPos.clone().normalize().angleTo(target.clone().normalize());
-      const duration = 3.0 + (angle / Math.PI) * 2.0; // 3.0s (near) to 5.0s (opposite side)
-      
-      animState.current.flightDuration = Math.max(3.0, Math.min(5.0, duration));
-      animState.current.progress = 0;
-    }
-  }, [activeNode, isFlyingToNode]);
 
-  useFrame(({ clock }, delta) => {
+      // Compute level parallel docking quaternion (tangent to sphere surface)
+      const surfaceNormal = target.clone().normalize();
+      let tangent = new THREE.Vector3(0, 1, 0).cross(surfaceNormal).normalize();
+      if (tangent.lengthSq() < 0.01) {
+        tangent = new THREE.Vector3(1, 0, 0).cross(surfaceNormal).normalize();
+      }
+      const dockMatrix = new THREE.Matrix4();
+      dockMatrix.lookAt(target, target.clone().add(tangent), surfaceNormal);
+      animState.current.dockedQuaternion.setFromRotationMatrix(dockMatrix);
+
+      if (!animState.current.hasLaunched) {
+        // First launch: enter smoothly from bottom of screen
+        const bottomWorldPos = new THREE.Vector3(0, -3.5, 1.8);
+        if (planetGroupRef?.current) {
+          const localStart = planetGroupRef.current.worldToLocal(bottomWorldPos.clone());
+          animState.current.startPos.copy(localStart);
+          animState.current.currentPos.copy(localStart);
+        } else {
+          animState.current.startPos.copy(bottomWorldPos);
+          animState.current.currentPos.copy(bottomWorldPos);
+        }
+        animState.current.hasLaunched = true;
+        animState.current.flightDuration = 5.2;
+      } else {
+        // Subsequent flights: launch from current parked position
+        animState.current.startPos.copy(animState.current.currentPos);
+        const v0 = animState.current.startPos.clone().normalize();
+        const v1 = target.clone().normalize();
+        const angle = Math.acos(THREE.MathUtils.clamp(v0.dot(v1), -1, 1));
+        // Generous flight duration so students can enjoy the space journey
+        const duration = 4.8 + (angle / Math.PI) * 2.2;
+        animState.current.flightDuration = Math.max(4.6, Math.min(7.0, duration));
+      }
+
+      animState.current.progress = 0;
+      setThrustPower(1.0);
+    }
+  }, [activeNode, isFlyingToNode, planetRadius, planetGroupRef]);
+
+  useFrame((state, delta) => {
     if (!shipGroupRef.current) return;
 
-    // Flight Interpolation with Altitude Arc & Ease-in-out
+    // If never launched and no active node, hide ship below screen
+    if (!animState.current.hasLaunched && !activeNode) {
+      shipGroupRef.current.visible = false;
+      return;
+    }
+    shipGroupRef.current.visible = true;
+
+    // Flight Interpolation with Spherical Slerp (100% Around Planet, never clipping through core)
     if (animState.current.progress < 1) {
-      // Progress increment based on exact flightDuration (3.0s - 5.0s)
       const step = delta / animState.current.flightDuration;
       animState.current.progress = Math.min(1, animState.current.progress + step);
       const t = animState.current.progress;
-      
+
       // Smoothstep ease-in-out curve
       const smoothT = t * t * (3 - 2 * t);
 
-      // Spherical interpolated position
-      const interpolated = new THREE.Vector3().lerpVectors(
-        animState.current.startPos,
-        animState.current.targetPos,
-        smoothT
-      );
+      // Spherical Slerp calculation between start and target vectors
+      const v0 = animState.current.startPos.clone().normalize();
+      const v1 = animState.current.targetPos.clone().normalize();
+      const dotVal = THREE.MathUtils.clamp(v0.dot(v1), -1, 1);
+      const omega = Math.acos(dotVal);
 
-      // Parabolic altitude arc above ground (highest at mid-flight t = 0.5)
-      const arcHeight = Math.sin(t * Math.PI) * 0.35;
-      const normal = interpolated.clone().normalize();
-      interpolated.addScaledVector(normal, arcHeight);
-
-      // Orientation tangent to flight direction
-      const nextT = Math.min(1, t + 0.015);
-      const nextSmooth = nextT * nextT * (3 - 2 * nextT);
-      const nextPos = new THREE.Vector3().lerpVectors(
-        animState.current.startPos,
-        animState.current.targetPos,
-        nextSmooth
-      );
-      const nextArc = Math.sin(nextT * Math.PI) * 0.35;
-      nextPos.addScaledVector(nextPos.clone().normalize(), nextArc);
-
-      const flightDirection = nextPos.clone().sub(interpolated).normalize();
-      if (flightDirection.lengthSq() > 0.0001) {
-        const matrix = new THREE.Matrix4();
-        matrix.lookAt(interpolated, interpolated.clone().add(flightDirection), normal);
-        shipGroupRef.current.quaternion.setFromRotationMatrix(matrix);
+      let unitDir: THREE.Vector3;
+      if (omega < 0.001) {
+        unitDir = v0.clone();
+      } else {
+        const sinOmega = Math.sin(omega);
+        unitDir = v0
+          .clone()
+          .multiplyScalar(Math.sin((1 - smoothT) * omega) / sinOmega)
+          .add(v1.clone().multiplyScalar(Math.sin(smoothT * omega) / sinOmega))
+          .normalize();
       }
 
-      animState.current.currentPos.copy(interpolated);
-      shipGroupRef.current.position.copy(interpolated);
+      // Orbital Altitude Arc (Rises high above terrain, peaks at mid-flight t = 0.5)
+      const r0 = animState.current.startPos.length();
+      const r1 = animState.current.targetPos.length();
+      const baseRadius = THREE.MathUtils.lerp(r0, r1, smoothT);
+      const arcHeight = Math.sin(smoothT * Math.PI) * 0.75;
+      const currentRadius = baseRadius + arcHeight;
+      const currentPos = unitDir.clone().multiplyScalar(currentRadius);
+
+      // Next point for computing forward orientation tangent
+      const nextT = Math.min(1, t + 0.02);
+      const nextSmooth = nextT * nextT * (3 - 2 * nextT);
+      let nextUnitDir: THREE.Vector3;
+      if (omega < 0.001) {
+        nextUnitDir = v0.clone();
+      } else {
+        const sinOmega = Math.sin(omega);
+        nextUnitDir = v0
+          .clone()
+          .multiplyScalar(Math.sin((1 - nextSmooth) * omega) / sinOmega)
+          .add(v1.clone().multiplyScalar(Math.sin(nextSmooth * omega) / sinOmega))
+          .normalize();
+      }
+      const nextRadius = THREE.MathUtils.lerp(r0, r1, nextSmooth) + Math.sin(nextSmooth * Math.PI) * 0.75;
+      const nextPos = nextUnitDir.multiplyScalar(nextRadius);
+
+      const flightDirection = nextPos.clone().sub(currentPos).normalize();
+      const upNormal = unitDir.clone();
+
+      // Dynamic Flight Orientation Matrix
+      if (flightDirection.lengthSq() > 0.0001) {
+        const flightMatrix = new THREE.Matrix4();
+        flightMatrix.lookAt(currentPos, currentPos.clone().add(flightDirection), upNormal);
+        const flightQuat = new THREE.Quaternion().setFromRotationMatrix(flightMatrix);
+
+        // Smoothly blend into parallel docking orientation upon final approach (t: 0.68 -> 1.0)
+        if (t > 0.68) {
+          const blend = (t - 0.68) / 0.32;
+          const smoothBlend = blend * blend * (3 - 2 * blend);
+          flightQuat.slerp(animState.current.dockedQuaternion, smoothBlend);
+        }
+
+        shipGroupRef.current.quaternion.copy(flightQuat);
+      }
+
+      // Dynamic Scale: Increases up to ~0.29 near camera mid-flight, shrinks back to 0.15 on landing
+      const currentScale = BASE_SCALE + Math.sin(smoothT * Math.PI) * SCALE_AMPLITUDE;
+      shipGroupRef.current.scale.set(currentScale, currentScale, currentScale);
+
+      animState.current.currentPos.copy(currentPos);
+      shipGroupRef.current.position.copy(currentPos);
 
       // Check arrival
       if (t >= 1) {
+        setThrustPower(0.3);
         onArrival();
       }
     } else {
-      // Idle Hovering Animation when stationary
-      const time = clock.getElapsedTime();
-      const hoverOffset = Math.sin(time * 2.5) * 0.015;
-      const currentNormal = animState.current.currentPos.clone().normalize();
-      shipGroupRef.current.position.copy(animState.current.currentPos).addScaledVector(currentNormal, hoverOffset);
-    }
+      // Idle Hovering Animation when parked at coordinates (Base scale: 0.15)
+      const time = state.clock.elapsedTime;
+      const hoverOffset = Math.sin(time * 2.0) * 0.012;
+      const surfaceNormal = animState.current.targetPos.clone().normalize();
+      const dockedPos = animState.current.targetPos.clone().addScaledVector(surfaceNormal, hoverOffset);
 
-    // Dynamic Thruster Flame
-    if (thrusterRef.current) {
-      const isFlying = animState.current.progress < 1;
-      const pulse = isFlying
-        ? 1.5 + Math.random() * 0.6
-        : 1 + Math.sin(clock.getElapsedTime() * 8) * 0.2;
-      thrusterRef.current.scale.set(pulse, pulse * (isFlying ? 2.5 : 1.2), pulse);
+      shipGroupRef.current.scale.set(BASE_SCALE, BASE_SCALE, BASE_SCALE);
+      shipGroupRef.current.position.copy(dockedPos);
+      shipGroupRef.current.quaternion.copy(animState.current.dockedQuaternion);
     }
   });
 
+  const isFlying = animState.current.progress < 1;
+
   return (
-    <group ref={shipGroupRef} scale={[0.22, 0.22, 0.22]}>
+    <group ref={shipGroupRef} scale={[BASE_SCALE, BASE_SCALE, BASE_SCALE]}>
       <AerodynamicShipRenderer
         shipId={user.customization?.equippedShip || 'explorer_v1'}
         shipColor={shipColor}
-        showStreamlines={animState.current.progress < 1}
+        showStreamlines={isFlying && thrustPower > 0.5}
+        thrustPower={thrustPower}
       />
     </group>
   );

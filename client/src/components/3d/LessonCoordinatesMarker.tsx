@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import { PlanetCoordinateNode } from '../../types';
 import { useGameStore } from '../../stores/useGameStore';
-import { Lock, Star, Crown, Zap } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import { soundService } from '../../services/audio';
 
 interface Props {
@@ -53,6 +53,8 @@ export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radi
   const starsEarned = nodeStars[node.id] || (isCompleted ? 3 : 0);
   const isUnlocked = isNodeUnlocked(node, activePlanetId);
 
+  const isSelected = selectedCoordinateNode?.id === node.id;
+
   useFrame(({ clock, camera }) => {
     if (!markerGroupRef.current) return;
 
@@ -62,34 +64,48 @@ export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radi
     viewVec.current.copy(camera.position).sub(worldPos.current).normalize();
     const dot = normalVec.current.dot(viewVec.current);
 
-    const isFrontFacing = dot > 0.08;
+    const isFrontFacing = dot > 0.05;
 
     // Dynamic ground glowing disc pulse
     if (ringRef.current) {
-      const t = clock.getElapsedTime() * 3;
-      const s = 1 + Math.sin(t) * 0.12;
+      const t = clock.getElapsedTime() * 2.5;
+      const s = isSelected ? 1.3 + Math.sin(t * 1.5) * 0.18 : 1 + Math.sin(t) * 0.12;
       ringRef.current.scale.set(s, s, s);
       ringRef.current.visible = isFrontFacing;
     }
 
     if (beaconRef.current) {
       const t = clock.getElapsedTime() * 2;
-      beaconRef.current.scale.y = 1 + Math.sin(t) * 0.3;
-      beaconRef.current.visible = isFrontFacing;
+      beaconRef.current.scale.y = 1 + Math.sin(t) * 0.25;
+      beaconRef.current.visible = isFrontFacing && !isSelected;
     }
 
-    // Direct style manipulation for high-performance 60fps occlusion
+    // Dynamic Depth Scaling & Opacity for realistic 3D perspective
     if (htmlContainerRef.current) {
-      if (isFrontFacing) {
-        htmlContainerRef.current.style.opacity = hasOverlay ? '0.35' : '1';
-        htmlContainerRef.current.style.transform = 'scale(1) translate3d(0,0,0)';
+      if (isSelected) {
+        // Hide HTML Pin when ship is arriving or docked at this exact node to prevent any clipping/overlap
+        htmlContainerRef.current.style.opacity = '0';
+        htmlContainerRef.current.style.pointerEvents = 'none';
+        htmlContainerRef.current.style.transform = 'scale(0.01) translate3d(0,0,0)';
+      } else if (isFrontFacing) {
+        // Front side: Smoothly scale from 0.85 up to 1.05 based on facing angle
+        const frontFactor = Math.min(1, (dot - 0.05) / 0.7);
+        const scale = 0.85 + 0.2 * frontFactor;
+        const opacity = hasOverlay ? 0.2 : 0.92;
+
+        htmlContainerRef.current.style.opacity = `${opacity}`;
+        htmlContainerRef.current.style.transform = `scale(${scale.toFixed(3)}) translate3d(0,0,0)`;
         htmlContainerRef.current.style.filter = 'none';
         htmlContainerRef.current.style.pointerEvents = hasOverlay ? 'none' : 'auto';
       } else {
-        // Back side (Occluded behind the planet sphere)
-        htmlContainerRef.current.style.opacity = '0.15';
-        htmlContainerRef.current.style.transform = 'scale(0.72) translate3d(0,0,0)';
-        htmlContainerRef.current.style.filter = 'blur(1.2px) grayscale(85%)';
+        // Back side (Occluded behind planet): Smoothly shrink down to 0.38 - 0.75 and fade into space
+        const backFactor = Math.max(-1, Math.min(0, dot));
+        const scale = Math.max(0.38, 0.75 + backFactor * 0.45);
+        const opacity = Math.max(0.08, 0.38 + backFactor * 0.35);
+
+        htmlContainerRef.current.style.opacity = `${opacity.toFixed(2)}`;
+        htmlContainerRef.current.style.transform = `scale(${scale.toFixed(3)}) translate3d(0,0,0)`;
+        htmlContainerRef.current.style.filter = 'blur(1px) grayscale(45%)';
         htmlContainerRef.current.style.pointerEvents = 'none';
       }
     }
@@ -105,30 +121,30 @@ export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radi
 
   return (
     <group ref={markerGroupRef} position={position} quaternion={quaternion}>
-      {/* Ground Glowing Disc Ring (Sát mặt đất) */}
+      {/* Ground Glowing Disc Ring (Neon Cyan Glow) */}
       <mesh ref={ringRef} position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]} onClick={handleClick}>
         <ringGeometry args={[0.06, 0.12, 32]} />
         <meshBasicMaterial
-          color={node.isBoss ? '#fb7185' : isCompleted ? '#34d399' : isUnlocked ? '#38bdf8' : '#64748b'}
+          color={node.isBoss ? '#f43f5e' : isCompleted ? '#2dd4bf' : isUnlocked ? '#00f0ff' : '#64748b'}
           transparent
-          opacity={0.65}
+          opacity={isSelected ? 0.8 : 0.55}
           side={THREE.DoubleSide}
         />
       </mesh>
 
       {/* Holographic Light Beacon Pillar */}
       <mesh ref={beaconRef} position={[0, 0.06, 0]}>
-        <cylinderGeometry args={[0.006, 0.025, 0.12, 16, 1, true]} />
+        <cylinderGeometry args={[0.005, 0.02, 0.12, 16, 1, true]} />
         <meshBasicMaterial
-          color={node.isBoss ? '#f43f5e' : isCompleted ? '#10b981' : isUnlocked ? '#0284c7' : '#475569'}
+          color={node.isBoss ? '#fb7185' : isCompleted ? '#14b8a6' : isUnlocked ? '#00b4d8' : '#475569'}
           transparent
           opacity={0.35}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Sci-Fi Holographic Node Pin Icon */}
-      <Html position={[0, 0.08, 0]} center distanceFactor={7} zIndexRange={[100, 0]}>
+      {/* Sci-Fi Holographic Node Pin Icon (Low z-index so 3D spaceship stays on top) */}
+      <Html position={[0, 0.08, 0]} center distanceFactor={7} zIndexRange={[5, 0]}>
         <div
           ref={htmlContainerRef}
           className="transition-all duration-300 select-none flex flex-col items-center justify-center"
@@ -138,22 +154,22 @@ export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radi
             disabled={hasOverlay}
             onClick={handleClick}
             title={node.title}
-            className="select-none flex flex-col items-center justify-center bg-transparent border-0 p-0 transition-transform active:scale-95 cursor-pointer hover:scale-115"
+            className="select-none flex flex-col items-center justify-center bg-transparent border-0 p-0 transition-transform active:scale-95 cursor-pointer hover:scale-110"
           >
-            {/* Circular Holographic Pin Badge */}
+            {/* Neon Sky Blue Cyber Pin Badge with subtle background blend */}
             <div
               className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-black text-xs sm:text-sm shadow-xl border-2 relative transition-all ${
                 node.isBoss
-                  ? 'bg-gradient-to-br from-rose-500 via-red-600 to-amber-600 border-amber-300 text-yellow-100 shadow-[0_0_15px_rgba(244,63,94,0.7)] animate-pulse ring-2 ring-rose-400/50'
+                  ? 'bg-gradient-to-br from-rose-500/90 via-pink-600/90 to-purple-800/90 border-pink-200/90 text-yellow-100 shadow-[0_0_18px_rgba(244,63,94,0.75)] ring-2 ring-pink-400/60 backdrop-blur-sm animate-pulse'
                   : isCompleted
-                  ? 'bg-gradient-to-br from-emerald-500 via-teal-600 to-emerald-700 border-emerald-200 text-white shadow-[0_0_12px_rgba(16,185,129,0.6)] ring-2 ring-emerald-400/40'
+                  ? 'bg-gradient-to-br from-teal-400/85 via-cyan-600/85 to-blue-800/85 border-teal-200/90 text-white shadow-[0_0_15px_rgba(20,184,166,0.6)] ring-2 ring-teal-300/50 backdrop-blur-sm'
                   : isUnlocked
-                  ? 'bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 border-white text-white shadow-[0_0_15px_rgba(56,189,248,0.7)] ring-2 ring-sky-300/60 animate-bounce-slow'
-                  : 'bg-slate-900/90 border-slate-700 text-slate-400 shadow-md ring-1 ring-slate-700/50'
+                  ? 'bg-gradient-to-br from-cyan-400/85 via-sky-500/85 to-blue-700/85 border-cyan-200/90 text-white shadow-[0_0_15px_rgba(6,182,212,0.6)] ring-2 ring-cyan-400/50 backdrop-blur-sm animate-bounce-slow'
+                  : 'bg-slate-900/80 border-slate-600/70 text-slate-400 shadow-md ring-1 ring-slate-700/40 backdrop-blur-sm'
               }`}
             >
               {isUnlocked ? (
-                <span className="drop-shadow-md">{displayText}</span>
+                <span className="drop-shadow-md text-white font-black">{displayText}</span>
               ) : (
                 <Lock className="w-4 h-4 text-slate-400" />
               )}

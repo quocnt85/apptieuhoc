@@ -4,23 +4,76 @@ import { Environment, Lightformer } from '@react-three/drei';
 import { useGameStore } from '../../stores/useGameStore';
 import { SHIPS_DATA, SpaceshipModelData } from '../../data/shipsData';
 import { AerodynamicShipRenderer } from '../3d/ships/AerodynamicShips';
-import { Rocket, Palette, Zap, Check, Lock, RotateCw, X, Sparkles, Shield, Flame } from 'lucide-react';
+import { Rocket, Palette, Zap, Check, Lock, RotateCw, X, Sparkles, Shield, Flame, Flag } from 'lucide-react';
 import { soundService } from '../../services/audio';
 import * as THREE from 'three';
 
-// Interactive 3D Orbit Viewer & Action Detail Modal in Hangar
+// Helper function to resolve default native theme color per spaceship
+export const getDefaultColorForShip = (shipId: string): string => {
+  switch (shipId) {
+    case 'falcon_apex': return '#7c3aed';
+    case 'solar_phoenix': return '#2563eb';
+    case 'starlight_runner': return '#f1f5f9';
+    case 'astral_shuttle': return '#f8fafc';
+    default: return '#38bdf8';
+  }
+};
+
+// Interactive 3D Orbit Viewer & Integrated Paint/Customization Modal in Hangar
 const ShipInteractiveDetailModal: React.FC<{
   ship: SpaceshipModelData;
   onClose: () => void;
-  shipColor: string;
   isUnlocked: boolean;
   isEquipped: boolean;
   onEquip: () => void;
   onBuy: () => void;
-}> = ({ ship, onClose, shipColor, isUnlocked, isEquipped, onEquip, onBuy }) => {
+}> = ({ ship, onClose, isUnlocked, isEquipped, onEquip, onBuy }) => {
+  const { user, equipColor, buyColor, toggleVietnamFlag } = useGameStore();
   const groupRef = useRef<THREE.Group>(null);
   const isDraggingRef = useRef(false);
   const prevPointerRef = useRef({ x: 0, y: 0 });
+
+  const currentEquippedColor = user.customization?.equippedColor || 'default';
+  const [selectedColorKey, setSelectedColorKey] = useState<string>(currentEquippedColor);
+
+  const defaultThemeColor = getDefaultColorForShip(ship.id);
+  const activeRenderColor = selectedColorKey === 'default' ? defaultThemeColor : selectedColorKey;
+
+  const unlockedColors = user.customization?.unlockedColors || ['default', '#38bdf8'];
+  const hasVietnamFlag = user.customization?.hasVietnamFlag ?? true;
+
+  // Available Paint Colors Palette
+  const paintPalette = [
+    { id: 'default', name: 'Mặc Định', hex: defaultThemeColor, price: 0, isFree: true },
+    { id: '#38bdf8', name: 'Xanh Lam Cyan', hex: '#38bdf8', price: 0, isFree: true },
+    { id: '#ef4444', name: 'Đỏ Chiến Binh', hex: '#ef4444', price: 100, isFree: false },
+    { id: '#10b981', name: 'Xanh Lục Bảo', hex: '#10b981', price: 100, isFree: false },
+    { id: '#8b5cf6', name: 'Tím Tinh Vân', hex: '#8b5cf6', price: 150, isFree: false },
+    { id: '#f59e0b', name: 'Vàng Hoàng Kim', hex: '#f59e0b', price: 250, isFree: false },
+  ];
+
+  const handleSelectColor = (colorId: string) => {
+    soundService.playClick();
+    setSelectedColorKey(colorId);
+    if (colorId === 'default' || unlockedColors.includes(colorId)) {
+      equipColor(colorId === 'default' ? defaultThemeColor : colorId);
+    }
+  };
+
+  const handleBuyColor = (colorId: string, price: number) => {
+    const success = buyColor(colorId, price);
+    if (!success) {
+      alert('Bạn không đủ Xu Nova 🟡 để mở khóa màu sơn này!');
+    } else {
+      setSelectedColorKey(colorId);
+      equipColor(colorId);
+    }
+  };
+
+  const isColorOwned = (colorId: string) => {
+    if (colorId === 'default') return true;
+    return unlockedColors.includes(colorId);
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 select-none animate-fadeIn overflow-y-auto">
@@ -47,9 +100,9 @@ const ShipInteractiveDetailModal: React.FC<{
           </p>
         </div>
 
-        {/* 3D Interactive Canvas Container */}
+        {/* 3D Interactive Canvas Container (Real-Time 360 Color Preview) */}
         <div
-          className="w-full h-56 sm:h-64 rounded-2xl overflow-hidden bg-radial from-[#1e1b4b] via-[#0b1026] to-[#050814] border border-sky-400/40 relative cursor-grab active:cursor-grabbing shadow-inner touch-none touch-canvas-interactive overscroll-none mb-3"
+          className="w-full h-52 sm:h-60 rounded-2xl overflow-hidden bg-radial from-[#1e1b4b] via-[#0b1026] to-[#050814] border border-sky-400/40 relative cursor-grab active:cursor-grabbing shadow-inner touch-none touch-canvas-interactive overscroll-none mb-3"
           onPointerDown={(e) => {
             isDraggingRef.current = true;
             prevPointerRef.current = { x: e.clientX, y: e.clientY };
@@ -102,8 +155,9 @@ const ShipInteractiveDetailModal: React.FC<{
             <group ref={groupRef}>
               <AerodynamicShipRenderer
                 shipId={ship.id}
-                shipColor={shipColor}
+                shipColor={activeRenderColor}
                 showStreamlines={false}
+                thrustPower={0.3}
                 scale={1.25}
               />
             </group>
@@ -111,20 +165,99 @@ const ShipInteractiveDetailModal: React.FC<{
 
           {/* Floating Hint */}
           <div className="absolute bottom-2 inset-x-0 flex justify-center pointer-events-none">
-            <span className="bg-slate-950/80 border border-white/20 text-sky-300 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1.5 shadow">
+            <span className="bg-slate-950/80 border border-white/20 text-sky-300 text-[10px] font-bold px-3 py-0.5 rounded-full flex items-center gap-1.5 shadow">
               <RotateCw className="w-3 h-3 text-sky-400 animate-spin" style={{ animationDuration: '6s' }} />
-              <span>Chạm & vuốt để xoay 360°</span>
+              <span>Vuốt để xoay 360° • Màu sơn đổi trực tiếp</span>
             </span>
           </div>
         </div>
 
-        {/* Detailed Stats & Description */}
-        <div className="w-full space-y-2.5 text-left mb-4">
-          <p className="text-xs text-slate-200 font-medium leading-relaxed bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
-            {ship.description}
-          </p>
+        {/* Integrated Real-Time Paint & Customization Bar */}
+        <div className="w-full bg-slate-900/90 border border-sky-400/30 p-3 rounded-2xl mb-3 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs font-black text-yellow-300">
+              <Palette className="w-3.5 h-3.5 text-sky-400" />
+              <span>Sơn Màu Phi Thuyền</span>
+            </div>
 
-          {/* 3 Game Stats Bar */}
+            {/* Vietnam Flag Toggle */}
+            <button
+              type="button"
+              onClick={() => { soundService.playClick(); toggleVietnamFlag(); }}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-bold flex items-center gap-1.5 border transition-all ${
+                hasVietnamFlag
+                  ? 'bg-rose-950/90 border-rose-500 text-rose-200'
+                  : 'bg-slate-800/80 border-slate-700 text-slate-400'
+              }`}
+            >
+              <Flag className="w-3 h-3 text-rose-400" />
+              <span>Cờ VN: <b>{hasVietnamFlag ? 'BẬT 🇻🇳' : 'TẮT'}</b></span>
+            </button>
+          </div>
+
+          {/* Color Swatches Strip */}
+          <div className="flex items-center justify-between gap-1.5 pt-1 overflow-x-auto scrollbar-none">
+            {paintPalette.map((colorItem) => {
+              const owned = isColorOwned(colorItem.id);
+              const isSelected = selectedColorKey === colorItem.id;
+
+              return (
+                <button
+                  key={colorItem.id}
+                  type="button"
+                  onClick={() => handleSelectColor(colorItem.id)}
+                  title={colorItem.name}
+                  className={`relative flex-1 py-1.5 px-1 rounded-xl border-2 flex flex-col items-center justify-center transition-all min-w-[50px] ${
+                    isSelected
+                      ? 'border-yellow-300 bg-sky-950/80 scale-105 shadow-[0_0_12px_rgba(253,224,71,0.5)]'
+                      : 'border-slate-700/80 bg-slate-950/60 hover:border-slate-500'
+                  }`}
+                >
+                  <div
+                    className="w-5 h-5 rounded-full border border-white/60 shadow flex items-center justify-center relative"
+                    style={{ backgroundColor: colorItem.hex }}
+                  >
+                    {isSelected && <Check className="w-3 h-3 text-white drop-shadow stroke-[3]" />}
+                    {!owned && (
+                      <div className="absolute inset-0 bg-slate-950/60 rounded-full flex items-center justify-center">
+                        <Lock className="w-2.5 h-2.5 text-amber-300" />
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-[9px] font-black text-slate-300 mt-1 truncate max-w-full">
+                    {colorItem.id === 'default' ? 'Mặc Định' : colorItem.name.split(' ')[0]}
+                  </span>
+                  {!owned && (
+                    <span className="text-[8px] font-black text-amber-300 mt-0.5">
+                      {colorItem.price} 🟡
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Unlock prompt if a locked color (e.g. Gold 250) is selected */}
+          {!isColorOwned(selectedColorKey) && (
+            <div className="flex items-center justify-between bg-amber-950/80 border border-amber-500/50 p-2 rounded-xl text-xs font-bold text-amber-200 mt-2 animate-fadeIn">
+              <span>Màu này cần mở khóa:</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const target = paintPalette.find((p) => p.id === selectedColorKey);
+                  if (target) handleBuyColor(target.id, target.price);
+                }}
+                className="bg-amber-400 text-amber-950 font-black text-xs px-3 py-1 rounded-lg shadow hover:bg-yellow-300 active:scale-95"
+              >
+                Mở Khóa ({paintPalette.find((p) => p.id === selectedColorKey)?.price} Xu 🟡)
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Detailed Highly-Differentiated Stats */}
+        <div className="w-full space-y-2 text-left mb-3.5">
+          {/* 3 Distinct Game Stats Bar */}
           <div className="grid grid-cols-3 gap-2">
             <div className="bg-slate-900/90 border border-sky-400/40 p-2 rounded-xl text-center">
               <div className="text-[10px] font-black text-sky-300 flex items-center justify-center gap-1">
@@ -155,17 +288,22 @@ const ShipInteractiveDetailModal: React.FC<{
           </div>
         </div>
 
-        {/* Action Button */}
+        {/* Main Equip / Purchase Action Button */}
         <div className="w-full">
-          {isEquipped ? (
-            <div className="w-full py-3.5 rounded-2xl font-black text-sm sm:text-base bg-emerald-950 border-2 border-emerald-400 text-emerald-200 flex items-center justify-center gap-2 shadow-lg">
+          {ship.isPlaceholder ? (
+            <div className="w-full py-3 rounded-2xl font-black text-sm sm:text-base bg-indigo-950/90 border-2 border-indigo-400/70 text-indigo-200 flex items-center justify-center gap-2 shadow-lg">
+              <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse" />
+              <span>Bản Vẽ Thiết Kế • Sắp Ra Mắt</span>
+            </div>
+          ) : isEquipped ? (
+            <div className="w-full py-3 rounded-2xl font-black text-sm sm:text-base bg-emerald-950 border-2 border-emerald-400 text-emerald-200 flex items-center justify-center gap-2 shadow-lg">
               <Check className="w-5 h-5 text-emerald-400 stroke-[3]" />
               <span>Đang Lái Phi Thuyền Này</span>
             </div>
           ) : isUnlocked ? (
             <button
               onClick={onEquip}
-              className="w-full py-3.5 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 text-white border-2 border-sky-200 shadow-[0_5px_0_0_#0284c7,0_8px_20px_rgba(2,132,199,0.5)] active:translate-y-1 active:shadow-[0_1px_0_0_#0284c7] flex items-center justify-center gap-2 transition-all cursor-pointer"
+              className="w-full py-3 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 text-white border-2 border-sky-200 shadow-[0_5px_0_0_#0284c7,0_8px_20px_rgba(2,132,199,0.5)] active:translate-y-1 active:shadow-[0_1px_0_0_#0284c7] flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <Rocket className="w-5 h-5" />
               <span>Trang Bị Phi Thuyền ✨</span>
@@ -173,7 +311,7 @@ const ShipInteractiveDetailModal: React.FC<{
           ) : (
             <button
               onClick={onBuy}
-              className="w-full py-3.5 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-amber-950 border-2 border-yellow-200 shadow-[0_5px_0_0_#b45309,0_8px_20px_rgba(245,158,11,0.5)] active:translate-y-1 active:shadow-[0_1px_0_0_#b45309] flex items-center justify-center gap-2 transition-all cursor-pointer"
+              className="w-full py-3 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-amber-950 border-2 border-yellow-200 shadow-[0_5px_0_0_#b45309,0_8px_20px_rgba(245,158,11,0.5)] active:translate-y-1 active:shadow-[0_1px_0_0_#b45309] flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <Lock className="w-5 h-5" />
               <span>Mở Khóa ({ship.price} Xu Nova 🟡)</span>
@@ -185,31 +323,19 @@ const ShipInteractiveDetailModal: React.FC<{
   );
 };
 
-export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onOpenShowroom }) => {
+export const SpaceHangarView: React.FC = () => {
   const {
     user,
     buyShip,
     equipShip,
-    buyColor,
-    equipColor,
     buyBooster,
     addNovaCoins,
     addDiamonds,
   } = useGameStore();
 
-  const [activeSubTab, setActiveSubTab] = useState<'ships' | 'colors' | 'boosters'>('ships');
+  const [activeSubTab, setActiveSubTab] = useState<'ships' | 'boosters'>('ships');
   const [adRewardMsg, setAdRewardMsg] = useState<string | null>(null);
   const [selectedShipDetail, setSelectedShipDetail] = useState<SpaceshipModelData | null>(null);
-
-  const currentShipColor = user.customization?.equippedColor || '#38bdf8';
-
-  const colorsList = [
-    { hex: '#38bdf8', name: 'Xanh Lam Cyan', price: 0 },
-    { hex: '#f59e0b', name: 'Vàng Hoàng Kim', price: 0 },
-    { hex: '#ef4444', name: 'Đỏ Chiến Binh', price: 100 },
-    { hex: '#10b981', name: 'Xanh Lục Bảo', price: 100 },
-    { hex: '#8b5cf6', name: 'Tím Tinh Vân', price: 150 },
-  ];
 
   const handleWatchAdReward = () => {
     soundService.playVictory();
@@ -247,38 +373,12 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
           <span>🛠️</span> Xưởng Tàu Không Gian
         </h2>
         <p className="text-xs sm:text-sm font-bold text-sky-200 mt-0.5">
-          Tùy biến phi thuyền, sơn màu & nạp năng lượng
+          Tùy biến phi thuyền, sơn màu 3D & nạp năng lượng
         </p>
       </div>
 
-      {/* Showroom & Poly Inspector Access Banner */}
-      {onOpenShowroom && (
-        <button
-          onClick={() => { soundService.playClick(); onOpenShowroom(); }}
-          className="mb-3.5 w-full p-3 rounded-2xl bg-gradient-to-r from-indigo-900/90 via-purple-900/90 to-slate-900 border-2 border-sky-400/60 shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:border-yellow-400 active:scale-98 transition-all flex items-center justify-between gap-3 text-left group"
-        >
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-black text-xl flex items-center justify-center shadow shrink-0 group-hover:rotate-6 transition-transform">
-              🚀
-            </div>
-            <div>
-              <div className="text-xs sm:text-sm font-black text-yellow-300 flex items-center gap-1.5">
-                <span>Phòng Duyệt 3D Hạm Đội & Tinh Cầu</span>
-                <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-              </div>
-              <p className="text-[11px] text-sky-200 font-bold mt-0.5">
-                Xoay 360°, đổi góc camera & kiểm tra khí động học
-              </p>
-            </div>
-          </div>
-          <div className="shrink-0 bg-sky-500 text-white font-black text-xs px-3 py-1.5 rounded-xl shadow border border-sky-300 group-hover:bg-sky-400 transition-colors">
-            Khám Phá ➔
-          </div>
-        </button>
-      )}
-
-      {/* Sub Tabs Switcher */}
-      <div className="flex bg-slate-900/90 border border-sky-400/40 p-1 rounded-2xl mb-4 shrink-0 shadow-lg">
+      {/* Sub Tabs Switcher (Clean 2-Tab Layout: Ships & Boosters) */}
+      <div className="flex bg-slate-900/90 border border-sky-400/40 p-1 rounded-2xl mb-4 shrink-0 shadow-lg max-w-md mx-auto w-full">
         <button
           onClick={() => { soundService.playClick(); setActiveSubTab('ships'); }}
           className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-1.5 ${
@@ -288,19 +388,7 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
           }`}
         >
           <Rocket className="w-4 h-4" />
-          <span>Phi Thuyền</span>
-        </button>
-
-        <button
-          onClick={() => { soundService.playClick(); setActiveSubTab('colors'); }}
-          className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-1.5 ${
-            activeSubTab === 'colors'
-              ? 'bg-gradient-to-r from-sky-400 to-blue-600 text-white shadow-md'
-              : 'text-slate-400 hover:text-white'
-          }`}
-        >
-          <Palette className="w-4 h-4" />
-          <span>Màu & Cờ</span>
+          <span>Phi Thuyền Không Gian</span>
         </button>
 
         <button
@@ -312,7 +400,7 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
           }`}
         >
           <Zap className="w-4 h-4" />
-          <span>Năng Lượng</span>
+          <span>Năng Lượng & Tiện Ích</span>
         </button>
       </div>
 
@@ -342,7 +430,7 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
                     : 'bg-slate-900/50 border-slate-800 opacity-90'
                 }`}
               >
-                {/* Ship Graphic 3D Image Thumbnail */}
+                {/* Ship Graphic 3D Image Thumbnail (Clean, no overlapping text) */}
                 <div className="flex items-center gap-3 sm:gap-3.5 flex-1 min-w-0">
                   <div className="w-14 h-14 sm:w-16 sm:h-16 max-w-[56px] max-h-[56px] sm:max-w-[64px] sm:max-h-[64px] aspect-square rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-sky-400/40 shrink-0 shadow-lg relative overflow-hidden flex items-center justify-center">
                     <img
@@ -350,9 +438,6 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
                       alt={s.nameVi}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <span className="absolute -top-1 -right-1 bg-yellow-400 text-slate-950 font-black text-[8px] sm:text-[9px] px-1.5 py-0.2 rounded-full shadow z-10">
-                      {s.badge}
-                    </span>
                   </div>
 
                   <div className="flex-1 min-w-0">
@@ -360,9 +445,9 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
                       <span>{s.nameVi}</span>
                       {isEquipped && <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />}
                     </h4>
-                    <p className="text-xs text-slate-300 font-medium line-clamp-2 mt-0.5 leading-snug">{s.description}</p>
+                    <p className="text-xs text-slate-300 font-medium line-clamp-1 mt-0.5">{s.classType}</p>
                     
-                    {/* 3 Game Stats: Speed, Shield, Power */}
+                    {/* Highly Differentiated 3 Game Stats */}
                     <div className="flex items-center gap-1.5 sm:gap-2 mt-1.5">
                       <span className="bg-slate-950/80 border border-sky-500/30 px-1.5 py-0.5 rounded-lg text-[11px] font-black text-sky-300">
                         ⚡ {s.speed}
@@ -379,7 +464,12 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
 
                 {/* Status / Action Indicator */}
                 <div className="shrink-0 flex items-center">
-                  {isEquipped ? (
+                  {s.isPlaceholder ? (
+                    <span className="bg-indigo-950/90 text-indigo-300 font-black text-xs px-2.5 py-1.5 rounded-xl border border-indigo-400/50 shadow flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
+                      <span>Sắp Ra Mắt</span>
+                    </span>
+                  ) : isEquipped ? (
                     <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 font-black text-xs px-2.5 py-1.5 rounded-xl flex items-center gap-1">
                       <Check className="w-3.5 h-3.5 stroke-[3]" /> Lái
                     </span>
@@ -400,85 +490,12 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
 
           {/* Footer Note */}
           <div className="text-center text-xs font-bold text-slate-400 py-3 border-t border-slate-800/80 mt-2">
-            Nhấn vào bất kỳ phi thuyền nào để xoay 3D 360° và xem chi tiết
+            Nhấn vào phi thuyền để xoay 3D 360°, sơn màu real-time và gắn cờ
           </div>
         </div>
       )}
 
-      {/* SubTab 2: Paint Colors */}
-      {activeSubTab === 'colors' && (
-        <div className="space-y-4 animate-fadeIn">
-          {/* Color Palettes Grid */}
-          <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-sky-400/40 shadow-xl space-y-4">
-            <h4 className="font-black text-sm sm:text-base text-yellow-300 flex items-center gap-2">
-              <Palette className="w-4 h-4 text-sky-400" />
-              <span>Bảng Màu Sơn Thân Tàu</span>
-            </h4>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {colorsList.map((c) => {
-                const isColorUnlocked = (user.customization?.unlockedColors || ['#38bdf8', '#f59e0b']).includes(c.hex);
-                const isColorEquipped = currentShipColor === c.hex;
-
-                return (
-                  <div
-                    key={c.hex}
-                    className={`p-3.5 rounded-2xl border-2 transition-all flex items-center justify-between gap-3 ${
-                      isColorEquipped
-                        ? 'bg-sky-950/80 border-sky-400 shadow-sky-500/20'
-                        : isColorUnlocked
-                        ? 'bg-slate-800/80 border-slate-700'
-                        : 'bg-slate-900/50 border-slate-800 opacity-80'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="w-10 h-10 rounded-xl border-2 border-white/40 shadow-inner flex items-center justify-center shrink-0"
-                        style={{ backgroundColor: c.hex }}
-                      >
-                        {isColorEquipped && <Check className="w-5 h-5 text-white drop-shadow" />}
-                      </div>
-                      <div>
-                        <span className="font-black text-xs sm:text-sm text-white block">{c.name}</span>
-                        {!isColorUnlocked && (
-                          <span className="text-[11px] text-amber-300 font-bold">🟡 {c.price} Xu Nova</span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div>
-                      {isColorEquipped ? (
-                        <span className="text-emerald-300 font-black text-xs bg-emerald-500/20 px-3 py-1.5 rounded-xl border border-emerald-400/50 flex items-center gap-1">
-                          <Check className="w-3.5 h-3.5" /> Dùng
-                        </span>
-                      ) : isColorUnlocked ? (
-                        <button
-                          onClick={() => equipColor(c.hex)}
-                          className="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white font-black text-xs px-3.5 py-1.5 rounded-xl border border-sky-300 shadow"
-                        >
-                          Chọn
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => {
-                            const ok = buyColor(c.hex, c.price);
-                            if (!ok) alert('Bạn không đủ Xu Nova 🟡!');
-                          }}
-                          className="bg-amber-500 hover:bg-amber-400 active:scale-95 text-amber-950 font-black text-xs px-3.5 py-1.5 rounded-xl border border-amber-300 shadow flex items-center gap-1"
-                        >
-                          <span>Mở ({c.price} Xu)</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* SubTab 3: Energy & Boosters */}
+      {/* SubTab 2: Energy & Boosters */}
       {activeSubTab === 'boosters' && (
         <div className="space-y-4 animate-fadeIn">
           {/* Reactor & Capacity Overview */}
@@ -604,12 +621,11 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
         </div>
       )}
 
-      {/* Interactive 3D Orbit Detail Modal when user selects a ship */}
+      {/* Interactive 3D Orbit Detail & Integrated Customization Modal */}
       {selectedShipDetail && (
         <ShipInteractiveDetailModal
           ship={selectedShipDetail}
           onClose={() => setSelectedShipDetail(null)}
-          shipColor={currentShipColor}
           isUnlocked={user.customization?.unlockedShips?.includes(selectedShipDetail.id) ?? false}
           isEquipped={user.customization?.equippedShip === selectedShipDetail.id}
           onEquip={() => handleEquipShipInModal(selectedShipDetail.id)}

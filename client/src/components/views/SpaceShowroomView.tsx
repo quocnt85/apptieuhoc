@@ -246,41 +246,54 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
           </div>
         </div>
 
-        {/* Mode Switcher: Ships <-> Planets <-> Poly Inspector */}
-        <div className="flex bg-slate-900 border border-sky-400/40 p-1 rounded-2xl shadow-inner flex-wrap gap-1">
-          <button
-            data-testid="showroom-tab-ships"
-            onClick={() => {
-              soundService.playClick();
-              setMode('ships');
-              setCameraPreset('default');
-            }}
-            className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
-              mode === 'ships'
-                ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Rocket className="w-3.5 h-3.5" />
-            <span>5 Tàu Khám Phá</span>
-          </button>
+        {/* Mode Switcher & Close Button */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex bg-slate-900 border border-sky-400/40 p-1 rounded-2xl shadow-inner flex-wrap gap-1">
+            <button
+              data-testid="showroom-tab-ships"
+              onClick={() => {
+                soundService.playClick();
+                setMode('ships');
+                setCameraPreset('default');
+              }}
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
+                mode === 'ships'
+                  ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Rocket className="w-3.5 h-3.5" />
+              <span>5 Tàu Khám Phá</span>
+            </button>
 
-          <button
-            data-testid="showroom-tab-planets"
-            onClick={() => {
-              soundService.playClick();
-              setMode('planets');
-              setCameraPreset('default');
-            }}
-            className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
-              mode === 'planets'
-                ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Globe2 className="w-3.5 h-3.5" />
-            <span>5 Hành Tinh</span>
-          </button>
+            <button
+              data-testid="showroom-tab-planets"
+              onClick={() => {
+                soundService.playClick();
+                setMode('planets');
+                setCameraPreset('default');
+              }}
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
+                mode === 'planets'
+                  ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Globe2 className="w-3.5 h-3.5" />
+              <span>5 Hành Tinh</span>
+            </button>
+          </div>
+
+          {onClose && (
+            <button
+              onClick={() => { soundService.playClick(); onClose(); }}
+              className="px-3 py-1.5 rounded-xl bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-rose-200 text-xs font-black transition-all active:scale-95 flex items-center gap-1 shadow"
+              title="Đóng phòng duyệt"
+            >
+              <span>✕</span>
+              <span>Thoát</span>
+            </button>
+          )}
         </div>
       </div>
 

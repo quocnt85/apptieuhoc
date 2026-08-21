@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PlanetCoordinateNode, PlanetData } from '../../types';
 import { useGameStore } from '../../stores/useGameStore';
-import { Zap, Star, Shield, Sparkles, X, AlertCircle, Radio, Gauge, Power, Compass, ChevronDown, Lock, Rocket, RotateCcw } from 'lucide-react';
+import { Star, Sparkles, AlertCircle, ChevronDown, Lock, Rocket } from 'lucide-react';
 import { soundService } from '../../services/audio';
 
 interface Props {
@@ -28,12 +28,6 @@ export const SpaceshipCockpitDashboard: React.FC<Props> = ({
     selectPlanet,
   } = useGameStore();
 
-  const [activeToggle, setActiveToggle] = useState<Record<string, boolean>>({
-    radar: true,
-    shields: true,
-    warp: true,
-  });
-
   const isCompleted = Boolean(completedNodes[node.id]);
   const starsEarned = nodeStars[node.id] || (isCompleted ? 3 : 0);
   const isFirstTry = !isCompleted;
@@ -42,11 +36,6 @@ export const SpaceshipCockpitDashboard: React.FC<Props> = ({
 
   const isUnlocked = isNodeUnlocked(node, planet?.id);
   const planetUnlocked = planet ? isPlanetUnlocked(planet.id) : true;
-
-  const handleToggleSwitch = (key: string) => {
-    soundService.playClick();
-    setActiveToggle((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
 
   const handleStart = () => {
     if (!isUnlocked) {
@@ -73,8 +62,6 @@ export const SpaceshipCockpitDashboard: React.FC<Props> = ({
     ? 'CHƯA MỞ KHÓA BÀI HỌC 🔒'
     : node.isBoss
     ? 'BẮT ĐẦU ĐẤU BOSS ⚔️'
-    : isCompleted
-    ? 'BẮT ĐẦU LUYỆN LẠI 🔄'
     : 'BẮT ĐẦU 🚀';
 
   return (
@@ -88,13 +75,7 @@ export const SpaceshipCockpitDashboard: React.FC<Props> = ({
       {/* Main Spaceship Cockpit Control Board (Sliding from bottom) */}
       <div className="relative w-full max-w-2xl mx-auto bg-gradient-to-b from-[#0b1329] via-[#0f172a] to-[#050814] border-t-3 border-x-2 border-sky-400/80 rounded-t-[36px] sm:rounded-t-[44px] shadow-[0_-15px_50px_rgba(56,189,248,0.35)] px-4 pt-3 pb-6 sm:px-6 sm:pb-8 flex flex-col z-10 animate-slideUpBottom overflow-hidden">
         {/* Cockpit Canopy Top Handle & Fast Dismiss */}
-        <div className="flex items-center justify-between w-full mb-2">
-          {/* Status Indicator */}
-          <div className="flex items-center gap-2 px-3 py-1 bg-slate-900/90 border border-sky-500/40 rounded-full text-[11px] font-black text-sky-300">
-            <span className={`w-2 h-2 rounded-full ${isUnlocked ? 'bg-emerald-400 animate-ping' : 'bg-amber-400'}`} />
-            <span className="tracking-wider">TỌA ĐỘ ĐÃ ĐÁP: {node.id.toUpperCase()}</span>
-          </div>
-
+        <div className="flex items-center justify-end w-full mb-2">
           {/* Minimize / Close Cockpit Button */}
           <button
             type="button"
@@ -141,37 +122,33 @@ export const SpaceshipCockpitDashboard: React.FC<Props> = ({
 
             {/* Mission Details */}
             <div className="flex-1 text-center sm:text-left min-w-0">
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
-                <span className="bg-sky-500/20 text-sky-300 border border-sky-400/40 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-md uppercase">
-                  {planet?.titleVi || 'Nhiệm Vụ Không Gian'}
-                </span>
-                {node.isBoss && isUnlocked && (
-                  <span className="bg-rose-500/20 text-rose-300 border border-rose-400/50 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-md">
-                    👑 BOSS TRANH ĐOẠT
-                  </span>
-                )}
-                {!isUnlocked && (
-                  <span className="bg-amber-500/20 text-amber-300 border border-amber-400/50 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-md flex items-center gap-1">
-                    <Lock className="w-3 h-3 text-amber-400" />
-                    <span>CHƯA MỞ KHÓA</span>
-                  </span>
-                )}
-              </div>
+              {(node.isBoss || !isUnlocked) && (
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
+                  {node.isBoss && isUnlocked && (
+                    <span className="bg-rose-500/20 text-rose-300 border border-rose-400/50 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-md">
+                      👑 BOSS TRANH ĐOẠT
+                    </span>
+                  )}
+                  {!isUnlocked && (
+                    <span className="bg-amber-500/20 text-amber-300 border border-amber-400/50 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-md flex items-center gap-1">
+                      <Lock className="w-3 h-3 text-amber-400" />
+                      <span>CHƯA MỞ KHÓA</span>
+                    </span>
+                  )}
+                </div>
+              )}
 
               <h3 className="font-black text-base sm:text-xl text-yellow-300 tracking-tight line-clamp-1">
                 {node.title}
               </h3>
-              <p className="text-xs sm:text-sm font-semibold text-sky-100/90 mt-0.5 line-clamp-2">
-                {node.subtitle}
-              </p>
 
               {/* Reward & Energy HUD / Unlock Requirement Box */}
               {isUnlocked ? (
                 <div className="flex items-center justify-center sm:justify-start gap-2.5 mt-2.5 flex-wrap">
                   <div className="bg-slate-900/80 border border-amber-400/40 px-2.5 py-1 rounded-xl flex items-center gap-1.5 text-xs font-bold text-amber-200 shadow-sm">
-                    <span>🟡 +{node.rewardCoins} Xu</span>
+                    <span>🟡 +{node.rewardCoins}</span>
                     <span className="text-slate-500">•</span>
-                    <span className="text-sky-300">⚡ +{node.rewardXp} XP</span>
+                    <span className="text-sky-300">+{node.rewardXp} XP</span>
                   </div>
 
                   <div
@@ -190,8 +167,8 @@ export const SpaceshipCockpitDashboard: React.FC<Props> = ({
                     ) : node.isBoss && user.freeBossPassCount > 0 ? (
                       <span>🎫 Vé Boss Miễn Phí</span>
                     ) : (
-                      <span className="flex items-center gap-1">
-                        <Zap className="w-3.5 h-3.5 fill-current" /> {energyCost} / {user.energy} ⚡
+                      <span>
+                        {energyCost} / {user.energy}
                       </span>
                     )}
                   </div>
@@ -211,53 +188,6 @@ export const SpaceshipCockpitDashboard: React.FC<Props> = ({
           </div>
         </div>
 
-        {/* 2. COCKPIT SUB-SYSTEM GAUGES & BUTTONS (Hệ thống đồng hồ, công tắc & nút bấm tàu) */}
-        <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3 items-center">
-          {/* Gauge 1: Planetary Environment Dial */}
-          <div className="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center shadow-inner">
-            <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400">
-              <Compass className="w-3 h-3 text-sky-400" />
-              <span>MÔI TRƯỜNG</span>
-            </div>
-            <div className="text-xs sm:text-sm font-black text-cyan-300 mt-0.5">
-              {planet?.surfaceTemp || '25°C'}
-            </div>
-            <span className="text-[9px] text-slate-400 font-semibold">{planet?.gravity || '1.0 G'} Trọng lực</span>
-          </div>
-
-          {/* Gauge 2: Warp Reactor Core */}
-          <div className="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center shadow-inner">
-            <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400">
-              <Power className="w-3 h-3 text-amber-400" />
-              <span>ĐỘNG CƠ</span>
-            </div>
-            <div className="flex items-center gap-1 text-xs sm:text-sm font-black text-emerald-400 mt-0.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>ONLINE</span>
-            </div>
-            <span className="text-[9px] text-slate-400 font-semibold">Warp Drive 100%</span>
-          </div>
-
-          {/* Controls: Cockpit Toggle Switches */}
-          <div className="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center shadow-inner">
-            <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400">
-              <Shield className="w-3 h-3 text-indigo-400" />
-              <span>PHÒNG HỘ</span>
-            </div>
-            <button
-              type="button"
-              onClick={() => handleToggleSwitch('shields')}
-              className={`mt-1 px-2 py-0.5 rounded-md text-[10px] font-black transition-all border ${
-                activeToggle.shields
-                  ? 'bg-sky-500/20 border-sky-400 text-sky-300 shadow-[0_0_8px_rgba(56,189,248,0.5)]'
-                  : 'bg-slate-800 border-slate-600 text-slate-400'
-              }`}
-            >
-              {activeToggle.shields ? '🛡️ KHIÊN BẬT' : 'TẮT'}
-            </button>
-          </div>
-        </div>
-
         {/* Insufficient Energy Warning */}
         {isUnlocked && !hasEnoughEnergy && (
           <div className="mt-3 bg-rose-950/80 border border-rose-500/60 p-2.5 rounded-xl flex items-center gap-2 text-rose-200 text-xs font-bold">
@@ -266,7 +196,7 @@ export const SpaceshipCockpitDashboard: React.FC<Props> = ({
           </div>
         )}
 
-        {/* 3. MAIN ENGINE IGNITION BUTTON (Nút BẮT ĐẦU siêu to khởi hành / Quay về Tinh Cầu Dũng Khí) */}
+        {/* 3. MAIN ENGINE IGNITION BUTTON (Nút BẮT ĐẦU khởi hành / Quay về Tinh Cầu Dũng Khí) */}
         <div className="mt-3.5 flex flex-col gap-2">
           <button
             type="button"

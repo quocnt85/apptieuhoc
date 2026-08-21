@@ -76,6 +76,7 @@ interface GameState {
   devBackupUser: UserProfile | null;
 
   unlockGodMode: () => void;
+  toggleGodMode: () => void;
   toggleDevPanel: (open?: boolean) => void;
   toggleUnlimitedMode: () => void;
   toggleFpsOverlay: (show?: boolean) => void;
@@ -105,21 +106,21 @@ const defaultProgress: Record<DomainId, DomainProgress> = {
 };
 
 const initialUser: UserProfile = {
-  id: 'user_001',
+  id: 'guest_space_pilot',
   name: 'Phi Hành Gia Nhí',
   grade: 3,
   avatar: '👨‍🚀',
   level: 1,
-  xp: 150,
-  xpToNextLevel: 300,
+  xp: 0,
+  xpToNextLevel: 100,
   energy: 50,
   maxEnergy: 50,
   lastEnergyTimestamp: Date.now(),
-  novaCoins: 350,
-  diamonds: 45,
-  gems: 45,
-  stars: 3,
-  streakDays: 3,
+  novaCoins: 0,
+  diamonds: 0,
+  gems: 0,
+  stars: 0,
+  streakDays: 0,
   lastActiveDate: new Date().toISOString(),
   freeBossPassCount: 1,
   customization: {
@@ -127,7 +128,7 @@ const initialUser: UserProfile = {
     equippedColor: '#38bdf8',
     hasVietnamFlag: true,
     unlockedShips: ['explorer_v1'],
-    unlockedColors: ['#38bdf8', '#f59e0b'],
+    unlockedColors: ['default', '#38bdf8'],
     unlockedAccessories: ['flag_vn'],
     unlockedAvatars: ['👨‍🚀', '👩‍🚀', '🧑‍🚀', '⭐', '🤖', '🦊', '🦁', '🐼', '🦄', '🦖'],
   },
@@ -557,8 +558,39 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   // Dev God Mode Implementations
   unlockGodMode: () => {
+    const { devBackupUser, user } = get();
     soundService.playVictory();
-    set({ isGodModeUnlocked: true, isDevPanelOpen: true });
+    set({
+      isGodModeUnlocked: true,
+      isDevPanelOpen: true,
+      devBackupUser: devBackupUser || JSON.parse(JSON.stringify(user)),
+    });
+    get().saveToLocalStorage();
+  },
+
+  toggleGodMode: () => {
+    const { isGodModeUnlocked, devBackupUser, user } = get();
+    soundService.playVictory();
+    if (isGodModeUnlocked) {
+      // Đang BẬT -> TẮT: Khôi phục mọi chỉ số về trạng thái thực tế
+      const restoredUser = devBackupUser ? { ...devBackupUser } : { ...user };
+      set({
+        isGodModeUnlocked: false,
+        isDevPanelOpen: false,
+        isUnlimitedMode: false,
+        showFpsOverlay: false,
+        user: restoredUser,
+        devBackupUser: null,
+      });
+    } else {
+      // Đang TẮT -> BẬT: Sao lưu chỉ số thực tế hiện tại
+      set({
+        isGodModeUnlocked: true,
+        isDevPanelOpen: true,
+        devBackupUser: JSON.parse(JSON.stringify(user)),
+      });
+    }
+    get().saveToLocalStorage();
   },
 
   toggleDevPanel: (open) => {
@@ -702,8 +734,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   saveToLocalStorage: () => {
     try {
-      const { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay } = get();
-      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay };
+      const { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser } = get();
+      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch (e) {
       console.warn('Failed to save space state to localStorage', e);
@@ -729,6 +761,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           activePlanetId: parsed.activePlanetId || 'bravery_prime',
           isGodModeUnlocked: parsed.isGodModeUnlocked ?? state.isGodModeUnlocked,
           showFpsOverlay: parsed.showFpsOverlay ?? state.showFpsOverlay,
+          devBackupUser: parsed.devBackupUser ?? null,
         }));
       }
       get().refreshEnergy();
