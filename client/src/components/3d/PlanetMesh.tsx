@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
-import { PlanetData, PlanetCoordinateNode } from '../../types';
+import { PlanetData, PlanetCoordinateNode, MoonData } from '../../types';
 import { LessonCoordinatesMarker } from './LessonCoordinatesMarker';
 import { useGameStore } from '../../stores/useGameStore';
 import {
@@ -10,9 +10,10 @@ import {
   createStormGiantTexture,
   createFrostAegisTexture,
   createMagmaIgnisTexture,
-  createRealisticAtmosphericClouds,
+  createDiverseAtmosphericClouds,
+  createProceduralMoonTexture,
+  createRealisticPlanetaryRingTexture,
 } from './planets/PhotorealisticPlanetTextures';
-import { fbm, voronoi3D } from '../../utils/proceduralNoise';
 
 interface Props {
   planet: PlanetData;
@@ -22,77 +23,46 @@ interface Props {
   interactiveSpin?: boolean;
 }
 
-// Procedural Concentric Ring Texture
-function generateRingTexture(ringColor: string): THREE.CanvasTexture {
-  const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 32;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return new THREE.CanvasTexture(canvas);
+// Polar Concentric Ring Geometry with Exact Polar UV Coordinates (0 to 1 radially)
+function createPolarRingGeometry(innerRadius: number, outerRadius: number, thetaSegments: number = 128): THREE.BufferGeometry {
+  const geometry = new THREE.BufferGeometry();
+  const positions: number[] = [];
+  const uvs: number[] = [];
+  const indices: number[] = [];
 
-  const grad = ctx.createLinearGradient(0, 0, canvas.width, 0);
-  grad.addColorStop(0, 'transparent');
-  grad.addColorStop(0.06, ringColor);
-  grad.addColorStop(0.22, 'rgba(255,255,255,0.9)');
-  grad.addColorStop(0.35, 'rgba(0,0,0,0.12)'); // Cassini division
-  grad.addColorStop(0.44, ringColor);
-  grad.addColorStop(0.70, 'rgba(255,245,180,0.95)');
-  grad.addColorStop(0.88, ringColor);
-  grad.addColorStop(1, 'transparent');
+  for (let i = 0; i <= thetaSegments; i++) {
+    const theta = (i / thetaSegments) * Math.PI * 2;
+    const cos = Math.cos(theta);
+    const sin = Math.sin(theta);
+    const v = i / thetaSegments;
 
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Inner ring vertex
+    positions.push(innerRadius * cos, innerRadius * sin, 0);
+    uvs.push(0, v); // u = 0 at inner edge
 
-  const texture = new THREE.CanvasTexture(canvas);
-  return texture;
-}
-
-// Procedural Moon Crater Texture Generator
-function createCraterMoonTexture(baseColor: string = '#cbd5e1'): THREE.CanvasTexture {
-  const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 128;
-  const ctx = canvas.getContext('2d')!;
-  const imgData = ctx.createImageData(256, 128);
-  const data = imgData.data;
-
-  // Base RGB from hex
-  const tempColor = new THREE.Color(baseColor);
-  const br = Math.floor(tempColor.r * 255);
-  const bg = Math.floor(tempColor.g * 255);
-  const bb = Math.floor(tempColor.b * 255);
-
-  for (let y = 0; y < 128; y++) {
-    for (let x = 0; x < 256; x++) {
-      const u = x / 255;
-      const v = y / 127;
-      const theta = (u - 0.5) * 2 * Math.PI;
-      const phi = (v - 0.5) * Math.PI;
-      const nx = Math.cos(phi) * Math.sin(theta);
-      const ny = Math.sin(phi);
-      const nz = Math.cos(phi) * Math.cos(theta);
-
-      const noise = fbm(nx * 4, ny * 4, nz * 4, 4);
-      const crater = voronoi3D(nx * 6, ny * 6, nz * 6).crack;
-      const shade = Math.floor((noise * 0.7 + (1.0 - crater) * 0.3) * 255);
-
-      const r = Math.floor((br * shade) / 255);
-      const g = Math.floor((bg * shade) / 255);
-      const b = Math.floor((bb * shade) / 255);
-
-      const idx = (y * 256 + x) * 4;
-      data[idx] = r;
-      data[idx + 1] = g;
-      data[idx + 2] = b;
-      data[idx + 3] = 255;
-    }
+    // Outer ring vertex
+    positions.push(outerRadius * cos, outerRadius * sin, 0);
+    uvs.push(1, v); // u = 1 at outer edge
   }
 
-  ctx.putImageData(imgData, 0, 0);
-  return new THREE.CanvasTexture(canvas);
+  for (let i = 0; i < thetaSegments; i++) {
+    const i0 = i * 2;
+    const i1 = i * 2 + 1;
+    const i2 = (i + 1) * 2;
+    const i3 = (i + 1) * 2 + 1;
+
+    indices.push(i0, i2, i1);
+    indices.push(i1, i2, i3);
+  }
+
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  return geometry;
 }
 
-// Atmospheric Configuration Per Planet
+// Atmospheric Shell Configuration
 interface AtmosphereConfig {
   innerThickness: number;
   innerOpacity: number;
@@ -153,6 +123,55 @@ function getAtmosphereConfig(type: PlanetData['type']): AtmosphereConfig {
   }
 }
 
+// Single Moon Component with Custom Tilt, Rotation & Orbit Track
+const MoonOrbitItem: React.FC<{
+  moon: MoonData;
+  planetRadius: number;
+}> = ({ moon, planetRadius }) => {
+  const orbitGroupRef = useRef<THREE.Group>(null);
+  const moonTexture = useMemo(
+    () => createProceduralMoonTexture(moon.color, moon.textureType),
+    [moon.color, moon.textureType]
+  );
+
+  const moonDist = moon.distance * planetRadius;
+
+  useFrame(() => {
+    if (orbitGroupRef.current) {
+      orbitGroupRef.current.rotation.y += moon.orbitSpeed;
+    }
+  });
+
+  return (
+    <group ref={orbitGroupRef} rotation={moon.orbitTilt}>
+      {/* Orbit Guide Track Ring */}
+      {moon.hasOrbitTrack && (
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[moonDist - 0.003, moonDist + 0.003, 64]} />
+          <meshBasicMaterial
+            color={moon.orbitTrackColor || moon.color}
+            transparent
+            opacity={0.18}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      )}
+
+      {/* Textured Moon Sphere */}
+      <mesh position={[moonDist, 0, 0]}>
+        <sphereGeometry args={[moon.size, 32, 32]} />
+        <meshStandardMaterial
+          map={moonTexture}
+          roughness={moon.textureType === 'crystal' ? 0.4 : 0.88}
+          metalness={moon.textureType === 'metallic' ? 0.6 : moon.textureType === 'crystal' ? 0.3 : 0.08}
+          emissive={moon.glowColor ? new THREE.Color(moon.glowColor) : undefined}
+          emissiveIntensity={moon.glowColor ? 0.3 : 0}
+        />
+      </mesh>
+    </group>
+  );
+};
+
 export const PlanetMesh: React.FC<Props> = ({
   planet,
   radius = 1.0,
@@ -164,8 +183,6 @@ export const PlanetMesh: React.FC<Props> = ({
   const planetGroupRef = useRef<THREE.Group>(null);
   const coreSphereRef = useRef<THREE.Mesh>(null);
   const cloudSphereRef = useRef<THREE.Mesh>(null);
-  const moonOrbitGroup1Ref = useRef<THREE.Group>(null);
-  const moonOrbitGroup2Ref = useRef<THREE.Group>(null);
 
   // Manual Drag Rotation State
   const isDraggingRef = useRef(false);
@@ -176,7 +193,7 @@ export const PlanetMesh: React.FC<Props> = ({
 
   const { gl } = useThree();
 
-  // Photorealistic Procedural Textures
+  // Photorealistic Procedural Surface Textures
   const textureData = useMemo(() => {
     switch (planet.type) {
       case 'ocean':
@@ -193,26 +210,36 @@ export const PlanetMesh: React.FC<Props> = ({
     }
   }, [planet.id, planet.type]);
 
-  const cloudsTexture = useMemo(
-    () => createRealisticAtmosphericClouds(1024, 512),
-    [planet.type]
-  );
+  // Atmospheric Clouds Layer
+  const hasClouds = planet.cloudConfig?.hasClouds ?? (planet.type !== 'gas_giant');
+  const cloudsTexture = useMemo(() => {
+    if (!hasClouds) return null;
+    return createDiverseAtmosphericClouds(
+      1024,
+      512,
+      planet.cloudConfig?.cloudType || 'terrestrial_cumulus',
+      planet.cloudConfig?.color || '#ffffff'
+    );
+  }, [planet.id, hasClouds, planet.cloudConfig?.cloudType, planet.cloudConfig?.color]);
 
-  const ringTexture = useMemo(
-    () => generateRingTexture(planet.ringColor || '#fde047'),
-    [planet.ringColor]
-  );
+  // Planetary Rings Polar Geometry & Realistic Texture
+  const hasRings = planet.hasRings || planet.ringConfig?.hasRings;
+  const ringInner = (planet.ringConfig?.innerRadius || planet.ringInnerRadius || 1.5) * radius;
+  const ringOuter = (planet.ringConfig?.outerRadius || planet.ringOuterRadius || 2.3) * radius;
 
-  const moonTexture1 = useMemo(
-    () => createCraterMoonTexture(planet.moonColor || '#cbd5e1'),
-    [planet.moonColor]
-  );
+  const polarRingGeo = useMemo(() => {
+    if (!hasRings) return null;
+    return createPolarRingGeometry(ringInner, ringOuter, 128);
+  }, [hasRings, ringInner, ringOuter]);
 
-  const moonTexture2 = useMemo(
-    () => createCraterMoonTexture('#94a3b8'),
-    []
-  );
+  const ringTexture = useMemo(() => {
+    if (!hasRings) return null;
+    const col1 = planet.ringConfig?.primaryColor || planet.ringColor || '#fbbf24';
+    const col2 = planet.ringConfig?.secondaryColor || '#fef08a';
+    return createRealisticPlanetaryRingTexture(col1, col2);
+  }, [hasRings, planet.ringConfig, planet.ringColor]);
 
+  // Atmosphere glow shell configuration
   const atmos = useMemo(() => getAtmosphereConfig(planet.type), [planet.type]);
 
   // Auto-align when node selected in game mode
@@ -286,18 +313,13 @@ export const PlanetMesh: React.FC<Props> = ({
       rotationVelocityRef.current.y *= 0.92;
     }
 
-    if (cloudSphereRef.current) {
-      cloudSphereRef.current.rotation.y += 0.0016;
-    }
-
-    if (moonOrbitGroup1Ref.current) {
-      moonOrbitGroup1Ref.current.rotation.y += 0.009;
-    }
-
-    if (moonOrbitGroup2Ref.current) {
-      moonOrbitGroup2Ref.current.rotation.y -= 0.006;
+    if (cloudSphereRef.current && hasClouds) {
+      const speed = planet.cloudConfig?.speed || 0.0016;
+      cloudSphereRef.current.rotation.y += speed;
     }
   });
+
+  const ringTilt = (Math.PI / 2) + (planet.ringConfig?.tiltOffset || 0.12);
 
   return (
     <group rotation={[planet.tiltAngle, 0, 0]}>
@@ -317,14 +339,14 @@ export const PlanetMesh: React.FC<Props> = ({
           />
         </mesh>
 
-        {/* Photorealistic Cloud Turbulence Layer */}
-        {planet.type !== 'gas_giant' && (
+        {/* Photorealistic Cloud Turbulence Layer (Đa dạng độ dày & màu sắc) */}
+        {hasClouds && cloudsTexture && (
           <mesh ref={cloudSphereRef} scale={[1.025, 1.025, 1.025]}>
             <sphereGeometry args={[radius, 64, 64]} />
             <meshStandardMaterial
               map={cloudsTexture}
               transparent
-              opacity={planet.type === 'magma' ? 0.25 : planet.type === 'ocean' ? 0.6 : 0.45}
+              opacity={planet.cloudConfig?.opacity ?? (planet.type === 'magma' ? 0.45 : planet.type === 'ocean' ? 0.65 : 0.5)}
               roughness={0.9}
               depthWrite={false}
             />
@@ -353,63 +375,30 @@ export const PlanetMesh: React.FC<Props> = ({
           />
         </mesh>
 
-        {/* Planetary Rings */}
-        {planet.hasRings && (
-          <mesh rotation={[Math.PI / 2 + 0.12, 0, 0]}>
-            <ringGeometry args={[radius * 1.45, radius * 2.35, 96]} />
+        {/* Planetary Rings with Polar Concentric UV & Cassini Division */}
+        {hasRings && polarRingGeo && ringTexture && (
+          <mesh geometry={polarRingGeo} rotation={[ringTilt, 0, 0]}>
             <meshStandardMaterial
               map={ringTexture}
-              color="#ffffff"
               transparent
-              opacity={0.92}
+              opacity={0.95}
               side={THREE.DoubleSide}
-              roughness={0.3}
+              roughness={0.35}
+              depthWrite={false}
             />
           </mesh>
         )}
 
-        {/* Primary Moon System */}
-        {planet.hasMoon && (
-          <group ref={moonOrbitGroup1Ref} rotation={[0.2, 0, 0.15]}>
-            {/* Orbit Path Guide Ring */}
-            <mesh rotation={[Math.PI / 2, 0, 0]}>
-              <ringGeometry args={[radius * 2.4 - 0.003, radius * 2.4 + 0.003, 64]} />
-              <meshBasicMaterial color={atmos.outerColor} transparent opacity={0.2} side={THREE.DoubleSide} />
-            </mesh>
+        {/* Multi-Moon Satellite System */}
+        {planet.moons && planet.moons.map((moon) => (
+          <MoonOrbitItem
+            key={moon.id}
+            moon={moon}
+            planetRadius={radius}
+          />
+        ))}
 
-            {/* Textured Moon with Craters */}
-            <mesh position={[radius * 2.4, 0.1, 0]}>
-              <sphereGeometry args={[0.13, 32, 32]} />
-              <meshStandardMaterial
-                map={moonTexture1}
-                roughness={0.88}
-                metalness={0.08}
-              />
-            </mesh>
-          </group>
-        )}
-
-        {/* Secondary Moon System for Gas Giant / Special Planets */}
-        {(planet.type === 'gas_giant' || planet.id === 'storm_giant' || planet.id === 'bravery_prime') && (
-          <group ref={moonOrbitGroup2Ref} rotation={[-0.35, 0, -0.2]}>
-            <mesh rotation={[Math.PI / 2, 0, 0]}>
-              <ringGeometry args={[radius * 3.1 - 0.003, radius * 3.1 + 0.003, 64]} />
-              <meshBasicMaterial color={atmos.innerColor} transparent opacity={0.12} side={THREE.DoubleSide} />
-            </mesh>
-
-            {/* Small Distant Moonlet */}
-            <mesh position={[radius * 3.1, -0.15, 0]}>
-              <sphereGeometry args={[0.08, 24, 24]} />
-              <meshStandardMaterial
-                map={moonTexture2}
-                roughness={0.92}
-                metalness={0.05}
-              />
-            </mesh>
-          </group>
-        )}
-
-        {/* Coordinate Markers */}
+        {/* Coordinate Markers on Planet Surface */}
         {showNodes && onSelectNode && planet.nodes.map((node, index) => (
           <LessonCoordinatesMarker
             key={node.id}
@@ -423,3 +412,4 @@ export const PlanetMesh: React.FC<Props> = ({
     </group>
   );
 };
+

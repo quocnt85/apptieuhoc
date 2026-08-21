@@ -109,6 +109,38 @@ export interface PlanetCoordinateNode {
   domainId: DomainId;
 }
 
+export interface MoonData {
+  id: string;
+  name: string;
+  nameVi: string;
+  size: number; // e.g. 0.05 to 0.18
+  distance: number; // e.g. 2.0 to 3.8
+  orbitSpeed: number; // e.g. 0.005 to 0.015 (chiều thuận hoặc nghịch)
+  orbitTilt: [number, number, number]; // [x, y, z] tilt radians
+  color: string;
+  textureType: 'crater' | 'ice_cracked' | 'lava_rock' | 'crystal' | 'metallic';
+  hasOrbitTrack?: boolean;
+  orbitTrackColor?: string;
+  glowColor?: string;
+}
+
+export interface PlanetCloudConfig {
+  hasClouds: boolean;
+  cloudType: 'terrestrial_cumulus' | 'tropical_cyclones' | 'aurora_mist' | 'volcanic_ash_smoke' | 'none';
+  color?: string; // '#ffffff', '#1e293b' (tro núi lửa), '#7dd3fc' (băng cực quang)
+  opacity?: number; // 0.2 to 0.8
+  speed?: number; // Tốc độ quay của mây
+}
+
+export interface PlanetRingConfig {
+  hasRings: boolean;
+  innerRadius: number; // e.g. 1.45
+  outerRadius: number; // e.g. 2.45
+  primaryColor: string;
+  secondaryColor?: string;
+  tiltOffset?: number; // Độ lệch góc nghiêng
+}
+
 export interface PlanetData {
   id: string;
   name: string;
@@ -125,9 +157,12 @@ export interface PlanetData {
   ringInnerRadius?: number;
   ringOuterRadius?: number;
   ringColor?: string;
+  ringConfig?: PlanetRingConfig;
   hasMoon?: boolean;
   moonColor?: string;
   moonDistance?: number;
+  moons?: MoonData[];
+  cloudConfig?: PlanetCloudConfig;
   diameterKm?: number;
   surfaceTemp?: string;
   gravity?: string;

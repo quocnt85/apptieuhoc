@@ -24,226 +24,95 @@ const VietnamFlagDecal: React.FC<{
 };
 
 // =========================================================================
-// 1. NOVA APEX HUNTER (Tiêm Kích Thám Hiểm Cánh Ngược Siêu Thanh - 160 Linh Kiện)
+// 1. NOVA APEX HUNTER (Tiêm Kích Thám Hiểm Cánh Ngược Siêu Thanh)
 // =========================================================================
-export const NovaApexHunter: React.FC<{ hasVnFlag?: boolean }> = ({ hasVnFlag = true }) => {
-  const turbine1Ref = useRef<THREE.Mesh>(null);
-  const turbine2Ref = useRef<THREE.Mesh>(null);
-  const thrustersRef = useRef<THREE.Group>(null);
-
+export const NovaApexHunter: React.FC<{ hasVnFlag?: boolean; shipColor?: string }> = ({
+  hasVnFlag = true,
+  shipColor = '#38bdf8',
+}) => {
+  const thrusterRef = useRef<THREE.Group>(null);
   const tex = useMemo(() => createOriginalHullTextures(), []);
 
-  useFrame(({ clock }, delta) => {
-    if (turbine1Ref.current) turbine1Ref.current.rotation.z += delta * 16;
-    if (turbine2Ref.current) turbine2Ref.current.rotation.z += delta * 16;
-    if (thrustersRef.current) {
-      const p = 1.0 + Math.sin(clock.getElapsedTime() * 20) * 0.14;
-      thrustersRef.current.scale.set(p, p, 1.0 + Math.sin(clock.getElapsedTime() * 26) * 0.22);
+  useFrame(({ clock }) => {
+    if (thrusterRef.current) {
+      const p = 1.0 + Math.sin(clock.getElapsedTime() * 22) * 0.15;
+      thrusterRef.current.scale.set(p, p, 1.0 + Math.sin(clock.getElapsedTime() * 28) * 0.2);
     }
   });
 
   return (
     <group scale={[1.2, 1.2, 1.2]}>
-      {/* 1. Sleek Chined Forward Fuselage (Thân Nâng Mũi Vuốt Liền Mạch) */}
-      <mesh position={[0, 0, -0.65]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.045, 0.18, 1.3, 16]} />
+      {/* Aerodynamic Lifting-Body Chined Fuselage */}
+      <mesh position={[0, 0, -0.1]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.04, 0.28, 2.0, 16, 4]} />
         <meshPhysicalMaterial
           map={tex.hullMap}
           bumpMap={tex.hullBumpMap}
-          bumpScale={0.08}
-          roughnessMap={tex.hullRoughnessMap}
-          emissiveMap={tex.hullEmissiveMap}
-          emissive={new THREE.Color('#38bdf8')}
-          emissiveIntensity={0.6}
-          roughness={0.2}
-          metalness={0.8}
-          clearcoat={0.8}
+          bumpScale={0.06}
+          color={shipColor}
+          roughness={0.18}
+          metalness={0.88}
+          clearcoat={0.9}
         />
       </mesh>
 
-      {/* Mid to Aft Fuselage */}
-      <mesh position={[0, 0, 0.25]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.18, 0.24, 0.9, 16]} />
+      {/* Streamlined Glass Canopy */}
+      <mesh position={[0, 0.09, -0.35]} rotation={[0.18, 0, 0]}>
+        <coneGeometry args={[0.09, 0.65, 14]} />
         <meshPhysicalMaterial
-          map={tex.hullMap}
-          bumpMap={tex.hullBumpMap}
-          bumpScale={0.08}
-          roughnessMap={tex.hullRoughnessMap}
-          roughness={0.2}
-          metalness={0.8}
-          clearcoat={0.8}
+          color="#38bdf8"
+          emissive="#0284c7"
+          emissiveIntensity={0.65}
+          roughness={0.03}
+          metalness={0.95}
+          transmission={0.88}
+          transparent
+          opacity={0.85}
         />
       </mesh>
 
-      {/* Sharp Pitot Sensor Needle Probe */}
-      <mesh position={[0, 0, -1.4]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.004, 0.009, 0.32, 12]} />
-        <meshStandardMaterial color="#cbd5e1" metalness={0.98} />
-      </mesh>
+      {/* Swept Forward Wings */}
+      {[-1, 1].map((side, idx) => (
+        <group key={idx} position={[side * 0.22, 0.01, 0.1]}>
+          <mesh position={[side * 0.55, 0, -0.18]} rotation={[0, side * 0.38, side * 0.06]}>
+            <boxGeometry args={[0.95, 0.02, 0.45]} />
+            <meshPhysicalMaterial color={shipColor} roughness={0.2} metalness={0.85} clearcoat={0.8} />
+          </mesh>
+          <mesh position={[side * 1.05, -0.05, -0.36]} rotation={[0, 0, side * 0.45]}>
+            <boxGeometry args={[0.02, 0.2, 0.32]} />
+            <meshStandardMaterial color="#0f172a" metalness={0.95} />
+          </mesh>
+        </group>
+      ))}
 
-      {/* Dual Forward Canard Control Wings (2 Cánh Tà Phía Trước Mũi) */}
-      <mesh position={[-0.24, 0.02, -0.7]} rotation={[0, 0.25, 0.08]}>
-        <boxGeometry args={[0.32, 0.016, 0.18]} />
-        <meshPhysicalMaterial color="#ea580c" roughness={0.3} metalness={0.7} />
-      </mesh>
-      <mesh position={[0.24, 0.02, -0.7]} rotation={[0, -0.25, -0.08]}>
-        <boxGeometry args={[0.32, 0.016, 0.18]} />
-        <meshPhysicalMaterial color="#ea580c" roughness={0.3} metalness={0.7} />
-      </mesh>
-
-      {/* 2. ROUNDED DROPLET COCKPIT CANOPY WITH OPACITY & 2D FAKE HUD INTERIOR */}
-      <group position={[0, 0.1, -0.22]}>
-        {/* Interior 2D Fake HUD Flight Deck Screen */}
-        <mesh position={[0, 0.02, 0]} rotation={[-0.2, 0, 0]}>
-          <planeGeometry args={[0.16, 0.28]} />
-          <meshBasicMaterial map={tex.cockpitHudMap} side={THREE.DoubleSide} />
+      {/* Twin Canted V-Tail Fins */}
+      {[-1, 1].map((side, idx) => (
+        <mesh key={idx} position={[side * 0.2, 0.2, 0.55]} rotation={[0.2, 0, side * 0.4]}>
+          <boxGeometry args={[0.02, 0.36, 0.34]} />
+          <meshPhysicalMaterial color={shipColor} metalness={0.8} />
         </mesh>
+      ))}
 
-        {/* Outer Rounded Droplet Glass Canopy with Opacity & Refraction */}
-        <mesh rotation={[0.24, 0, 0]}>
-          <capsuleGeometry args={[0.092, 0.36, 20, 20]} />
-          <meshPhysicalMaterial
-            color="#38bdf8"
-            emissive="#0284c7"
-            emissiveIntensity={0.4}
-            roughness={0.03}
-            metalness={0.95}
-            transmission={0.8}
-            transparent
-            opacity={0.68}
-            clearcoat={0.98}
-          />
-        </mesh>
-        {/* Titanium Canopy Rollcage Ribs */}
-        <mesh position={[0, 0.02, 0]} rotation={[0.24, 0, 0]}>
-          <torusGeometry args={[0.094, 0.007, 8, 20, Math.PI]} />
+      {/* Dual De Laval Thruster Nozzles */}
+      {[-0.14, 0.14].map((x, idx) => (
+        <mesh key={idx} position={[x, 0.02, 0.88]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.08, 0.07, 0.24, 12, 1, true]} />
           <meshStandardMaterial color="#0f172a" metalness={0.98} />
         </mesh>
-      </group>
-
-      {/* 3. FORWARD-SWEPT WINGS WITH 3-TIER PLATING & VORTEX FINS (Cánh Xuôi Ngược) */}
-      {[-1, 1].map((side, idx) => (
-        <group key={idx} position={[side * 0.42, 0, 0.15]}>
-          {/* Main Forward-Swept Wing Blade */}
-          <mesh position={[side * 0.48, 0, -0.15]} rotation={[0, side * 0.32, side * 0.06]}>
-            <boxGeometry args={[0.95, 0.024, 0.48]} />
-            <meshPhysicalMaterial
-              map={tex.hullMap}
-              bumpMap={tex.hullBumpMap}
-              bumpScale={0.08}
-              roughnessMap={tex.hullRoughnessMap}
-              color="#f8fafc"
-              roughness={0.2}
-              metalness={0.7}
-              clearcoat={0.7}
-            />
-          </mesh>
-
-          {/* Wingtip Downward Canted Stabilizer Fin & Sensor Pod */}
-          <group position={[side * 0.98, -0.06, -0.32]}>
-            <mesh rotation={[0, 0, side * 0.45]}>
-              <boxGeometry args={[0.02, 0.18, 0.38]} />
-              <meshPhysicalMaterial color="#ea580c" metalness={0.8} />
-            </mesh>
-            <mesh position={[0, 0, -0.22]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.016, 0.016, 0.42, 12]} />
-              <meshStandardMaterial color="#334155" metalness={0.95} />
-            </mesh>
-          </group>
-
-          {/* Micro Vortex Generator Fins (Vây Khí Động Học Mép Cánh) */}
-          {[-0.2, -0.4, -0.6].map((vx, vidx) => (
-            <mesh key={vidx} position={[side * (0.3 + vidx * 0.2), 0.018, -0.25]} rotation={[0, side * 0.15, 0]}>
-              <boxGeometry args={[0.008, 0.02, 0.045]} />
-              <meshStandardMaterial color="#0f172a" metalness={0.95} />
-            </mesh>
-          ))}
-        </group>
       ))}
 
-      {/* 4. TWIN TURBOJET NACELLES WITH BRIGHT ILLUMINATED 24-BLADE TURBINE SPINNERS */}
-      {[-0.26, 0.26].map((x, idx) => (
-        <group key={idx} position={[x, 0.02, 0.4]}>
-          {/* Intake Cowl Lip */}
-          <mesh position={[0, 0, -0.42]} rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[0.108, 0.016, 12, 24]} />
-            <meshStandardMaterial color="#0f172a" metalness={0.98} />
+      {/* Plasma Flames */}
+      <group ref={thrusterRef}>
+        {[-0.14, 0.14].map((x, idx) => (
+          <mesh key={idx} position={[x, 0.02, 1.15]} rotation={[Math.PI / 2, 0, 0]}>
+            <coneGeometry args={[0.06, 0.5, 10]} />
+            <meshBasicMaterial color="#38bdf8" transparent opacity={0.9} />
           </mesh>
-
-          {/* Bright Glowing Interior Ring */}
-          <mesh position={[0, 0, -0.4]} rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[0.102, 0.008, 8, 24]} />
-            <meshBasicMaterial color="#38bdf8" />
-          </mesh>
-
-          {/* ROTATING 24-BLADE COMPRESSOR TURBINE DISK */}
-          <mesh
-            position={[0, 0, -0.38]}
-            ref={(idx === 0 ? turbine1Ref : turbine2Ref) as React.RefObject<THREE.Mesh>}
-          >
-            <circleGeometry args={[0.1, 24]} />
-            <meshBasicMaterial map={tex.turbineMap} side={THREE.DoubleSide} />
-          </mesh>
-
-          {/* Engine Body with 6 Circumferential Radiator Cooling Rings */}
-          <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.105, 0.12, 0.8, 24]} />
-            <meshPhysicalMaterial color="#cbd5e1" metalness={0.88} roughness={0.18} />
-          </mesh>
-          {[-0.2, -0.1, 0, 0.1, 0.2].map((rz, ridx) => (
-            <mesh key={ridx} position={[0, 0, rz]} rotation={[Math.PI / 2, 0, 0]}>
-              <torusGeometry args={[0.114, 0.008, 8, 24]} />
-              <meshStandardMaterial color="#1e293b" metalness={0.95} />
-            </mesh>
-          ))}
-
-          {/* Convergent-Divergent Exhaust Nozzle with 12 Petal Flaps */}
-          <group position={[0, 0, 0.46]}>
-            <mesh rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.1, 0.12, 0.18, 24]} />
-              <meshStandardMaterial color="#0f172a" metalness={0.98} />
-            </mesh>
-            {[...Array(12)].map((_, pidx) => {
-              const pAngle = (pidx / 12) * Math.PI * 2;
-              return (
-                <mesh key={pidx} position={[Math.cos(pAngle) * 0.11, Math.sin(pAngle) * 0.11, 0.04]} rotation={[0, 0, pAngle]}>
-                  <boxGeometry args={[0.02, 0.05, 0.14]} />
-                  <meshPhysicalMaterial color="#ffffff" metalness={0.98} roughness={0.1} />
-                </mesh>
-              );
-            })}
-          </group>
-        </group>
-      ))}
-
-      {/* Exhaust Plasma Flames */}
-      <group ref={thrustersRef}>
-        {[-0.26, 0.26].map((x, idx) => (
-          <group key={idx} position={[x, 0.02, 1.05]}>
-            <mesh rotation={[-Math.PI / 2, 0, 0]}>
-              <coneGeometry args={[0.09, 0.65, 16]} />
-              <meshBasicMaterial color="#f97316" transparent opacity={0.88} />
-            </mesh>
-            <mesh position={[0, 0, -0.12]} rotation={[-Math.PI / 2, 0, 0]}>
-              <coneGeometry args={[0.05, 0.38, 12]} />
-              <meshBasicMaterial color="#fef08a" transparent opacity={0.95} />
-            </mesh>
-          </group>
         ))}
       </group>
 
-      {/* Twin Canted Vertical Stabilizers (2 Vây Đuôi Vát Chéo) */}
-      <mesh position={[-0.28, 0.22, 0.52]} rotation={[0.1, 0, -0.32]}>
-        <boxGeometry args={[0.025, 0.32, 0.42]} />
-        <meshPhysicalMaterial color="#ea580c" metalness={0.7} />
-      </mesh>
-      <mesh position={[0.28, 0.22, 0.52]} rotation={[0.1, 0, 0.32]}>
-        <boxGeometry args={[0.025, 0.32, 0.42]} />
-        <meshPhysicalMaterial color="#ea580c" metalness={0.7} />
-      </mesh>
-
       {/* Vietnam Flag Badge */}
-      {hasVnFlag && <VietnamFlagDecal position={[0, 0.18, 0.45]} scale={[0.18, 0.12, 0.01]} />}
+      {hasVnFlag && <VietnamFlagDecal position={[0, 0.11, 0.22]} scale={[0.18, 0.12, 0.01]} />}
     </group>
   );
 };

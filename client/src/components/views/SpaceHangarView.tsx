@@ -178,7 +178,7 @@ const ShipInteractiveDetailModal: React.FC<{
   );
 };
 
-export const SpaceHangarView: React.FC = () => {
+export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onOpenShowroom }) => {
   const {
     user,
     buyShip,
@@ -245,6 +245,32 @@ export const SpaceHangarView: React.FC = () => {
           Tùy biến phi thuyền, sơn màu & nạp năng lượng
         </p>
       </div>
+
+      {/* Showroom & Poly Inspector Access Banner */}
+      {onOpenShowroom && (
+        <button
+          onClick={() => { soundService.playClick(); onOpenShowroom(); }}
+          className="mb-3.5 w-full p-3 rounded-2xl bg-gradient-to-r from-indigo-900/90 via-purple-900/90 to-slate-900 border-2 border-sky-400/60 shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:border-yellow-400 active:scale-98 transition-all flex items-center justify-between gap-3 text-left group"
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-black text-xl flex items-center justify-center shadow shrink-0 group-hover:rotate-6 transition-transform">
+              🚀
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-black text-yellow-300 flex items-center gap-1.5">
+                <span>Phòng Duyệt 3D Hạm Đội & Tinh Cầu</span>
+                <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+              </div>
+              <p className="text-[11px] text-sky-200 font-bold mt-0.5">
+                Xoay 360°, đổi góc camera & kiểm tra khí động học
+              </p>
+            </div>
+          </div>
+          <div className="shrink-0 bg-sky-500 text-white font-black text-xs px-3 py-1.5 rounded-xl shadow border border-sky-300 group-hover:bg-sky-400 transition-colors">
+            Khám Phá ➔
+          </div>
+        </button>
+      )}
 
       {/* Sub Tabs Switcher */}
       <div className="flex bg-slate-900/90 border border-sky-400/40 p-1 rounded-2xl mb-4 shrink-0 shadow-lg">
@@ -313,7 +339,7 @@ export const SpaceHangarView: React.FC = () => {
               >
                 {/* Ship Graphic 3D Image Thumbnail */}
                 <div className="flex items-center gap-3 sm:gap-3.5 flex-1 min-w-0">
-                  <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-sky-400/40 shrink-0 shadow-lg relative overflow-hidden flex items-center justify-center">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 max-w-[56px] max-h-[56px] sm:max-w-[64px] sm:max-h-[64px] aspect-square rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-sky-400/40 shrink-0 shadow-lg relative overflow-hidden flex items-center justify-center">
                     <img
                       src={s.image}
                       alt={s.nameVi}

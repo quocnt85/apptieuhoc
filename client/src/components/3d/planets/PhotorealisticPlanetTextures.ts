@@ -477,9 +477,14 @@ export function createMagmaIgnisTexture(width: number = 1024, height: number = 5
 }
 
 // ==========================================
-// Realistic Photorealistic Cloud Turbulence Texture
+// Diverse Atmospheric Cloud Texture Generator (Đa Dạng Độ Dày, Mây Đen/Trắng/Băng)
 // ==========================================
-export function createRealisticAtmosphericClouds(width: number = 1024, height: number = 512): THREE.CanvasTexture {
+export function createDiverseAtmosphericClouds(
+  width: number = 1024,
+  height: number = 512,
+  cloudType: 'terrestrial_cumulus' | 'tropical_cyclones' | 'aurora_mist' | 'volcanic_ash_smoke' | 'none' = 'terrestrial_cumulus',
+  cloudColorHex: string = '#ffffff'
+): THREE.CanvasTexture {
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
@@ -487,26 +492,100 @@ export function createRealisticAtmosphericClouds(width: number = 1024, height: n
   const imgData = ctx.createImageData(width, height);
   const data = imgData.data;
 
+  if (cloudType === 'none') {
+    ctx.putImageData(imgData, 0, 0);
+    const emptyTex = new THREE.CanvasTexture(canvas);
+    return emptyTex;
+  }
+
+  const baseCol = new THREE.Color(cloudColorHex);
+  const cr = Math.floor(baseCol.r * 255);
+  const cg = Math.floor(baseCol.g * 255);
+  const cb = Math.floor(baseCol.b * 255);
+
   for (let y = 0; y < height; y++) {
     const v = y / (height - 1);
+    const latFactor = Math.abs(v - 0.5) * 2.0;
+
     for (let x = 0; x < width; x++) {
       const u = x / (width - 1);
       const [nx, ny, nz] = uvTo3D(u, v);
 
-      // Cloud swirl turbulence
-      const cloudDensity = fbm(nx * 2.8, ny * 2.8 + simplex3(nx * 2, ny * 2, nz * 2) * 0.4, nz * 2.8, 5, 0.55, 2.1);
-      const threshold = 0.52;
-
       let alpha = 0;
-      if (cloudDensity > threshold) {
-        alpha = Math.floor(Math.pow((cloudDensity - threshold) / (1.0 - threshold), 1.3) * 230);
+      let r = cr;
+      let g = cg;
+      let b = cb;
+
+      if (cloudType === 'tropical_cyclones') {
+        // Ocean Super-Cyclone Swirls
+        const swirlAngle = Math.atan2(ny, nx) + Math.sin(latFactor * 4) * 0.8;
+        const dist = Math.sqrt(nx * nx + ny * ny);
+        const spiral = Math.sin(swirlAngle * 3.0 - dist * 8.0) * 0.3;
+        const density = fbm(nx * 3.5 + spiral, ny * 3.5, nz * 3.5, 5, 0.55, 2.2);
+        
+        if (density > 0.45) {
+          const t = (density - 0.45) / 0.55;
+          alpha = Math.floor(Math.pow(t, 1.2) * 245);
+          // Highlight bright cyclone eye edges
+          if (t > 0.6) {
+            r = Math.min(255, cr + 20);
+            g = Math.min(255, cg + 20);
+            b = Math.min(255, cb + 20);
+          }
+        }
+      } else if (cloudType === 'volcanic_ash_smoke') {
+        // Heavy Dark Ash & Fiery Smoke Plumes (Chỗ mờ chỗ cuộn xám đen)
+        const ashDensity = fbm(nx * 4.0, ny * 4.0, nz * 4.0, 5, 0.6, 2.3);
+        const smokeHotspot = voronoi3D(nx * 5.0, ny * 5.0, nz * 5.0).crack;
+        
+        if (ashDensity > 0.42) {
+          const t = (ashDensity - 0.42) / 0.58;
+          alpha = Math.floor(Math.pow(t, 1.1) * 230);
+          
+          if (smokeHotspot > 0.75) {
+            // Emissive fiery glow in ash cracks
+            r = 255;
+            g = 100 + Math.floor(t * 80);
+            b = 30;
+          } else {
+            // Dark obsidian ash plume
+            const shade = 0.6 + t * 0.4;
+            r = Math.floor(cr * shade);
+            g = Math.floor(cg * shade);
+            b = Math.floor(cb * shade);
+          }
+        }
+      } else if (cloudType === 'aurora_mist') {
+        // Soft Glacial Aurora Mist (Sương tuyết cực quang bồng bềnh)
+        const wave = Math.sin(nx * 6.0 + ny * 3.0 + fbm(nx * 3, ny * 3, nz * 3, 3) * 4.0);
+        const mistDensity = fbm(nx * 2.5, ny * 2.5, nz * 2.5, 4, 0.5, 2.0);
+        
+        if (mistDensity > 0.48) {
+          const t = (mistDensity - 0.48) / 0.52;
+          alpha = Math.floor(Math.pow(t, 1.4) * 190);
+          // Aurora hue shift
+          r = Math.floor(cr * 0.8 + (Math.sin(wave) * 0.5 + 0.5) * 40);
+          g = Math.floor(cg * 0.9 + 25);
+          b = Math.min(255, cb + 30);
+        }
+      } else {
+        // Terrestrial Cumulus & Stratus (Mây tích trắng: chỗ dày cộm, chỗ tơ mỏng, chỗ quang đãng)
+        const density = fbm(nx * 3.2, ny * 3.2 + simplex3(nx * 2, ny * 2, nz * 2) * 0.35, nz * 3.2, 5, 0.55, 2.1);
+        const wispyDetail = simplex3(nx * 12, ny * 12, nz * 12) * 0.08;
+        const total = density + wispyDetail;
+
+        if (total > 0.46) {
+          const t = (total - 0.46) / 0.54;
+          // Non-linear power curve creates varied thick cores vs delicate feathered edges
+          alpha = Math.floor(Math.pow(t, 1.3) * 235);
+        }
       }
 
       const idx = (y * width + x) * 4;
-      data[idx] = 255;
-      data[idx + 1] = 255;
-      data[idx + 2] = 255;
-      data[idx + 3] = Math.min(255, alpha);
+      data[idx] = Math.max(0, Math.min(255, r));
+      data[idx + 1] = Math.max(0, Math.min(255, g));
+      data[idx + 2] = Math.max(0, Math.min(255, b));
+      data[idx + 3] = Math.max(0, Math.min(255, alpha));
     }
   }
 
@@ -515,4 +594,194 @@ export function createRealisticAtmosphericClouds(width: number = 1024, height: n
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
   return texture;
+}
+
+export function createRealisticAtmosphericClouds(width: number = 1024, height: number = 512): THREE.CanvasTexture {
+  return createDiverseAtmosphericClouds(width, height, 'terrestrial_cumulus', '#ffffff');
+}
+
+// ==========================================
+// Procedural Multi-Material Moon Texture Generator
+// ==========================================
+export function createProceduralMoonTexture(
+  baseColor: string = '#cbd5e1',
+  textureType: 'crater' | 'ice_cracked' | 'lava_rock' | 'crystal' | 'metallic' = 'crater'
+): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 128;
+  const ctx = canvas.getContext('2d')!;
+  const imgData = ctx.createImageData(256, 128);
+  const data = imgData.data;
+
+  const tempColor = new THREE.Color(baseColor);
+  const br = Math.floor(tempColor.r * 255);
+  const bg = Math.floor(tempColor.g * 255);
+  const bb = Math.floor(tempColor.b * 255);
+
+  for (let y = 0; y < 128; y++) {
+    const v = y / 127;
+    for (let x = 0; x < 256; x++) {
+      const u = x / 255;
+      const [nx, ny, nz] = uvTo3D(u, v);
+
+      let r = br;
+      let g = bg;
+      let b = bb;
+
+      if (textureType === 'ice_cracked') {
+        // Glacial Ice Crust with Glowing Cyan Rifts
+        const iceNoise = fbm(nx * 4, ny * 4, nz * 4, 4);
+        const rifts = voronoi3D(nx * 6, ny * 6, nz * 6).crack;
+        if (rifts > 0.65) {
+          const riftHeat = (rifts - 0.65) / 0.35;
+          r = Math.floor(br * (1 - riftHeat) + 120 * riftHeat);
+          g = Math.floor(bg * (1 - riftHeat) + 240 * riftHeat);
+          b = 255;
+        } else {
+          const shade = 0.75 + iceNoise * 0.25;
+          r = Math.floor(br * shade);
+          g = Math.floor(bg * shade);
+          b = Math.floor(bb * shade);
+        }
+      } else if (textureType === 'lava_rock') {
+        // Dark Basalt Crust with Glowing Red/Orange Magma Cracks
+        const plate = fbm(nx * 5, ny * 5, nz * 5, 4);
+        const cracks = voronoi3D(nx * 5, ny * 5, nz * 5).crack;
+        if (cracks > 0.6) {
+          const heat = (cracks - 0.6) / 0.4;
+          r = 255;
+          g = Math.floor(100 * heat);
+          b = 20;
+        } else {
+          const shade = 0.4 + plate * 0.5;
+          r = Math.floor(br * shade);
+          g = Math.floor(bg * shade);
+          b = Math.floor(bb * shade);
+        }
+      } else if (textureType === 'crystal') {
+        // Faceted Shimmering Crystal / Gemstone Shading
+        const voronoi = voronoi3D(nx * 7, ny * 7, nz * 7);
+        const facet = voronoi.crack;
+        const shimmer = fbm(nx * 10, ny * 10, nz * 10, 3) * 0.3;
+        const shade = Math.min(1.2, 0.6 + facet * 0.4 + shimmer);
+        r = Math.min(255, Math.floor(br * shade + 30));
+        g = Math.min(255, Math.floor(bg * shade + 30));
+        b = Math.min(255, Math.floor(bb * shade + 30));
+      } else if (textureType === 'metallic') {
+        // Polished Metallic Specular Striations
+        const striation = Math.sin(ny * 20 + fbm(nx * 4, ny * 4, nz * 4, 3) * 5) * 0.25 + 0.75;
+        r = Math.min(255, Math.floor(br * striation + 40));
+        g = Math.min(255, Math.floor(bg * striation + 30));
+        b = Math.min(255, Math.floor(bb * striation + 20));
+      } else {
+        // Classic High-Detail Crater Moon (Luna style)
+        const noise = fbm(nx * 4, ny * 4, nz * 4, 4);
+        const crater = voronoi3D(nx * 6, ny * 6, nz * 6).crack;
+        const shade = Math.min(1.0, Math.max(0.2, (noise * 0.7 + (1.0 - crater) * 0.3)));
+        r = Math.floor(br * shade);
+        g = Math.floor(bg * shade);
+        b = Math.floor(bb * shade);
+      }
+
+      const idx = (y * 256 + x) * 4;
+      data[idx] = Math.max(0, Math.min(255, r));
+      data[idx + 1] = Math.max(0, Math.min(255, g));
+      data[idx + 2] = Math.max(0, Math.min(255, b));
+      data[idx + 3] = 255;
+    }
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+  const texture = new THREE.CanvasTexture(canvas);
+  return texture;
+}
+
+// ==========================================
+// Realistic Astronomically-Accurate Planetary Ring Generator
+// ==========================================
+export function createRealisticPlanetaryRingTexture(
+  primaryColorHex: string = '#fbbf24',
+  secondaryColorHex: string = '#fef08a'
+): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d')!;
+  const imgData = ctx.createImageData(canvas.width, canvas.height);
+  const data = imgData.data;
+
+  const col1 = new THREE.Color(primaryColorHex);
+  const col2 = new THREE.Color(secondaryColorHex);
+
+  // u runs from 0 (inner ring edge) to 1 (outer ring edge)
+  for (let x = 0; x < canvas.width; x++) {
+    const u = x / (canvas.width - 1);
+    
+    // Multi-frequency Ringlet Micro-Banding (Hàng ngàn rãnh nhỏ li ti)
+    const micro1 = Math.sin(u * 120.0) * 0.15 + 0.85;
+    const micro2 = Math.sin(u * 380.0) * 0.1 + 0.9;
+    const fineBanding = micro1 * micro2;
+
+    let baseAlpha = 0;
+    let colorMix = 0.5;
+
+    if (u < 0.05) {
+      // Inner Feathered Edge (Mép trong cùng mỏng dần về 0)
+      baseAlpha = (u / 0.05) * 0.25;
+      colorMix = 0.2;
+    } else if (u < 0.25) {
+      // C Ring (Dải C: Bụi mỏng, bán trong suốt)
+      const t = (u - 0.05) / 0.2;
+      baseAlpha = 0.25 + t * 0.35;
+      colorMix = t * 0.4;
+    } else if (u < 0.58) {
+      // B Ring (Dải B: Vành đai chính dày đặc, sáng rực rỡ nhất)
+      const t = (u - 0.25) / 0.33;
+      baseAlpha = 0.82 + Math.sin(t * Math.PI) * 0.16;
+      colorMix = 0.4 + t * 0.5;
+    } else if (u < 0.68) {
+      // Cassini Division (Khoảng trống Cassini hẹp, trong suốt tinh tế, KHÔNG đen bệt)
+      const distFromCenter = Math.abs(u - 0.63) / 0.05; // 0 at gap center, 1 at edge
+      baseAlpha = 0.04 + distFromCenter * 0.2; // Rất trong suốt (alpha ~ 0.04)
+      colorMix = 0.3;
+    } else if (u < 0.92) {
+      // A Ring (Dải A: Sáng vừa, có khe hẹp Encke gap)
+      const isEncke = u > 0.82 && u < 0.85;
+      if (isEncke) {
+        baseAlpha = 0.15;
+      } else {
+        const t = (u - 0.68) / 0.24;
+        baseAlpha = 0.72 - t * 0.25;
+      }
+      colorMix = 0.6;
+    } else {
+      // F Ring & Outer Edge (Mép ngoài cùng mờ dần về trong suốt)
+      const t = (u - 0.92) / 0.08;
+      baseAlpha = Math.max(0, (1.0 - t) * 0.45);
+      colorMix = 0.8;
+    }
+
+    const finalAlpha = Math.min(255, Math.max(0, Math.floor(baseAlpha * fineBanding * 255)));
+
+    // Interpolate Color
+    const r = Math.floor((col1.r * (1 - colorMix) + col2.r * colorMix) * 255);
+    const g = Math.floor((col1.g * (1 - colorMix) + col2.g * colorMix) * 255);
+    const b = Math.floor((col1.b * (1 - colorMix) + col2.b * colorMix) * 255);
+
+    // Fill all height rows
+    for (let y = 0; y < canvas.height; y++) {
+      const idx = (y * canvas.width + x) * 4;
+      data[idx] = r;
+      data[idx + 1] = g;
+      data[idx + 2] = b;
+      data[idx + 3] = finalAlpha;
+    }
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+  const ringTexture = new THREE.CanvasTexture(canvas);
+  ringTexture.wrapS = THREE.ClampToEdgeWrapping;
+  ringTexture.wrapT = THREE.RepeatWrapping;
+  return ringTexture;
 }

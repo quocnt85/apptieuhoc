@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SpaceCanvas } from '../3d/SpaceCanvas';
 import { PlanetMesh } from '../3d/PlanetMesh';
 import { Spaceship3D } from '../3d/Spaceship3D';
-import { CoordinatePreviewModal } from './CoordinatePreviewModal';
+import { SpaceshipCockpitDashboard } from './SpaceshipCockpitDashboard';
 import { PLANETS_DATA } from '../../data/planetsData';
 import { useGameStore } from '../../stores/useGameStore';
 import { PlanetCoordinateNode } from '../../types';
@@ -35,7 +35,7 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
   const handleShipArrival = () => {
     finishFlyingToCoordinate();
     soundService.playVictory();
-    // Reveal coordinate preview modal ONLY after ship has arrived
+    // Reveal spaceship cockpit dashboard ONLY after ship has arrived
     setShowModal(true);
   };
 
@@ -73,17 +73,20 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
       </div>
 
       {/* Bottom Floating Exploration Hint */}
-      <div className="absolute bottom-4 inset-x-0 z-20 flex justify-center pointer-events-none px-4">
-        <div className="bg-slate-950/85 backdrop-blur-md border border-white/15 text-sky-200 text-[11px] sm:text-xs font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-          <Compass className="w-4 h-4 text-sky-400 animate-spin" style={{ animationDuration: '8s' }} />
-          <span>Vuốt màn hình xoay 360° • Chạm tọa độ để phi thuyền bay tới</span>
+      {!showModal && (
+        <div className="absolute bottom-4 inset-x-0 z-20 flex justify-center pointer-events-none px-4 transition-opacity">
+          <div className="bg-slate-950/85 backdrop-blur-md border border-white/15 text-sky-200 text-[11px] sm:text-xs font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+            <Compass className="w-4 h-4 text-sky-400 animate-spin" style={{ animationDuration: '8s' }} />
+            <span>Vuốt màn hình xoay 360° • Chạm tọa độ để phi thuyền bay tới</span>
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Coordinate Arrival Preview Modal */}
+      {/* Spaceship Cockpit Bottom Dashboard */}
       {showModal && selectedCoordinateNode && (
-        <CoordinatePreviewModal
+        <SpaceshipCockpitDashboard
           node={selectedCoordinateNode}
+          planet={currentPlanet}
           onStartLesson={handleLaunchLesson}
           onClose={() => {
             setShowModal(false);
