@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
-import { Volume2, VolumeX, Zap, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Zap } from 'lucide-react';
 import { soundService } from '../../services/audio';
 
 interface Props {
   title?: string;
-  onOpenShowroom?: () => void;
 }
 
 export const VercelHeader: React.FC<Props> = () => {

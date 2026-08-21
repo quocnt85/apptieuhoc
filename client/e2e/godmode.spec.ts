@@ -63,12 +63,15 @@ test.describe('Dev God Mode & Performance Monitoring E2E Tests', () => {
     await page.waitForTimeout(150);
 
     // Click Hồi Đầy
-    await page.getByTestId('dev-set-energy-max-btn').click({ force: true });
+    const maxBtn = page.getByTestId('dev-set-energy-max-btn');
+    await maxBtn.scrollIntoViewIfNeeded();
+    await maxBtn.click({ force: true });
     await expect(page.getByTestId('dev-energy-display')).toContainText('50 / 50', { timeout: 6000 });
-    await page.waitForTimeout(150);
+    await page.waitForTimeout(200);
 
     // Custom Input 120
     const input = page.getByTestId('dev-energy-input');
+    await input.scrollIntoViewIfNeeded();
     await input.fill('120');
     await page.getByTestId('dev-energy-apply-btn').click({ force: true });
     await expect(page.getByTestId('dev-energy-display')).toContainText('120 /', { timeout: 6000 });

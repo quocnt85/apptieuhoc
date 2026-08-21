@@ -4,6 +4,7 @@ export interface SpaceshipModelData {
   nameVi: string;
   classType: string;
   icon: string;
+  image: string;
   price: number;
   badge: string;
   description: string;
@@ -24,6 +25,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     nameVi: 'Tiêm Kích Thám Hiểm Nova Apex',
     classType: 'Tàu Tiêm Kích Cánh Ngược Siêu Thanh',
     icon: '🚀',
+    image: '/assets/ships/explorer_v1.jpg',
     price: 0,
     badge: 'Nova Apex Forward-Swept',
     aestheticStyle: 'Forward-Swept Aerodynamic Interceptor (Cánh Ngược & Tuabin Đôi Sáng)',
@@ -45,6 +47,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     nameVi: 'Phi Thuyền Viễn Du Chrono',
     classType: 'Tàu Viễn Du Thân Đĩa Lai Cánh Cung',
     icon: '🚀',
+    image: '/assets/ships/falcon_apex.jpg',
     price: 300,
     badge: 'Chrono Crescent Saucer',
     aestheticStyle: 'Hybrid Crescent-Saucer Cruiser (Thân Đĩa Lai Cánh Cung & Đĩa Radar Lượng Tử)',
@@ -66,6 +69,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     nameVi: 'Chiến Hạm Chỉ Huy Quỹ Đạo Orion',
     classType: 'Chiến Hạm Chỉ Huy Quỹ Đạo Đa Năng',
     icon: '🚀',
+    image: '/assets/ships/solar_phoenix.jpg',
     price: 450,
     badge: 'Orion Command Carrier',
     aestheticStyle: 'Heavy Orbital Sky-Carrier (Sàn Đáp Drone Mini & Đài Chỉ Huy Vòm Kính)',
@@ -87,6 +91,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     nameVi: 'Con Thoi Khí Động Học AeroShuttle',
     classType: 'Tàu Con Thoi Khí Động Học Thế Hệ Mới',
     icon: '🚀',
+    image: '/assets/ships/starlight_runner.jpg',
     price: 600,
     badge: 'AeroShuttle Lifting-Body',
     aestheticStyle: 'Lifting-Body Double-Delta (Bụng Gạch Đen, Vây Chữ V & 3 Động Cơ Tên Lửa)',
@@ -108,6 +113,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     nameVi: 'Tàu Phóng Thám Hiểm Hyperion V',
     classType: 'Tàu Phóng Thám Hiểm Liên Hành Tinh',
     icon: '🚀',
+    image: '/assets/ships/astral_shuttle.jpg',
     price: 750,
     badge: 'Hyperion Multi-Stage',
     aestheticStyle: 'Multi-Stage Planetary Star-Lifter (Vây Lưới Gập & 5 Động Cơ Aerospike)',

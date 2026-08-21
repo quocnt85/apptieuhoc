@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
-import { Flame, Sparkles, Rocket, CheckCircle2, ChevronRight, ShieldCheck, Lock, X, Check, Award } from 'lucide-react';
+import { Flame, Rocket, ChevronRight, Play, Check, X } from 'lucide-react';
 import { soundService } from '../../services/audio';
 import { interactionService } from '../../services/interaction';
 
@@ -69,7 +69,7 @@ const ParentGreetingConfirmModal: React.FC<{
             </div>
 
             <h3 className="font-black text-lg sm:text-xl text-yellow-300">
-              Bố Mẹ Xác Nhận
+              Phụ Huynh Duyệt
             </h3>
             <p className="text-xs text-sky-200 font-bold mt-1 max-w-xs">
               Nhập mã PIN để xác nhận bé đã chào hỏi lễ phép hôm nay.
@@ -141,7 +141,7 @@ const ParentGreetingConfirmModal: React.FC<{
               PIN Hợp Lệ!
             </h3>
             <p className="text-xs text-sky-200 font-bold mt-1">
-              Bố mẹ xác nhận hành vi thực tế của bé:
+              Phụ huynh xác nhận hành vi thực tế của bé:
             </p>
 
             <div
@@ -153,7 +153,7 @@ const ParentGreetingConfirmModal: React.FC<{
                   isAgreed ? 'bg-emerald-500 border-white' : 'bg-slate-800 border-slate-600'
                 }`}
               >
-                {isAgreed && <Check className="w-4 h-4" />}
+                {isAgreed && <Check className="w-4 h-4 stroke-[3]" />}
               </div>
               <p className="text-xs sm:text-sm font-bold text-slate-200 leading-snug">
                 Bé đã chủ động chào hỏi lễ phép, mỉm cười và tự tin hôm nay.
@@ -165,7 +165,7 @@ const ParentGreetingConfirmModal: React.FC<{
               disabled={!isAgreed}
               className="w-full py-3.5 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-950 border-2 border-white shadow-xl active:scale-95 transition-all"
             >
-              Xác Nhận (+30 Xu) ⭐
+              Duyệt & Nhận Thưởng (+30 Xu) ⭐
             </button>
           </div>
         )}
@@ -226,7 +226,7 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
     localStorage.setItem('novastars_quest_greeting_done', 'true');
     addNovaCoins(30);
     soundService.playVictory();
-    setRewardMsg('🎉 Phụ huynh đã xác nhận! Bé nhận được +30 Xu Nova 🟡!');
+    setRewardMsg('🎉 Phụ huynh đã duyệt! Bé nhận được +30 Xu Nova 🟡!');
     setTimeout(() => setRewardMsg(null), 4000);
   };
 
@@ -270,51 +270,52 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
         <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-yellow-400/20 via-sky-400/20 to-transparent blur-2xl pointer-events-none -z-10" />
 
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3.5">
+          {/* Avatar and Astronaut Info */}
+          <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
             <div 
               onClick={handleHeroAvatarClick}
               data-testid="hero-avatar-btn"
-              className="relative cursor-pointer active:scale-95 transition-transform"
+              className="relative cursor-pointer active:scale-95 transition-transform shrink-0"
               title="Nhấp 5 lần để mở Dev God Mode"
             >
-              <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-2 border-sky-400 flex items-center justify-center text-4xl shadow-inner shrink-0">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-2 border-sky-400 flex items-center justify-center text-3xl sm:text-4xl shadow-inner shrink-0">
                 {currentAvatar}
               </div>
               {/* Tag Avatar Synchronized to Lv. */}
-              <div className="absolute -bottom-1.5 -right-1.5 bg-yellow-400 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full border-2 border-slate-900 shadow">
+              <div className="absolute -bottom-1.5 -right-1.5 bg-yellow-400 text-slate-950 font-black text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-full border-2 border-slate-900 shadow">
                 Lv.{user.level}
               </div>
             </div>
-            <div>
-              <h2 className="font-black text-xl sm:text-2xl text-yellow-300 flex items-center gap-1.5">
+
+            <div className="min-w-0">
+              <h2 className="font-black text-base sm:text-xl text-yellow-300 truncate">
                 <span>{greetingTitle}</span>
               </h2>
-              <div className="font-extrabold text-xs text-sky-200 mt-1 flex items-center gap-2">
+              <div className="font-extrabold text-[11px] sm:text-xs text-sky-200 mt-0.5 sm:mt-1 flex items-center gap-1.5 sm:gap-2">
                 <span>(Lớp {user.grade})</span>
                 <span>•</span>
-                <span className="bg-gradient-to-b from-amber-400 to-amber-500 text-amber-950 border border-amber-300 shadow px-2.5 py-0.5 rounded-full flex items-center gap-1 text-xs font-black">
-                  <Flame className="w-3.5 h-3.5 fill-amber-950 text-amber-950 animate-pulse" /> {user.streakDays} Ngày Chuỗi
+                <span className="bg-gradient-to-b from-amber-400 to-amber-500 text-amber-950 border border-amber-300 shadow px-2 py-0.5 rounded-full flex items-center gap-1 text-[11px] sm:text-xs font-black">
+                  <Flame className="w-3 sm:w-3.5 h-3 sm:h-3.5 fill-amber-950 text-amber-950 animate-pulse" /> {user.streakDays} Ngày
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="relative shrink-0 hidden xs:block">
-            <img 
-              src="/assets/3d/star_mascot.png" 
-              alt="Sao Nova" 
-              className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-[0_8px_16px_rgba(251,191,36,0.6)] animate-float" 
-            />
+          {/* Play Button & Label on the Right */}
+          <div className="flex flex-col items-center shrink-0">
+            <button
+              onClick={() => handleAction(onNavigateToMap)}
+              data-testid="play-continue-btn"
+              className="w-13 h-13 sm:w-15 sm:h-15 p-3 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-amber-400 via-yellow-400 to-orange-500 text-slate-950 border-2 border-yellow-200 shadow-[0_5px_0_0_#b45309,0_8px_20px_rgba(245,158,11,0.5)] active:translate-y-1 active:shadow-[0_1px_0_0_#b45309] flex items-center justify-center transition-all group cursor-pointer"
+              title="Tiếp tục học"
+            >
+              <Play className="w-6 h-6 sm:w-7 sm:h-7 fill-slate-950 text-slate-950 translate-x-0.5 group-hover:scale-110 transition-transform" />
+            </button>
+            <span className="text-[10px] sm:text-[11px] font-black text-yellow-300 mt-1.5 tracking-tight text-center">
+              Tiếp tục học
+            </span>
           </div>
         </div>
-
-        {/* Primary Action Button to Planet */}
-        <button
-          onClick={() => handleAction(onNavigateToMap)}
-          className="mt-4 w-full py-4 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 text-white border-2 border-sky-200 shadow-[0_6px_0_0_#0284c7,0_10px_24px_rgba(2,132,199,0.45)] active:translate-y-1 active:shadow-[0_2px_0_0_#0284c7] flex items-center justify-center gap-2 transition-all"
-        >
-          <span>Vào Học Tiếp 🚀</span>
-        </button>
       </div>
 
       {/* Reward Message Alert */}
@@ -324,7 +325,7 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
         </div>
       )}
 
-      {/* Space Minigame Challenge Banner */}
+      {/* Space Challenge Banner */}
       <div 
         onClick={() => handleAction(onNavigateToMiniGame || onNavigateToMap)}
         className="p-4 sm:p-5 bg-gradient-to-r from-indigo-900/90 via-purple-950/90 to-slate-900/90 border-2 border-purple-400/50 shadow-xl rounded-[32px] flex items-center justify-between cursor-pointer hover:scale-[1.02] active:scale-95 transition-all group relative overflow-hidden"
@@ -334,10 +335,6 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
             <Rocket className="w-6 h-6 text-yellow-300" />
           </div>
           <div>
-            <div className="inline-flex items-center gap-1 text-[11px] font-black text-yellow-300 uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-              <span>Minigame</span>
-            </div>
             <h3 className="font-black text-sm sm:text-base text-white drop-shadow">Thử Thách Phi Thuyền</h3>
             <p className="text-[11px] text-violet-200 font-bold mt-0.5">Thu thập sao và né vật cản 🚀</p>
           </div>
@@ -368,34 +365,35 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
             <div
               key={q.id}
               onClick={q.onClick}
-              className={`p-3.5 rounded-2xl border-2 flex items-center justify-between transition-all cursor-pointer ${
+              className={`p-3.5 rounded-2xl border-2 flex items-center justify-between gap-3 transition-all cursor-pointer ${
                 q.done
                   ? 'bg-emerald-950/60 border-emerald-500/50 shadow-sm'
                   : 'bg-slate-800/80 border-slate-700 hover:border-slate-500 active:scale-98'
               }`}
             >
-              <div className="flex items-center gap-3">
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-black border ${
-                  q.done ? 'bg-emerald-500 border-emerald-300 text-white' : 'bg-slate-700 border-slate-600 text-slate-400'
+              <div className="flex items-center gap-3 min-w-0">
+                {/* Standard Square Rounded Checkbox */}
+                <div className={`w-7 h-7 rounded-xl flex items-center justify-center text-sm font-black border-2 transition-all shrink-0 ${
+                  q.done ? 'bg-emerald-500 border-emerald-300 text-white shadow-sm' : 'bg-slate-800/80 border-slate-600 text-transparent'
                 }`}>
-                  {q.done ? <CheckCircle2 className="w-4 h-4" /> : '○'}
+                  {q.done && <Check className="w-4 h-4 text-white stroke-[3]" />}
                 </div>
-                <div>
-                  <h4 className={`text-xs sm:text-sm font-black flex items-center gap-1.5 ${q.done ? 'text-emerald-300 line-through opacity-80' : 'text-slate-200'}`}>
+
+                <div className="min-w-0">
+                  <h4 className={`text-xs sm:text-sm font-black truncate ${q.done ? 'text-emerald-300 line-through opacity-80' : 'text-slate-200'}`}>
                     <span>{q.title}</span>
-                    {q.requiresParent && !q.done && (
-                      <span className="bg-purple-900/80 text-purple-300 text-[10px] font-black px-1.5 py-0.2 rounded border border-purple-400/50 flex items-center gap-0.5">
-                        <Lock className="w-2.5 h-2.5" /> Bố/Mẹ Duyệt
-                      </span>
-                    )}
                   </h4>
                   <span className="text-[10px] text-amber-300 font-bold">🟡 +{q.rewardCoins} Xu Nova</span>
                 </div>
               </div>
 
               {!q.done && (
-                <span className="bg-sky-600 text-white font-black text-xs px-3 py-1 rounded-xl shadow active:scale-95">
-                  {q.requiresParent ? 'Xác Nhận' : 'Làm'}
+                <span className={`font-black text-xs px-3 py-1.5 rounded-xl shadow active:scale-95 transition-all text-center shrink-0 whitespace-nowrap ${
+                  q.requiresParent
+                    ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white border border-purple-300/50'
+                    : 'bg-sky-600 text-white border border-sky-400/50'
+                }`}>
+                  {q.requiresParent ? 'Phụ huynh duyệt' : 'Làm'}
                 </span>
               )}
             </div>
@@ -413,4 +411,5 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
     </div>
   );
 };
+
 

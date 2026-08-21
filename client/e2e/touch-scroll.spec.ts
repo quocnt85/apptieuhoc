@@ -95,14 +95,13 @@ test.describe('3D Canvas Touch & Scroll Isolation Tests', () => {
   });
 
   test('3. 3D Space Showroom Canvas has touch-action: none and dragging does not scroll', async ({ page }) => {
-    // Open Showroom View via header or hangar
-    const showroomHeaderBtn = page.locator('[data-testid="header-showroom-btn"]');
-    if (await showroomHeaderBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await showroomHeaderBtn.click({ force: true });
-    } else {
-      await page.locator('button:has-text("Xưởng Tàu")').first().click({ force: true });
-      await page.locator('button:has-text("Phòng Duyệt 3D"), button:has-text("Duyệt 3D")').first().click({ force: true });
-    }
+    // Open Showroom View via Dev God Mode
+    await page.evaluate(() => {
+      (window as any).__gameStore?.getState().unlockGodMode();
+    });
+    await expect(page.locator('[data-testid="dev-god-mode-modal"]')).toBeVisible({ timeout: 6000 });
+    await page.locator('[data-testid="dev-tab-progression"]').click({ force: true });
+    await page.locator('[data-testid="dev-open-showroom-btn"]').click({ force: true });
 
     await expect(page.locator('text=Phòng Duyệt 3D Không Gian').first()).toBeVisible({ timeout: 6000 });
 
