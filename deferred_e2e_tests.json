@@ -1,0 +1,36 @@
+{
+  "description": "Danh sách các bộ kiểm thử Playwright E2E được ghi nhận (deferred) để gom chạy vào cuối ngày hoặc khi người dùng yêu cầu.",
+  "lastUpdated": "2026-08-21T16:14:00+07:00",
+  "queue": [
+    {
+      "testFile": "client/e2e/daily-quests.spec.ts",
+      "feature": "Hệ thống Nhiệm vụ Hàng ngày & Reset Dữ liệu / Trạng thái",
+      "addedAt": "2026-08-21T16:14:00+07:00",
+      "status": "pending_batch_run"
+    },
+    {
+      "testFile": "client/e2e/mobile.spec.ts",
+      "feature": "Mobile Navigation, Ship Customization & Lesson Runner",
+      "addedAt": "2026-08-21T16:14:00+07:00",
+      "status": "pending_batch_run"
+    },
+    {
+      "testFile": "client/e2e/godmode.spec.ts",
+      "feature": "Dev God Mode & Performance Monitoring",
+      "addedAt": "2026-08-21T16:14:00+07:00",
+      "status": "pending_batch_run"
+    },
+    {
+      "testFile": "client/e2e/planets-navigation.spec.ts",
+      "feature": "5 Tinh cầu & Boss Node Exploration",
+      "addedAt": "2026-08-21T16:14:00+07:00",
+      "status": "pending_batch_run"
+    },
+    {
+      "testFile": "client/e2e/showroom.spec.ts",
+      "feature": "Phòng Duyệt 3D & 5 Phi thuyền Khí động học",
+      "addedAt": "2026-08-21T16:14:00+07:00",
+      "status": "pending_batch_run"
+    }
+  ]
+}

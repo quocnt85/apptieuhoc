@@ -90,6 +90,10 @@ interface GameState {
   unlockAllCosmetics: () => void;
   resetAllProgress: () => void;
 
+  // Daily Quests State & Actions
+  isGreetingQuestDone: boolean;
+  setGreetingQuestDone: (done: boolean) => void;
+
   // Persistence
   saveToLocalStorage: () => void;
   loadFromLocalStorage: () => void;
@@ -139,6 +143,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   hasSeenFTUE: false,
   completedNodes: {},
   nodeStars: {},
+  isGreetingQuestDone: false,
   settings: {
     soundEnabled: true,
     musicEnabled: true,
@@ -713,15 +718,27 @@ export const useGameStore = create<GameState>((set, get) => ({
     get().saveToLocalStorage();
   },
 
+  setGreetingQuestDone: (done: boolean) => {
+    set({ isGreetingQuestDone: done });
+    if (done) {
+      localStorage.setItem('novastars_quest_greeting_done', 'true');
+    } else {
+      localStorage.removeItem('novastars_quest_greeting_done');
+    }
+    get().saveToLocalStorage();
+  },
+
   resetAllProgress: () => {
     soundService.playClick();
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem('novastars_quest_greeting_done');
+    localStorage.removeItem('novastars_app_state_v1');
     set({
       user: initialUser,
       hasSeenFTUE: false,
       completedNodes: {},
       nodeStars: {},
+      isGreetingQuestDone: false,
       isUnlimitedMode: false,
       devBackupUser: null,
       activePlanetId: 'bravery_prime',
@@ -734,8 +751,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   saveToLocalStorage: () => {
     try {
-      const { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser } = get();
-      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser };
+      const { user, hasSeenFTUE, completedNodes, nodeStars, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser } = get();
+      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch (e) {
       console.warn('Failed to save space state to localStorage', e);
@@ -745,6 +762,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   loadFromLocalStorage: () => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
+      const greetingQuestDoneFromLocal = localStorage.getItem('novastars_quest_greeting_done') === 'true';
       if (raw) {
         const parsed = JSON.parse(raw);
         const loadedUser = parsed.user || {};
@@ -757,11 +775,17 @@ export const useGameStore = create<GameState>((set, get) => ({
           hasSeenFTUE: parsed.hasSeenFTUE ?? state.hasSeenFTUE,
           completedNodes: parsed.completedNodes || {},
           nodeStars: parsed.nodeStars || {},
+          isGreetingQuestDone: parsed.isGreetingQuestDone ?? greetingQuestDoneFromLocal,
           settings: { ...state.settings, ...(parsed.settings || {}) },
           activePlanetId: parsed.activePlanetId || 'bravery_prime',
           isGodModeUnlocked: parsed.isGodModeUnlocked ?? state.isGodModeUnlocked,
           showFpsOverlay: parsed.showFpsOverlay ?? state.showFpsOverlay,
           devBackupUser: parsed.devBackupUser ?? null,
+        }));
+      } else {
+        set((state) => ({
+          ...state,
+          isGreetingQuestDone: greetingQuestDoneFromLocal,
         }));
       }
       get().refreshEnergy();

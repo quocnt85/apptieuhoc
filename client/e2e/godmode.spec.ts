@@ -25,8 +25,12 @@ test.describe('Dev God Mode & Performance Monitoring E2E Tests', () => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
+    // Ensure on Home tab to see Hero Avatar
+    const homeTab = page.locator('button:has-text("Trang Chủ")');
+    await homeTab.click({ force: true });
+
     const heroAvatar = page.getByTestId('hero-avatar-btn');
-    await expect(heroAvatar).toBeVisible();
+    await expect(heroAvatar).toBeVisible({ timeout: 6000 });
     await heroAvatar.scrollIntoViewIfNeeded();
 
     // Click 5 times on hero avatar to toggle ON

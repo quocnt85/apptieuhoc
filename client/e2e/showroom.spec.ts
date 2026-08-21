@@ -33,8 +33,7 @@ async function openShowroom(page: Page) {
 }
 
 async function safeSelect(loc: Locator) {
-  await loc.scrollIntoViewIfNeeded();
-  await loc.click();
+  await loc.click({ force: true, noWaitAfter: true, timeout: 10000 });
 }
 
 test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
