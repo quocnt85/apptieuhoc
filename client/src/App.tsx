@@ -5,6 +5,7 @@ import { WelcomeModal } from './components/views/WelcomeModal';
 import { HomeView } from './components/views/HomeView';
 import { Planet3DView } from './components/views/Planet3DView';
 import { SpaceHangarView } from './components/views/SpaceHangarView';
+import { SpaceShowroomView } from './components/views/SpaceShowroomView';
 import { ProfileView } from './components/views/ProfileView';
 import { CanvasMiniGame } from './components/game/CanvasMiniGame';
 import { VercelHeader } from './components/ui/VercelHeader';
@@ -44,6 +45,8 @@ export const App: React.FC = () => {
         return 'Hành Tinh Tri Thức';
       case 'planet':
         return 'Tinh Cầu Dũng Khí';
+      case 'showroom':
+        return 'Phòng Duyệt 3D';
       case 'hangar':
         return 'Xưởng Tàu Không Gian';
       case 'profile':
@@ -54,9 +57,9 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="h-[100dvh] w-full bg-[#030712] flex items-center justify-center overflow-hidden transition-colors duration-300 select-none">
+    <div className="fixed inset-0 w-full h-[100dvh] bg-[#030712] flex items-center justify-center overflow-hidden transition-colors duration-300 select-none overscroll-none">
       {/* Unified App Shell (Deep Cosmic Navy) */}
-      <div className="w-full h-[100dvh] max-w-2xl bg-[#050814] text-white sm:border sm:border-sky-500/30 sm:shadow-[0_0_60px_rgba(56,189,248,0.25)] flex flex-col overflow-hidden relative transition-all duration-300">
+      <div className="w-full h-full max-w-2xl bg-[#050814] text-white sm:border sm:border-sky-500/30 sm:shadow-[0_0_60px_rgba(56,189,248,0.25)] flex flex-col overflow-hidden relative transition-all duration-300">
         
         {/* Splash Screen */}
         {isSplashing ? (
@@ -64,7 +67,12 @@ export const App: React.FC = () => {
         ) : (
           <>
             {/* Cosmic Header */}
-            {!isLessonRunning && <VercelHeader title={getHeaderTitle()} />}
+            {!isLessonRunning && (
+              <VercelHeader
+                title={getHeaderTitle()}
+                onOpenShowroom={() => setActiveTab('showroom')}
+              />
+            )}
 
             {/* Dynamic Views or Fullscreen Lesson Runner */}
             {!isLessonRunning ? (
@@ -79,8 +87,11 @@ export const App: React.FC = () => {
                   {activeTab === 'planet' && (
                     <Planet3DView onStartLesson={(nodeId) => startLesson(nodeId)} />
                   )}
+                  {activeTab === 'showroom' && (
+                    <SpaceShowroomView onClose={() => setActiveTab('hangar')} />
+                  )}
                   {activeTab === 'hangar' && (
-                    <SpaceHangarView />
+                    <SpaceHangarView onOpenShowroom={() => setActiveTab('showroom')} />
                   )}
                   {activeTab === 'profile' && <ProfileView />}
                 </main>

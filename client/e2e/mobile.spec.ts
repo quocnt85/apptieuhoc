@@ -211,10 +211,10 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await expect(page.locator('text=Góc Xác Nhận Của Phụ Huynh')).toBeVisible({ timeout: 5000 });
 
     // Type PIN 1-2-3-4
-    await page.locator('button:has-text("1")').click({ force: true });
-    await page.locator('button:has-text("2")').click({ force: true });
-    await page.locator('button:has-text("3")').click({ force: true });
-    await page.locator('button:has-text("4")').click({ force: true });
+    await page.getByRole('button', { name: '1', exact: true }).click({ force: true });
+    await page.getByRole('button', { name: '2', exact: true }).click({ force: true });
+    await page.getByRole('button', { name: '3', exact: true }).click({ force: true });
+    await page.getByRole('button', { name: '4', exact: true }).click({ force: true });
 
     // PIN verified screen appears
     await expect(page.locator('text=Mã PIN Phụ Huynh Hợp Lệ!')).toBeVisible({ timeout: 5000 });

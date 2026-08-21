@@ -646,7 +646,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   unlockAllCosmetics: () => {
     soundService.playVictory();
-    const allShips = ['explorer_v1', 'falcon_apex', 'starlight_runner'];
+    const allShips = ['explorer_v1', 'falcon_apex', 'solar_phoenix', 'starlight_runner', 'astral_shuttle'];
     const allColors = ['#38bdf8', '#f59e0b', '#ef4444', '#10b981', '#8b5cf6'];
     const allAvatars = ['👨‍🚀', '👩‍🚀', '🧑‍🚀', '⭐', '🤖', '🦊', '🦁', '🐼', '🦄', '🦖'];
     const allAccessories = ['flag_vn', 'cosmic_wings', 'hyper_drive'];

@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { useGameStore } from '../../stores/useGameStore';
 import { PlanetCoordinateNode } from '../../types';
+import { AerodynamicShipRenderer } from './ships/AerodynamicShips';
 
 interface Props {
   planetRadius: number;
@@ -126,74 +127,12 @@ export const Spaceship3D: React.FC<Props> = ({ planetRadius, activeNode, onArriv
 
   return (
     <group ref={shipGroupRef} scale={[0.22, 0.22, 0.22]}>
-      {/* Spaceship Main Hull / Fuselage */}
-      <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <coneGeometry args={[0.22, 0.9, 16]} />
-        <meshStandardMaterial color={shipColor} roughness={0.3} metalness={0.7} />
-      </mesh>
-
-      {/* Cockpit Windshield (Glowing Glass Cyan) */}
-      <mesh position={[0, 0.08, -0.05]} rotation={[Math.PI / 4, 0, 0]}>
-        <sphereGeometry args={[0.13, 16, 16]} />
-        <meshStandardMaterial
-          color="#38bdf8"
-          emissive="#0284c7"
-          emissiveIntensity={0.6}
-          roughness={0.1}
-          metalness={0.9}
-        />
-      </mesh>
-
-      {/* Left Wing */}
-      <mesh position={[-0.32, -0.02, 0.2]} rotation={[0, 0, -Math.PI / 12]}>
-        <boxGeometry args={[0.42, 0.03, 0.35]} />
-        <meshStandardMaterial color={shipColor} roughness={0.4} metalness={0.6} />
-      </mesh>
-
-      {/* Right Wing */}
-      <mesh position={[0.32, -0.02, 0.2]} rotation={[0, 0, Math.PI / 12]}>
-        <boxGeometry args={[0.42, 0.03, 0.35]} />
-        <meshStandardMaterial color={shipColor} roughness={0.4} metalness={0.6} />
-      </mesh>
-
-      {/* Vertical Tail Fin */}
-      <mesh position={[0, 0.16, 0.3]} rotation={[Math.PI / 12, 0, 0]}>
-        <boxGeometry args={[0.03, 0.22, 0.25]} />
-        <meshStandardMaterial color="#ffffff" roughness={0.3} metalness={0.5} />
-      </mesh>
-
-      {/* Vietnam Flag Badge (Red with Yellow Star) on Wing */}
-      {hasVnFlag && (
-        <group position={[0.28, 0.01, 0.18]} rotation={[-Math.PI / 2, 0, 0]} scale={[0.16, 0.11, 0.01]}>
-          <mesh>
-            <planeGeometry />
-            <meshBasicMaterial color="#da251d" />
-          </mesh>
-          {/* Gold Star Center */}
-          <mesh position={[0, 0, 0.02]} scale={[0.45, 0.45, 1]}>
-            <circleGeometry args={[0.5, 5]} />
-            <meshBasicMaterial color="#ffff00" />
-          </mesh>
-        </group>
-      )}
-
-      {/* Engine Exhaust Ring */}
-      <mesh position={[0, 0, 0.46]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.11, 0.13, 0.1, 16]} />
-        <meshStandardMaterial color="#334155" metalness={0.9} roughness={0.2} />
-      </mesh>
-
-      {/* Thruster Jet Flame (Pulsing Fire & Blue Core) */}
-      <mesh ref={thrusterRef} position={[0, 0, 0.65]} rotation={[-Math.PI / 2, 0, 0]}>
-        <coneGeometry args={[0.12, 0.35, 16]} />
-        <meshBasicMaterial color="#fbbf24" transparent opacity={0.9} />
-      </mesh>
-
-      {/* Inner Blue Plasma Core */}
-      <mesh position={[0, 0, 0.55]} rotation={[-Math.PI / 2, 0, 0]}>
-        <coneGeometry args={[0.06, 0.2, 16]} />
-        <meshBasicMaterial color="#38bdf8" transparent opacity={0.95} />
-      </mesh>
+      <AerodynamicShipRenderer
+        shipId={user.customization?.equippedShip || 'explorer_v1'}
+        shipColor={shipColor}
+        hasVnFlag={hasVnFlag}
+        showStreamlines={animState.current.progress < 1}
+      />
     </group>
   );
 };
