@@ -75,10 +75,14 @@ export interface UserProfile {
   customization: CustomizationState;
 }
 
+export type BgmStyle = 'ambient' | 'adventure';
+
 export interface GameSettings {
-  soundEnabled: boolean;
-  musicEnabled: boolean;
+  audioSettingsVersion: 2;
+  bgmEnabled: boolean;
+  sfxEnabled: boolean;
   hapticEnabled: boolean;
+  bgmStyle: BgmStyle;
   parentPin: string;
   dailyTimeLimitMinutes: number;
   todayPlayedMinutes: number;

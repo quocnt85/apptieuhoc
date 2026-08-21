@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { UserProfile, GameSettings, DomainId, DomainProgress, QuestionItem, ActiveTab, PlanetCoordinateNode } from '../types';
+import { UserProfile, GameSettings, DomainId, DomainProgress, QuestionItem, ActiveTab, PlanetCoordinateNode, BgmStyle } from '../types';
 import { soundService } from '../services/audio';
 import { DOMAINS_DATA, INITIAL_QUESTIONS } from '../data/mockQuestions';
 import { PLANETS_DATA } from '../data/planetsData';
@@ -29,7 +29,9 @@ interface GameState {
   completeLessonNode: (nodeId: string, starsEarned?: number) => void;
   selectDomain: (domainId: DomainId | null) => void;
   setActiveQuestion: (q: QuestionItem | null) => void;
-  toggleSound: () => void;
+  toggleBgm: () => void;
+  toggleSfx: () => void;
+  setBgmStyle: (style: 'ambient' | 'adventure') => void;
 
   // Energy & Timer System
   refreshEnergy: () => void;
@@ -101,6 +103,31 @@ interface GameState {
 
 const STORAGE_KEY = 'novastars_space_state_v2';
 
+const normalizeAudioSettings = (raw: Record<string, any>) => {
+  const isV2 = raw.audioSettingsVersion === 2;
+  const legacySound = typeof raw.soundEnabled === 'boolean' ? raw.soundEnabled : true;
+  const bgmStyle: BgmStyle = raw.bgmStyle === 'adventure' ? 'adventure' : 'ambient';
+  const currentSettings = { ...raw };
+  delete currentSettings.soundEnabled;
+  delete currentSettings.musicEnabled;
+  const normalized = {
+    ...currentSettings,
+    audioSettingsVersion: 2 as const,
+    sfxEnabled: isV2 && typeof raw.sfxEnabled === 'boolean' ? raw.sfxEnabled : legacySound,
+    bgmEnabled: isV2 && typeof raw.bgmEnabled === 'boolean'
+      ? raw.bgmEnabled
+      : legacySound && (typeof raw.musicEnabled === 'boolean' ? raw.musicEnabled : true),
+    bgmStyle,
+  };
+  const changed = !isV2
+    || raw.sfxEnabled !== normalized.sfxEnabled
+    || raw.bgmEnabled !== normalized.bgmEnabled
+    || raw.bgmStyle !== normalized.bgmStyle
+    || 'soundEnabled' in raw
+    || 'musicEnabled' in raw;
+  return { normalized, changed };
+};
+
 const defaultProgress: Record<DomainId, DomainProgress> = {
   'DOM-FIN': { domainId: 'DOM-FIN', masteryPercentage: 20, questionsAnswered: 1, totalQuestions: 5, streak: 1 },
   'DOM-SEL': { domainId: 'DOM-SEL', masteryPercentage: 35, questionsAnswered: 2, totalQuestions: 5, streak: 2 },
@@ -145,9 +172,11 @@ export const useGameStore = create<GameState>((set, get) => ({
   nodeStars: {},
   isGreetingQuestDone: false,
   settings: {
-    soundEnabled: true,
-    musicEnabled: true,
+    audioSettingsVersion: 2,
+    bgmEnabled: true,
+    sfxEnabled: true,
     hapticEnabled: true,
+    bgmStyle: 'ambient',
     parentPin: '1234',
     dailyTimeLimitMinutes: 30,
     todayPlayedMinutes: 12,
@@ -551,12 +580,30 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ activeQuestion: q });
   },
 
-  toggleSound: () => {
+  toggleBgm: () => {
     const { settings } = get();
-    const newSound = !settings.soundEnabled;
-    soundService.toggleSound(newSound);
+    const enabled = !settings.bgmEnabled;
+    if (settings.sfxEnabled) soundService.playClick();
+    soundService.setBgmEnabled(enabled);
+    set({ settings: { ...settings, bgmEnabled: enabled } });
+    get().saveToLocalStorage();
+  },
+
+  toggleSfx: () => {
+    const { settings } = get();
+    const enabled = !settings.sfxEnabled;
+    soundService.setSfxEnabled(enabled);
+    set({ settings: { ...settings, sfxEnabled: enabled } });
+    get().saveToLocalStorage();
+    if (enabled) soundService.playClick();
+  },
+
+  setBgmStyle: (style) => {
+    const { settings } = get();
+    soundService.playClick();
+    soundService.setBgmStyle(style);
     set({
-      settings: { ...settings, soundEnabled: newSound }
+      settings: { ...settings, bgmStyle: style }
     });
     get().saveToLocalStorage();
   },
@@ -769,6 +816,8 @@ export const useGameStore = create<GameState>((set, get) => ({
         if (loadedUser.avatar === '🚀') {
           loadedUser.avatar = '👨‍🚀';
         }
+        const persistedSettings = parsed.settings || {};
+        const { normalized: migratedSettings, changed: audioSettingsChanged } = normalizeAudioSettings(persistedSettings);
         set((state) => ({
           ...state,
           user: { ...state.user, ...loadedUser },
@@ -776,12 +825,20 @@ export const useGameStore = create<GameState>((set, get) => ({
           completedNodes: parsed.completedNodes || {},
           nodeStars: parsed.nodeStars || {},
           isGreetingQuestDone: parsed.isGreetingQuestDone ?? greetingQuestDoneFromLocal,
-          settings: { ...state.settings, ...(parsed.settings || {}) },
+          settings: { ...state.settings, ...migratedSettings },
           activePlanetId: parsed.activePlanetId || 'bravery_prime',
           isGodModeUnlocked: parsed.isGodModeUnlocked ?? state.isGodModeUnlocked,
           showFpsOverlay: parsed.showFpsOverlay ?? state.showFpsOverlay,
           devBackupUser: parsed.devBackupUser ?? null,
         }));
+        if (persistedSettings) {
+          soundService.setSfxEnabled(migratedSettings.sfxEnabled ?? true);
+          if (migratedSettings.bgmStyle) {
+            soundService.setBgmStyle(migratedSettings.bgmStyle);
+          }
+          soundService.setBgmEnabled(migratedSettings.bgmEnabled ?? true);
+        }
+        if (audioSettingsChanged) get().saveToLocalStorage();
       } else {
         set((state) => ({
           ...state,
