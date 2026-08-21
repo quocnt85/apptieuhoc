@@ -1,6 +1,6 @@
 import { SHIPS_DATA } from '../../data/shipsData';
 
-export type RunnerShipId = 'explorer_v1' | 'falcon_apex' | 'solar_phoenix' | 'starlight_runner' | 'astral_shuttle';
+export type RunnerShipId = 'explorer_v1' | 'falcon_apex' | 'solar_phoenix' | 'starlight_runner' | 'astral_shuttle' | 'chuong_duong' | 'son_tinh' | 'thanh_giong';
 export type WeaponKind = 'single' | 'twin' | 'cluster' | 'spread' | 'missile';
 export type AsteroidTier = 'small' | 'medium' | 'large' | 'titan';
 export type AsteroidMaterial = 'rock' | 'hard' | 'crystal';
@@ -51,13 +51,25 @@ const WEAPONS: Record<RunnerShipId, WeaponConfig> = {
     id: 'W7', name: 'Tên Lửa Nova', shortName: 'MISSILE', kind: 'missile',
     damage: 25, fireInterval: 0.29, projectileSpeed: 10.8, color: '#ff824d', aoe: 0.85,
   },
+  chuong_duong: {
+    id: 'W3', name: 'Pháo Đôi Hộ Vệ', shortName: 'GUARD', kind: 'twin',
+    damage: 10, fireInterval: 0.22, projectileSpeed: 12.8, color: '#55eaff', aoe: 0,
+  },
+  son_tinh: {
+    id: 'W4', name: 'Chấn Động Địa Chất', shortName: 'QUAKE', kind: 'cluster',
+    damage: 34, fireInterval: 0.42, projectileSpeed: 9.6, color: '#fbbf24', aoe: 1.15,
+  },
+  thanh_giong: {
+    id: 'W8', name: 'Lôi Đình Thiết Mã', shortName: 'THUNDER', kind: 'spread',
+    damage: 7.5, fireInterval: 0.2, projectileSpeed: 14, color: '#b98cff', aoe: 0,
+  },
 };
 
-const MVP_IDS: RunnerShipId[] = ['explorer_v1', 'starlight_runner', 'falcon_apex', 'astral_shuttle', 'solar_phoenix'];
+const FLEET_IDS: RunnerShipId[] = ['explorer_v1', 'starlight_runner', 'chuong_duong', 'falcon_apex', 'astral_shuttle', 'son_tinh', 'thanh_giong', 'solar_phoenix'];
 
-export const RUNNER_SHIPS: RunnerShipConfig[] = MVP_IDS.map((id) => {
+export const RUNNER_SHIPS: RunnerShipConfig[] = FLEET_IDS.map((id) => {
   const ship = SHIPS_DATA.find((item) => item.id === id);
-  if (!ship) throw new Error(`Missing MVP ship config: ${id}`);
+  if (!ship) throw new Error(`Missing fleet ship config: ${id}`);
   return {
     id,
     name: ship.name,

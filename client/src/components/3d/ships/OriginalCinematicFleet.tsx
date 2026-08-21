@@ -13,6 +13,7 @@ import {
   NOVA_PALETTE,
   Streamlines,
 } from './NovaFleetKit';
+import { ChuongDuongGuardian, SonTinhSurveyor, ThanhGiongColossus } from './NovaFleetExpansion';
 
 interface ShipProps {
   shipColor?: string;
@@ -206,6 +207,9 @@ export const AerodynamicShipRenderer: React.FC<{
     case 'solar_phoenix': model = <OrionSkyCarrier {...props} />; break;
     case 'starlight_runner': model = <AeroShuttleX9 {...props} />; break;
     case 'astral_shuttle': model = <HyperionStarLifterV {...props} />; break;
+    case 'chuong_duong': model = <ChuongDuongGuardian {...props} />; break;
+    case 'son_tinh': model = <SonTinhSurveyor {...props} />; break;
+    case 'thanh_giong': model = <ThanhGiongColossus {...props} />; break;
     default: model = <NovaApexHunter {...props} />;
   }
   return <group scale={scale}>{model}</group>;

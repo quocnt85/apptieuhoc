@@ -510,7 +510,7 @@ export const DevGodModeModal: React.FC<DevGodModeModalProps> = ({ onOpenShowroom
                     <Sparkles className="w-5 h-5 text-yellow-300" />
                     <div className="text-left">
                       <div>Phòng Duyệt 3D Không Gian (Admin)</div>
-                      <div className="text-[10px] text-sky-200 font-normal">Duyệt 5 phi thuyền khí động học & tinh cầu</div>
+                      <div className="text-[10px] text-sky-200 font-normal">Duyệt 8 phi thuyền khí động học & tinh cầu</div>
                     </div>
                   </div>
                   <span>✨ Mở</span>

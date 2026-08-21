@@ -19,7 +19,6 @@ export interface SpaceshipModelData {
   shield: number;       // 🛡️ Giáp (1-100)
   power: number;        // 💥 Sức mạnh (1-100)
   specialFeature: string; // Kỹ năng đặc biệt ngắn gọn
-  isPlaceholder?: boolean; // Tàu tương lai đang phát triển
 }
 
 export const SHIPS_DATA = ([
@@ -128,7 +127,7 @@ export const SHIPS_DATA = ([
     speed: 84, shield: 76, power: 72,
     specialFeature: 'Lực đẩy 5 động cơ Aerospike vượt qua mọi lực hút tinh cầu'
   },
-  // --- 3 Placeholder Ships (Chương Dương, Sơn Tinh, Thánh Gióng) ---
+  // --- Nova Fleet Expansion (Chương Dương, Sơn Tinh, Thánh Gióng) ---
   {
     id: 'chuong_duong',
     name: 'Chương Dương Cruiser',
@@ -148,8 +147,7 @@ export const SHIPS_DATA = ([
       'Động cơ phản lực ion công nghệ tương lai'
     ],
     speed: 74, shield: 56, power: 54,
-    specialFeature: 'Lá chắn năng lượng đa tần bảo vệ toàn biên đội',
-    isPlaceholder: true
+    specialFeature: 'Lá chắn năng lượng đa tần bảo vệ toàn biên đội'
   },
   {
     id: 'son_tinh',
@@ -170,8 +168,7 @@ export const SHIPS_DATA = ([
       'Cảm biến quang phổ phát hiện lõi khoáng vật'
     ],
     speed: 62, shield: 84, power: 78,
-    specialFeature: 'Định hình địa hình hạ cánh vững chắc trên mọi bề mặt',
-    isPlaceholder: true
+    specialFeature: 'Định hình địa hình hạ cánh vững chắc trên mọi bề mặt'
   },
   {
     id: 'thanh_giong',
@@ -192,7 +189,6 @@ export const SHIPS_DATA = ([
       'Đài quan sát thiên hà siêu viễn vọng 360 độ'
     ],
     speed: 88, shield: 92, power: 88,
-    specialFeature: 'Lực đẩy Thiết Mã phi thiên vượt mọi ranh giới vũ trụ',
-    isPlaceholder: true
+    specialFeature: 'Lực đẩy Thiết Mã phi thiên vượt mọi ranh giới vũ trụ'
   }
 ] satisfies SpaceshipModelData[]).sort((a, b) => a.progressionRank - b.progressionRank);

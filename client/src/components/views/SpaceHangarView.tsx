@@ -15,6 +15,9 @@ export const getDefaultColorForShip = (shipId: string): string => {
     case 'solar_phoenix': return '#2563eb';
     case 'starlight_runner': return '#f1f5f9';
     case 'astral_shuttle': return '#f8fafc';
+    case 'chuong_duong': return '#0ea5e9';
+    case 'son_tinh': return '#d97706';
+    case 'thanh_giong': return '#ef4444';
     default: return '#38bdf8';
   }
 };
@@ -296,12 +299,7 @@ const ShipInteractiveDetailModal: React.FC<{
 
         {/* Main Equip / Purchase Action Button */}
         <div className="w-full">
-          {ship.isPlaceholder ? (
-            <div className="w-full py-3 rounded-2xl font-black text-sm sm:text-base bg-indigo-950/90 border-2 border-indigo-400/70 text-indigo-200 flex items-center justify-center gap-2 shadow-lg">
-              <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse" />
-              <span>Bản Vẽ Thiết Kế • Sắp Ra Mắt</span>
-            </div>
-          ) : isEquipped ? (
+          {isEquipped ? (
             <div className="w-full py-3 rounded-2xl font-black text-sm sm:text-base bg-emerald-950 border-2 border-emerald-400 text-emerald-200 flex items-center justify-center gap-2 shadow-lg">
               <Check className="w-5 h-5 text-emerald-400 stroke-[3]" />
               <span>Đang Lái Phi Thuyền Này</span>
@@ -416,7 +414,7 @@ export const SpaceHangarView: React.FC = () => {
         </div>
       )}
 
-      {/* SubTab 1: 5 Aerodynamic Ships Customization */}
+      {/* SubTab 1: Complete Nova Fleet customization */}
       {activeSubTab === 'ships' && (
         <div className="space-y-3 animate-fadeIn">
           {SHIPS_DATA.map((s) => {
@@ -472,12 +470,7 @@ export const SpaceHangarView: React.FC = () => {
 
                 {/* Status / Action Indicator */}
                 <div className="shrink-0 flex items-center">
-                  {s.isPlaceholder ? (
-                    <span className="bg-indigo-950/90 text-indigo-300 font-black text-xs px-2.5 py-1.5 rounded-xl border border-indigo-400/50 shadow flex items-center gap-1">
-                      <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
-                      <span>Sắp Ra Mắt</span>
-                    </span>
-                  ) : isEquipped ? (
+                  {isEquipped ? (
                     <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 font-black text-xs px-2.5 py-1.5 rounded-xl flex items-center gap-1">
                       <Check className="w-3.5 h-3.5 stroke-[3]" /> Lái
                     </span>

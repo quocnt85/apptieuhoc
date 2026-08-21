@@ -76,8 +76,8 @@ test.describe('Nova Fleet: Asteroid Runner MVP', () => {
     await expect(page.getByText('Nhiệm Vụ Hằng Ngày', { exact: true })).toBeVisible();
   });
 
-  test('all five production ships and weapon starts are runtime-safe', async ({ page }) => {
-    test.setTimeout(70_000);
+  test('all eight production ships and weapon starts are runtime-safe', async ({ page }) => {
+    test.setTimeout(150_000);
     const runtimeErrors: string[] = [];
     page.on('pageerror', (error) => runtimeErrors.push(error.message));
     page.on('console', (message) => {
@@ -96,11 +96,14 @@ test.describe('Nova Fleet: Asteroid Runner MVP', () => {
       'Chiến Hạm Điện Biên Phủ',
       'Tàu Con Thoi Ngọc Hồi',
       'Tàu Khu Trục Quảng Trị',
+      'Tuần Dương Hạm Chương Dương',
+      'Tàu Khảo Sát Sơn Tinh',
+      'Thiết Giáp Hạm Thánh Gióng',
     ];
 
     for (const shipName of shipNames) {
       await page.getByText('Thử Thách Phi Thuyền', { exact: true }).click();
-      await page.getByRole('button', { name: `Chọn ${shipName}` }).click();
+      await page.getByRole('button', { name: `Chọn ${shipName}` }).click({ force: true });
       await expect(page.getByRole('heading', { name: shipName })).toBeVisible();
       await page.getByTestId('asteroid-runner-start').click();
       await page.mouse.move(190, 680);

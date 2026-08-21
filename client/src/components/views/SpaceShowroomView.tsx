@@ -241,7 +241,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
               </span>
             </h2>
             <p className="text-[11px] text-sky-200 font-bold">
-              {mode === 'ships' ? '5 Phi Thuyền Khám Phá Khoa Học' : '5 Tinh Cầu Độc Bản'}
+              {mode === 'ships' ? '8 Phi Thuyền Khám Phá Khoa Học' : '5 Tinh Cầu Độc Bản'}
             </p>
           </div>
         </div>
@@ -263,7 +263,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
               }`}
             >
               <Rocket className="w-3.5 h-3.5" />
-              <span>5 Tàu Khám Phá</span>
+              <span>8 Tàu Khám Phá</span>
             </button>
 
             <button
@@ -298,7 +298,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
       </div>
 
       {/* Main Interactive 3D Canvas Area */}
-      <div className="relative flex-1 w-full overflow-hidden bg-radial from-[#1e1b4b] via-[#070d1e] to-[#030712] cursor-grab active:cursor-grabbing touch-none touch-canvas-interactive overscroll-none">
+      <div className="relative h-[34vh] min-h-[220px] sm:h-[40vh] sm:min-h-[260px] shrink-0 w-full overflow-hidden bg-radial from-[#1e1b4b] via-[#070d1e] to-[#030712] cursor-grab active:cursor-grabbing touch-none touch-canvas-interactive overscroll-none">
         <Canvas
           camera={{ position: [0, 0.35, 4.4], fov: 45 }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
@@ -438,7 +438,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
       </div>
 
       {/* Bottom Selector & Technical Specs Panel */}
-      <div className="bg-slate-950/95 border-t-2 border-sky-500/30 p-3.5 sm:p-4 shrink-0 flex flex-col gap-3 max-h-[48vh] overflow-y-auto shadow-2xl z-20">
+      <div className="bg-slate-950/95 border-t-2 border-sky-500/30 p-3.5 sm:p-4 flex-1 min-h-0 flex flex-col gap-3 overflow-y-auto shadow-2xl z-20">
         <div className="flex gap-2.5 overflow-x-auto pb-1.5 scrollbar-thin shrink-0 min-h-[58px]">
               {mode === 'ships'
                 ? SHIPS_DATA.map((ship, idx) => {
