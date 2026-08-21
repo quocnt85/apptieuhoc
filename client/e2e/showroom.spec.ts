@@ -53,26 +53,26 @@ test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
 
     const shipTitle = page.locator('[data-testid="showroom-ship-title"]');
 
-    // Ship 1: Nova Apex Hunter
+    // Ship 1: Bạch Đằng Interceptor
     await safeSelect(page.locator('[data-testid="ship-select-explorer_v1"]'));
-    await expect(shipTitle).toContainText('Apex', { timeout: 5000 });
+    await expect(shipTitle).toContainText('Bạch Đằng', { timeout: 5000 });
     await expect(page.locator('text=Tốc độ').first()).toBeVisible();
 
-    // Ship 2: Chrono Voyager
+    // Ship 2: Chi Lăng Voyager
     await safeSelect(page.locator('[data-testid="ship-select-falcon_apex"]'));
-    await expect(shipTitle).toContainText('Chrono', { timeout: 5000 });
+    await expect(shipTitle).toContainText('Chi Lăng', { timeout: 5000 });
 
-    // Ship 3: Orion Sky-Carrier
+    // Ship 3: Chiến Hạm Điện Biên Phủ (solar_phoenix)
     await safeSelect(page.locator('[data-testid="ship-select-solar_phoenix"]'));
-    await expect(shipTitle).toContainText('Orion', { timeout: 5000 });
+    await expect(shipTitle).toContainText('Điện Biên Phủ', { timeout: 5000 });
 
-    // Ship 4: AeroShuttle X-9
+    // Ship 4: Tàu Con Thoi Ngọc Hồi (starlight_runner)
     await safeSelect(page.locator('[data-testid="ship-select-starlight_runner"]'));
-    await expect(shipTitle).toContainText('AeroShuttle', { timeout: 5000 });
+    await expect(shipTitle).toContainText('Ngọc Hồi', { timeout: 5000 });
 
-    // Ship 5: Hyperion Star-Lifter V
+    // Ship 5: Quảng Trị Star-Lifter
     await safeSelect(page.locator('[data-testid="ship-select-astral_shuttle"]'));
-    await expect(shipTitle).toContainText('Hyperion', { timeout: 5000 });
+    await expect(shipTitle).toContainText('Quảng Trị', { timeout: 5000 });
   });
 
   test('3. Switch to 5 Planets Mode and verify each unique planetary body', async ({ page }) => {
@@ -121,5 +121,62 @@ test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
     if (await windBtn.isVisible()) {
       await windBtn.click();
     }
+  });
+
+  test('5. Hangar shows clean thumbnails, differentiated stats, and no separate Màu & Cờ tab', async ({ page }) => {
+    // Navigate to Xưởng Tàu
+    await page.locator('button:has-text("Xưởng Tàu")').first().click({ force: true });
+    await expect(page.locator('text=Xưởng Tàu Không Gian').first()).toBeVisible({ timeout: 6000 });
+
+    // Verify 2 sub-tabs exist
+    await expect(page.locator('button:has-text("Phi Thuyền Không Gian")')).toBeVisible();
+    await expect(page.locator('button:has-text("Năng Lượng & Tiện Ích")')).toBeVisible();
+
+    // Verify separate "Màu & Cờ" tab is REMOVED from top switcher
+    await expect(page.locator('button:has-text("Màu & Cờ")')).toBeHidden();
+
+    // Check Bạch Đằng (Speed 98, Shield 42, Power 65)
+    await expect(page.locator('text=Tàu Tiên Phong Bạch Đằng').first()).toBeVisible({ timeout: 6000 });
+    await expect(page.locator('text=⚡ 98').first()).toBeVisible();
+    await expect(page.locator('text=🛡️ 42').first()).toBeVisible();
+    await expect(page.locator('text=💥 65').first()).toBeVisible();
+
+    // Check Điện Biên Phủ (Speed 40, Shield 99, Power 90)
+    await expect(page.locator('text=Chiến Hạm Điện Biên Phủ').first()).toBeVisible();
+    await expect(page.locator('text=⚡ 40').first()).toBeVisible();
+    await expect(page.locator('text=🛡️ 99').first()).toBeVisible();
+
+    // Check Placeholder ship: Chương Dương (Sắp Ra Mắt)
+    await expect(page.locator('text=Tuần Dương Hạm Chương Dương').first()).toBeVisible();
+    await expect(page.locator('text=Sắp Ra Mắt').first()).toBeVisible();
+  });
+
+  test('6. Open Ship 3D Modal with Real-time Paint Palette & Gold color locked at 250 Coins', async ({ page }) => {
+    await page.locator('button:has-text("Xưởng Tàu")').first().click({ force: true });
+
+    // Click on Bạch Đằng ship card to open 3D interactive modal
+    await page.locator('text=Tàu Tiên Phong Bạch Đằng').first().click({ force: true });
+
+    // Modal opens with 3D canvas and hint
+    await expect(page.locator('text=Sơn Màu Phi Thuyền').first()).toBeVisible({ timeout: 6000 });
+    await expect(page.locator('text=Vuốt để xoay 360°').first()).toBeVisible();
+
+    // Check Default color (Mặc Định) swatch exists
+    const defaultColorBtn = page.locator('button[title*="Mặc Định"]');
+    await expect(defaultColorBtn).toBeVisible();
+
+    // Check Gold color (Vàng Hoàng Kim) swatch exists and shows 250 🟡
+    const goldColorBtn = page.locator('button[title*="Vàng Hoàng Kim"]');
+    await expect(goldColorBtn).toBeVisible();
+    await expect(goldColorBtn).toContainText('250');
+
+    // Click Gold color swatch -> Unlock prompt appears
+    await goldColorBtn.click({ force: true });
+    await expect(page.locator('text=Màu này cần mở khóa:').first()).toBeVisible({ timeout: 4000 });
+    await expect(page.locator('button:has-text("Mở Khóa (250 Xu 🟡)")').first()).toBeVisible();
+
+    // Close modal
+    await page.locator('button:has([class*="lucide-x"])').first().click({ force: true });
+    await expect(page.locator('text=Sơn Màu Phi Thuyền')).toBeHidden();
   });
 });

@@ -267,7 +267,7 @@ export const EnergyStrip: React.FC<{
   </mesh>
 );
 
-const PlasmaExhaust: React.FC<{ color: string }> = ({ color }) => {
+const PlasmaExhaust: React.FC<{ color: string; thrustPower?: number }> = ({ color, thrustPower = 1.0 }) => {
   const flameMaterial = useRef<THREE.ShaderMaterial>(null);
   const particleMaterial = useRef<THREE.ShaderMaterial>(null);
   const flameUniforms = useMemo(() => ({ uTime: { value: 0 }, uColor: { value: new THREE.Color(color) } }), [color]);
@@ -291,7 +291,7 @@ const PlasmaExhaust: React.FC<{ color: string }> = ({ color }) => {
     if (particleMaterial.current) particleMaterial.current.uniforms.uTime.value = clock.elapsedTime;
   });
   return (
-    <group>
+    <group scale={[Math.max(0.3, thrustPower), Math.max(0.3, thrustPower), Math.max(0.3, thrustPower)]}>
       <mesh position={[0, 0, 0.82]} rotation={[Math.PI / 2, 0, 0]}>
         <coneGeometry args={[0.12, 0.86, 28, 10, true]} />
         <shaderMaterial
@@ -329,7 +329,7 @@ const PlasmaExhaust: React.FC<{ color: string }> = ({ color }) => {
       {[0.62, 0.9, 1.18].map((z, index) => (
         <mesh key={z} position={[0, 0, z]} scale={[0.07 - index * 0.012, 0.07 - index * 0.012, 0.14]}>
           <sphereGeometry args={[1, 16, 12]} />
-          <meshBasicMaterial color={index === 0 ? '#ffffff' : color} transparent opacity={0.72 - index * 0.16} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
+          <meshBasicMaterial color={index === 0 ? '#ffffff' : color} transparent opacity={(0.72 - index * 0.16) * Math.max(0.3, thrustPower)} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
         </mesh>
       ))}
       <points position={[0, 0, 0.4]}>
@@ -371,7 +371,7 @@ const PlasmaExhaust: React.FC<{ color: string }> = ({ color }) => {
           `}
         />
       </points>
-      <pointLight position={[0, 0, 0.25]} color={color} intensity={0.55} distance={1.25} decay={2} />
+      <pointLight position={[0, 0, 0.25]} color={color} intensity={0.55 * Math.max(0.3, thrustPower)} distance={1.25} decay={2} />
     </group>
   );
 };
@@ -382,7 +382,8 @@ export const EnginePod: React.FC<{
   accent?: string;
   flame?: string;
   rings?: number;
-}> = ({ position, scale = 1, accent = NOVA_PALETTE.cyan, flame = '#42d9ff', rings = 3 }) => {
+  thrustPower?: number;
+}> = ({ position, scale = 1, accent = NOVA_PALETTE.cyan, flame = '#42d9ff', rings = 3, thrustPower = 1.0 }) => {
   return (
     <group position={position} scale={scale}>
       <mesh position={[0, 0, -0.54]} rotation={[Math.PI / 2, 0, 0]}>
@@ -415,7 +416,7 @@ export const EnginePod: React.FC<{
         <circleGeometry args={[0.115, 24]} />
         <meshBasicMaterial color={flame} toneMapped={false} />
       </mesh>
-      <PlasmaExhaust color={flame} />
+      <PlasmaExhaust color={flame} thrustPower={thrustPower} />
     </group>
   );
 };

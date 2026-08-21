@@ -175,7 +175,7 @@ const ParentGreetingConfirmModal: React.FC<{
 };
 
 export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGame }) => {
-  const { user, addNovaCoins, unlockGodMode } = useGameStore();
+  const { user, addNovaCoins, toggleGodMode } = useGameStore();
 
   const [greetingQuestDone, setGreetingQuestDone] = useState<boolean>(() => {
     return localStorage.getItem('novastars_quest_greeting_done') === 'true';
@@ -200,7 +200,7 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
 
     if (heroClickCountRef.current >= 5) {
       heroClickCountRef.current = 0;
-      unlockGodMode();
+      toggleGodMode();
     }
   };
 
@@ -276,7 +276,7 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
               onClick={handleHeroAvatarClick}
               data-testid="hero-avatar-btn"
               className="relative cursor-pointer active:scale-95 transition-transform shrink-0"
-              title="Nhấp 5 lần để mở Dev God Mode"
+              title="Nhấp 5 lần để bật/tắt Dev God Mode"
             >
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-2 border-sky-400 flex items-center justify-center text-3xl sm:text-4xl shadow-inner shrink-0">
                 {currentAvatar}

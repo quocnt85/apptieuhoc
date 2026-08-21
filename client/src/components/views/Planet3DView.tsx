@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { SpaceCanvas } from '../3d/SpaceCanvas';
 import { PlanetMesh } from '../3d/PlanetMesh';
-import { Spaceship3D } from '../3d/Spaceship3D';
 import { SpaceshipCockpitDashboard } from './SpaceshipCockpitDashboard';
 import { PLANETS_DATA } from '../../data/planetsData';
 import { useGameStore } from '../../stores/useGameStore';
@@ -76,6 +75,7 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [isWarping, setIsWarping] = useState(false);
+  const [bossAlertActive, setBossAlertActive] = useState(false);
 
   const currentPlanet = PLANETS_DATA.find((p) => p.id === activePlanetId) || PLANETS_DATA[0];
   const currentIndex = PLANETS_DATA.findIndex((p) => p.id === currentPlanet.id);
@@ -88,6 +88,7 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
     soundService.playVictory();
     setIsWarping(true);
     setShowModal(false);
+    setBossAlertActive(false);
     closeCoordinateModal();
     selectPlanet(planetId);
 
@@ -109,6 +110,7 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
   const handleSelectCoordinate = (node: PlanetCoordinateNode) => {
     // Hide any previous modal and trigger ship flight animation
     setShowModal(false);
+    setBossAlertActive(false);
     startFlyingToCoordinate(node);
   };
 
@@ -117,10 +119,20 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
     soundService.playVictory();
     // Reveal spaceship cockpit dashboard ONLY after ship has arrived
     setShowModal(true);
+
+    // Trigger Boss Red Alert & Siren if arriving at a Boss coordinate
+    if (selectedCoordinateNode?.isBoss) {
+      soundService.playBossAlarmSiren();
+      setBossAlertActive(true);
+      setTimeout(() => {
+        setBossAlertActive(false);
+      }, 3000);
+    }
   };
 
   const handleLaunchLesson = (node: PlanetCoordinateNode) => {
     setShowModal(false);
+    setBossAlertActive(false);
     closeCoordinateModal();
     onStartLesson(node.id);
   };
@@ -229,11 +241,7 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
             planet={currentPlanet}
             radius={1.0}
             onSelectNode={handleSelectCoordinate}
-          />
-          <Spaceship3D
-            planetRadius={1.0}
-            activeNode={selectedCoordinateNode}
-            onArrival={handleShipArrival}
+            onShipArrival={handleShipArrival}
           />
         </SpaceCanvas>
       </div>
@@ -267,14 +275,14 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
             <Compass className="w-4 h-4 text-sky-400 animate-spin" style={{ animationDuration: '8s' }} />
             <span>
               {currentUnlocked
-                ? 'Vuốt màn hình xoay 360° • Chạm tọa độ để phi thuyền bay tới'
-                : '🔒 Tinh cầu đang khóa • Phi thuyền vẫn có thể bay tới thám hiểm 3D'}
+                ? 'Xoay hành tinh để tìm điểm đến tiếp theo'
+                : '🔒 Tinh cầu đang khóa • Xoay hành tinh để tìm điểm đến tiếp theo'}
             </span>
           </div>
         </div>
       )}
 
-      {/* 5. SPACESHIP COCKPIT BOTTOM DASHBOARD */}
+      {/* 5. SPACESHIP COCKPIT BOTTOM DASHBOARD (z-index 50) */}
       {showModal && selectedCoordinateNode && (
         <SpaceshipCockpitDashboard
           node={selectedCoordinateNode}
@@ -282,9 +290,41 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
           onStartLesson={handleLaunchLesson}
           onClose={() => {
             setShowModal(false);
+            setBossAlertActive(false);
             closeCoordinateModal();
           }}
         />
+      )}
+
+      {/* 6. RED ALERT BOSS WARNING OVERLAY (Nhấp nháy 3 lần, mỗi lần 1s = 3s) */}
+      {bossAlertActive && (
+        <div
+          data-testid="boss-red-alert-overlay"
+          className="fixed inset-0 z-40 pointer-events-none flex flex-col items-center justify-center animate-boss-flash"
+        >
+          <style>{`
+            @keyframes bossAlertFlashAnim {
+              0%, 100% { opacity: 0; transform: scale(0.95); }
+              25%, 75% { opacity: 1; transform: scale(1.02); }
+            }
+            .animate-boss-flash {
+              animation: bossAlertFlashAnim 1s ease-in-out 3;
+            }
+          `}</style>
+          <div className="absolute inset-0 bg-red-600/35 backdrop-blur-[1.5px]" />
+          <div className="relative z-10 text-center px-4">
+            <div className="inline-flex items-center justify-center gap-3 sm:gap-4 bg-red-950/90 border-3 border-red-500 px-6 sm:px-12 py-3.5 sm:py-5 rounded-3xl shadow-[0_0_60px_rgba(239,68,68,1)]">
+              <span className="text-3xl sm:text-5xl animate-bounce">⚠️</span>
+              <span className="font-['Be_Vietnam_Pro'] font-black uppercase text-white text-4xl sm:text-7xl tracking-widest drop-shadow-[0_0_30px_rgba(239,68,68,1)]">
+                NGUY HIỂM
+              </span>
+              <span className="text-3xl sm:text-5xl animate-bounce">⚠️</span>
+            </div>
+            <p className="mt-3 text-red-100 text-xs sm:text-base font-black uppercase tracking-widest drop-shadow-md">
+              Khu Vực Chiến Đấu Với Thủ Lĩnh Tinh Cầu!
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -172,6 +172,56 @@ class SoundEngine {
     } catch {}
   }
 
+  // Tiếng còi hú báo động Boss (Red Alert Sci-Fi Siren - 3 chu kỳ lặp lại 3 giây)
+  public playBossAlarmSiren() {
+    try {
+      if (!this.soundEnabled) return;
+      this.initContext();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      // 3 chu kỳ còi hú báo động, mỗi chu kỳ 1.0 giây
+      for (let i = 0; i < 3; i++) {
+        const cycleStart = now + i * 1.0;
+
+        // Oscillator 1: Sawtooth gắt
+        const osc1 = this.ctx.createOscillator();
+        const gain1 = this.ctx.createGain();
+        osc1.type = 'sawtooth';
+        osc1.frequency.setValueAtTime(440, cycleStart);
+        osc1.frequency.linearRampToValueAtTime(880, cycleStart + 0.5);
+        osc1.frequency.linearRampToValueAtTime(440, cycleStart + 0.95);
+
+        gain1.gain.setValueAtTime(0.01, cycleStart);
+        gain1.gain.linearRampToValueAtTime(0.18, cycleStart + 0.1);
+        gain1.gain.setValueAtTime(0.18, cycleStart + 0.7);
+        gain1.gain.exponentialRampToValueAtTime(0.001, cycleStart + 0.98);
+
+        osc1.connect(gain1);
+        gain1.connect(this.ctx.destination);
+        osc1.start(cycleStart);
+        osc1.stop(cycleStart + 0.98);
+
+        // Oscillator 2: Âm trầm sub-bass cảnh báo
+        const osc2 = this.ctx.createOscillator();
+        const gain2 = this.ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(110, cycleStart);
+        osc2.frequency.linearRampToValueAtTime(220, cycleStart + 0.5);
+        osc2.frequency.linearRampToValueAtTime(110, cycleStart + 0.95);
+
+        gain2.gain.setValueAtTime(0.01, cycleStart);
+        gain2.gain.linearRampToValueAtTime(0.15, cycleStart + 0.1);
+        gain2.gain.exponentialRampToValueAtTime(0.001, cycleStart + 0.98);
+
+        osc2.connect(gain2);
+        gain2.connect(this.ctx.destination);
+        osc2.start(cycleStart);
+        osc2.stop(cycleStart + 0.98);
+      }
+    } catch {}
+  }
+
   public playVictory() {
     this.playLevelUp();
   }

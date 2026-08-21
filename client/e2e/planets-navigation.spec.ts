@@ -1,4 +1,4 @@
-﻿import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 
 async function dismissFTUEIfPresent(page: Page) {
   try {
@@ -100,5 +100,33 @@ test.describe('5 Planets Interactive Navigation & Locked Planet Exploration E2E 
     // Click Return button -> Back to Bravery Prime
     await returnBtn.click({ force: true });
     await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 8000 });
+  });
+
+  test('4. Arriving at Boss node triggers Red Alert NGUY HIỂM overlay and Boss battle button', async ({ page }) => {
+    test.setTimeout(60000);
+    // Unlock all coordinates for test exploration
+    await page.evaluate(() => {
+      (window as any).__gameStore?.getState().unlockGodMode();
+    });
+
+    await page.locator('button:has-text("Hành Tinh")').first().click({ force: true });
+    await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 5000 });
+
+    // Click Boss node pin (with Crown icon 👑)
+    const bossPin = page.locator('button[title*="Boss"], button:has-text("👑")').first();
+    await bossPin.click({ force: true });
+
+    // Wait for spaceship flight & arrival
+    await expect(page.locator('text=Boss: Rồng Dũng Cảm').first()).toBeVisible({ timeout: 15000 });
+
+    // Verify Red Alert "NGUY HIỂM" overlay appears
+    const redAlert = page.getByTestId('boss-red-alert-overlay');
+    await expect(redAlert).toBeVisible({ timeout: 6000 });
+    await expect(page.locator('text=NGUY HIỂM').first()).toBeVisible();
+
+    // Verify Boss battle button is active
+    const startBtn = page.getByTestId('start-lesson-btn');
+    await expect(startBtn).toBeVisible();
+    await expect(startBtn).toContainText('BẮT ĐẦU ĐẤU BOSS');
   });
 });

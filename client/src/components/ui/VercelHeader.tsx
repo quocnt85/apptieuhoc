@@ -8,29 +8,8 @@ interface Props {
 }
 
 export const VercelHeader: React.FC<Props> = () => {
-  const { user, settings, toggleSound, refreshEnergy, unlockGodMode } = useGameStore();
+  const { user, settings, toggleSound, refreshEnergy } = useGameStore();
   const [countdownText, setCountdownText] = useState<string>('');
-
-  // 5-click Easter Egg state
-  const clickCountRef = React.useRef<number>(0);
-  const lastClickRef = React.useRef<number>(0);
-
-  const handleStatsClick = () => {
-    const now = Date.now();
-    if (now - lastClickRef.current > 4000) {
-      clickCountRef.current = 1;
-    } else {
-      clickCountRef.current += 1;
-    }
-    lastClickRef.current = now;
-
-    soundService.playClick();
-
-    if (clickCountRef.current >= 5) {
-      clickCountRef.current = 0;
-      unlockGodMode();
-    }
-  };
 
   // Live timer for energy regeneration
   useEffect(() => {
@@ -60,12 +39,9 @@ export const VercelHeader: React.FC<Props> = () => {
 
   return (
     <header className="w-full bg-slate-950/85 backdrop-blur-xl border-b border-sky-500/25 px-3 sm:px-6 py-2.5 flex items-center justify-between shadow-2xl shrink-0 z-30 select-none text-white">
-      {/* Left: Interactive Currency & Energy Chips with 5-Click Dev God Mode Easter Egg */}
+      {/* Left: Interactive Currency & Energy Chips */}
       <div 
-        onClick={handleStatsClick}
-        data-testid="header-avatar-btn"
-        className="flex items-center gap-1.5 sm:gap-2.5 cursor-pointer active:scale-98 transition-transform"
-        title="Nhấp 5 lần để mở Dev God Mode"
+        className="flex items-center gap-1.5 sm:gap-2.5"
       >
         {/* Energy Unit Chip */}
         <div

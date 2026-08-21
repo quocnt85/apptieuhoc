@@ -90,10 +90,10 @@ export const App: React.FC = () => {
                     <Planet3DView onStartLesson={(nodeId) => startLesson(nodeId)} />
                   )}
                   {activeTab === 'showroom' && (
-                    <SpaceShowroomView onClose={() => setActiveTab('hangar')} />
+                    <SpaceShowroomView onClose={() => setActiveTab('home')} />
                   )}
                   {activeTab === 'hangar' && (
-                    <SpaceHangarView onOpenShowroom={() => setActiveTab('showroom')} />
+                    <SpaceHangarView />
                   )}
                   {activeTab === 'profile' && <ProfileView />}
                 </main>
