@@ -1,100 +1,19 @@
 import React, { useState, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { useGameStore } from '../../stores/useGameStore';
-import { Rocket, Palette, Flag, Zap, Shield, Sparkles, Check, Lock, Gift, Eye, RotateCw, X, BatteryCharging, Trophy } from 'lucide-react';
+import { SHIPS_DATA } from '../../data/shipsData';
+import { AerodynamicShipRenderer } from '../3d/ships/AerodynamicShips';
+import { Rocket, Palette, Flag, Zap, Sparkles, Check, Lock, Gift, Eye, RotateCw, X, Wind, Trophy } from 'lucide-react';
 import { soundService } from '../../services/audio';
 import * as THREE from 'three';
 
-// 3D Spaceship Model for 360 Degree Viewer
-const SpaceshipModelMesh: React.FC<{ shipColor: string; hasVnFlag: boolean }> = ({ shipColor, hasVnFlag }) => {
-  const thrusterRef = useRef<THREE.Mesh>(null);
-
-  useFrame(({ clock }) => {
-    if (thrusterRef.current) {
-      const pulse = 1.2 + Math.sin(clock.getElapsedTime() * 12) * 0.3;
-      thrusterRef.current.scale.set(pulse, pulse * 1.5, pulse);
-    }
-  });
-
-  return (
-    <group scale={[0.9, 0.9, 0.9]}>
-      {/* Spaceship Main Hull */}
-      <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <coneGeometry args={[0.3, 1.2, 24]} />
-        <meshStandardMaterial color={shipColor} roughness={0.25} metalness={0.8} />
-      </mesh>
-
-      {/* Cockpit Windshield */}
-      <mesh position={[0, 0.12, -0.06]} rotation={[Math.PI / 4, 0, 0]}>
-        <sphereGeometry args={[0.18, 24, 24]} />
-        <meshStandardMaterial
-          color="#38bdf8"
-          emissive="#0284c7"
-          emissiveIntensity={0.8}
-          roughness={0.1}
-          metalness={0.95}
-        />
-      </mesh>
-
-      {/* Left Wing */}
-      <mesh position={[-0.45, -0.02, 0.25]} rotation={[0, 0, -Math.PI / 12]}>
-        <boxGeometry args={[0.6, 0.04, 0.45]} />
-        <meshStandardMaterial color={shipColor} roughness={0.35} metalness={0.7} />
-      </mesh>
-
-      {/* Right Wing */}
-      <mesh position={[0.45, -0.02, 0.25]} rotation={[0, 0, Math.PI / 12]}>
-        <boxGeometry args={[0.6, 0.04, 0.45]} />
-        <meshStandardMaterial color={shipColor} roughness={0.35} metalness={0.7} />
-      </mesh>
-
-      {/* Tail Fin */}
-      <mesh position={[0, 0.24, 0.4]} rotation={[Math.PI / 12, 0, 0]}>
-        <boxGeometry args={[0.04, 0.32, 0.35]} />
-        <meshStandardMaterial color="#ffffff" roughness={0.2} metalness={0.6} />
-      </mesh>
-
-      {/* Vietnam Flag Decal */}
-      {hasVnFlag && (
-        <group position={[0.4, 0.02, 0.22]} rotation={[-Math.PI / 2, 0, 0]} scale={[0.22, 0.15, 0.02]}>
-          <mesh>
-            <planeGeometry />
-            <meshBasicMaterial color="#da251d" />
-          </mesh>
-          <mesh position={[0, 0, 0.02]} scale={[0.45, 0.45, 1]}>
-            <circleGeometry args={[0.5, 5]} />
-            <meshBasicMaterial color="#ffff00" />
-          </mesh>
-        </group>
-      )}
-
-      {/* Engine Ring */}
-      <mesh position={[0, 0, 0.62]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.15, 0.18, 0.15, 24]} />
-        <meshStandardMaterial color="#1e293b" metalness={0.95} roughness={0.15} />
-      </mesh>
-
-      {/* Thruster Flame */}
-      <mesh ref={thrusterRef} position={[0, 0, 0.9]} rotation={[-Math.PI / 2, 0, 0]}>
-        <coneGeometry args={[0.18, 0.5, 20]} />
-        <meshBasicMaterial color="#fbbf24" transparent opacity={0.9} />
-      </mesh>
-
-      {/* Inner Plasma */}
-      <mesh position={[0, 0, 0.75]} rotation={[-Math.PI / 2, 0, 0]}>
-        <coneGeometry args={[0.09, 0.28, 16]} />
-        <meshBasicMaterial color="#38bdf8" transparent opacity={0.95} />
-      </mesh>
-    </group>
-  );
-};
-
-// Interactive 3D Orbit Viewer Component
+// Interactive 3D Orbit Viewer Modal in Hangar
 const ShipViewer3DModal: React.FC<{
   onClose: () => void;
+  shipId: string;
   shipColor: string;
   hasVnFlag: boolean;
-}> = ({ onClose, shipColor, hasVnFlag }) => {
+}> = ({ onClose, shipId, shipColor, hasVnFlag }) => {
   const groupRef = useRef<THREE.Group>(null);
   const isDraggingRef = useRef(false);
   const prevPointerRef = useRef({ x: 0, y: 0 });
@@ -115,15 +34,18 @@ const ShipViewer3DModal: React.FC<{
           <span>Quan Sát Phi Thuyền 3D Thực Tế</span>
         </h3>
         <p className="text-xs text-sky-200 font-bold mb-3">
-          Vuốt hoặc kéo chuột để xoay 360° kiểm tra phi thuyền
+          Vuốt hoặc kéo chuột để xoay 360° quan sát cánh và động cơ
         </p>
 
         {/* 3D Canvas Container */}
         <div
-          className="w-full h-72 sm:h-80 rounded-2xl overflow-hidden bg-radial from-[#1e1b4b] via-[#0b1026] to-[#050814] border border-sky-400/40 relative cursor-grab active:cursor-grabbing shadow-inner"
+          className="w-full h-72 sm:h-80 rounded-2xl overflow-hidden bg-radial from-[#1e1b4b] via-[#0b1026] to-[#050814] border border-sky-400/40 relative cursor-grab active:cursor-grabbing shadow-inner touch-none touch-canvas-interactive overscroll-none"
           onPointerDown={(e) => {
             isDraggingRef.current = true;
             prevPointerRef.current = { x: e.clientX, y: e.clientY };
+            try {
+              (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+            } catch {}
           }}
           onPointerMove={(e) => {
             if (isDraggingRef.current && groupRef.current) {
@@ -134,15 +56,39 @@ const ShipViewer3DModal: React.FC<{
               groupRef.current.rotation.x += dy * 0.012;
             }
           }}
-          onPointerUp={() => { isDraggingRef.current = false; }}
-          onPointerLeave={() => { isDraggingRef.current = false; }}
+          onPointerUp={(e) => {
+            isDraggingRef.current = false;
+            try {
+              if ((e.currentTarget as HTMLElement).hasPointerCapture(e.pointerId)) {
+                (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+              }
+            } catch {}
+          }}
+          onPointerCancel={(e) => {
+            isDraggingRef.current = false;
+            try {
+              if ((e.currentTarget as HTMLElement).hasPointerCapture(e.pointerId)) {
+                (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+              }
+            } catch {}
+          }}
         >
-          <Canvas camera={{ position: [0, 0.4, 3.0], fov: 45 }}>
+          <Canvas
+            camera={{ position: [0, 0.4, 3.2], fov: 45 }}
+            style={{ touchAction: 'none' }}
+            className="touch-none"
+          >
             <ambientLight intensity={0.9} />
-            <directionalLight position={[5, 6, 5]} intensity={2.2} />
-            <pointLight position={[-4, -3, -2]} intensity={1.4} color="#38bdf8" />
+            <directionalLight position={[5, 6, 5]} intensity={2.4} />
+            <pointLight position={[-4, -3, -2]} intensity={1.5} color="#38bdf8" />
             <group ref={groupRef}>
-              <SpaceshipModelMesh shipColor={shipColor} hasVnFlag={hasVnFlag} />
+              <AerodynamicShipRenderer
+                shipId={shipId}
+                shipColor={shipColor}
+                hasVnFlag={hasVnFlag}
+                showStreamlines={true}
+                scale={1.2}
+              />
             </group>
           </Canvas>
 
@@ -167,7 +113,7 @@ const ShipViewer3DModal: React.FC<{
   );
 };
 
-export const SpaceHangarView: React.FC = () => {
+export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onOpenShowroom }) => {
   const {
     user,
     buyShip,
@@ -182,37 +128,10 @@ export const SpaceHangarView: React.FC = () => {
 
   const [activeSubTab, setActiveSubTab] = useState<'ships' | 'colors' | 'boosters'>('ships');
   const [adRewardMsg, setAdRewardMsg] = useState<string | null>(null);
-  const [show3DViewer, setShow3DViewer] = useState(false);
+  const [inspectShipId, setInspectShipId] = useState<string | null>(null);
 
   const currentShipColor = user.customization?.equippedColor || '#38bdf8';
   const hasVnFlag = user.customization?.hasVietnamFlag ?? true;
-
-  const shipsList = [
-    {
-      id: 'explorer_v1',
-      name: 'Tàu Thám Hiểm (Explorer V1)',
-      price: 0,
-      image: '/assets/3d/rocket_spaceship.png',
-      badge: 'Cơ Bản',
-      desc: 'Phi thuyền cơ bản nhanh nhẹn, thích hợp mọi tinh cầu.'
-    },
-    {
-      id: 'falcon_apex',
-      name: 'Tàu Tia Chớp (Falcon Apex)',
-      price: 300,
-      image: '/assets/3d/rocket_spaceship.png',
-      badge: 'Siêu Thanh',
-      desc: 'Thiết kế khí động học siêu thanh, động cơ ion kép tăng tốc.'
-    },
-    {
-      id: 'starlight_runner',
-      name: 'Tàu Tinh Cầu (Starlight Runner)',
-      price: 600,
-      image: '/assets/3d/rocket_spaceship.png',
-      badge: 'Huyền Thoại',
-      desc: 'Vỏ titan chống bức xạ vũ trụ, vệt lửa plasma đa sắc.'
-    },
-  ];
 
   const colorsList = [
     { hex: '#38bdf8', name: 'Xanh Lam Cyan', price: 0 },
@@ -238,18 +157,28 @@ export const SpaceHangarView: React.FC = () => {
           <span>🛠️</span> Xưởng Tàu Không Gian
         </h2>
         <p className="text-xs sm:text-sm font-bold text-sky-200 mt-0.5">
-          Tùy biến phi thuyền, sơn màu, dán cờ Việt Nam & nạp năng lượng
+          Tùy biến phi thuyền chuẩn khí động học, sơn màu & nạp năng lượng
         </p>
       </div>
 
-      {/* Button to Open 3D Ship Viewer Modal */}
-      <div className="mb-4">
+      {/* Button to Open Full 3D Showroom View */}
+      <div className="mb-4 space-y-2">
+        {onOpenShowroom && (
+          <button
+            onClick={() => { soundService.playClick(); onOpenShowroom(); }}
+            className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-sky-500 via-indigo-600 to-purple-600 hover:from-sky-400 hover:to-purple-500 text-white font-black text-sm sm:text-base border-2 border-sky-300 shadow-[0_6px_20px_rgba(56,189,248,0.35)] flex items-center justify-center gap-2 active:scale-98 transition-all"
+          >
+            <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse" />
+            <span>🪐 Mở Phòng Duyệt 3D (5 Tàu Vũ Trụ & 5 Hành Tinh) ✨</span>
+          </button>
+        )}
+
         <button
-          onClick={() => { soundService.playClick(); setShow3DViewer(true); }}
-          className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-sky-500 via-indigo-600 to-purple-600 hover:from-sky-400 hover:to-purple-500 text-white font-black text-sm sm:text-base border-2 border-sky-300 shadow-[0_6px_20px_rgba(56,189,248,0.35)] flex items-center justify-center gap-2 active:scale-98 transition-all"
+          onClick={() => { soundService.playClick(); setInspectShipId(user.customization?.equippedShip || 'explorer_v1'); }}
+          className="w-full py-2.5 px-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-sky-200 font-bold text-xs sm:text-sm border border-sky-500/40 flex items-center justify-center gap-2 active:scale-98 transition-all"
         >
-          <Eye className="w-5 h-5 text-yellow-300 animate-pulse" />
-          <span>🔎 Mở Phòng Ngắm Tàu Vũ Trụ 3D (Xoay 360°)</span>
+          <Eye className="w-4 h-4 text-sky-400" />
+          <span>Mở Phòng Ngắm Tàu Vũ Trụ 3D (Xoay 360°)</span>
         </button>
       </div>
 
@@ -299,10 +228,10 @@ export const SpaceHangarView: React.FC = () => {
         </div>
       )}
 
-      {/* SubTab 1: Ships Customization */}
+      {/* SubTab 1: 5 Aerodynamic Ships Customization */}
       {activeSubTab === 'ships' && (
         <div className="space-y-3.5 animate-fadeIn">
-          {shipsList.map((s) => {
+          {SHIPS_DATA.map((s) => {
             const isUnlocked = user.customization?.unlockedShips?.includes(s.id);
             const isEquipped = user.customization?.equippedShip === s.id;
 
@@ -317,29 +246,30 @@ export const SpaceHangarView: React.FC = () => {
                     : 'bg-slate-900/50 border-slate-800 opacity-85'
                 }`}
               >
-                {/* Ship Real Graphic Image Card */}
+                {/* Ship Graphic Card */}
                 <div className="flex items-center gap-4 w-full sm:w-auto">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-slate-800 to-slate-950 border-2 border-sky-400/50 flex items-center justify-center p-2 shrink-0 shadow-lg relative">
-                    <img
-                      src={s.image}
-                      alt={s.name}
-                      className="w-full h-full object-contain drop-shadow-[0_4px_12px_rgba(56,189,248,0.5)] transform -rotate-12 hover:rotate-0 transition-transform duration-300"
-                    />
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-slate-800 to-slate-950 border-2 border-sky-400/50 flex items-center justify-center p-2 shrink-0 shadow-lg relative text-3xl">
+                    🚀
                     <span className="absolute -top-1.5 -right-1.5 bg-yellow-400 text-slate-950 font-black text-[9px] px-2 py-0.5 rounded-full shadow">
                       {s.badge}
                     </span>
                   </div>
 
                   <div className="flex-1">
-                    <h4 className="font-black text-sm sm:text-base text-yellow-300">{s.name}</h4>
-                    <p className="text-xs text-slate-300 font-medium mt-1 leading-relaxed">{s.desc}</p>
+                    <h4 className="font-black text-sm sm:text-base text-yellow-300">{s.nameVi}</h4>
+                    <p className="text-xs text-slate-300 font-medium mt-1 leading-relaxed">{s.description}</p>
                     
-                    <button
-                      onClick={() => { soundService.playClick(); setShow3DViewer(true); }}
-                      className="mt-2 text-sky-400 hover:text-sky-300 text-xs font-bold flex items-center gap-1"
-                    >
-                      <Eye className="w-3.5 h-3.5" /> Xem mô hình 3D
-                    </button>
+                    <div className="flex items-center gap-3 mt-2">
+                      <span className="text-[11px] text-sky-300 font-bold bg-sky-950/80 px-2 py-0.5 rounded-lg border border-sky-500/30">
+                        $C_d: {s.dragCoefficientCd}$ • Mach {s.maxMachSpeed}
+                      </span>
+                      <button
+                        onClick={() => { soundService.playClick(); setInspectShipId(s.id); }}
+                        className="text-sky-400 hover:text-sky-300 text-xs font-bold flex items-center gap-1"
+                      >
+                        <Eye className="w-3.5 h-3.5" /> Xem 3D
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -457,7 +387,7 @@ export const SpaceHangarView: React.FC = () => {
         </div>
       )}
 
-      {/* SubTab 3: Large Energy & Boosters */}
+      {/* SubTab 3: Boosters & Energy */}
       {activeSubTab === 'boosters' && (
         <div className="space-y-4 animate-fadeIn">
           {/* Main Giant Energy Reactor Status Card */}
@@ -482,7 +412,6 @@ export const SpaceHangarView: React.FC = () => {
                 <span>{user.energy}</span>
                 <span className="text-sm text-slate-400 font-bold">/ {user.maxEnergy} ⚡</span>
               </div>
-              {/* Progress Bar */}
               <div className="w-full sm:w-36 h-3 bg-slate-800 rounded-full overflow-hidden border border-slate-700 mt-1.5 shadow-inner">
                 <div
                   className="h-full bg-gradient-to-r from-yellow-400 via-emerald-400 to-sky-400 transition-all duration-300 rounded-full"
@@ -492,9 +421,9 @@ export const SpaceHangarView: React.FC = () => {
             </div>
           </div>
 
-          {/* Large Hero Grid for Boosters Items */}
+          {/* Boosters Grid */}
           <div className="space-y-3.5">
-            {/* Booster 1: Double Regen */}
+            {/* Double Regen */}
             <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-purple-500/50 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4 w-full sm:w-auto">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-700 border-2 border-purple-300/50 flex items-center justify-center text-3xl shadow-lg shrink-0">
@@ -521,7 +450,7 @@ export const SpaceHangarView: React.FC = () => {
               </button>
             </div>
 
-            {/* Booster 2: Free Boss Pass */}
+            {/* Boss Pass */}
             <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-amber-500/50 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4 w-full sm:w-auto">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 border-2 border-amber-300/50 flex items-center justify-center text-3xl shadow-lg shrink-0">
@@ -548,7 +477,7 @@ export const SpaceHangarView: React.FC = () => {
               </button>
             </div>
 
-            {/* Booster 3: Instant 50/50 Refuel */}
+            {/* Instant Refuel */}
             <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-emerald-500/50 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4 w-full sm:w-auto">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 border-2 border-emerald-300/50 flex items-center justify-center text-3xl shadow-lg shrink-0">
@@ -599,9 +528,10 @@ export const SpaceHangarView: React.FC = () => {
       )}
 
       {/* 3D Ship Inspector Modal */}
-      {show3DViewer && (
+      {inspectShipId && (
         <ShipViewer3DModal
-          onClose={() => setShow3DViewer(false)}
+          onClose={() => setInspectShipId(null)}
+          shipId={inspectShipId}
           shipColor={currentShipColor}
           hasVnFlag={hasVnFlag}
         />
@@ -609,4 +539,3 @@ export const SpaceHangarView: React.FC = () => {
     </div>
   );
 };
-

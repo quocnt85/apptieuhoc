@@ -44,7 +44,7 @@ export interface QuestionItem {
 }
 
 export interface CustomizationState {
-  equippedShip: string; // 'explorer_v1' | 'falcon_apex' | 'starlight_runner'
+  equippedShip: string; // 'explorer_v1' | 'falcon_apex' | 'solar_phoenix' | 'starlight_runner' | 'astral_shuttle'
   equippedColor: string; // '#38bdf8' | '#f59e0b' | '#ef4444' | '#10b981' | '#8b5cf6'
   hasVietnamFlag: boolean;
   unlockedShips: string[];
@@ -84,7 +84,7 @@ export interface GameSettings {
   todayPlayedMinutes: number;
 }
 
-export type ActiveTab = 'home' | 'planet' | 'hangar' | 'profile' | 'minigame' | 'world' | 'explore' | 'practice' | 'parent' | 'settings';
+export type ActiveTab = 'home' | 'planet' | 'hangar' | 'profile' | 'showroom' | 'minigame' | 'world' | 'explore' | 'practice' | 'parent' | 'settings';
 
 export interface DomainProgress {
   domainId: DomainId;
@@ -112,9 +112,10 @@ export interface PlanetCoordinateNode {
 export interface PlanetData {
   id: string;
   name: string;
+  nameVi: string;
   titleVi: string;
   description: string;
-  type: 'terrestrial' | 'ocean' | 'gas_giant' | 'ice';
+  type: 'terrestrial' | 'ocean' | 'gas_giant' | 'ice' | 'magma';
   color: string;
   glowColor: string;
   atmosphereColor: string;
@@ -127,5 +128,9 @@ export interface PlanetData {
   hasMoon?: boolean;
   moonColor?: string;
   moonDistance?: number;
+  diameterKm?: number;
+  surfaceTemp?: string;
+  gravity?: string;
+  geologyHighlights?: string[];
   nodes: PlanetCoordinateNode[];
 }

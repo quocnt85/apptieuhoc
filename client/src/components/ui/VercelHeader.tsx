@@ -5,9 +5,10 @@ import { soundService } from '../../services/audio';
 
 interface Props {
   title?: string;
+  onOpenShowroom?: () => void;
 }
 
-export const VercelHeader: React.FC<Props> = ({ title = 'Hành Tinh Tri Thức' }) => {
+export const VercelHeader: React.FC<Props> = ({ title = 'Hành Tinh Tri Thức', onOpenShowroom }) => {
   const { user, settings, toggleSound, refreshEnergy, unlockGodMode } = useGameStore();
   const [countdownText, setCountdownText] = useState<string>('');
 
@@ -87,8 +88,24 @@ export const VercelHeader: React.FC<Props> = ({ title = 'Hành Tinh Tri Thức' 
         <span className="text-xs sm:text-sm font-black text-yellow-300 tracking-tight">{title}</span>
       </div>
 
-      {/* Right Stats HUD (Energy, Nova Coins, Diamonds, Sound) */}
-      <div className="flex items-center gap-1.5 sm:gap-2.5">
+      {/* Right Stats HUD (Showroom Button, Energy, Nova Coins, Diamonds, Sound) */}
+      <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* Direct 3D Showroom Button on Header */}
+        {onOpenShowroom && (
+          <button
+            onClick={() => {
+              soundService.playClick();
+              onOpenShowroom();
+            }}
+            data-testid="header-showroom-btn"
+            title="Mở Phòng Duyệt 3D (5 Tàu & 5 Hành Tinh)"
+            className="px-2 sm:px-2.5 py-1 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-600 to-purple-600 border border-sky-300 text-white font-black text-xs flex items-center gap-1 shadow-md shadow-sky-500/25 active:scale-95 transition-all"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
+            <span className="hidden sm:inline">Duyệt 3D</span>
+          </button>
+        )}
+
         {/* Energy Unit Chip */}
         <div
           title={countdownText}

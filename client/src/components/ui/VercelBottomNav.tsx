@@ -2,7 +2,7 @@ import React from 'react';
 import { Home, Globe2, Wrench, User } from 'lucide-react';
 import { soundService } from '../../services/audio';
 
-export type VercelTab = 'home' | 'planet' | 'hangar' | 'profile';
+export type VercelTab = 'home' | 'planet' | 'hangar' | 'profile' | 'showroom';
 
 interface Props {
   activeTab: VercelTab;
