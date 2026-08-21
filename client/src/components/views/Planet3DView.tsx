@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SpaceCanvas } from '../3d/SpaceCanvas';
 import { PlanetMesh } from '../3d/PlanetMesh';
 import { SpaceshipCockpitDashboard } from './SpaceshipCockpitDashboard';
 import { PLANETS_DATA } from '../../data/planetsData';
 import { useGameStore } from '../../stores/useGameStore';
 import { PlanetCoordinateNode } from '../../types';
-import { Compass, Sparkles, ChevronLeft, ChevronRight, Lock, Rocket, AlertTriangle } from 'lucide-react';
+import { Compass, ChevronLeft, ChevronRight, Lock, RotateCcw, AlertTriangle } from 'lucide-react';
 import { soundService } from '../../services/audio';
 import { HyperspaceTransition } from '../effects/HyperspaceTransition';
 
@@ -78,6 +78,10 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
   const [isWarping, setIsWarping] = useState(false);
   const [isHyperspeed, setIsHyperspeed] = useState(false);
   const [bossAlertActive, setBossAlertActive] = useState(false);
+  const [resetViewSignal, setResetViewSignal] = useState(0);
+  const [warpDestinationName, setWarpDestinationName] = useState('');
+  const planetWarpingRef = useRef(false);
+  const planetWarpTimersRef = useRef<number[]>([]);
 
   const currentPlanet = PLANETS_DATA.find((p) => p.id === activePlanetId) || PLANETS_DATA[0];
   const currentIndex = PLANETS_DATA.findIndex((p) => p.id === currentPlanet.id);
@@ -85,19 +89,31 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
   const currentMeta = PLANET_META[currentPlanet.id] || PLANET_META['bravery_prime'];
 
   const handleSwitchPlanet = (planetId: string) => {
-    if (planetId === activePlanetId) return;
+    if (planetId === activePlanetId || planetWarpingRef.current) return;
 
-    soundService.playVictory();
+    const destination = PLANETS_DATA.find((planet) => planet.id === planetId);
+    planetWarpingRef.current = true;
+    setWarpDestinationName(destination?.titleVi || 'tinh cầu mới');
     setIsWarping(true);
+    soundService.playHyperspeedJump(2.8);
     setShowModal(false);
     setBossAlertActive(false);
     closeCoordinateModal();
-    selectPlanet(planetId);
 
-    setTimeout(() => {
+    // Swap planets under the white flash, then leave enough tunnel time to feel distance.
+    planetWarpTimersRef.current.push(window.setTimeout(() => {
+      selectPlanet(planetId);
+    }, 1280));
+    planetWarpTimersRef.current.push(window.setTimeout(() => {
       setIsWarping(false);
-    }, 600);
+      planetWarpingRef.current = false;
+    }, 2800));
   };
+
+  useEffect(() => () => {
+    planetWarpTimersRef.current.forEach(window.clearTimeout);
+    planetWarpTimersRef.current = [];
+  }, []);
 
   const handlePrevPlanet = () => {
     const prevIdx = (currentIndex - 1 + PLANETS_DATA.length) % PLANETS_DATA.length;
@@ -254,34 +270,39 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
             radius={1.0}
             onSelectNode={handleSelectCoordinate}
             onShipArrival={handleShipArrival}
+            resetViewSignal={resetViewSignal}
           />
         </SpaceCanvas>
       </div>
 
-      {/* 3. WARP SPEED HYPER-JUMP COSMIC TRAVEL OVERLAY */}
+      {/* 3. The same cinematic hyperspace language is used between planets. */}
       {isWarping && (
-        <div className="absolute inset-0 z-40 bg-slate-950/80 backdrop-blur-md flex flex-col items-center justify-center animate-fadeIn pointer-events-none">
-          <div className="relative flex flex-col items-center">
-            {/* Warp Light Streaks */}
-            <div className="w-36 h-36 rounded-full bg-gradient-to-r from-sky-400 via-indigo-500 to-purple-600 blur-2xl opacity-60 animate-ping" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Rocket className="w-12 h-12 text-yellow-300 animate-bounce" />
-            </div>
-            <div className="mt-6 text-center">
-              <p className="font-black text-sm sm:text-base text-yellow-300 tracking-wider flex items-center gap-2 justify-center">
-                <Sparkles className="w-4 h-4 text-yellow-300 animate-spin" />
-                <span>DU HÀNH KHÔNG GIAN...</span>
-              </p>
-              <p className="text-xs font-bold text-sky-200 mt-0.5">
-                Đang tiến vào quỹ đạo {currentPlanet.titleVi}
-              </p>
-            </div>
-          </div>
-        </div>
+        <HyperspaceTransition
+          durationMs={2800}
+          title="Đã khóa hành lang liên tinh cầu"
+          subtitle={`Đang tiến vào quỹ đạo ${warpDestinationName}`}
+        />
       )}
 
       {/* 3.5. Multi-stage charge → jump → afterglow transition. */}
       {isHyperspeed && <HyperspaceTransition />}
+
+      {!showModal && !isWarping && !isHyperspeed && (
+        <button
+          type="button"
+          data-testid="reset-planet-view-btn"
+          onClick={() => {
+            soundService.playClick();
+            setResetViewSignal((value) => value + 1);
+          }}
+          className="absolute right-3 bottom-14 z-30 h-10 px-3 rounded-full border border-cyan-300/50 bg-slate-950/85 backdrop-blur-md text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.2)] flex items-center gap-2 text-[11px] font-black active:scale-95 transition-transform"
+          title="Đặt lại mức zoom và vị trí hành tinh"
+          aria-label="Đặt lại zoom hành tinh"
+        >
+          <RotateCcw className="h-4 w-4" />
+          <span>Reset zoom</span>
+        </button>
+      )}
 
       {/* 4. BOTTOM FLOATING EXPLORATION HINT */}
       {!showModal && (
@@ -330,7 +351,7 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
           <div className="relative z-10 text-center px-4">
             <div className="inline-flex items-center justify-center gap-3 sm:gap-4 bg-red-950/90 border-3 border-red-500 px-6 sm:px-12 py-3.5 sm:py-5 rounded-3xl shadow-[0_0_60px_rgba(239,68,68,1)]">
               <span className="text-3xl sm:text-5xl animate-bounce">⚠️</span>
-              <span className="font-['Be_Vietnam_Pro'] font-black uppercase text-white text-4xl sm:text-7xl tracking-widest drop-shadow-[0_0_30px_rgba(239,68,68,1)]">
+              <span className="font-be-vietnam-pro font-black uppercase text-white text-4xl sm:text-7xl tracking-widest drop-shadow-[0_0_30px_rgba(239,68,68,1)]">
                 NGUY HIỂM
               </span>
               <span className="text-3xl sm:text-5xl animate-bounce">⚠️</span>
