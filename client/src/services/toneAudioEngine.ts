@@ -22,11 +22,15 @@ export class ToneAudioEngine {
   // BGM Synths & Sequences
   private ambientPadSynth: Tone.PolySynth | null = null;
   private ambientArpSynth: Tone.PolySynth | null = null;
+  private ambientMelodyPresence: Tone.Filter | null = null;
+  private ambientMelodyGain: Tone.Gain | null = null;
   private ambientDroneSynth: Tone.MonoSynth | null = null;
   private ambientSequence: Tone.Sequence | null = null;
   private ambientArpSequence: Tone.Sequence | null = null;
 
   private adventureChordSynth: Tone.PolySynth | null = null;
+  private adventureMelodyPresence: Tone.Filter | null = null;
+  private adventureMelodyGain: Tone.Gain | null = null;
   private adventureBassSynth: Tone.MonoSynth | null = null;
   private adventureDrumSynth: Tone.MembraneSynth | null = null;
   private adventureNoiseSynth: Tone.NoiseSynth | null = null;
@@ -317,8 +321,12 @@ export class ToneAudioEngine {
       const synths = [
         this.ambientPadSynth,
         this.ambientArpSynth,
+        this.ambientMelodyPresence,
+        this.ambientMelodyGain,
         this.ambientDroneSynth,
         this.adventureChordSynth,
+        this.adventureMelodyPresence,
+        this.adventureMelodyGain,
         this.adventureBassSynth,
         this.adventureDrumSynth,
         this.adventureNoiseSynth,
@@ -330,8 +338,12 @@ export class ToneAudioEngine {
       this.adventureBassSynth?.triggerRelease();
       this.ambientPadSynth = null;
       this.ambientArpSynth = null;
+      this.ambientMelodyPresence = null;
+      this.ambientMelodyGain = null;
       this.ambientDroneSynth = null;
       this.adventureChordSynth = null;
+      this.adventureMelodyPresence = null;
+      this.adventureMelodyGain = null;
       this.adventureBassSynth = null;
       this.adventureDrumSynth = null;
       this.adventureNoiseSynth = null;
@@ -356,12 +368,20 @@ export class ToneAudioEngine {
       volume: -6,
     }), 'chorus');
 
-    // Shimmering High Bell Arpeggios
-    this.ambientArpSynth = this.safetyGraph.routeBgm(new Tone.PolySynth(Tone.Synth, {
+    // Submerged melodic layer: a dedicated gain and presence dip keep the
+    // motif behind the warm pad instead of competing with foreground UI/SFX.
+    this.ambientMelodyGain = this.safetyGraph.routeBgm(new Tone.Gain(0.56), 'reverb');
+    this.ambientMelodyPresence = new Tone.Filter({
+      type: 'peaking',
+      frequency: 2600,
+      Q: 0.75,
+      gain: -4.5,
+    }).connect(this.ambientMelodyGain);
+    this.ambientArpSynth = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: 'sine' },
-      envelope: { attack: 0.05, decay: 0.4, sustain: 0.2, release: 1.2 },
-      volume: -14,
-    }), 'reverb');
+      envelope: { attack: 0.08, decay: 0.45, sustain: 0.16, release: 1.35 },
+      volume: -16,
+    }).connect(this.ambientMelodyPresence);
 
     // Low Grounding Drone
     this.ambientDroneSynth = this.safetyGraph.routeBgm(new Tone.MonoSynth({
@@ -383,11 +403,17 @@ export class ToneAudioEngine {
       { chord: ['A2', 'E3', 'G3', 'C#4', 'E4'], root: 'A1' },
     ];
 
-    const arpNotes = [
-      ['A5', null, 'D6', 'E6', 'F6', null, 'E6', 'C6'],
-      ['D5', 'F5', 'A5', null, 'D6', 'C6', 'A5', null],
-      ['C5', null, 'G5', 'A5', 'C6', null, 'G5', 'E5'],
-      ['E5', 'G5', 'D6', null, 'E6', 'D6', 'B5', null],
+    // Eight measures (64 eighth-note slots) follow the full harmonic cycle.
+    // The previous one-measure loop repeated every ~3.6s at 66 BPM.
+    const ambientMelody = [
+      'A4', null, 'D5', 'E5', 'F5', null, 'E5', 'C5',
+      'D5', 'F5', 'A5', null, 'D5', 'C5', 'A4', null,
+      'C5', null, 'G5', 'A5', 'C6', null, 'G5', 'E5',
+      'E5', 'G5', 'D5', null, 'E5', 'D5', 'C5', null,
+      'D5', null, 'G5', 'A5', 'Bb5', 'A5', 'F5', null,
+      'F5', 'D5', 'A4', null, 'C5', 'D5', 'F5', null,
+      'E5', null, 'A5', 'G5', 'D5', 'E5', 'C5', null,
+      'C#5', 'E5', 'G5', null, 'A5', 'E5', 'C#5', null,
     ];
 
     this.ambientSequence = new Tone.Sequence(
@@ -403,9 +429,9 @@ export class ToneAudioEngine {
     this.ambientArpSequence = new Tone.Sequence(
       (time, note) => {
         if (!this.isBgmPlaying || !this.ambientArpSynth || !note) return;
-        this.ambientArpSynth.triggerAttackRelease(note, '8n', time, 0.25);
+        this.ambientArpSynth.triggerAttackRelease(note, '8n', time, 0.19);
       },
-      arpNotes[0],
+      ambientMelody,
       '8n'
     ).start(0);
   }
@@ -418,19 +444,26 @@ export class ToneAudioEngine {
 
     Tone.Transport.bpm.rampTo(106, 1);
 
-    // Heroic Synth Brass / Chords
-    this.adventureChordSynth = this.safetyGraph.routeBgm(new Tone.PolySynth(Tone.Synth, {
+    // Heroic motif sits behind the rhythm through a dedicated presence dip.
+    this.adventureMelodyGain = this.safetyGraph.routeBgm(new Tone.Gain(0.58), 'reverb');
+    this.adventureMelodyPresence = new Tone.Filter({
+      type: 'peaking',
+      frequency: 2200,
+      Q: 0.8,
+      gain: -5,
+    }).connect(this.adventureMelodyGain);
+    this.adventureChordSynth = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: 'triangle' },
-      envelope: { attack: 0.08, decay: 0.4, sustain: 0.6, release: 0.8 },
-      volume: -7,
-    }), 'reverb');
+      envelope: { attack: 0.11, decay: 0.45, sustain: 0.52, release: 0.95 },
+      volume: -10,
+    }).connect(this.adventureMelodyPresence);
 
     // Rhythmic Bass Synth
     this.adventureBassSynth = this.safetyGraph.routeBgm(new Tone.MonoSynth({
       oscillator: { type: 'sawtooth' },
       envelope: { attack: 0.02, decay: 0.18, sustain: 0.3, release: 0.2 },
       filterEnvelope: { attack: 0.01, decay: 0.15, sustain: 0.3, release: 0.2, baseFrequency: 180, octaves: 2.5 },
-      volume: -9,
+      volume: -12,
     }));
 
     // Cinematic Timpani / Space Kick
@@ -438,14 +471,14 @@ export class ToneAudioEngine {
       pitchDecay: 0.08,
       octaves: 3,
       envelope: { attack: 0.005, decay: 0.4, sustain: 0.01, release: 0.4 },
-      volume: -6,
+      volume: -10,
     }));
 
     // Soft Hi-hat Filtered Pulse
     this.adventureNoiseSynth = this.safetyGraph.routeBgm(new Tone.NoiseSynth({
       noise: { type: 'pink' },
       envelope: { attack: 0.005, decay: 0.05, sustain: 0 },
-      volume: -20,
+      volume: -24,
     }));
 
     const adventureChords = [
@@ -462,7 +495,7 @@ export class ToneAudioEngine {
     this.adventureChordSeq = new Tone.Sequence(
       (time, item) => {
         if (!this.isBgmPlaying || !this.adventureChordSynth) return;
-        this.adventureChordSynth.triggerAttackRelease(item.chord, '2n', time, 0.42);
+        this.adventureChordSynth.triggerAttackRelease(item.chord, '2n', time, 0.32);
       },
       adventureChords,
       '1m'
@@ -472,7 +505,7 @@ export class ToneAudioEngine {
     this.adventureBassSeq = new Tone.Sequence(
       (time, note) => {
         if (!this.isBgmPlaying || !this.adventureBassSynth) return;
-        this.adventureBassSynth.triggerAttackRelease(note, '16n', time, 0.38);
+        this.adventureBassSynth.triggerAttackRelease(note, '16n', time, 0.32);
       },
       bassPattern,
       '8n'
@@ -483,10 +516,10 @@ export class ToneAudioEngine {
       (time, note) => {
         if (!this.isBgmPlaying) return;
         if (note && this.adventureDrumSynth) {
-          this.adventureDrumSynth.triggerAttackRelease(note, '8n', time, 0.45);
+          this.adventureDrumSynth.triggerAttackRelease(note, '8n', time, 0.36);
         }
         if (this.adventureNoiseSynth) {
-          this.adventureNoiseSynth.triggerAttackRelease('16n', time, 0.15);
+          this.adventureNoiseSynth.triggerAttackRelease('16n', time, 0.11);
         }
       },
       drumPattern,
