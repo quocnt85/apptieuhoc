@@ -69,6 +69,10 @@ export const PLANETS_DATA: PlanetData[] = [
       'Đỉnh núi tuyết trắng đón ánh bình minh',
       'Vành đai sao lấp lánh bao quanh hành tinh'
     ],
+    unlockRequirement: {
+      requiredStars: 0,
+      descriptionVi: 'Căn cứ phi hành đoàn khởi hành (Đã Mở Khóa)',
+    },
     nodes: [
       {
         id: 'island_1_node_1',
@@ -203,6 +207,11 @@ export const PLANETS_DATA: PlanetData[] = [
       'Rạn san hô rực rỡ sắc màu',
       'Quần đảo nhiệt đới mát mẻ'
     ],
+    unlockRequirement: {
+      requiredBossNodeId: 'island_1_boss',
+      requiredStars: 9,
+      descriptionVi: 'Cần hạ Boss Tinh Cầu Dũng Khí 🐉 hoặc đạt 9 ⭐',
+    },
     nodes: [
       {
         id: 'aqua_node_1',
@@ -333,6 +342,11 @@ export const PLANETS_DATA: PlanetData[] = [
       'Vành đai ánh sáng lung linh đa sắc',
       'Tia sét phát sáng giữa các tầng mây'
     ],
+    unlockRequirement: {
+      requiredBossNodeId: 'aqua_boss',
+      requiredStars: 15,
+      descriptionVi: 'Cần hạ Boss Tinh Cầu Đại Dương 🐙 hoặc đạt 15 ⭐',
+    },
     nodes: [
       {
         id: 'storm_node_1',
@@ -430,6 +444,11 @@ export const PLANETS_DATA: PlanetData[] = [
       'Cực quang màu ngọc bích tuyệt đẹp',
       'Lâu đài băng pha lê huyền diệu'
     ],
+    unlockRequirement: {
+      requiredBossNodeId: 'storm_boss',
+      requiredStars: 20,
+      descriptionVi: 'Cần hạ Boss Tinh Cầu Bão Táp ⚡ hoặc đạt 20 ⭐',
+    },
     nodes: [
       {
         id: 'frost_node_1',
@@ -516,6 +535,11 @@ export const PLANETS_DATA: PlanetData[] = [
       'Kho báu đá quý ẩn mình trong đá',
       'Núi lửa pháo hoa kỳ vĩ'
     ],
+    unlockRequirement: {
+      requiredBossNodeId: 'frost_boss',
+      requiredStars: 25,
+      descriptionVi: 'Cần hạ Boss Tinh Cầu Băng ❄️ hoặc đạt 25 ⭐',
+    },
     nodes: [
       {
         id: 'magma_node_1',

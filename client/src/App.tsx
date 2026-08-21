@@ -14,9 +14,10 @@ import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
 import { DevGodModeModal } from './components/dev/DevGodModeModal';
 import { PerformanceOverlay } from './components/dev/PerformanceOverlay';
 import { DevFloatingButton } from './components/dev/DevFloatingButton';
+import { PLANETS_DATA } from './data/planetsData';
 
 export const App: React.FC = () => {
-  const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage, isLessonRunning, startLesson, closeLesson } = useGameStore();
+  const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage, isLessonRunning, startLesson, closeLesson, activePlanetId } = useGameStore();
 
   const [isSplashing, setIsSplashing] = useState(true);
   const [showFTUEModal, setShowFTUEModal] = useState(false);
@@ -39,12 +40,14 @@ export const App: React.FC = () => {
     setActiveTab('planet');
   };
 
+  const currentPlanet = PLANETS_DATA.find((p) => p.id === activePlanetId) || PLANETS_DATA[0];
+
   const getHeaderTitle = () => {
     switch (activeTab) {
       case 'home':
         return 'Hành Tinh Tri Thức';
       case 'planet':
-        return 'Tinh Cầu Dũng Khí';
+        return currentPlanet.titleVi;
       case 'showroom':
         return 'Phòng Duyệt 3D';
       case 'hangar':

@@ -167,5 +167,11 @@ export interface PlanetData {
   surfaceTemp?: string;
   gravity?: string;
   geologyHighlights?: string[];
+  unlockRequirement?: {
+    requiredStars?: number;
+    requiredBossNodeId?: string;
+    descriptionVi: string;
+  };
   nodes: PlanetCoordinateNode[];
 }
+
