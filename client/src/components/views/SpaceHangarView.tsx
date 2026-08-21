@@ -129,6 +129,7 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
   const [activeSubTab, setActiveSubTab] = useState<'ships' | 'colors' | 'boosters'>('ships');
   const [adRewardMsg, setAdRewardMsg] = useState<string | null>(null);
   const [inspectShipId, setInspectShipId] = useState<string | null>(null);
+  const [confirmEquipShip, setConfirmEquipShip] = useState<(typeof SHIPS_DATA)[0] | null>(null);
 
   const currentShipColor = user.customization?.equippedColor || '#38bdf8';
   const hasVnFlag = user.customization?.hasVietnamFlag ?? true;
@@ -157,28 +158,28 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
           <span>🛠️</span> Xưởng Tàu Không Gian
         </h2>
         <p className="text-xs sm:text-sm font-bold text-sky-200 mt-0.5">
-          Tùy biến phi thuyền chuẩn khí động học, sơn màu & nạp năng lượng
+          Tùy biến phi thuyền, sơn màu & nạp năng lượng
         </p>
       </div>
 
       {/* Button to Open Full 3D Showroom View */}
-      <div className="mb-4 space-y-2">
+      <div className="mb-4 grid grid-cols-2 gap-2">
         {onOpenShowroom && (
           <button
             onClick={() => { soundService.playClick(); onOpenShowroom(); }}
-            className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-sky-500 via-indigo-600 to-purple-600 hover:from-sky-400 hover:to-purple-500 text-white font-black text-sm sm:text-base border-2 border-sky-300 shadow-[0_6px_20px_rgba(56,189,248,0.35)] flex items-center justify-center gap-2 active:scale-98 transition-all"
+            className="py-3 px-3 rounded-2xl bg-gradient-to-r from-sky-500 via-indigo-600 to-purple-600 hover:from-sky-400 hover:to-purple-500 text-white font-black text-xs sm:text-sm border-2 border-sky-300 shadow-lg flex items-center justify-center gap-1.5 active:scale-98 transition-all"
           >
-            <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse" />
-            <span>🪐 Mở Phòng Duyệt 3D (5 Tàu Vũ Trụ & 5 Hành Tinh) ✨</span>
+            <Sparkles className="w-4 h-4 text-yellow-300" />
+            <span>Phòng Duyệt 3D ✨</span>
           </button>
         )}
 
         <button
           onClick={() => { soundService.playClick(); setInspectShipId(user.customization?.equippedShip || 'explorer_v1'); }}
-          className="w-full py-2.5 px-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-sky-200 font-bold text-xs sm:text-sm border border-sky-500/40 flex items-center justify-center gap-2 active:scale-98 transition-all"
+          className="py-3 px-3 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-sky-200 font-bold text-xs sm:text-sm border border-sky-500/40 flex items-center justify-center gap-1.5 active:scale-98 transition-all"
         >
           <Eye className="w-4 h-4 text-sky-400" />
-          <span>Mở Phòng Ngắm Tàu Vũ Trụ 3D (Xoay 360°)</span>
+          <span>Xem 3D 360° 🛸</span>
         </button>
       </div>
 
@@ -205,7 +206,7 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
           }`}
         >
           <Palette className="w-4 h-4" />
-          <span>Màu Sơn & Cờ</span>
+          <span>Màu & Cờ</span>
         </button>
 
         <button
@@ -217,7 +218,7 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
           }`}
         >
           <Zap className="w-4 h-4" />
-          <span>Năng Lượng & Buff</span>
+          <span>Năng Lượng</span>
         </button>
       </div>
 
@@ -230,7 +231,7 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
 
       {/* SubTab 1: 5 Aerodynamic Ships Customization */}
       {activeSubTab === 'ships' && (
-        <div className="space-y-3.5 animate-fadeIn">
+        <div className="space-y-3 animate-fadeIn">
           {SHIPS_DATA.map((s) => {
             const isUnlocked = user.customization?.unlockedShips?.includes(s.id);
             const isEquipped = user.customization?.equippedShip === s.id;
@@ -238,69 +239,74 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
             return (
               <div
                 key={s.id}
-                className={`p-4 sm:p-5 rounded-3xl border-2 transition-all flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl relative overflow-hidden ${
+                onClick={() => {
+                  if (isUnlocked && !isEquipped) {
+                    soundService.playClick();
+                    setConfirmEquipShip(s);
+                  }
+                }}
+                className={`p-4 sm:p-5 rounded-3xl border-2 transition-all flex items-center justify-between gap-4 shadow-xl relative overflow-hidden ${
                   isEquipped
-                    ? 'bg-sky-950/80 border-sky-400 shadow-sky-500/20'
+                    ? 'bg-sky-950/90 border-sky-400 ring-2 ring-sky-400/50 shadow-[0_0_25px_rgba(56,189,248,0.3)]'
                     : isUnlocked
-                    ? 'bg-slate-900/80 border-slate-700'
+                    ? 'bg-slate-900/80 border-slate-700 hover:border-sky-400/60 cursor-pointer active:scale-98'
                     : 'bg-slate-900/50 border-slate-800 opacity-85'
                 }`}
               >
                 {/* Ship Graphic Card */}
-                <div className="flex items-center gap-4 w-full sm:w-auto">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-slate-800 to-slate-950 border-2 border-sky-400/50 flex items-center justify-center p-2 shrink-0 shadow-lg relative text-3xl">
-                    🚀
-                    <span className="absolute -top-1.5 -right-1.5 bg-yellow-400 text-slate-950 font-black text-[9px] px-2 py-0.5 rounded-full shadow">
+                <div className="flex items-center gap-3.5 flex-1">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-sky-400/40 flex items-center justify-center shrink-0 shadow-lg relative text-3xl sm:text-4xl">
+                    <span>{s.icon || '🚀'}</span>
+                    <span className="absolute -top-1 -right-1 bg-yellow-400 text-slate-950 font-black text-[9px] px-1.5 py-0.2 rounded-full shadow">
                       {s.badge}
                     </span>
                   </div>
 
-                  <div className="flex-1">
-                    <h4 className="font-black text-sm sm:text-base text-yellow-300">{s.nameVi}</h4>
-                    <p className="text-xs text-slate-300 font-medium mt-1 leading-relaxed">{s.description}</p>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-black text-sm sm:text-base text-yellow-300 flex items-center gap-1.5">
+                      <span>{s.nameVi}</span>
+                      {isEquipped && <Check className="w-4 h-4 text-emerald-400" />}
+                    </h4>
+                    <p className="text-sm font-bold text-slate-200 mt-0.5 leading-snug">{s.description}</p>
                     
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className="text-[11px] text-sky-300 font-bold bg-sky-950/80 px-2 py-0.5 rounded-lg border border-sky-500/30">
-                        $C_d: {s.dragCoefficientCd}$ • Mach {s.maxMachSpeed}
+                    {/* 3 Game Stats: Speed, Shield, Power (Icon & Numbers Only) */}
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className="bg-slate-950/80 border border-sky-500/30 px-2 py-0.5 rounded-lg text-xs font-black text-sky-300">
+                        ⚡ {s.speed}
                       </span>
-                      <button
-                        onClick={() => { soundService.playClick(); setInspectShipId(s.id); }}
-                        className="text-sky-400 hover:text-sky-300 text-xs font-bold flex items-center gap-1"
-                      >
-                        <Eye className="w-3.5 h-3.5" /> Xem 3D
-                      </button>
+                      <span className="bg-slate-950/80 border border-sky-500/30 px-2 py-0.5 rounded-lg text-xs font-black text-emerald-300">
+                        🛡️ {s.shield}
+                      </span>
+                      <span className="bg-slate-950/80 border border-sky-500/30 px-2 py-0.5 rounded-lg text-xs font-black text-amber-300">
+                        💥 {s.power}
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Equip / Buy Action Button */}
-                <div className="w-full sm:w-auto flex justify-end shrink-0">
-                  {isEquipped ? (
-                    <span className="w-full sm:w-auto justify-center bg-emerald-500/20 text-emerald-300 border border-emerald-400/60 font-black text-xs px-4 py-2 rounded-2xl flex items-center gap-1 shadow">
-                      <Check className="w-4 h-4" /> Đang Trang Bị
-                    </span>
-                  ) : isUnlocked ? (
-                    <button
-                      onClick={() => equipShip(s.id)}
-                      className="w-full sm:w-auto bg-sky-600 hover:bg-sky-500 active:scale-95 text-white font-black text-xs sm:text-sm px-5 py-2.5 rounded-2xl border border-sky-300 shadow transition-all"
-                    >
-                      Trang Bị
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        const ok = buyShip(s.id, s.price);
-                        if (!ok) alert('Bạn không đủ Xu Nova 🟡! Hãy hoàn thành thêm bài học nhé.');
-                      }}
-                      className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 active:scale-95 text-amber-950 font-black text-xs sm:text-sm px-5 py-2.5 rounded-2xl border border-amber-300 shadow transition-all flex items-center justify-center gap-1.5"
-                    >
-                      <span>🟡 Mở Khóa ({s.price} Xu)</span>
-                    </button>
-                  )}
-                </div>
+                {/* Unlock Button for locked ships */}
+                {!isUnlocked && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const ok = buyShip(s.id, s.price);
+                      if (!ok) alert('Bạn không đủ Xu Nova 🟡! Hãy hoàn thành thêm bài học nhé.');
+                    }}
+                    className="bg-amber-500 hover:bg-amber-400 active:scale-95 text-amber-950 font-black text-xs sm:text-sm px-3.5 py-2 rounded-2xl border border-amber-300 shadow-md transition-all flex items-center gap-1 shrink-0"
+                  >
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>{s.price}</span>
+                    <span>🟡</span>
+                  </button>
+                )}
               </div>
             );
           })}
+
+          {/* Footer Note */}
+          <div className="text-center text-xs font-bold text-slate-400 py-3 border-t border-slate-800/80 mt-2">
+            ⚡: Tốc độ • 🛡️: Giáp • 💥: Sức mạnh
+          </div>
         </div>
       )}
 
@@ -314,56 +320,71 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
                 ⭐
               </div>
               <div>
-                <h4 className="font-black text-sm sm:text-base text-yellow-300 flex items-center gap-1.5">
-                  <span>Quốc Kỳ Việt Nam</span>
-                  <Flag className="w-4 h-4 text-red-400" />
-                </h4>
-                <p className="text-xs text-slate-300 font-medium mt-0.5">Dán cờ đỏ sao vàng trên cánh phi thuyền</p>
+                <h4 className="font-black text-base sm:text-lg text-yellow-300">Quốc Kỳ Việt Nam</h4>
+                <p className="text-xs text-red-200 font-bold mt-0.5">Dán cờ Tổ quốc trên thân & cánh phi thuyền</p>
               </div>
             </div>
 
             <button
               onClick={toggleVietnamFlag}
-              className={`px-5 py-2.5 rounded-2xl font-black text-xs sm:text-sm border transition-all active:scale-95 shadow-lg ${
-                user.customization?.hasVietnamFlag
-                  ? 'bg-red-600 text-white border-yellow-300 shadow-red-500/40'
-                  : 'bg-slate-800 text-slate-400 border-slate-600'
+              className={`px-5 py-2.5 rounded-2xl font-black text-xs sm:text-sm border-2 transition-all flex items-center gap-1.5 shadow ${
+                hasVnFlag
+                  ? 'bg-red-600 text-white border-yellow-300 shadow-red-500/30 active:scale-95'
+                  : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-white'
               }`}
             >
-              {user.customization?.hasVietnamFlag ? '✅ Đã Dán Cờ' : 'Bật Dán Cờ'}
+              <span>⭐</span>
+              <span>{hasVnFlag ? 'Đã Dán Cờ' : 'Dán Cờ VN'}</span>
             </button>
           </div>
 
-          {/* Paint Colors Palette */}
-          <div className="p-5 rounded-3xl bg-slate-900/80 border border-slate-700 space-y-3 shadow-lg">
-            <h4 className="font-black text-sm text-sky-200">Sơn Màu Thân Tàu Không Gian</h4>
+          {/* Color Palettes Grid */}
+          <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-sky-400/40 shadow-xl space-y-4">
+            <h4 className="font-black text-sm sm:text-base text-yellow-300 flex items-center gap-2">
+              <Palette className="w-4 h-4 text-sky-400" />
+              <span>Bảng Màu Sơn Thân Tàu</span>
+            </h4>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {colorsList.map((c) => {
-                const isUnlocked = user.customization?.unlockedColors?.includes(c.hex);
-                const isEquipped = user.customization?.equippedColor === c.hex;
+                const isColorUnlocked = (user.customization?.unlockedColors || ['#38bdf8', '#f59e0b']).includes(c.hex);
+                const isColorEquipped = currentShipColor === c.hex;
 
                 return (
                   <div
                     key={c.hex}
-                    className="p-3.5 rounded-2xl bg-slate-800/90 border border-slate-700 flex items-center justify-between shadow"
+                    className={`p-3.5 rounded-2xl border-2 transition-all flex items-center justify-between gap-3 ${
+                      isColorEquipped
+                        ? 'bg-sky-950/80 border-sky-400 shadow-sky-500/20'
+                        : isColorUnlocked
+                        ? 'bg-slate-800/80 border-slate-700'
+                        : 'bg-slate-900/50 border-slate-800 opacity-80'
+                    }`}
                   >
                     <div className="flex items-center gap-3">
                       <div
-                        className="w-8 h-8 rounded-full border-2 border-white shadow-md"
+                        className="w-10 h-10 rounded-xl border-2 border-white/40 shadow-inner flex items-center justify-center shrink-0"
                         style={{ backgroundColor: c.hex }}
-                      />
-                      <span className="font-black text-xs sm:text-sm text-white">{c.name}</span>
+                      >
+                        {isColorEquipped && <Check className="w-5 h-5 text-white drop-shadow" />}
+                      </div>
+                      <div>
+                        <span className="font-black text-xs sm:text-sm text-white block">{c.name}</span>
+                        {!isColorUnlocked && (
+                          <span className="text-[11px] text-amber-300 font-bold">🟡 {c.price} Xu Nova</span>
+                        )}
+                      </div>
                     </div>
 
                     <div>
-                      {isEquipped ? (
-                        <span className="text-emerald-400 font-black text-xs flex items-center gap-1">
-                          <Check className="w-4 h-4" /> Đang Dùng
+                      {isColorEquipped ? (
+                        <span className="text-emerald-300 font-black text-xs bg-emerald-500/20 px-3 py-1.5 rounded-xl border border-emerald-400/50 flex items-center gap-1">
+                          <Check className="w-3.5 h-3.5" /> Dùng
                         </span>
-                      ) : isUnlocked ? (
+                      ) : isColorUnlocked ? (
                         <button
                           onClick={() => equipColor(c.hex)}
-                          className="bg-sky-600 hover:bg-sky-500 text-white font-black text-xs px-3.5 py-1.5 rounded-xl active:scale-95 shadow"
+                          className="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white font-black text-xs px-3.5 py-1.5 rounded-xl border border-sky-300 shadow"
                         >
                           Chọn
                         </button>
@@ -373,9 +394,9 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
                             const ok = buyColor(c.hex, c.price);
                             if (!ok) alert('Bạn không đủ Xu Nova 🟡!');
                           }}
-                          className="bg-amber-500 text-amber-950 font-black text-xs px-3.5 py-1.5 rounded-xl active:scale-95 shadow"
+                          className="bg-amber-500 hover:bg-amber-400 active:scale-95 text-amber-950 font-black text-xs px-3.5 py-1.5 rounded-xl border border-amber-300 shadow flex items-center gap-1"
                         >
-                          🟡 {c.price}
+                          <span>Mở ({c.price} Xu)</span>
                         </button>
                       )}
                     </div>
@@ -387,15 +408,13 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
         </div>
       )}
 
-      {/* SubTab 3: Boosters & Energy */}
+      {/* SubTab 3: Energy & Boosters */}
       {activeSubTab === 'boosters' && (
         <div className="space-y-4 animate-fadeIn">
-          {/* Main Giant Energy Reactor Status Card */}
-          <div className="p-5 sm:p-6 rounded-[32px] bg-gradient-to-r from-sky-950 via-blue-950 to-indigo-950 border-3 border-sky-400/80 shadow-[0_12px_36px_rgba(56,189,248,0.25)] flex flex-col sm:flex-row items-center justify-between gap-4 relative overflow-hidden">
-            <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-sky-500/20 rounded-full blur-2xl pointer-events-none" />
-
+          {/* Reactor & Capacity Overview */}
+          <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-sky-400/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4 w-full sm:w-auto">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 border-2 border-white/40 flex items-center justify-center text-4xl sm:text-5xl shadow-[0_0_24px_rgba(56,189,248,0.6)] shrink-0 animate-pulse">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400 via-amber-500 to-yellow-600 text-amber-950 flex items-center justify-center text-3xl shadow-lg shrink-0">
                 ⚡
               </div>
               <div>
@@ -421,21 +440,17 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
             </div>
           </div>
 
-          {/* Boosters Grid */}
-          <div className="space-y-3.5">
+          {/* Boosters Grid (Diamond Prices without KC) */}
+          <div className="space-y-3">
             {/* Double Regen */}
-            <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-purple-500/50 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4 w-full sm:w-auto">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-700 border-2 border-purple-300/50 flex items-center justify-center text-3xl shadow-lg shrink-0">
+            <div className="p-4 rounded-3xl bg-slate-900/90 border-2 border-purple-500/50 shadow-xl flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-700 border border-purple-300/50 flex items-center justify-center text-2xl shadow-lg shrink-0">
                   ⚡
                 </div>
                 <div>
-                  <h4 className="font-black text-sm sm:text-base text-purple-300 flex items-center gap-2">
-                    <span>Siêu Tốc Nạp Năng Lượng x2 (30 Phút)</span>
-                  </h4>
-                  <p className="text-xs text-slate-300 font-medium mt-1 leading-relaxed">
-                    Tăng gấp đôi tốc độ sạc: Nạp 1 ⚡ mỗi 30 giây trong 30 phút.
-                  </p>
+                  <h4 className="font-black text-xs sm:text-sm text-purple-300">Sạc Siêu Tốc x2 (30 Phút)</h4>
+                  <p className="text-[11px] text-slate-300 font-medium mt-0.5">Sạc năng lượng nhanh gấp đôi</p>
                 </div>
               </div>
 
@@ -444,25 +459,21 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
                   const ok = buyBooster('double_regen', 15);
                   if (!ok) alert('Bạn không đủ Kim Cương 💎!');
                 }}
-                className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-black text-xs sm:text-sm px-6 py-3 rounded-2xl border border-purple-300 shadow-lg active:scale-95 transition-all shrink-0"
+                className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-black text-xs px-4 py-2.5 rounded-2xl border border-purple-300 shadow-md active:scale-95 transition-all shrink-0"
               >
-                💎 Mua (15 KC)
+                💎 15
               </button>
             </div>
 
             {/* Boss Pass */}
-            <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-amber-500/50 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4 w-full sm:w-auto">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 border-2 border-amber-300/50 flex items-center justify-center text-3xl shadow-lg shrink-0">
+            <div className="p-4 rounded-3xl bg-slate-900/90 border-2 border-amber-500/50 shadow-xl flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 border border-amber-300/50 flex items-center justify-center text-2xl shadow-lg shrink-0">
                   🎫
                 </div>
                 <div>
-                  <h4 className="font-black text-sm sm:text-base text-yellow-300 flex items-center gap-2">
-                    <span>Vé Khiêu Chiến Boss Miễn Phí</span>
-                  </h4>
-                  <p className="text-xs text-slate-300 font-medium mt-1 leading-relaxed">
-                    Miễn phí 1 lần đấu Boss mà không tốn 20 ⚡ (Hiện có: <b className="text-yellow-300 font-black">{user.freeBossPassCount} vé</b>).
-                  </p>
+                  <h4 className="font-black text-xs sm:text-sm text-yellow-300">Vé Đấu Boss Miễn Phí</h4>
+                  <p className="text-[11px] text-slate-300 font-medium mt-0.5">Hiện có: <b className="text-yellow-300 font-black">{user.freeBossPassCount} vé</b></p>
                 </div>
               </div>
 
@@ -471,25 +482,21 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
                   const ok = buyBooster('boss_pass', 20);
                   if (!ok) alert('Bạn không đủ Kim Cương 💎!');
                 }}
-                className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-amber-950 font-black text-xs sm:text-sm px-6 py-3 rounded-2xl border border-yellow-200 shadow-lg active:scale-95 transition-all shrink-0"
+                className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-amber-950 font-black text-xs px-4 py-2.5 rounded-2xl border border-yellow-200 shadow-md active:scale-95 transition-all shrink-0"
               >
-                💎 Mua (20 KC)
+                💎 20
               </button>
             </div>
 
             {/* Instant Refuel */}
-            <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-emerald-500/50 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4 w-full sm:w-auto">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 border-2 border-emerald-300/50 flex items-center justify-center text-3xl shadow-lg shrink-0">
+            <div className="p-4 rounded-3xl bg-slate-900/90 border-2 border-emerald-500/50 shadow-xl flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 border border-emerald-300/50 flex items-center justify-center text-2xl shadow-lg shrink-0">
                   🔋
                 </div>
                 <div>
-                  <h4 className="font-black text-sm sm:text-base text-emerald-300 flex items-center gap-2">
-                    <span>Nạp Đầy Bình 50/50 Tức Thì</span>
-                  </h4>
-                  <p className="text-xs text-slate-300 font-medium mt-1 leading-relaxed">
-                    Lập tức hồi phục đầy 50 đơn vị năng lượng cho phi thuyền.
-                  </p>
+                  <h4 className="font-black text-xs sm:text-sm text-emerald-300">Hồi Phục Đầy Bình 50 ⚡</h4>
+                  <p className="text-[11px] text-slate-300 font-medium mt-0.5">Đầy ngay 50 năng lượng tức thì</p>
                 </div>
               </div>
 
@@ -498,29 +505,61 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
                   const ok = buyBooster('instant_refuel', 25);
                   if (!ok) alert('Bạn không đủ Kim Cương 💎!');
                 }}
-                className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-xs sm:text-sm px-6 py-3 rounded-2xl border border-emerald-300 shadow-lg active:scale-95 transition-all shrink-0"
+                className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-xs px-4 py-2.5 rounded-2xl border border-emerald-300 shadow-md active:scale-95 transition-all shrink-0"
               >
-                💎 Mua (25 KC)
+                💎 25
               </button>
             </div>
 
             {/* Watch Rewarded Ad Item */}
-            <div className="p-5 rounded-3xl bg-gradient-to-r from-amber-950/80 via-yellow-950/70 to-slate-900 border-2 border-yellow-400/80 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4 w-full sm:w-auto">
-                <div className="w-16 h-16 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center text-3xl shadow-lg shrink-0">
+            <div className="p-4 rounded-3xl bg-gradient-to-r from-amber-950/80 via-yellow-950/70 to-slate-900 border-2 border-yellow-400/80 shadow-xl flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center text-2xl shadow-lg shrink-0">
                   🎁
                 </div>
                 <div>
-                  <h4 className="font-black text-sm sm:text-base text-yellow-300">Nhận Quà Tiếp Tế Vũ Trụ Miễn Phí</h4>
-                  <p className="text-xs text-amber-200 font-medium mt-1">Thưởng ngay: +100 Xu Nova 🟡 & +10 Kim Cương 💎</p>
+                  <h4 className="font-black text-xs sm:text-sm text-yellow-300">Quà Tiếp Tế Miễn Phí</h4>
+                  <p className="text-[11px] text-amber-200 font-medium mt-0.5">+100 Xu 🟡 & +10 KC 💎</p>
                 </div>
               </div>
 
               <button
                 onClick={handleWatchAdReward}
-                className="w-full sm:w-auto bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-950 font-black text-xs sm:text-sm px-6 py-3.5 rounded-2xl border-2 border-white shadow-xl active:scale-95 transition-all shrink-0"
+                className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-950 font-black text-xs px-4 py-2.5 rounded-2xl border-2 border-white shadow-xl active:scale-95 transition-all shrink-0"
               >
-                Nhận Quà Tiếp Tế 📺
+                Nhận Quà 📺
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirm Equip Ship Modal */}
+      {confirmEquipShip && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 select-none animate-fadeIn">
+          <div className="bg-slate-900 border-2 border-sky-400 rounded-3xl p-5 max-w-xs sm:max-w-sm w-full text-center space-y-4 shadow-2xl animate-scaleUp">
+            <div className="text-5xl">{confirmEquipShip.icon || '🚀'}</div>
+            <div>
+              <h3 className="font-black text-lg text-yellow-300">Trang Bị Phi Thuyền</h3>
+              <p className="text-sm font-bold text-slate-200 mt-1">
+                Bé có muốn chuyển sang lái <span className="text-sky-300">{confirmEquipShip.nameVi}</span> không?
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5 pt-1">
+              <button
+                onClick={() => setConfirmEquipShip(null)}
+                className="py-3 rounded-2xl bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm border border-slate-700 active:scale-95 transition-all"
+              >
+                Hủy
+              </button>
+              <button
+                onClick={() => {
+                  equipShip(confirmEquipShip.id);
+                  setConfirmEquipShip(null);
+                }}
+                className="py-3 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-black text-xs sm:text-sm border border-sky-300 shadow-lg active:scale-95 transition-all"
+              >
+                Trang Bị ✨
               </button>
             </div>
           </div>

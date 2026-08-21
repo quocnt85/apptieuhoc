@@ -238,7 +238,7 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
           <div className="flex-1">
             <div className="flex items-center justify-between text-xs font-black text-slate-300 mb-1.5">
               <span className="truncate">{LESSON_ZERO_DATA.competencyName}</span>
-              <span className="text-amber-400 font-mono ml-2 shrink-0">Màn {currentStageIndex + 1}/{stages.length}</span>
+              <span className="text-amber-400 font-mono ml-2 shrink-0">Chặng {currentStageIndex + 1}/{stages.length}</span>
             </div>
             <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
               <div
@@ -253,12 +253,12 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
       {/* Stage Body Container with Scrollable Area */}
       <div className="w-full max-w-xl mx-auto flex-1 px-4 sm:px-6 py-4 overflow-y-auto flex flex-col justify-between animate-fadeIn">
         
-        {/* Stage 1: Pretest */}
+        {/* Chặng 1: Thử tài */}
         {currentStage.type === 'pretest' && (
           <div className="space-y-4 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-black">
               <Sparkles className="w-4 h-4" />
-              <span>Giai Đoạn 1: Đánh Giá Ban Đầu</span>
+              <span>Chặng 1: Thử tài</span>
             </div>
             <h2 className="text-lg sm:text-xl font-black text-white leading-snug">
               {currentStage.questions?.[0].question}
@@ -282,11 +282,11 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
           </div>
         )}
 
-        {/* Stage 2: Story Decision */}
+        {/* Chặng 2: Câu chuyện */}
         {currentStage.type === 'story' && (
           <div className="space-y-4 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-black">
-              <span>📖 Giai Đoạn 2: Câu Chuyện Phiêu Lưu</span>
+              <span>📖 Chặng 2: Câu chuyện</span>
             </div>
             <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.title}</h2>
 
@@ -321,11 +321,11 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
           </div>
         )}
 
-        {/* Stage 3: Minigame Drag/Click */}
+        {/* Chặng 3: Chọn hành động đúng */}
         {currentStage.type === 'minigame_drag' && (
           <div className="space-y-4 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-black">
-              <span>🎮 Giai Đoạn 3: Chọn Cử Chỉ Đúng</span>
+              <span>🎮 Chặng 3: Chọn hành động đúng</span>
             </div>
             <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.title}</h2>
             <p className="text-xs text-slate-300 font-medium">{currentStage.instruction}</p>
@@ -350,11 +350,11 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
           </div>
         )}
 
-        {/* Stage 4: Minigame Matching Grid */}
+        {/* Chặng 4: Nối cặp */}
         {currentStage.type === 'minigame_match' && (
           <div className="space-y-3.5 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black">
-              <span>🧩 Giai Đoạn 4: Nối Cặp Hoàn Cảnh</span>
+              <span>🧩 Chặng 4: Nối cặp</span>
             </div>
             <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.title}</h2>
             <p className="text-xs text-slate-300">{currentStage.instruction}</p>
@@ -362,7 +362,7 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
             <div className="grid grid-cols-2 gap-2.5 pt-1">
               {/* Left Column */}
               <div className="space-y-2">
-                <div className="text-[11px] font-black text-indigo-400 uppercase tracking-wider">HOÀN CẢNH</div>
+                <div className="text-[11px] font-black text-indigo-400 uppercase tracking-wider">TÌNH HUỐNG</div>
                 {currentStage.pairs?.map((p) => {
                   const isMatched = matchedPairs.includes(p.id);
                   const isSelected = matchSelectedLeft === p.id;
@@ -415,11 +415,11 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
           </div>
         )}
 
-        {/* Stage 5: Minigame Sequence Reorder (Tap-to-Swap & Big Buttons) */}
+        {/* Chặng 5: Xếp thứ tự */}
         {currentStage.type === 'minigame_sequence' && (
           <div className="space-y-3.5 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black">
-              <span>🔢 Giai Đoạn 5: Sắp Xếp Thứ Tự Lời Chào</span>
+              <span>🔢 Chặng 5: Xếp thứ tự</span>
             </div>
             <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.title}</h2>
             <p className="text-xs text-slate-300">Chạm thẻ để đổi chỗ hoặc dùng nút mũi tên nhé!</p>
@@ -471,16 +471,16 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
               onClick={verifySequence}
               className="w-full min-h-[54px] mt-2 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-sm shadow-lg shadow-emerald-600/30 active:scale-95 ns-btn-3d ns-btn-green"
             >
-              Xác Nhận Thứ Tự 3 Bước ✨
+              Xác Nhận ✨
             </button>
           </div>
         )}
 
-        {/* Stage 6: Boss Battle */}
+        {/* Chặng 6: Đấu Boss */}
         {currentStage.type === 'boss' && (
           <div className="space-y-4 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 text-xs font-black">
-              <span>⚔️ Giai Đoạn 6: Thử Thách Boss</span>
+              <span>⚔️ Chặng 6: Đấu Boss</span>
             </div>
             
             {/* Boss HP Bar */}
@@ -518,11 +518,11 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
           </div>
         )}
 
-        {/* Stage 7: Reflection */}
+        {/* Chặng 7: Bài học */}
         {currentStage.type === 'reflection' && (
           <div className="space-y-4 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-black">
-              <span>💭 Giai Đoạn 7: Phản Tư & Bài Học</span>
+              <span>💭 Chặng 7: Bài học</span>
             </div>
             <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.question}</h2>
             <div className="space-y-2.5 pt-2">
@@ -539,14 +539,14 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
           </div>
         )}
 
-        {/* Stage 8: Real Life Challenge */}
+        {/* Chặng 8: Việc tốt hôm nay */}
         {currentStage.type === 'challenge' && (
           <div className="space-y-4 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black">
-              <span>🎯 Giai Đoạn 8: Nhiệm Vụ Thực Tế</span>
+              <span>🎯 Chặng 8: Việc tốt hôm nay</span>
             </div>
             <div className="p-5 rounded-3xl bg-gradient-to-br from-amber-950/40 via-slate-900 to-slate-900 border-2 border-amber-500/40 space-y-3 shadow-xl">
-              <h2 className="text-lg sm:text-xl font-black text-amber-300">Nhiệm Vụ Hôm Nay Của Bé</h2>
+              <h2 className="text-lg sm:text-xl font-black text-amber-300">Việc Tốt Hôm Nay</h2>
               <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-bold">
                 {currentStage.missionText}
               </p>
@@ -558,21 +558,21 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
               onClick={handleNextStage}
               className="w-full min-h-[54px] py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-sm shadow-lg shadow-blue-500/30 active:scale-95 ns-btn-3d ns-btn-primary"
             >
-              Em Sẵn Sàng Thực Hành! 🚀
+              Sẵn Sàng 🚀
             </button>
           </div>
         )}
 
-        {/* Stage 9: Parent Confirmation */}
+        {/* Chặng 9: Bố mẹ duyệt */}
         {currentStage.type === 'parent_confirm' && (
           <div className="space-y-4 my-auto">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-black">
               <ShieldCheck className="w-4 h-4" />
-              <span>Giai Đoạn 9: Góc Phụ Huynh</span>
+              <span>Chặng 9: Bố mẹ duyệt</span>
             </div>
             <div className="p-5 rounded-3xl bg-slate-900 border-2 border-purple-500/40 text-center space-y-3.5 shadow-xl">
               <div className="text-5xl animate-bounce-slow">👨‍👩‍👧</div>
-              <h2 className="text-lg font-black text-white">Xác Nhận Năng Lực Của Bé</h2>
+              <h2 className="text-lg font-black text-white">Bố Mẹ Xác Nhận</h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
                 {currentStage.parentPrompt}
               </p>
@@ -580,17 +580,17 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
                 onClick={handleParentConfirm}
                 className="w-full min-h-[54px] py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black text-sm shadow-lg shadow-purple-600/30 active:scale-95 ns-btn-3d ns-btn-purple"
               >
-                {currentStage.confirmButtonText}
+                Bố Mẹ Xác Nhận ✨
               </button>
             </div>
           </div>
         )}
 
-        {/* Stage 10: Posttest & Reward */}
+        {/* Chặng 10: Nhận huy chương */}
         {currentStage.type === 'posttest' && (
           <div className="space-y-4 my-auto text-center">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black">
-              <span>🏆 Giai Đoạn 10: Nhận Huy Chương</span>
+              <span>🏆 Chặng 10: Nhận huy chương</span>
             </div>
             <div className="text-6xl my-2 animate-bounce-slow">🏅</div>
             <h2 className="text-lg sm:text-xl font-black text-white">{currentStage.question}</h2>

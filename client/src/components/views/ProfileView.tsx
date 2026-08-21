@@ -58,7 +58,7 @@ export const ProfileView: React.FC = () => {
         )}
 
         <h2 className="font-black text-2xl text-yellow-300">{user.name}</h2>
-        <p className="font-extrabold text-xs text-sky-200 mt-0.5">Huy Hiệu: Phi Hành Gia Thám Hiểm (Lớp {user.grade})</p>
+        <p className="font-extrabold text-xs text-sky-200 mt-0.5">Phi Hành Gia Lớp {user.grade}</p>
 
         {/* 3D Cosmic Stat Chips */}
         <div className="grid grid-cols-4 gap-2 mt-4">
@@ -91,7 +91,7 @@ export const ProfileView: React.FC = () => {
               <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500 animate-pulse" />
               <span className="font-black text-xs sm:text-sm">{user.streakDays}</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-bold mt-0.5">Ngày Chuỗi</span>
+            <span className="text-[10px] text-slate-400 font-bold mt-0.5">Chuỗi Ngày</span>
           </div>
         </div>
       </div>
@@ -100,10 +100,10 @@ export const ProfileView: React.FC = () => {
       <div className="p-5 sm:p-6 bg-slate-900/90 backdrop-blur-xl border-2 border-amber-400/40 shadow-xl rounded-[32px] space-y-3.5">
         <div className="flex items-center justify-between">
           <h3 className="font-black text-base text-yellow-300 flex items-center gap-2">
-            <span>🏅</span> Bộ Sưu Tập Huy Chương Vũ Trụ
+            <span>🏅</span> Huy Chương Đã Đạt
           </h3>
           <span className="text-xs font-black text-amber-300 bg-amber-950/80 px-3 py-1 rounded-full border border-amber-500/50">
-            {isCompletedNode1 ? '1 / 5 Đã Nhận' : '0 / 5'}
+            {isCompletedNode1 ? '1 / 5' : '0 / 5'}
           </span>
         </div>
 
@@ -114,22 +114,22 @@ export const ProfileView: React.FC = () => {
                 <img 
                   src="/assets/3d/bravery_badge.png" 
                   alt="Huy Chương Dũng Cảm" 
-                  className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-[0_4px_12px_rgba(251,191,36,0.7)] animate-float" 
+                  className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-[0_4px_12px_rgba(251,191,36,0.7)] animate-float" 
                 />
               </div>
               <div>
-                <p className="font-black text-sm sm:text-base text-yellow-300">Huy Chương: Ngôi Sao Giao Tiếp</p>
-                <p className="text-xs text-slate-300 font-bold mt-1 leading-relaxed">
-                  Đã hoàn thành xuất sắc Bài 1: Lời Chào Ngôi Sao trên Tinh Cầu Dũng Khí!
+                <p className="font-black text-sm sm:text-base text-yellow-300">Ngôi Sao Giao Tiếp</p>
+                <p className="text-xs text-slate-300 font-bold mt-0.5">
+                  Đã hoàn thành xuất sắc Bài 1 trên Tinh Cầu Dũng Khí!
                 </p>
               </div>
             </div>
           ) : (
             <div className="p-5 bg-slate-950/60 border-2 border-dashed border-sky-400/40 rounded-3xl text-center space-y-2">
               <div className="text-3xl opacity-60 animate-bounce-slow">🏅</div>
-              <p className="font-black text-sm text-slate-300">Chưa mở khóa huy chương</p>
+              <p className="font-black text-sm text-slate-300">Chưa có huy chương</p>
               <p className="font-bold text-xs text-slate-500 max-w-xs mx-auto">
-                Hãy hoàn thành Bài 1 trên Bản Đồ Tinh Cầu 3D để nhận ngay Huy Chương Cánh Vàng đầu tiên!
+                Hoàn thành bài học trên bản đồ để nhận huy chương nhé!
               </p>
             </div>
           )}

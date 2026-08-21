@@ -75,9 +75,9 @@ export const CoordinatePreviewModal: React.FC<Props> = ({ node, onStartLesson, o
         {/* Rewards & Energy Cost HUD */}
         <div className="grid grid-cols-2 gap-2.5 my-4">
           <div className="bg-slate-900/90 border border-amber-400/40 p-3 rounded-2xl flex flex-col items-center justify-center">
-            <span className="text-[11px] font-bold text-amber-300">Phần Thưởng Tinh Cầu</span>
+            <span className="text-[11px] font-bold text-amber-300">Phần Thưởng</span>
             <div className="flex items-center gap-2 mt-1 font-black text-xs sm:text-sm">
-              <span className="text-yellow-400">🟡 +{node.rewardCoins} Xu</span>
+              <span className="text-yellow-400">🟡 +{node.rewardCoins}</span>
               <span className="text-sky-300">⚡ +{node.rewardXp} XP</span>
             </div>
           </div>
@@ -89,14 +89,14 @@ export const CoordinatePreviewModal: React.FC<Props> = ({ node, onStartLesson, o
               ? 'bg-sky-950/80 border-sky-400/50 text-sky-300'
               : 'bg-rose-950/80 border-rose-400/50 text-rose-300'
           }`}>
-            <span className="text-[11px] font-bold">Năng Lượng Tiêu Hao</span>
+            <span className="text-[11px] font-bold">Năng Lượng</span>
             <div className="flex items-center gap-1 mt-1 font-black text-xs sm:text-sm">
               {isFirstTry ? (
                 <span className="text-emerald-300 flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5" /> Lượt đầu: 0 ⚡
+                  <Sparkles className="w-3.5 h-3.5" /> Miễn phí: 0 ⚡
                 </span>
               ) : node.isBoss && user.freeBossPassCount > 0 ? (
-                <span className="text-yellow-300">🎫 Dùng Vé Boss</span>
+                <span className="text-yellow-300">🎫 Vé Boss</span>
               ) : (
                 <span className="flex items-center gap-1">
                   <Zap className="w-3.5 h-3.5 fill-current" /> {energyCost} / {user.energy} ⚡
@@ -110,7 +110,7 @@ export const CoordinatePreviewModal: React.FC<Props> = ({ node, onStartLesson, o
         {!hasEnoughEnergy && (
           <div className="bg-rose-900/60 border border-rose-500/60 p-2.5 rounded-xl flex items-center gap-2 text-rose-200 text-xs font-bold mb-3">
             <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
-            <span>Năng lượng không đủ! Hãy đợi nạp thêm (1 ⚡/phút) hoặc nhận thêm tại Xưởng Tàu.</span>
+            <span>Hết năng lượng! Đợi hồi phục hoặc nạp tại Xưởng Tàu nhé.</span>
           </div>
         )}
 
@@ -125,7 +125,7 @@ export const CoordinatePreviewModal: React.FC<Props> = ({ node, onStartLesson, o
               : 'bg-slate-700 text-slate-400 border border-slate-600 cursor-not-allowed'
           }`}
         >
-          <span>{node.isBoss ? '🚀 Khiêu Chiến Boss Ngay!' : isCompleted ? '🔄 Chơi Lại Luyện Tập' : '🚀 Bắt Đầu Bài Học'}</span>
+          <span>{node.isBoss ? 'Đấu Boss ⚔️' : isCompleted ? 'Luyện Lại 🔄' : 'Bắt Đầu 🚀'}</span>
         </button>
       </div>
     </div>

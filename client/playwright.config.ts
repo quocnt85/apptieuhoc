@@ -2,13 +2,14 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
+  timeout: 60000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,
   workers: 4, // Tối thiểu 4, tối đa 8 theo user rule
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:4173',
+    baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
     hasTouch: true,
   },
@@ -52,10 +53,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npx.cmd vite preview --port 4173 --host',
-    url: 'http://localhost:4173',
+    command: 'npx.cmd vite --port 3000 --host',
+    url: 'http://localhost:3000',
     reuseExistingServer: true,
     timeout: 120000,
   },
 });
-

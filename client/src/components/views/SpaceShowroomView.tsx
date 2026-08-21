@@ -24,7 +24,9 @@ import {
   ChevronRight,
   ZoomIn,
   ZoomOut,
-  Palette
+  Palette,
+  Compass,
+  Radio,
 } from 'lucide-react';
 import * as THREE from 'three';
 
@@ -101,12 +103,13 @@ const ShowroomScene: React.FC<{
       const dy = e.clientY - prevPointerRef.current.y;
       prevPointerRef.current = { x: e.clientX, y: e.clientY };
 
-      modelGroupRef.current.rotation.y += dx * 0.008;
-      modelGroupRef.current.rotation.x += dy * 0.008;
+      const rotateSpeed = 0.007;
+      modelGroupRef.current.rotation.y += dx * rotateSpeed;
+      modelGroupRef.current.rotation.x += dy * rotateSpeed;
 
       velocityRef.current = {
-        x: dy * 0.004,
-        y: dx * 0.004,
+        x: dy * rotateSpeed * 0.4,
+        y: dx * rotateSpeed * 0.4,
       };
     };
 
@@ -122,7 +125,7 @@ const ShowroomScene: React.FC<{
     };
 
     const onTouchPrevent = (e: TouchEvent) => {
-      if (e.cancelable) e.preventDefault();
+      e.preventDefault();
     };
 
     canvas.addEventListener('pointerdown', onPointerDown);
@@ -175,18 +178,21 @@ const ShowroomScene: React.FC<{
         ) : (
           <PlanetMesh
             planet={selectedPlanet}
-            radius={1.25}
+            radius={1.2}
             showNodes={false}
             interactiveSpin={false}
           />
         )}
       </group>
+
+      {/* Cosmic Background Starfield */}
+      <Stars radius={60} depth={40} count={2200} factor={3.5} saturation={0.8} fade speed={1.2} />
     </group>
   );
 };
 
 export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
-  const { user, equipShip, equipColor, toggleVietnamFlag, selectPlanet, activePlanetId } = useGameStore();
+  const { user, activePlanetId, equipShip, selectPlanet, equipColor, toggleVietnamFlag } = useGameStore();
 
   const [mode, setMode] = useState<'ships' | 'planets'>('ships');
   const [selectedShipIndex, setSelectedShipIndex] = useState(0);
@@ -197,7 +203,6 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
   const [autoRotate, setAutoRotate] = useState(true);
   const [cameraPreset, setCameraPreset] = useState<'front' | 'cockpit' | 'side' | 'rear' | 'default'>('default');
   const [zoomLevel, setZoomLevel] = useState(1.0);
-  const [activeTabSub, setActiveTabSub] = useState<'specs' | 'custom'>('specs');
 
   const currentShip = SHIPS_DATA[selectedShipIndex] || SHIPS_DATA[0];
   const currentPlanet = PLANETS_DATA[selectedPlanetIndex] || PLANETS_DATA[0];
@@ -241,7 +246,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
               </span>
             </h2>
             <p className="text-[11px] text-sky-200 font-bold">
-              {mode === 'ships' ? '5 Phi Thuyền Khí Động Học' : '5 Tinh Cầu Độc Bản'}
+              {mode === 'ships' ? '5 Phi Thuyền Khám Phá Khoa Học' : '5 Tinh Cầu Độc Bản'}
             </p>
           </div>
         </div>
@@ -262,7 +267,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
             }`}
           >
             <Rocket className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">5 Tàu Vũ Trụ</span>
+            <span className="hidden sm:inline">5 Tàu Khám Phá</span>
             <span className="sm:hidden">Tàu</span>
           </button>
 
@@ -286,21 +291,19 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
         </div>
       </div>
 
-      {/* Main Interactive 3D Canvas Area */}
+      {/* Main Interactive 3D Canvas Area (Extended Zoom Distance for Majestic Wide View) */}
       <div className="relative flex-1 w-full overflow-hidden bg-radial from-[#1e1b4b] via-[#070d1e] to-[#030712] cursor-grab active:cursor-grabbing touch-none touch-canvas-interactive overscroll-none">
         <Canvas
-          camera={{ position: [0, 0.3, 4.2], fov: 45 }}
+          camera={{ position: [0, 0.35, 4.4], fov: 45 }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           style={{ touchAction: 'none' }}
           className="touch-none"
         >
           <color attach="background" args={['#050814']} />
-          <ambientLight intensity={0.8} color="#e0f2fe" />
-          <directionalLight position={[6, 8, 6]} intensity={2.5} color="#fffbeb" />
-          <directionalLight position={[-6, -4, -4]} intensity={1.2} color="#38bdf8" />
-          <pointLight position={[0, 4, 3]} intensity={1.5} color="#ffffff" />
-          
-          <Stars radius={45} depth={30} count={1800} factor={4} saturation={0.6} fade speed={0.6} />
+          <ambientLight intensity={0.85} color="#e0f2fe" />
+          <directionalLight position={[7, 9, 7]} intensity={2.6} color="#fffbeb" />
+          <directionalLight position={[-7, -5, -5]} intensity={1.3} color="#38bdf8" />
+          <pointLight position={[0, 3, 3]} intensity={1.2} color="#a855f7" />
 
           <ShowroomScene
             mode={mode}
@@ -315,62 +318,69 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
           />
         </Canvas>
 
-        {/* Floating Quick Action 3D Toolbar (Top Right) */}
+        {/* Floating Quick Action Overlay Controls (Top Right of 3D Canvas) */}
         <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-          {/* Toggle Wind Streamlines (Ships only) */}
+          {/* Toggle Wind Streamlines (Only for Ships) */}
           {mode === 'ships' && (
             <button
-              onClick={() => setShowStreamlines(!showStreamlines)}
+              onClick={() => {
+                soundService.playClick();
+                setShowStreamlines(!showStreamlines);
+              }}
               title="Bật/Tắt Vệt Gió Khí Động Học"
-              className={`p-2.5 rounded-2xl border backdrop-blur-md shadow-lg transition-all active:scale-90 ${
+              className={`p-2.5 rounded-2xl border backdrop-blur-md transition-all active:scale-90 ${
                 showStreamlines
-                  ? 'bg-sky-500/30 border-sky-400 text-sky-300 shadow-sky-500/20'
-                  : 'bg-slate-900/80 border-slate-700 text-slate-400'
+                  ? 'bg-sky-500/30 border-sky-400 text-sky-300 shadow-lg shadow-sky-500/20'
+                  : 'bg-slate-950/70 border-white/20 text-slate-400'
               }`}
             >
               <Wind className="w-4 h-4" />
             </button>
           )}
 
-          {/* Toggle Auto Rotate */}
+          {/* Toggle Auto Rotation */}
           <button
-            onClick={() => setAutoRotate(!autoRotate)}
+            onClick={() => {
+              soundService.playClick();
+              setAutoRotate(!autoRotate);
+            }}
             title="Bật/Tắt Tự Động Xoay"
-            className={`p-2.5 rounded-2xl border backdrop-blur-md shadow-lg transition-all active:scale-90 ${
+            className={`p-2.5 rounded-2xl border backdrop-blur-md transition-all active:scale-90 ${
               autoRotate
-                ? 'bg-amber-500/30 border-amber-400 text-amber-300'
-                : 'bg-slate-900/80 border-slate-700 text-slate-400'
+                ? 'bg-amber-500/30 border-amber-400 text-amber-300 shadow-lg shadow-amber-500/20'
+                : 'bg-slate-950/70 border-white/20 text-slate-400'
             }`}
           >
             <RotateCw className={`w-4 h-4 ${autoRotate ? 'animate-spin' : ''}`} style={{ animationDuration: '6s' }} />
           </button>
 
-          {/* Zoom Controls */}
-          <div className="flex flex-col bg-slate-900/90 border border-slate-700 rounded-2xl overflow-hidden shadow-lg backdrop-blur-md">
+          {/* Zoom In / Out Buttons */}
+          <div className="flex flex-col bg-slate-950/80 border border-white/20 rounded-2xl overflow-hidden backdrop-blur-md shadow-lg">
             <button
-              onClick={() => setZoomLevel((z) => Math.min(1.6, z + 0.15))}
-              className="p-2 text-slate-300 hover:text-white hover:bg-slate-800 active:scale-90"
+              onClick={() => {
+                soundService.playClick();
+                setZoomLevel((z) => Math.min(1.8, z + 0.15));
+              }}
               title="Phóng to"
+              className="p-2 text-slate-300 hover:text-white active:scale-90 border-b border-white/10"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
-            <div className="w-full h-px bg-slate-800" />
             <button
-              onClick={() => setZoomLevel((z) => Math.max(0.7, z - 0.15))}
-              className="p-2 text-slate-300 hover:text-white hover:bg-slate-800 active:scale-90"
+              onClick={() => {
+                soundService.playClick();
+                setZoomLevel((z) => Math.max(0.65, z - 0.15));
+              }}
               title="Thu nhỏ"
+              className="p-2 text-slate-300 hover:text-white active:scale-90"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        {/* Camera Angle Presets (Top Left) */}
-        <div className="absolute top-3 left-3 flex items-center gap-1.5 z-10 bg-slate-950/80 backdrop-blur-md border border-white/15 p-1 rounded-2xl shadow-lg">
-          <span className="text-[10px] font-black text-slate-400 px-1.5 flex items-center gap-1">
-            <Camera className="w-3 h-3 text-sky-400" />
-            <span className="hidden sm:inline">Góc Nhìn:</span>
-          </span>
+        {/* Floating Camera Presets Bar (Top Left of 3D Canvas) */}
+        <div className="absolute top-3 left-3 flex gap-1.5 bg-slate-950/80 backdrop-blur-md p-1 rounded-2xl border border-white/20 z-10">
           {(mode === 'ships'
             ? [
                 { id: 'default', label: 'Tổng Thể' },
@@ -407,7 +417,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
         <div className="absolute bottom-2 inset-x-0 flex justify-center pointer-events-none z-10 px-4">
           <span className="bg-slate-950/80 backdrop-blur-md border border-white/20 text-sky-300 text-[10px] font-bold px-3 py-1 rounded-full shadow flex items-center gap-1.5">
             <RotateCw className="w-3 h-3 text-sky-400 animate-spin" style={{ animationDuration: '8s' }} />
-            <span>Kéo chuột hoặc vuốt để xoay 360° • Xem từng góc cạnh khí động học</span>
+            <span>Kéo chuột hoặc vuốt để xoay 360° • Khám phá chi tiết khoa học</span>
           </span>
         </div>
       </div>
@@ -443,8 +453,8 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
                         <span>{ship.name}</span>
                         {isShipEquipped && <Check className="w-3 h-3 text-emerald-400" />}
                       </div>
-                      <div className="text-[10px] text-sky-300 font-bold">
-                        $C_d: {ship.dragCoefficientCd}$ • Mach {ship.maxMachSpeed}
+                      <div className="text-[10px] text-sky-300 font-bold truncate max-w-[120px]">
+                        {ship.badge}
                       </div>
                     </div>
                   </button>
@@ -491,14 +501,17 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
         {/* Details Card & Action Bar */}
         {mode === 'ships' ? (
           <div className="space-y-2.5">
-            {/* Header Title & Aerodynamic Highlights */}
+            {/* Header Title with Aesthetic Style Tag */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-slate-900/90 border border-slate-800 p-3 rounded-2xl">
               <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="font-black text-sm sm:text-base text-yellow-300">{currentShip.nameVi}</h3>
-                  <span className="text-[10px] bg-yellow-400/20 text-yellow-300 font-black px-2 py-0.5 rounded-full border border-yellow-400/30">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 data-testid="showroom-ship-title" className="font-black text-sm sm:text-base text-yellow-300">{currentShip.nameVi}</h3>
+                  <span className="text-[10px] bg-sky-500/20 text-sky-300 font-black px-2 py-0.5 rounded-full border border-sky-400/30">
                     {currentShip.badge}
                   </span>
+                </div>
+                <div className="text-[11px] text-emerald-300 font-bold mt-0.5">
+                  🎨 Phong Cách: {currentShip.aestheticStyle}
                 </div>
                 <p className="text-xs text-slate-300 font-medium mt-0.5 leading-relaxed">{currentShip.description}</p>
               </div>
@@ -520,46 +533,54 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
               </div>
             </div>
 
-            {/* Aerodynamic Specs Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            {/* Scientific Instruments List */}
+            {currentShip.scientificInstruments && (
+              <div className="p-3 rounded-2xl bg-slate-900/80 border border-sky-500/25">
+                <span className="text-[11px] font-black text-sky-200 flex items-center gap-1.5 mb-1.5">
+                  <Radio className="w-3.5 h-3.5 text-sky-400 animate-pulse" />
+                  <span>Trang Bị Khám Phá Khoa Học & Cảm Biến:</span>
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                  {currentShip.scientificInstruments.map((inst, iidx) => (
+                    <div key={iidx} className="text-[11px] text-slate-300 flex items-start gap-1.5 bg-slate-950/70 p-2 rounded-xl border border-sky-500/15">
+                      <span className="text-sky-400 font-bold shrink-0">•</span>
+                      <span>{inst}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 3 Game Stats: Speed, Shield, Power */}
+            <div className="grid grid-cols-3 gap-2 text-xs">
               <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Hệ Số Cản ($C_d$)</span>
-                <div className="font-black text-sm text-sky-300 mt-0.5">{currentShip.dragCoefficientCd}</div>
-                <span className="text-[9px] text-slate-500">Kháng sóng âm siêu thấp</span>
+                <div className="flex justify-between text-[11px] font-bold text-slate-400">
+                  <span>⚡ Tốc độ</span>
+                  <span className="text-sky-300 font-black">{currentShip.speed}</span>
+                </div>
+                <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+                  <div className="h-full bg-sky-400 rounded-full" style={{ width: `${currentShip.speed}%` }} />
+                </div>
               </div>
 
               <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Tỉ Số Lực Nâng ($L/D$)</span>
-                <div className="font-black text-sm text-yellow-300 mt-0.5">{currentShip.liftToDragRatio} : 1</div>
-                <span className="text-[9px] text-slate-500">Lực nâng thân & cánh</span>
+                <div className="flex justify-between text-[11px] font-bold text-slate-400">
+                  <span>🛡️ Giáp</span>
+                  <span className="text-emerald-300 font-black">{currentShip.shield}</span>
+                </div>
+                <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+                  <div className="h-full bg-emerald-400 rounded-full" style={{ width: `${currentShip.shield}%` }} />
+                </div>
               </div>
 
               <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Vận Tốc Cực Đại</span>
-                <div className="font-black text-sm text-emerald-300 mt-0.5">Mach {currentShip.maxMachSpeed}</div>
-                <span className="text-[9px] text-slate-500">Tốc độ siêu thanh</span>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Cấu Trúc Cánh</span>
-                <div className="font-black text-[11px] text-purple-300 mt-0.5 truncate">{currentShip.aerodynamicProfile}</div>
-                <span className="text-[9px] text-slate-500">Sải cánh: {currentShip.wingspanMeters}m</span>
-              </div>
-            </div>
-
-            {/* Aerodynamic Key Features List */}
-            <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
-              <span className="text-[11px] font-black text-sky-200 flex items-center gap-1.5 mb-1.5">
-                <Wind className="w-3.5 h-3.5 text-sky-400" />
-                <span>Nguyên Lý Khí Động Học Nổi Bật:</span>
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                {currentShip.aeroFeatures.map((feat, fidx) => (
-                  <div key={fidx} className="text-[11px] text-slate-300 flex items-start gap-1.5">
-                    <span className="text-sky-400 font-bold shrink-0">•</span>
-                    <span>{feat}</span>
-                  </div>
-                ))}
+                <div className="flex justify-between text-[11px] font-bold text-slate-400">
+                  <span>💥 Năng lượng quét</span>
+                  <span className="text-amber-300 font-black">{currentShip.power}</span>
+                </div>
+                <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+                  <div className="h-full bg-amber-400 rounded-full" style={{ width: `${currentShip.power}%` }} />
+                </div>
               </div>
             </div>
 
@@ -607,7 +628,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-slate-900/90 border border-slate-800 p-3 rounded-2xl">
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="font-black text-sm sm:text-base text-yellow-300">{currentPlanet.titleVi}</h3>
+                  <h3 data-testid="showroom-planet-title" className="font-black text-sm sm:text-base text-yellow-300">{currentPlanet.titleVi}</h3>
                   <span className="text-[10px] bg-purple-500/20 text-purple-300 font-black px-2 py-0.5 rounded-full border border-purple-400/30">
                     {currentPlanet.name}
                   </span>
@@ -619,49 +640,16 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
               <div className="shrink-0 w-full sm:w-auto">
                 {isCurrentPlanet ? (
                   <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/60 font-black text-xs px-4 py-2 rounded-2xl flex items-center justify-center gap-1 shadow">
-                    <Check className="w-4 h-4" /> Đang Ở Tinh Cầu Này
+                    <Check className="w-4 h-4" /> Đang Ở Đây
                   </span>
                 ) : (
                   <button
                     onClick={handleSelectPlanet}
                     className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 active:scale-95 text-white font-black text-xs px-5 py-2.5 rounded-2xl border border-purple-300 shadow-lg shadow-purple-500/25 transition-all flex items-center justify-center gap-1.5"
                   >
-                    <span>Du Hành Tới Tinh Cầu Này 🪐</span>
+                    <span>Du Hành Tới Tinh Cầu 🪐</span>
                   </button>
                 )}
-              </div>
-            </div>
-
-            {/* Planet Specs Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-purple-500/30">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Đường Kính</span>
-                <div className="font-black text-sm text-purple-300 mt-0.5">
-                  {currentPlanet.diameterKm?.toLocaleString() || '12,742'} km
-                </div>
-                <span className="text-[9px] text-slate-500">Quy mô thiên thể</span>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-purple-500/30">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Nhiệt Độ Bề Mặt</span>
-                <div className="font-black text-xs sm:text-sm text-yellow-300 mt-0.5 truncate">
-                  {currentPlanet.surfaceTemp || '25°C'}
-                </div>
-                <span className="text-[9px] text-slate-500">Khí hậu & môi trường</span>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-purple-500/30">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Trọng Lực</span>
-                <div className="font-black text-sm text-emerald-300 mt-0.5">{currentPlanet.gravity || '1.0 G'}</div>
-                <span className="text-[9px] text-slate-500">Gia tốc trọng trường</span>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-purple-500/30">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Vành Đai & Vệ Tinh</span>
-                <div className="font-black text-xs text-sky-300 mt-0.5">
-                  {currentPlanet.hasRings ? 'Có Vành Đai' : 'Không Vành'} • {currentPlanet.hasMoon ? '1 Vệ Tinh' : 'Không Mặt Trăng'}
-                </div>
-                <span className="text-[9px] text-slate-500">Quỹ đạo đồng bộ</span>
               </div>
             </div>
 
@@ -670,11 +658,11 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
               <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
                 <span className="text-[11px] font-black text-purple-200 flex items-center gap-1.5 mb-1.5">
                   <Globe2 className="w-3.5 h-3.5 text-purple-400" />
-                  <span>Đặc Trưng Địa Chất Thiên Thể:</span>
+                  <span>Điểm Nổi Bật:</span>
                 </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
                   {currentPlanet.geologyHighlights.map((geo, gidx) => (
-                    <div key={gidx} className="text-[11px] text-slate-300 flex items-start gap-1.5">
+                    <div key={gidx} className="text-[11px] text-slate-300 flex items-start gap-1.5 bg-slate-950/60 p-2 rounded-xl border border-purple-500/20">
                       <span className="text-purple-400 font-bold shrink-0">•</span>
                       <span>{geo}</span>
                     </div>

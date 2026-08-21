@@ -6,7 +6,7 @@ test.describe('3D Canvas Touch & Scroll Isolation Tests', () => {
     await page.goto('/');
     // Dismiss FTUE if present
     try {
-      const startBtn = page.locator('button:has-text("Bắt Đầu Hành Trình Ngay!")');
+      const startBtn = page.locator('button:has-text("Bắt Đầu Ngay 🚀"), button:has-text("Bắt Đầu")');
       await startBtn.waitFor({ state: 'visible', timeout: 7000 });
       await startBtn.click({ force: true });
       await startBtn.waitFor({ state: 'hidden', timeout: 4000 }).catch(() => {});
@@ -95,13 +95,13 @@ test.describe('3D Canvas Touch & Scroll Isolation Tests', () => {
   });
 
   test('3. 3D Space Showroom Canvas has touch-action: none and dragging does not scroll', async ({ page }) => {
-    // Open Showroom View
-    const showroomBtn = page.locator('button:has-text("Duyệt 3D")');
-    if (await showroomBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await showroomBtn.click({ force: true });
+    // Open Showroom View via header or hangar
+    const showroomHeaderBtn = page.locator('[data-testid="header-showroom-btn"]');
+    if (await showroomHeaderBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
+      await showroomHeaderBtn.click({ force: true });
     } else {
       await page.locator('button:has-text("Xưởng Tàu")').first().click({ force: true });
-      await page.locator('button:has-text("Mở Phòng Duyệt 3D")').first().click({ force: true });
+      await page.locator('button:has-text("Phòng Duyệt 3D"), button:has-text("Duyệt 3D")').first().click({ force: true });
     }
 
     await expect(page.locator('text=Phòng Duyệt 3D Không Gian').first()).toBeVisible({ timeout: 6000 });

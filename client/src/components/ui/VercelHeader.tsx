@@ -8,7 +8,7 @@ interface Props {
   onOpenShowroom?: () => void;
 }
 
-export const VercelHeader: React.FC<Props> = ({ title = 'Hành Tinh Tri Thức', onOpenShowroom }) => {
+export const VercelHeader: React.FC<Props> = () => {
   const { user, settings, toggleSound, refreshEnergy, unlockGodMode } = useGameStore();
   const [countdownText, setCountdownText] = useState<string>('');
 
@@ -16,7 +16,7 @@ export const VercelHeader: React.FC<Props> = ({ title = 'Hành Tinh Tri Thức',
   const clickCountRef = React.useRef<number>(0);
   const lastClickRef = React.useRef<number>(0);
 
-  const handleAvatarClick = () => {
+  const handleStatsClick = () => {
     const now = Date.now();
     if (now - lastClickRef.current > 4000) {
       clickCountRef.current = 1;
@@ -61,77 +61,42 @@ export const VercelHeader: React.FC<Props> = ({ title = 'Hành Tinh Tri Thức',
 
   return (
     <header className="w-full bg-slate-950/85 backdrop-blur-xl border-b border-sky-500/25 px-3 sm:px-6 py-2.5 flex items-center justify-between shadow-2xl shrink-0 z-30 select-none text-white">
-      {/* Pilot Avatar & Level Badge */}
+      {/* Left: Interactive Currency & Energy Chips with 5-Click Dev God Mode Easter Egg */}
       <div 
-        onClick={handleAvatarClick}
+        onClick={handleStatsClick}
         data-testid="header-avatar-btn"
-        className="flex items-center gap-2.5 cursor-pointer active:scale-95 transition-transform"
+        className="flex items-center gap-1.5 sm:gap-2.5 cursor-pointer active:scale-98 transition-transform"
         title="Nhấp 5 lần để mở Dev God Mode"
       >
-        <div className="relative">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-2 border-sky-400/80 flex items-center justify-center text-2xl shadow-[0_0_12px_rgba(56,189,248,0.4)]">
-            {user.avatar === '🚀' ? '👨‍🚀' : user.avatar}
-          </div>
-          <div className="absolute -bottom-1 -right-1 bg-yellow-400 text-slate-950 font-black text-[9px] px-1.5 py-0.2 rounded-full border border-slate-900 shadow">
-            Lv.{user.level}
-          </div>
-        </div>
-
-        <div className="hidden sm:flex flex-col">
-          <span className="font-black text-xs text-yellow-300 leading-tight">{user.name}</span>
-          <span className="font-bold text-[10px] text-sky-200">Phi Hành Gia (Lớp {user.grade})</span>
-        </div>
-      </div>
-
-      {/* Center Screen Title */}
-      <div className="flex items-center gap-1.5 bg-slate-900/90 border border-sky-400/30 px-3.5 py-1 rounded-full shadow-inner">
-        <span className="text-xs sm:text-sm font-black text-yellow-300 tracking-tight">{title}</span>
-      </div>
-
-      {/* Right Stats HUD (Showroom Button, Energy, Nova Coins, Diamonds, Sound) */}
-      <div className="flex items-center gap-1.5 sm:gap-2">
-        {/* Direct 3D Showroom Button on Header */}
-        {onOpenShowroom && (
-          <button
-            onClick={() => {
-              soundService.playClick();
-              onOpenShowroom();
-            }}
-            data-testid="header-showroom-btn"
-            title="Mở Phòng Duyệt 3D (5 Tàu & 5 Hành Tinh)"
-            className="px-2 sm:px-2.5 py-1 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-600 to-purple-600 border border-sky-300 text-white font-black text-xs flex items-center gap-1 shadow-md shadow-sky-500/25 active:scale-95 transition-all"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
-            <span className="hidden sm:inline">Duyệt 3D</span>
-          </button>
-        )}
-
         {/* Energy Unit Chip */}
         <div
           title={countdownText}
-          className="bg-slate-900/90 border border-sky-400/60 px-2 sm:px-2.5 py-1 rounded-xl flex items-center gap-1 shadow-sm"
+          className="bg-slate-900/90 border border-sky-400/60 px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-sm hover:border-sky-300 transition-colors"
         >
           <Zap className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400 animate-pulse" />
-          <span className="font-black text-xs text-sky-200">{user.energy}</span>
-          <span className="text-[10px] text-slate-400 hidden sm:inline">/{user.maxEnergy}</span>
+          <span className="font-black text-xs sm:text-sm text-sky-200">{user.energy}</span>
+          <span className="text-[10px] text-slate-400 font-bold">/{user.maxEnergy}</span>
         </div>
 
         {/* Nova Coins Chip */}
-        <div className="bg-slate-900/90 border border-amber-400/60 px-2 sm:px-2.5 py-1 rounded-xl flex items-center gap-1 shadow-sm">
+        <div className="bg-slate-900/90 border border-amber-400/60 px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-sm hover:border-amber-300 transition-colors">
           <span className="text-xs">🟡</span>
-          <span className="font-black text-xs text-yellow-300">{user.novaCoins}</span>
+          <span className="font-black text-xs sm:text-sm text-yellow-300">{user.novaCoins}</span>
         </div>
 
         {/* Diamonds Chip */}
-        <div className="bg-slate-900/90 border border-cyan-400/60 px-2 sm:px-2.5 py-1 rounded-xl flex items-center gap-1 shadow-sm">
+        <div className="bg-slate-900/90 border border-cyan-400/60 px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-sm hover:border-cyan-300 transition-colors">
           <span className="text-xs">💎</span>
-          <span className="font-black text-xs text-cyan-300">{user.diamonds}</span>
+          <span className="font-black text-xs sm:text-sm text-cyan-300">{user.diamonds}</span>
         </div>
+      </div>
 
-        {/* Sound Toggle */}
+      {/* Right: Sound Toggle */}
+      <div className="flex items-center">
         <button
           onClick={handleToggleSound}
-          className="w-8 h-8 rounded-xl bg-slate-900 border border-white/20 flex items-center justify-center text-slate-300 hover:text-white active:scale-95 transition-all"
+          aria-label="Bật tắt âm thanh"
+          className="w-9 h-9 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-sky-400/60 flex items-center justify-center text-slate-300 hover:text-white active:scale-95 transition-all shadow-sm"
         >
           {settings.soundEnabled ? <Volume2 className="w-4 h-4 text-sky-400" /> : <VolumeX className="w-4 h-4 text-slate-500" />}
         </button>
