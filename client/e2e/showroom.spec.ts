@@ -44,10 +44,11 @@ test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
 
   test('1. Navigate to Duyệt 3D Showroom via Header / Hangar', async ({ page }) => {
     await openShowroom(page);
-    await expect(page.locator('text=5 Phi Thuyền').first()).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=8 Phi Thuyền').first()).toBeVisible({ timeout: 5000 });
   });
 
-  test('2. Browse all 5 Aerodynamic Spaceships and check aerodynamic specs', async ({ page }) => {
+  test('2. Browse all 8 Aerodynamic Spaceships and check aerodynamic specs', async ({ page }) => {
+    test.setTimeout(90_000);
     await openShowroom(page);
 
     const shipTitle = page.locator('[data-testid="showroom-ship-title"]');
@@ -61,17 +62,29 @@ test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
     await safeSelect(page.locator('[data-testid="ship-select-falcon_apex"]'));
     await expect(shipTitle).toContainText('Chi Lăng', { timeout: 5000 });
 
-    // Ship 3: Chiến Hạm Điện Biên Phủ (solar_phoenix)
-    await safeSelect(page.locator('[data-testid="ship-select-solar_phoenix"]'));
-    await expect(shipTitle).toContainText('Điện Biên Phủ', { timeout: 5000 });
-
-    // Ship 4: Tàu Con Thoi Ngọc Hồi (starlight_runner)
+    // Ship 3: Tàu Con Thoi Ngọc Hồi
     await safeSelect(page.locator('[data-testid="ship-select-starlight_runner"]'));
     await expect(shipTitle).toContainText('Ngọc Hồi', { timeout: 5000 });
 
-    // Ship 5: Quảng Trị Star-Lifter
+    // Ship 4: Tuần Dương Hạm Chương Dương
+    await safeSelect(page.locator('[data-testid="ship-select-chuong_duong"]'));
+    await expect(shipTitle).toContainText('Chương Dương', { timeout: 5000 });
+
+    // Ship 5: Tàu Khu Trục Quảng Trị
     await safeSelect(page.locator('[data-testid="ship-select-astral_shuttle"]'));
     await expect(shipTitle).toContainText('Quảng Trị', { timeout: 5000 });
+
+    // Ship 6: Tàu Khảo Sát Sơn Tinh
+    await safeSelect(page.locator('[data-testid="ship-select-son_tinh"]'));
+    await expect(shipTitle).toContainText('Sơn Tinh', { timeout: 5000 });
+
+    // Ship 7: Thiết Giáp Hạm Thánh Gióng
+    await safeSelect(page.locator('[data-testid="ship-select-thanh_giong"]'));
+    await expect(shipTitle).toContainText('Thánh Gióng', { timeout: 5000 });
+
+    // Ship 8: Chiến Hạm Điện Biên Phủ
+    await safeSelect(page.locator('[data-testid="ship-select-solar_phoenix"]'));
+    await expect(shipTitle).toContainText('Điện Biên Phủ', { timeout: 5000 });
   });
 
   test('3. Switch to 5 Planets Mode and verify each unique planetary body', async ({ page }) => {
@@ -128,26 +141,28 @@ test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
     await expect(page.locator('text=Xưởng Tàu Không Gian').first()).toBeVisible({ timeout: 6000 });
 
     // Verify 2 sub-tabs exist
-    await expect(page.locator('button:has-text("Phi Thuyền Không Gian")')).toBeVisible();
-    await expect(page.locator('button:has-text("Năng Lượng & Tiện Ích")')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Phi Thuyền', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Nạp Năng Lượng', exact: true })).toBeVisible();
 
     // Verify separate "Màu & Cờ" tab is REMOVED from top switcher
     await expect(page.locator('button:has-text("Màu & Cờ")')).toBeHidden();
 
-    // Check Bạch Đằng (Speed 98, Shield 42, Power 65)
+    // Check Bạch Đằng (Speed 82, Shield 38, Power 36)
     await expect(page.locator('text=Tàu Tiên Phong Bạch Đằng').first()).toBeVisible({ timeout: 6000 });
-    await expect(page.locator('text=⚡ 98').first()).toBeVisible();
-    await expect(page.locator('text=🛡️ 42').first()).toBeVisible();
-    await expect(page.locator('text=💥 65').first()).toBeVisible();
+    await expect(page.locator('text=⚡ 82').first()).toBeVisible();
+    await expect(page.locator('text=🛡️ 38').first()).toBeVisible();
+    await expect(page.locator('text=💥 36').first()).toBeVisible();
 
-    // Check Điện Biên Phủ (Speed 40, Shield 99, Power 90)
+    // Check Điện Biên Phủ (Speed 50, Shield 100, Power 92)
     await expect(page.locator('text=Chiến Hạm Điện Biên Phủ').first()).toBeVisible();
-    await expect(page.locator('text=⚡ 40').first()).toBeVisible();
-    await expect(page.locator('text=🛡️ 99').first()).toBeVisible();
+    await expect(page.locator('text=⚡ 50').first()).toBeVisible();
+    await expect(page.locator('text=🛡️ 100').first()).toBeVisible();
 
-    // Check Placeholder ship: Chương Dương (Sắp Ra Mắt)
+    // The complete expansion fleet is production-ready and purchasable.
     await expect(page.locator('text=Tuần Dương Hạm Chương Dương').first()).toBeVisible();
-    await expect(page.locator('text=Sắp Ra Mắt').first()).toBeVisible();
+    await expect(page.locator('text=Tàu Khảo Sát Sơn Tinh').first()).toBeVisible();
+    await expect(page.locator('text=Thiết Giáp Hạm Thánh Gióng').first()).toBeVisible();
+    await expect(page.locator('text=Sắp Ra Mắt')).toHaveCount(0);
   });
 
   test('6. Open Ship 3D Modal with Real-time Paint Palette & Gold color locked at 250 Coins', async ({ page }) => {

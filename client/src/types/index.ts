@@ -44,7 +44,7 @@ export interface QuestionItem {
 }
 
 export interface CustomizationState {
-  equippedShip: string; // 'explorer_v1' | 'falcon_apex' | 'solar_phoenix' | 'starlight_runner' | 'astral_shuttle'
+  equippedShip: string; // ID from SHIPS_DATA
   equippedColor: string; // '#38bdf8' | '#f59e0b' | '#ef4444' | '#10b981' | '#8b5cf6'
   hasVietnamFlag: boolean;
   unlockedShips: string[];
