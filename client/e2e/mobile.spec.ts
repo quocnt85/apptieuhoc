@@ -332,6 +332,33 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     expect(report.service.audioUnlocked).toBe(true);
     expect(report.engine.graphReady).toBe(true);
 
+    // Regression: WebKit can leave resume()/Tone.start() pending forever while
+    // the non-standard context state is `interrupted`. A hung attempt must
+    // time out and release the next real gesture instead of wedging the app.
+    await page.evaluate(async () => {
+      const service = (window as any).__novaStarsSoundService;
+      const engine = service.engine;
+      await engine.suspendAudioForDiagnostics();
+      const originalUnlock = engine.unlockAudio.bind(engine);
+      (window as any).__restoreAudioUnlock = () => { engine.unlockAudio = originalUnlock; };
+      engine.unlockAudio = () => new Promise<boolean>(() => undefined);
+      service.audioUnlocked = false;
+    });
+    await overlay.getByRole('button', { name: 'Mở khóa / thử lại' }).click();
+    await expect(overlay).toContainText('Mở khóa thất bại', { timeout: 4000 });
+    await page.waitForFunction(
+      () => (window as any).__novaStarsSoundService?.getAudioDiagnostics().service.unlockInFlight === false,
+      null,
+      { timeout: 4000 }
+    );
+    await page.evaluate(() => (window as any).__restoreAudioUnlock());
+    await overlay.getByRole('button', { name: 'Mở khóa / thử lại' }).click();
+    await page.waitForFunction(
+      () => (window as any).__novaStarsSoundService?.getAudioDiagnostics().engine?.contextState === 'running',
+      null,
+      { timeout: 8000 }
+    );
+
     await overlay.getByRole('button', { name: 'Sao chép báo cáo' }).click();
     await expect(overlay).toContainText(/Đã sao chép|Không sao chép được/);
   });

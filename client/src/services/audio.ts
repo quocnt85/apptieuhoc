@@ -22,14 +22,18 @@ class SoundService {
   constructor() {
     if (typeof window === 'undefined') return;
     this.firstInteractionHandler = (event) => {
+      const activation = navigator.userActivation;
+      const activationIsValid = !activation || activation.isActive;
       if (!this.engine?.isAudioRunning()) {
-        this.recordDiagnostic('gesture-unlock-request', { type: event.type });
+        this.recordDiagnostic(activationIsValid ? 'gesture-unlock-request' : 'gesture-unlock-skipped', {
+          type: event.type,
+          userActivation: activation?.isActive ?? 'unsupported',
+        });
       }
+      if (!activationIsValid) return;
       void this.unlockAudio();
     };
-    window.addEventListener('touchstart', this.firstInteractionHandler, { capture: true, passive: true });
-    window.addEventListener('pointerdown', this.firstInteractionHandler, { capture: true });
-    window.addEventListener('pointerup', this.firstInteractionHandler, { capture: true });
+    window.addEventListener('touchend', this.firstInteractionHandler, { capture: true, passive: true });
     window.addEventListener('click', this.firstInteractionHandler, { capture: true });
     window.addEventListener('keydown', this.firstInteractionHandler, { capture: true });
     // Start fetching the split chunk immediately. Mobile Safari only grants a
@@ -100,9 +104,7 @@ class SoundService {
 
   private removeUnlockListeners(): void {
     if (!this.firstInteractionHandler || typeof window === 'undefined') return;
-    window.removeEventListener('touchstart', this.firstInteractionHandler, { capture: true });
-    window.removeEventListener('pointerdown', this.firstInteractionHandler, { capture: true });
-    window.removeEventListener('pointerup', this.firstInteractionHandler, { capture: true });
+    window.removeEventListener('touchend', this.firstInteractionHandler, { capture: true });
     window.removeEventListener('click', this.firstInteractionHandler, { capture: true });
     window.removeEventListener('keydown', this.firstInteractionHandler, { capture: true });
     this.firstInteractionHandler = null;
@@ -134,18 +136,39 @@ class SoundService {
       contextState: this.engine?.getAudioDiagnostics().contextState ?? 'engine-not-ready',
       userActivation: navigator.userActivation?.isActive ?? 'unsupported',
     });
-    const startEngine = (engine: ToneAudioEngine) => engine.unlockAudio().then((unlocked) => {
-      this.audioUnlocked = unlocked;
-      this.recordDiagnostic(unlocked ? 'unlock-success' : 'unlock-failed', engine.getAudioDiagnostics());
-      return unlocked;
-    });
+    const startedAt = performance.now();
+    const startEngine = (engine: ToneAudioEngine) => engine.unlockAudio();
 
     // The preloaded path is intentionally synchronous up to Tone.start(),
     // preserving transient user activation on Safari and mobile WebViews.
     const attempt = this.engine
       ? startEngine(this.engine)
       : this.loadEngine().then(startEngine);
-    this.unlockPromise = attempt
+    const boundedAttempt = new Promise<boolean>((resolve, reject) => {
+      const timeout = window.setTimeout(() => {
+        this.recordDiagnostic('unlock-timeout', { durationMs: 2000 });
+        resolve(false);
+      }, 2000);
+      attempt.then(
+        (unlocked) => {
+          window.clearTimeout(timeout);
+          resolve(unlocked);
+        },
+        (error) => {
+          window.clearTimeout(timeout);
+          reject(error);
+        },
+      );
+    });
+    this.unlockPromise = boundedAttempt
+      .then((unlocked) => {
+        this.audioUnlocked = unlocked;
+        this.recordDiagnostic(unlocked ? 'unlock-success' : 'unlock-failed', {
+          durationMs: Math.round(performance.now() - startedAt),
+          ...(this.engine?.getAudioDiagnostics() ?? {}),
+        });
+        return unlocked;
+      })
       .catch((error) => {
         this.recordDiagnostic('unlock-error', { error: String(error) });
         console.warn('Unable to unlock Web Audio; waiting for the next user gesture.', error);

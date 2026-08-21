@@ -100,7 +100,32 @@ export class ToneAudioEngine {
   public async unlockAudio(): Promise<boolean> {
     try {
       if (!this.isAudioRunning()) {
-        await Tone.start();
+        const rawContext = Tone.context.rawContext as AudioContext;
+        const resumeStartedAt = performance.now();
+        try {
+          // Do not await this promise: WebKit can leave it pending forever when
+          // its non-standard state is `interrupted`. Polling the real state
+          // keeps this attempt bounded and lets the next gesture retry.
+          void rawContext.resume().catch((error) => {
+            this.onDiagnostic?.('raw-context-resume-rejected', {
+              name: error instanceof Error ? error.name : 'UnknownError',
+              message: error instanceof Error ? error.message : String(error),
+            });
+          });
+        } catch (error) {
+          this.onDiagnostic?.('raw-context-resume-threw', {
+            name: error instanceof Error ? error.name : 'UnknownError',
+            message: error instanceof Error ? error.message : String(error),
+          });
+        }
+        const deadline = resumeStartedAt + 1500;
+        while (!this.isAudioRunning() && performance.now() < deadline) {
+          await new Promise((resolve) => window.setTimeout(resolve, 50));
+        }
+        this.onDiagnostic?.('raw-context-resume-observed', {
+          durationMs: Math.round(performance.now() - resumeStartedAt),
+          state: rawContext.state,
+        });
       }
       if (!this.isAudioRunning()) {
         this.onDiagnostic?.('tone-start-did-not-run', this.getAudioDiagnostics());
