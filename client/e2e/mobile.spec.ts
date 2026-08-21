@@ -303,6 +303,39 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     expect(settings.audioSettingsVersion).toBe(2);
   });
 
+  test('5c. Audio debug mode exposes runtime state and a protected test tone', async ({ page }) => {
+    await page.goto('/?audioDebug=1');
+    const overlay = page.getByTestId('audio-debug-overlay');
+    await expect(overlay).toBeVisible({ timeout: 8000 });
+
+    await overlay.getByRole('button', { name: 'Mở khóa / thử lại' }).click();
+    await page.waitForFunction(
+      () => (window as any).__novaStarsSoundService?.getAudioDiagnostics().engine?.contextState === 'running',
+      null,
+      { timeout: 8000 }
+    );
+
+    await overlay.getByRole('button', { name: 'Phát âm test' }).click();
+    await page.waitForFunction(
+      () => {
+        const report = (window as any).__novaStarsSoundService?.getAudioDiagnostics();
+        return report?.events.some((entry: any) => entry.event === 'diagnostic-tone-triggered');
+      },
+      null,
+      { timeout: 8000 }
+    );
+    await expect(overlay).toContainText('Đã kích hoạt âm test');
+
+    const report = await page.evaluate(() => (window as any).__novaStarsSoundService.getAudioDiagnostics());
+    expect(report.page.url).not.toContain('?audioDebug');
+    expect(report.device.userAgent).toBeTruthy();
+    expect(report.service.audioUnlocked).toBe(true);
+    expect(report.engine.graphReady).toBe(true);
+
+    await overlay.getByRole('button', { name: 'Sao chép báo cáo' }).click();
+    await expect(overlay).toContainText(/Đã sao chép|Không sao chép được/);
+  });
+
   test('5. Home View UI verification: Play button, parent review label, square checkbox', async ({ page }) => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);

@@ -15,6 +15,7 @@ import { DevGodModeModal } from './components/dev/DevGodModeModal';
 import { PerformanceOverlay } from './components/dev/PerformanceOverlay';
 import { DevFloatingButton } from './components/dev/DevFloatingButton';
 import { PLANETS_DATA } from './data/planetsData';
+import { AudioDebugOverlay } from './components/dev/AudioDebugOverlay';
 
 export const App: React.FC = () => {
   const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage, isLessonRunning, startLesson, closeLesson, activePlanetId } = useGameStore();
@@ -63,6 +64,7 @@ export const App: React.FC = () => {
     <div className="fixed inset-0 w-full h-[100dvh] bg-[#030712] flex items-center justify-center overflow-hidden transition-colors duration-300 select-none overscroll-none">
       {/* Unified App Shell (Deep Cosmic Navy) */}
       <div className="w-full h-full max-w-2xl bg-[#050814] text-white sm:border sm:border-sky-500/30 sm:shadow-[0_0_60px_rgba(56,189,248,0.25)] flex flex-col overflow-hidden relative transition-all duration-300">
+        <AudioDebugOverlay />
         
         {/* Splash Screen */}
         {isSplashing ? (

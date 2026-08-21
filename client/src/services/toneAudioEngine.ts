@@ -48,11 +48,26 @@ export class ToneAudioEngine {
   private engineLowOsc: Tone.Oscillator | null = null;
   private engineGain: Tone.Gain | null = null;
   private isEngineRunning: boolean = false;
+  private readonly onDiagnostic?: (event: string, details?: Record<string, unknown>) => void;
+  private contextStateHandler: (() => void) | null = null;
 
-  constructor(options?: { bgmEnabled?: boolean; sfxEnabled?: boolean; bgmStyle?: BgmStyle }) {
+  constructor(options?: {
+    bgmEnabled?: boolean;
+    sfxEnabled?: boolean;
+    bgmStyle?: BgmStyle;
+    onDiagnostic?: (event: string, details?: Record<string, unknown>) => void;
+  }) {
     this.bgmEnabled = options?.bgmEnabled ?? true;
     this.sfxEnabled = options?.sfxEnabled ?? true;
     this.currentBgmStyle = options?.bgmStyle ?? 'ambient';
+    this.onDiagnostic = options?.onDiagnostic;
+    const rawContext = Tone.context.rawContext as AudioContext;
+    if (typeof rawContext.addEventListener === 'function') {
+      this.contextStateHandler = () => {
+        this.onDiagnostic?.('context-state-change', { state: rawContext.state });
+      };
+      rawContext.addEventListener('statechange', this.contextStateHandler);
+    }
   }
 
   /**
@@ -63,8 +78,12 @@ export class ToneAudioEngine {
   }
 
   public getAudioDiagnostics() {
+    const rawContext = Tone.context.rawContext as AudioContext;
     return {
       contextState: Tone.context.state,
+      rawContextState: rawContext.state,
+      sampleRate: rawContext.sampleRate,
+      baseLatency: rawContext.baseLatency ?? 'unsupported',
       contextStarted: this.isContextStarted,
       bgmPlaying: this.isBgmPlaying,
       transportState: Tone.Transport.state,
@@ -83,7 +102,10 @@ export class ToneAudioEngine {
       if (!this.isAudioRunning()) {
         await Tone.start();
       }
-      if (!this.isAudioRunning()) return false;
+      if (!this.isAudioRunning()) {
+        this.onDiagnostic?.('tone-start-did-not-run', this.getAudioDiagnostics());
+        return false;
+      }
       this.initAudioGraph();
       if (!this.safetyGraph) return false;
       this.isContextStarted = true;
@@ -92,7 +114,33 @@ export class ToneAudioEngine {
       }
       return true;
     } catch (error) {
+      this.onDiagnostic?.('tone-unlock-error', {
+        name: error instanceof Error ? error.name : 'UnknownError',
+        message: error instanceof Error ? error.message : String(error),
+      });
       console.warn('Tone.js could not resume AudioContext.', error);
+      return false;
+    }
+  }
+
+  public playDiagnosticTone(): boolean {
+    if (!this.isAudioRunning()) return false;
+    this.initAudioGraph();
+    if (!this.safetyGraph) return false;
+    try {
+      const synth = this.safetyGraph.routeSfx(new Tone.Synth({
+        oscillator: { type: 'sine' },
+        envelope: { attack: 0.02, decay: 0.12, sustain: 0.15, release: 0.25 },
+        volume: -12,
+      }));
+      synth.triggerAttackRelease('A4', '0.3s', Tone.now(), 0.55);
+      window.setTimeout(() => synth.dispose(), 800);
+      return true;
+    } catch (error) {
+      this.onDiagnostic?.('diagnostic-tone-error', {
+        name: error instanceof Error ? error.name : 'UnknownError',
+        message: error instanceof Error ? error.message : String(error),
+      });
       return false;
     }
   }
@@ -767,6 +815,11 @@ export class ToneAudioEngine {
   }
 
   public dispose() {
+    const rawContext = Tone.context.rawContext as AudioContext;
+    if (this.contextStateHandler && typeof rawContext.removeEventListener === 'function') {
+      rawContext.removeEventListener('statechange', this.contextStateHandler);
+      this.contextStateHandler = null;
+    }
     if (this.firstInteractionHandler) {
       window.removeEventListener('pointerdown', this.firstInteractionHandler);
       window.removeEventListener('keydown', this.firstInteractionHandler);

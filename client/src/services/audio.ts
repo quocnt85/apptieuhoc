@@ -11,11 +11,20 @@ class SoundService {
   private bgmEnabled = true;
   private sfxEnabled = true;
   private bgmStyle: BgmStyle = 'ambient';
-  private firstInteractionHandler: (() => void) | null = null;
+  private firstInteractionHandler: ((event: Event) => void) | null = null;
+  private readonly diagnosticEvents: Array<{ at: string; event: string; details?: Record<string, unknown> }> = [];
+  private readonly debugEnabled = typeof window !== 'undefined'
+    && new URLSearchParams(window.location.search).get('audioDebug') === '1';
+  private lifecycleHandler: (() => void) | null = null;
+  private errorHandler: ((event: ErrorEvent) => void) | null = null;
+  private rejectionHandler: ((event: PromiseRejectionEvent) => void) | null = null;
 
   constructor() {
     if (typeof window === 'undefined') return;
-    this.firstInteractionHandler = () => {
+    this.firstInteractionHandler = (event) => {
+      if (!this.engine?.isAudioRunning()) {
+        this.recordDiagnostic('gesture-unlock-request', { type: event.type });
+      }
       void this.unlockAudio();
     };
     window.addEventListener('touchstart', this.firstInteractionHandler, { capture: true, passive: true });
@@ -27,6 +36,44 @@ class SoundService {
     // short-lived user activation, so Tone.js must already be available when
     // the first real touch arrives.
     void this.loadEngine().catch(() => undefined);
+
+    if (this.debugEnabled) this.installDiagnosticListeners();
+  }
+
+  private recordDiagnostic(event: string, details?: Record<string, unknown>): void {
+    if (!this.debugEnabled) return;
+    this.diagnosticEvents.push({ at: new Date().toISOString(), event, details });
+    if (this.diagnosticEvents.length > 80) this.diagnosticEvents.shift();
+  }
+
+  private installDiagnosticListeners(): void {
+    this.recordDiagnostic('debugger-initialized');
+    this.lifecycleHandler = () => {
+      this.recordDiagnostic('page-lifecycle', {
+        visibility: document.visibilityState,
+        focused: document.hasFocus(),
+        contextState: this.engine?.getAudioDiagnostics().contextState ?? 'engine-not-ready',
+      });
+    };
+    window.addEventListener('pageshow', this.lifecycleHandler);
+    window.addEventListener('pagehide', this.lifecycleHandler);
+    window.addEventListener('focus', this.lifecycleHandler);
+    window.addEventListener('blur', this.lifecycleHandler);
+    document.addEventListener('visibilitychange', this.lifecycleHandler);
+
+    this.errorHandler = (event) => {
+      this.recordDiagnostic('window-error', {
+        message: event.message,
+        source: event.filename,
+        line: event.lineno,
+        column: event.colno,
+      });
+    };
+    this.rejectionHandler = (event) => {
+      this.recordDiagnostic('unhandled-rejection', { reason: String(event.reason) });
+    };
+    window.addEventListener('error', this.errorHandler);
+    window.addEventListener('unhandledrejection', this.rejectionHandler);
   }
 
   private loadEngine(): Promise<ToneAudioEngine> {
@@ -39,7 +86,9 @@ class SoundService {
         bgmEnabled: this.bgmEnabled,
         sfxEnabled: this.sfxEnabled,
         bgmStyle: this.bgmStyle,
+        onDiagnostic: (event, details) => this.recordDiagnostic(event, details),
       });
+      this.recordDiagnostic('engine-loaded');
       return this.engine;
     }).catch((error) => {
       this.engine = null;
@@ -81,8 +130,13 @@ class SoundService {
     this.audioUnlocked = false;
     if (this.unlockPromise) return this.unlockPromise;
 
+    this.recordDiagnostic('unlock-attempt', {
+      contextState: this.engine?.getAudioDiagnostics().contextState ?? 'engine-not-ready',
+      userActivation: navigator.userActivation?.isActive ?? 'unsupported',
+    });
     const startEngine = (engine: ToneAudioEngine) => engine.unlockAudio().then((unlocked) => {
       this.audioUnlocked = unlocked;
+      this.recordDiagnostic(unlocked ? 'unlock-success' : 'unlock-failed', engine.getAudioDiagnostics());
       return unlocked;
     });
 
@@ -93,6 +147,7 @@ class SoundService {
       : this.loadEngine().then(startEngine);
     this.unlockPromise = attempt
       .catch((error) => {
+        this.recordDiagnostic('unlock-error', { error: String(error) });
         console.warn('Unable to unlock Web Audio; waiting for the next user gesture.', error);
         return false;
       })
@@ -118,6 +173,48 @@ class SoundService {
   }
 
   public getBgmStyle(): BgmStyle { return this.bgmStyle; }
+  public isAudioDebugEnabled(): boolean { return this.debugEnabled; }
+  public getAudioDiagnostics() {
+    const engine = this.engine?.getAudioDiagnostics() ?? null;
+    return {
+      capturedAt: new Date().toISOString(),
+      page: {
+        url: `${window.location.origin}${window.location.pathname}`,
+        visibility: document.visibilityState,
+        focused: document.hasFocus(),
+        displayModeStandalone: window.matchMedia('(display-mode: standalone)').matches,
+      },
+      device: {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        vendor: navigator.vendor,
+        maxTouchPoints: navigator.maxTouchPoints,
+        screen: `${window.screen.width}x${window.screen.height}@${window.devicePixelRatio}`,
+      },
+      userActivation: navigator.userActivation
+        ? { isActive: navigator.userActivation.isActive, hasBeenActive: navigator.userActivation.hasBeenActive }
+        : 'unsupported',
+      service: {
+        audioUnlocked: this.audioUnlocked,
+        engineLoaded: Boolean(this.engine),
+        unlockInFlight: Boolean(this.unlockPromise),
+        bgmEnabled: this.bgmEnabled,
+        sfxEnabled: this.sfxEnabled,
+        bgmStyle: this.bgmStyle,
+      },
+      engine,
+      events: [...this.diagnosticEvents],
+    };
+  }
+
+  public async playDiagnosticTone(): Promise<boolean> {
+    this.audioUnlocked = false;
+    const unlocked = await this.unlockAudio();
+    if (!unlocked || !this.engine) return false;
+    const played = this.engine.playDiagnosticTone();
+    this.recordDiagnostic(played ? 'diagnostic-tone-triggered' : 'diagnostic-tone-failed');
+    return played;
+  }
   public startBGM(style?: BgmStyle): void { this.run((engine) => engine.startBGM(style)); }
   public stopBGM(): void { this.runIfLoaded((engine) => engine.stopBGM()); }
   public playClick(): void { if (this.sfxEnabled) this.run((engine) => engine.playClick()); }
@@ -140,6 +237,15 @@ class SoundService {
 
   public dispose(): void {
     this.removeUnlockListeners();
+    if (this.lifecycleHandler && typeof window !== 'undefined') {
+      window.removeEventListener('pageshow', this.lifecycleHandler);
+      window.removeEventListener('pagehide', this.lifecycleHandler);
+      window.removeEventListener('focus', this.lifecycleHandler);
+      window.removeEventListener('blur', this.lifecycleHandler);
+      document.removeEventListener('visibilitychange', this.lifecycleHandler);
+    }
+    if (this.errorHandler && typeof window !== 'undefined') window.removeEventListener('error', this.errorHandler);
+    if (this.rejectionHandler && typeof window !== 'undefined') window.removeEventListener('unhandledrejection', this.rejectionHandler);
     if (this.enginePromise) void this.enginePromise.then((engine) => engine.dispose());
     this.engine = null;
     this.enginePromise = null;
