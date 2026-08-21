@@ -2,7 +2,7 @@ import React from 'react';
 import { Home, Globe2, Wrench, User } from 'lucide-react';
 import { soundService } from '../../services/audio';
 
-export type VercelTab = 'home' | 'planet' | 'hangar' | 'profile' | 'showroom';
+export type VercelTab = 'home' | 'planet' | 'hangar' | 'profile' | 'showroom' | 'minigame';
 
 interface Props {
   activeTab: VercelTab;
@@ -13,6 +13,7 @@ export const VercelBottomNav: React.FC<Props> = ({ activeTab, onChangeTab }) => 
   const tabs: { id: VercelTab; label: string; icon: React.ReactNode }[] = [
     { id: 'home', label: 'Trang Chủ', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">🛸</span> },
     { id: 'planet', label: 'Hành Tinh', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">🪐</span> },
+    { id: 'minigame', label: 'Mini Game', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">🎮</span> },
     { id: 'hangar', label: 'Xưởng Tàu', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">🛠️</span> },
     { id: 'profile', label: 'Hồ Sơ', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">👨‍🚀</span> },
   ];
@@ -30,7 +31,7 @@ export const VercelBottomNav: React.FC<Props> = ({ activeTab, onChangeTab }) => 
           <button
             key={t.id}
             onClick={() => handleSelect(t.id)}
-            className={`min-w-[68px] min-h-[54px] flex flex-col items-center justify-center py-1 px-3 rounded-2xl transition-all duration-150 active:scale-90 ${
+            className={`min-w-[58px] sm:min-w-[68px] min-h-[54px] flex flex-col items-center justify-center py-1 px-2 sm:px-3 rounded-2xl transition-all duration-150 active:scale-90 ${
               isActive ? 'text-sky-300 font-black' : 'text-slate-500 hover:text-slate-300 font-bold'
             }`}
           >

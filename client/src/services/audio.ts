@@ -249,6 +249,11 @@ class SoundService {
   public playLevelUp(): void { if (this.sfxEnabled) this.run((engine) => engine.playLevelUp()); }
   public playVictory(): void { if (this.sfxEnabled) this.run((engine) => engine.playVictory()); }
   public playBossAlarmSiren(): void { if (this.sfxEnabled) this.run((engine) => engine.playBossAlarmSiren()); }
+  public playGameShot(kind: 'single' | 'twin' | 'cluster' | 'spread' | 'missile'): void { if (this.sfxEnabled) this.run((engine) => engine.playGameShot(kind)); }
+  public playGameImpact(strength?: number): void { if (this.sfxEnabled) this.run((engine) => engine.playGameImpact(strength)); }
+  public playGameExplosion(size?: number): void { if (this.sfxEnabled) this.run((engine) => engine.playGameExplosion(size)); }
+  public playGamePowerUp(): void { if (this.sfxEnabled) this.run((engine) => engine.playGamePowerUp()); }
+  public playWormhole(): void { if (this.sfxEnabled) this.run((engine) => engine.playWormhole()); }
   public startShipEngine(power?: number): void { if (this.sfxEnabled) this.run((engine) => engine.startShipEngine(power)); }
   public setShipEnginePower(power: number, immediate?: boolean): void { this.runIfLoaded((engine) => engine.setShipEnginePower(power, immediate)); }
   public stopShipEngine(release?: number): void { this.runIfLoaded((engine) => engine.stopShipEngine(release)); }

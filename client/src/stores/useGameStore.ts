@@ -4,6 +4,19 @@ import { soundService } from '../services/audio';
 import { DOMAINS_DATA, INITIAL_QUESTIONS } from '../data/mockQuestions';
 import { PLANETS_DATA } from '../data/planetsData';
 
+export interface MiniGameProgress {
+  lastFreeRunDate: string | null;
+  totalRuns: number;
+  totalWins: number;
+  bestScore: number;
+}
+
+const getLocalDateKey = () => {
+  const now = new Date();
+  const offset = now.getTimezoneOffset() * 60_000;
+  return new Date(now.getTime() - offset).toISOString().slice(0, 10);
+};
+
 interface GameState {
   user: UserProfile;
   settings: GameSettings;
@@ -16,6 +29,7 @@ interface GameState {
   domainProgress: Record<DomainId, DomainProgress>;
   answeredHistory: Record<string, { isCorrect: boolean; selectedOptionId: string; timestamp: number }>;
   allQuestions: QuestionItem[];
+  miniGameProgress: MiniGameProgress;
 
   // 3D Space Navigation State
   activePlanetId: string;
@@ -40,6 +54,8 @@ interface GameState {
   addDiamonds: (amount: number) => void;
   addXP: (amount: number) => { leveledUp: boolean; newLevel: number };
   addStars: (amount: number) => void;
+  startMiniGameRun: () => { success: boolean; cost: number; usedFreeRun: boolean; reason?: string };
+  finishMiniGameRun: (result: { won: boolean; score: number; collectedCoins: number }) => { awardedCoins: number; isBest: boolean };
 
   // Customization & Shop
   equipShip: (shipId: string) => void;
@@ -187,6 +203,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   domainProgress: defaultProgress,
   answeredHistory: {},
   allQuestions: INITIAL_QUESTIONS,
+  miniGameProgress: {
+    lastFreeRunDate: null,
+    totalRuns: 0,
+    totalWins: 0,
+    bestScore: 0,
+  },
 
   // 3D Space Navigation State
   activePlanetId: 'bravery_prime',
@@ -396,6 +418,53 @@ export const useGameStore = create<GameState>((set, get) => ({
     }));
     get().saveToLocalStorage();
     return { leveledUp, newLevel };
+  },
+
+  startMiniGameRun: () => {
+    get().refreshEnergy();
+    const { user, miniGameProgress, isUnlimitedMode } = get();
+    const today = getLocalDateKey();
+    const hasFreeRun = miniGameProgress.lastFreeRunDate !== today;
+
+    if (!hasFreeRun && !isUnlimitedMode && user.energy < 10) {
+      return {
+        success: false,
+        cost: 10,
+        usedFreeRun: false,
+        reason: 'Chưa đủ 10 Năng Lượng cho lượt chơi tiếp theo.',
+      };
+    }
+
+    set((state) => ({
+      user: hasFreeRun || isUnlimitedMode
+        ? state.user
+        : { ...state.user, energy: state.user.energy - 10, lastEnergyTimestamp: Date.now() },
+      miniGameProgress: {
+        ...state.miniGameProgress,
+        lastFreeRunDate: hasFreeRun ? today : state.miniGameProgress.lastFreeRunDate,
+        totalRuns: state.miniGameProgress.totalRuns + 1,
+      },
+    }));
+    get().saveToLocalStorage();
+    return { success: true, cost: hasFreeRun || isUnlimitedMode ? 0 : 10, usedFreeRun: hasFreeRun };
+  },
+
+  finishMiniGameRun: ({ won, score, collectedCoins }) => {
+    const cappedCoins = Math.min(120, Math.max(0, Math.floor(collectedCoins)));
+    const awardedCoins = won ? Math.min(120, cappedCoins + 30) : Math.floor(cappedCoins * 0.5);
+    const previousBest = get().miniGameProgress.bestScore;
+    const isBest = score > previousBest;
+
+    set((state) => ({
+      user: { ...state.user, novaCoins: state.user.novaCoins + awardedCoins },
+      miniGameProgress: {
+        ...state.miniGameProgress,
+        totalWins: state.miniGameProgress.totalWins + (won ? 1 : 0),
+        bestScore: Math.max(state.miniGameProgress.bestScore, Math.floor(score)),
+      },
+    }));
+    get().saveToLocalStorage();
+    return { awardedCoins, isBest };
   },
 
   // Customization & Shop
@@ -793,13 +862,19 @@ export const useGameStore = create<GameState>((set, get) => ({
       isFlyingToNode: false,
       isLessonRunning: false,
       activeLessonId: null,
+      miniGameProgress: {
+        lastFreeRunDate: null,
+        totalRuns: 0,
+        totalWins: 0,
+        bestScore: 0,
+      },
     });
   },
 
   saveToLocalStorage: () => {
     try {
-      const { user, hasSeenFTUE, completedNodes, nodeStars, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser } = get();
-      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser };
+      const { user, hasSeenFTUE, completedNodes, nodeStars, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser, miniGameProgress } = get();
+      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser, miniGameProgress };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch (e) {
       console.warn('Failed to save space state to localStorage', e);
@@ -829,6 +904,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           activePlanetId: parsed.activePlanetId || 'bravery_prime',
           isGodModeUnlocked: parsed.isGodModeUnlocked ?? state.isGodModeUnlocked,
           showFpsOverlay: parsed.showFpsOverlay ?? state.showFpsOverlay,
+          miniGameProgress: { ...state.miniGameProgress, ...(parsed.miniGameProgress || {}) },
           devBackupUser: parsed.devBackupUser ?? null,
         }));
         if (persistedSettings) {
