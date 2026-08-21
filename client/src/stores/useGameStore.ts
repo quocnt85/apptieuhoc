@@ -59,7 +59,7 @@ interface GameState {
 
   // Customization & Shop
   equipShip: (shipId: string) => void;
-  buyShip: (shipId: string, priceCoins: number) => boolean;
+  buyShip: (shipId: string, price: number, currency?: 'coins' | 'diamonds') => boolean;
   equipColor: (colorHex: string) => void;
   buyColor: (colorHex: string, priceCoins: number) => boolean;
   toggleVietnamFlag: () => void;
@@ -450,8 +450,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   finishMiniGameRun: ({ won, score, collectedCoins }) => {
-    const cappedCoins = Math.min(120, Math.max(0, Math.floor(collectedCoins)));
-    const awardedCoins = won ? Math.min(120, cappedCoins + 30) : Math.floor(cappedCoins * 0.5);
+    const cappedCoins = Math.min(32, Math.max(0, Math.floor(collectedCoins)));
+    const awardedCoins = won ? Math.min(45, Math.max(30, cappedCoins + 12)) : Math.min(15, Math.floor(cappedCoins * 0.5));
     const previousBest = get().miniGameProgress.bestScore;
     const isBest = score > previousBest;
 
@@ -479,15 +479,18 @@ export const useGameStore = create<GameState>((set, get) => ({
     get().saveToLocalStorage();
   },
 
-  buyShip: (shipId: string, priceCoins: number) => {
+  buyShip: (shipId: string, price: number, currency = 'coins') => {
     const { user, isUnlimitedMode } = get();
-    if (!isUnlimitedMode && user.novaCoins < priceCoins) return false;
+    const balance = currency === 'diamonds' ? user.diamonds : user.novaCoins;
+    if (!isUnlimitedMode && balance < price) return false;
 
     soundService.playVictory();
     set((state) => ({
       user: {
         ...state.user,
-        novaCoins: isUnlimitedMode ? state.user.novaCoins : state.user.novaCoins - priceCoins,
+        novaCoins: isUnlimitedMode || currency === 'diamonds' ? state.user.novaCoins : state.user.novaCoins - price,
+        diamonds: isUnlimitedMode || currency === 'coins' ? state.user.diamonds : state.user.diamonds - price,
+        gems: isUnlimitedMode || currency === 'coins' ? state.user.gems : Math.max(0, state.user.gems - price),
         customization: {
           ...state.user.customization,
           unlockedShips: [...state.user.customization.unlockedShips, shipId],

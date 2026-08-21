@@ -41,6 +41,8 @@ const ShipInteractiveDetailModal: React.FC<{
 
   const unlockedColors = user.customization?.unlockedColors || ['default', '#38bdf8'];
   const hasVietnamFlag = user.customization?.hasVietnamFlag ?? true;
+  const currencyIcon = ship.purchaseCurrency === 'diamonds' ? '💎' : '🟡';
+  const currencyLabel = ship.purchaseCurrency === 'diamonds' ? 'Kim Cương' : 'Xu Nova';
 
   // Available Paint Colors Palette
   const paintPalette = [
@@ -257,6 +259,10 @@ const ShipInteractiveDetailModal: React.FC<{
 
         {/* Detailed Highly-Differentiated Stats */}
         <div className="w-full space-y-2 text-left mb-3.5">
+          <div className="rounded-xl border border-fuchsia-300/50 bg-fuchsia-500/15 px-3 py-2 flex items-center justify-between">
+            <span className="text-[11px] font-black text-fuchsia-200 uppercase tracking-wider">Tổng sức mạnh</span>
+            <span className="text-lg font-black text-white">{ship.totalPower}</span>
+          </div>
           {/* 3 Distinct Game Stats Bar */}
           <div className="grid grid-cols-3 gap-2">
             <div className="bg-slate-900/90 border border-sky-400/40 p-2 rounded-xl text-center">
@@ -314,7 +320,7 @@ const ShipInteractiveDetailModal: React.FC<{
               className="w-full py-3 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-amber-950 border-2 border-yellow-200 shadow-[0_5px_0_0_#b45309,0_8px_20px_rgba(245,158,11,0.5)] active:translate-y-1 active:shadow-[0_1px_0_0_#b45309] flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <Lock className="w-5 h-5" />
-              <span>Mở Khóa ({ship.price} Xu Nova 🟡)</span>
+              <span>Mở Khóa ({ship.price.toLocaleString('vi-VN')} {currencyLabel} {currencyIcon})</span>
             </button>
           )}
         </div>
@@ -356,9 +362,11 @@ export const SpaceHangarView: React.FC = () => {
   };
 
   const handleBuyShipInModal = (s: SpaceshipModelData) => {
-    const ok = buyShip(s.id, s.price);
+    const ok = buyShip(s.id, s.price, s.purchaseCurrency);
     if (!ok) {
-      alert('Bạn không đủ Xu Nova 🟡! Hãy hoàn thành thêm bài học nhé.');
+      alert(s.purchaseCurrency === 'diamonds'
+        ? 'Bạn không đủ Kim Cương 💎 để mở khóa phi thuyền này!'
+        : 'Bạn không đủ Xu Nova 🟡! Hãy hoàn thành thêm bài học nhé.');
     } else {
       equipShip(s.id);
       setSelectedShipDetail(null);
@@ -446,6 +454,9 @@ export const SpaceHangarView: React.FC = () => {
                     
                     {/* Highly Differentiated 3 Game Stats */}
                     <div className="flex items-center gap-1.5 sm:gap-2 mt-1.5">
+                      <span className="bg-fuchsia-950/80 border border-fuchsia-400/40 px-1.5 py-0.5 rounded-lg text-[11px] font-black text-fuchsia-200">
+                        ✦ {s.totalPower}
+                      </span>
                       <span className="bg-slate-950/80 border border-sky-500/30 px-1.5 py-0.5 rounded-lg text-[11px] font-black text-sky-300">
                         ⚡ {s.speed}
                       </span>
@@ -477,7 +488,7 @@ export const SpaceHangarView: React.FC = () => {
                   ) : (
                     <span className="bg-amber-500 text-amber-950 font-black text-xs px-2.5 py-1.5 rounded-xl border border-amber-300 shadow flex items-center gap-1">
                       <Lock className="w-3.5 h-3.5" />
-                      <span>{s.price} 🟡</span>
+                      <span>{s.price.toLocaleString('vi-VN')} {s.purchaseCurrency === 'diamonds' ? '💎' : '🟡'}</span>
                     </span>
                   )}
                 </div>
