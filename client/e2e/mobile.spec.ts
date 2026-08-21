@@ -60,27 +60,23 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await expect(page.locator('text=Xưởng Tàu Không Gian').first()).toBeVisible({ timeout: 5000 });
 
     // Click on Ship Card to open 3D Interactive Detail Modal
-    const shipCard = page.locator('text=Tiêm Kích Thám Hiểm Nova Apex').first();
+    const shipCard = page.locator('text=Tàu Tiên Phong Bạch Đằng').first();
     await expect(shipCard).toBeVisible({ timeout: 5000 });
     await shipCard.click({ force: true });
 
     // Check 3D Modal details
-    await expect(page.locator('text=Chạm & vuốt để xoay 360°').first()).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=Vuốt để xoay 360°').first()).toBeVisible({ timeout: 5000 });
     await expect(page.locator('text=Tốc Độ').first()).toBeVisible();
     await expect(page.locator('text=Đang Lái Phi Thuyền Này').first()).toBeVisible();
+    await expect(page.locator('text=Sơn Màu Phi Thuyền').first()).toBeVisible();
+
+    // Toggle Vietnam Flag in modal
+    const flagBtn = page.locator('button:has-text("Cờ VN")').first();
+    await expect(flagBtn).toBeVisible({ timeout: 5000 });
+    await flagBtn.click({ force: true });
 
     // Close Modal
     await page.locator('button:has(svg.lucide-x)').first().click({ force: true });
-
-    // Switch to Colors & Flag Sub-tab
-    const colorsTab = page.locator('button:has-text("Màu & Cờ")');
-    await colorsTab.click({ force: true });
-    await expect(page.locator('text=Quốc Kỳ Việt Nam').first()).toBeVisible({ timeout: 5000 });
-
-    // Toggle Vietnam Flag
-    const flagBtn = page.locator('button:has-text("Đã Dán Cờ"), button:has-text("Dán Cờ VN")').first();
-    await expect(flagBtn).toBeVisible({ timeout: 5000 });
-    await flagBtn.click({ force: true });
 
     // Switch to Boosters Sub-tab
     const boostersTab = page.locator('button:has-text("Năng Lượng")');

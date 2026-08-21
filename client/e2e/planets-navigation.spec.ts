@@ -106,7 +106,7 @@ test.describe('5 Planets Interactive Navigation & Locked Planet Exploration E2E 
     test.setTimeout(60000);
     // Unlock all coordinates for test exploration
     await page.evaluate(() => {
-      (window as any).__gameStore?.getState().unlockGodMode();
+      (window as any).__gameStore?.getState().unlockAllPlanetNodes();
     });
 
     await page.locator('button:has-text("Hành Tinh")').first().click({ force: true });

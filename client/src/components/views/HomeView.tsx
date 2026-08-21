@@ -175,11 +175,8 @@ const ParentGreetingConfirmModal: React.FC<{
 };
 
 export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGame }) => {
-  const { user, addNovaCoins, toggleGodMode } = useGameStore();
+  const { user, completedNodes, isGreetingQuestDone, setGreetingQuestDone, addNovaCoins, toggleGodMode } = useGameStore();
 
-  const [greetingQuestDone, setGreetingQuestDone] = useState<boolean>(() => {
-    return localStorage.getItem('novastars_quest_greeting_done') === 'true';
-  });
   const [showParentModal, setShowParentModal] = useState(false);
   const [rewardMsg, setRewardMsg] = useState<string | null>(null);
 
@@ -215,7 +212,7 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
   };
 
   const handleGreetingQuestClick = () => {
-    if (greetingQuestDone) return;
+    if (isGreetingQuestDone) return;
     soundService.playClick();
     setShowParentModal(true);
   };
@@ -223,40 +220,44 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
   const handleParentConfirmSuccess = () => {
     setShowParentModal(false);
     setGreetingQuestDone(true);
-    localStorage.setItem('novastars_quest_greeting_done', 'true');
     addNovaCoins(30);
     soundService.playVictory();
     setRewardMsg('🎉 Phụ huynh đã duyệt! Bé nhận được +30 Xu Nova 🟡!');
     setTimeout(() => setRewardMsg(null), 4000);
   };
 
+  const completedLessonsCount = Object.keys(completedNodes || {}).length;
+  const currentStars = user.stars || 0;
+
   const dailyQuests = [
     {
       id: 'q1',
       title: 'Hoàn thành 1 bài học kỹ năng tinh cầu',
-      progress: 1,
+      progress: Math.min(1, completedLessonsCount),
       max: 1,
       rewardCoins: 50,
-      done: true,
+      done: completedLessonsCount >= 1,
+      requiresParent: false,
       onClick: () => handleAction(onNavigateToMap)
     },
     {
       id: 'q2',
       title: 'Thực hành chào hỏi lễ phép ngoài đời thực',
-      progress: greetingQuestDone ? 1 : 0,
+      progress: isGreetingQuestDone ? 1 : 0,
       max: 1,
       rewardCoins: 30,
-      done: greetingQuestDone,
+      done: isGreetingQuestDone,
       requiresParent: true,
       onClick: handleGreetingQuestClick
     },
     {
       id: 'q3',
       title: 'Lái phi thuyền thu thập 10 sao',
-      progress: 1,
-      max: 1,
+      progress: Math.min(10, currentStars),
+      max: 10,
       rewardCoins: 40,
-      done: true,
+      done: currentStars >= 10,
+      requiresParent: false,
       onClick: () => handleAction(onNavigateToMiniGame || onNavigateToMap)
     },
   ];
@@ -380,9 +381,16 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
                 </div>
 
                 <div className="min-w-0">
-                  <h4 className={`text-xs sm:text-sm font-black truncate ${q.done ? 'text-emerald-300 line-through opacity-80' : 'text-slate-200'}`}>
-                    <span>{q.title}</span>
-                  </h4>
+                  <div className="flex items-center gap-1.5">
+                    <h4 className={`text-xs sm:text-sm font-black truncate ${q.done ? 'text-emerald-300 line-through opacity-80' : 'text-slate-200'}`}>
+                      <span>{q.title}</span>
+                    </h4>
+                    {q.max > 1 && (
+                      <span className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-full shrink-0 ${q.done ? 'bg-emerald-800/80 text-emerald-200' : 'bg-slate-700 text-sky-300'}`}>
+                        {q.progress}/{q.max}
+                      </span>
+                    )}
+                  </div>
                   <span className="text-[10px] text-amber-300 font-bold">🟡 +{q.rewardCoins} Xu Nova</span>
                 </div>
               </div>

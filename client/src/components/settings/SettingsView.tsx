@@ -25,7 +25,7 @@ export const SettingsView: React.FC = () => {
   const handleReset = () => {
     interactionService.playError();
     if (confirm('Bạn có chắc chắn muốn đặt lại toàn bộ tiến độ làm bài để luyện tập lại từ đầu không?')) {
-      localStorage.removeItem('novastars_app_state_v1');
+      useGameStore.getState().resetAllProgress();
       window.location.reload();
     }
   };

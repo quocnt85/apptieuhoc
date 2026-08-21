@@ -46,6 +46,7 @@ export const DevGodModeModal: React.FC<DevGodModeModalProps> = ({ onOpenShowroom
     unlockAllCosmetics,
     resetAllProgress,
     buyBooster,
+    setGreetingQuestDone,
   } = useGameStore();
 
   const [activeTab, setActiveTab] = useState<DevTab>('energy');
@@ -519,7 +520,7 @@ export const DevGodModeModal: React.FC<DevGodModeModalProps> = ({ onOpenShowroom
               {/* Complete Daily Greeting Quest */}
               <button
                 onClick={() => {
-                  localStorage.setItem('novastars_quest_greeting_done', 'true');
+                  setGreetingQuestDone(true);
                   showNotification('Đã đánh dấu hoàn thành nhiệm vụ chào hỏi!');
                 }}
                 className="w-full p-3.5 rounded-2xl bg-slate-900 border border-slate-700 hover:border-slate-500 font-black text-xs sm:text-sm text-slate-200 flex items-center justify-between active:scale-95 transition-all"
