@@ -15,7 +15,14 @@ interface Props {
 }
 
 export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radius, onSelectNode }) => {
-  const { completedNodes, nodeStars, user, selectedCoordinateNode, isLessonRunning } = useGameStore();
+  const {
+    completedNodes,
+    nodeStars,
+    selectedCoordinateNode,
+    isLessonRunning,
+    isNodeUnlocked,
+    activePlanetId,
+  } = useGameStore();
   const hasOverlay = Boolean(selectedCoordinateNode || isLessonRunning);
   const markerGroupRef = useRef<THREE.Group>(null);
   const ringRef = useRef<THREE.Mesh>(null);
@@ -44,7 +51,7 @@ export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radi
 
   const isCompleted = Boolean(completedNodes[node.id]);
   const starsEarned = nodeStars[node.id] || (isCompleted ? 3 : 0);
-  const isUnlocked = user.stars >= (node.starsRequiredToUnlock || 0);
+  const isUnlocked = isNodeUnlocked(node, activePlanetId);
 
   useFrame(({ clock, camera }) => {
     if (!markerGroupRef.current) return;
@@ -90,10 +97,6 @@ export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radi
 
   const handleClick = (e: any) => {
     e.stopPropagation?.();
-    if (!isUnlocked) {
-      soundService.playWrong();
-      return;
-    }
     soundService.playSelect();
     onSelectNode(node);
   };
@@ -135,9 +138,7 @@ export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radi
             disabled={hasOverlay}
             onClick={handleClick}
             title={node.title}
-            className={`select-none flex flex-col items-center justify-center bg-transparent border-0 p-0 transition-transform active:scale-95 ${
-              isUnlocked ? 'cursor-pointer hover:scale-115' : 'cursor-not-allowed'
-            }`}
+            className="select-none flex flex-col items-center justify-center bg-transparent border-0 p-0 transition-transform active:scale-95 cursor-pointer hover:scale-115"
           >
             {/* Circular Holographic Pin Badge */}
             <div

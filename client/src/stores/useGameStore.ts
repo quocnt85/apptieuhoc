@@ -50,6 +50,8 @@ interface GameState {
 
   // 3D Navigation
   selectPlanet: (planetId: string) => void;
+  isPlanetUnlocked: (planetId: string) => boolean;
+  isNodeUnlocked: (node: PlanetCoordinateNode, planetId?: string) => boolean;
   startFlyingToCoordinate: (node: PlanetCoordinateNode) => void;
   finishFlyingToCoordinate: () => void;
   closeCoordinateModal: () => void;
@@ -478,7 +480,48 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   // 3D Navigation
   selectPlanet: (planetId: string) => {
-    set({ activePlanetId: planetId, selectedCoordinateNode: null });
+    soundService.playClick();
+    set({
+      activePlanetId: planetId,
+      selectedCoordinateNode: null,
+      isFlyingToNode: false,
+    });
+    get().saveToLocalStorage();
+  },
+
+  isPlanetUnlocked: (planetId: string) => {
+    const { isUnlimitedMode, completedNodes, user } = get();
+    if (isUnlimitedMode) return true;
+    if (planetId === 'bravery_prime') return true;
+
+    const planet = PLANETS_DATA.find((p) => p.id === planetId);
+    if (!planet?.unlockRequirement) return true;
+
+    const req = planet.unlockRequirement;
+    // Condition 1: Completed required boss node from preceding planet
+    if (req.requiredBossNodeId && completedNodes[req.requiredBossNodeId]) {
+      return true;
+    }
+    // Condition 2: Accumulated required total stars
+    if (req.requiredStars !== undefined && user.stars >= req.requiredStars) {
+      return true;
+    }
+
+    return false;
+  },
+
+  isNodeUnlocked: (node: PlanetCoordinateNode, planetId?: string) => {
+    const { isUnlimitedMode, isPlanetUnlocked, user } = get();
+    if (isUnlimitedMode) return true;
+
+    const targetPlanetId = planetId || get().activePlanetId;
+    // If planet itself is locked, all its lesson nodes remain locked
+    if (!isPlanetUnlocked(targetPlanetId)) {
+      return false;
+    }
+
+    // If planet is unlocked, check node star requirement
+    return user.stars >= (node.starsRequiredToUnlock || 0);
   },
 
   startFlyingToCoordinate: (node: PlanetCoordinateNode) => {
