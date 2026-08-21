@@ -12,17 +12,28 @@ const STREAKS = Array.from({ length: 52 }, (_, index) => ({
 
 type WarpStyle = React.CSSProperties & Record<`--${string}`, string>;
 
-export const HyperspaceTransition: React.FC = () => (
+interface Props {
+  durationMs?: number;
+  title?: string;
+  subtitle?: string;
+}
+
+export const HyperspaceTransition: React.FC<Props> = ({
+  durationMs = 1600,
+  title = 'Khóa tọa độ · Hyperdrive sẵn sàng',
+  subtitle = 'Đang mở hành lang tri thức',
+}) => (
   <div
     data-testid="hyperspeed-transition-overlay"
     className="hyperspace fixed inset-0 z-50 overflow-hidden bg-[#01030b] pointer-events-none select-none"
     role="status"
     aria-label="Đang kích hoạt du hành siêu tốc"
+    style={{ '--warp-duration': `${durationMs}ms` } as WarpStyle}
   >
     <style>{`
       .hyperspace {
         --warp-cyan: 103, 232, 249;
-        animation: warpScene 1.6s linear both;
+        animation: warpScene var(--warp-duration) linear both;
         isolation: isolate;
       }
       .warp-nebula {
@@ -31,7 +42,7 @@ export const HyperspaceTransition: React.FC = () => (
           radial-gradient(circle at 50% 50%, rgba(224,242,254,.16) 0 2%, transparent 18%),
           conic-gradient(from 30deg at 50% 50%, #020617 0deg, #172554 58deg, #07152d 116deg, #312e81 180deg, #020617 260deg, #164e63 320deg, #020617 360deg);
         filter: blur(22px) saturate(1.35);
-        animation: nebulaCollapse 1.6s cubic-bezier(.65,0,.25,1) both;
+        animation: nebulaCollapse var(--warp-duration) cubic-bezier(.65,0,.25,1) both;
       }
       .warp-vignette {
         position: absolute; inset: 0; z-index: 8;
@@ -45,7 +56,7 @@ export const HyperspaceTransition: React.FC = () => (
         background: linear-gradient(90deg, transparent, rgba(var(--warp-cyan),.25) 18%, rgba(224,242,254,.95));
         box-shadow: 0 0 8px rgba(var(--warp-cyan),.8);
         opacity: 0;
-        animation: streakLaunch 1.12s var(--delay) cubic-bezier(.3,0,.05,1) both;
+        animation: streakLaunch var(--warp-duration) var(--delay) cubic-bezier(.3,0,.05,1) both;
       }
       .warp-ring {
         position: absolute; z-index: 5; left: 50%; top: 50%;
@@ -53,25 +64,25 @@ export const HyperspaceTransition: React.FC = () => (
         border: 2px solid rgba(165,243,252,.9);
         box-shadow: 0 0 22px #67e8f9, inset 0 0 22px #818cf8;
         transform: translate(-50%,-50%) scale(.08);
-        animation: warpRing 1.05s .68s cubic-bezier(.1,.75,.15,1) both;
+        animation: warpRing var(--warp-duration) cubic-bezier(.1,.75,.15,1) both;
       }
-      .warp-ring--late { animation-delay: .76s; border-color: rgba(196,181,253,.75); }
+      .warp-ring--late { animation-delay: .08s; border-color: rgba(196,181,253,.75); }
       .warp-core {
         position: absolute; z-index: 6; left: 50%; top: 50%;
         width: 7vmin; height: 7vmin; border-radius: 50%;
         transform: translate(-50%,-50%);
         background: white;
         box-shadow: 0 0 18px 8px #cffafe, 0 0 65px 24px #38bdf8, 0 0 150px 54px #4f46e5;
-        animation: coreCharge 1.18s cubic-bezier(.7,0,.2,1) both;
+        animation: coreCharge var(--warp-duration) cubic-bezier(.7,0,.2,1) both;
       }
       .warp-ship {
         position: absolute; z-index: 7; left: 50%; top: 50%; color: white;
         filter: drop-shadow(0 0 12px #67e8f9);
-        animation: shipCommit 1.05s cubic-bezier(.55,0,.1,1) both;
+        animation: shipCommit var(--warp-duration) cubic-bezier(.55,0,.1,1) both;
       }
       .warp-flash {
         position: absolute; inset: 0; z-index: 20; background: white; opacity: 0;
-        animation: jumpFlash 1.6s linear both;
+        animation: jumpFlash var(--warp-duration) linear both;
       }
       .warp-caption {
         position: absolute; z-index: 12; left: 50%; bottom: max(9vh, 42px);
@@ -79,7 +90,7 @@ export const HyperspaceTransition: React.FC = () => (
         color: #cffafe; text-transform: uppercase; letter-spacing: .24em;
         font-size: clamp(10px, 1.8vw, 13px); font-weight: 900;
         text-shadow: 0 0 14px #0ea5e9;
-        animation: captionPhase 1.6s ease both;
+        animation: captionPhase var(--warp-duration) ease both;
       }
       .warp-caption span { display:block; margin-top:6px; color:#94a3b8; font-size:9px; letter-spacing:.17em; }
       @keyframes warpScene { 0%{opacity:0} 5%,90%{opacity:1} 100%{opacity:0} }
@@ -109,8 +120,8 @@ export const HyperspaceTransition: React.FC = () => (
         72%,100%{transform:translate(-50%,-50%) scale(.01);opacity:0}
       }
       @keyframes warpRing {
-        0%{transform:translate(-50%,-50%) scale(.08);opacity:0}
-        8%{opacity:1}
+        0%,42%{transform:translate(-50%,-50%) scale(.08);opacity:0}
+        47%{opacity:1}
         100%{transform:translate(-50%,-50%) scale(10);opacity:0}
       }
       @keyframes jumpFlash { 0%,42%{opacity:0} 46%{opacity:.95} 53%{opacity:.08} 100%{opacity:0} }
@@ -142,8 +153,8 @@ export const HyperspaceTransition: React.FC = () => (
     <Rocket className="warp-ship h-12 w-12 sm:h-16 sm:w-16" aria-hidden="true" />
     <div className="warp-vignette" />
     <div className="warp-caption">
-      Khóa tọa độ · Hyperdrive sẵn sàng
-      <span>Đang mở hành lang tri thức</span>
+      {title}
+      <span>{subtitle}</span>
     </div>
     <div className="warp-flash" />
   </div>

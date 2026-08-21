@@ -5,11 +5,13 @@ class SoundEngine {
   private soundEnabled: boolean = true;
   private isBgmPlaying: boolean = false;
   private bgmMasterGain: GainNode | null = null;
+  private bgmToneNodes: { highpass: BiquadFilterNode; lowShelf: BiquadFilterNode } | null = null;
   private bgmOstinatoInterval: ReturnType<typeof setInterval> | null = null;
   private bgmPadInterval: ReturnType<typeof setInterval> | null = null;
   private bgmDroneNodes: { osc1: OscillatorNode; osc2: OscillatorNode; gain: GainNode; filter: BiquadFilterNode } | null = null;
   private bgmNextStepTime = 0;
   private bgmStep = 0;
+  private bgmSessionId = 0;
   private masterCompressor: DynamicsCompressorNode | null = null;
   private reverb: ConvolverNode | null = null;
   private engineNodes: {
@@ -22,6 +24,7 @@ class SoundEngine {
     output: GainNode;
   } | null = null;
   private noiseBuffer: AudioBuffer | null = null;
+  private firstInteractionHandler: (() => void) | null = null;
 
   constructor() {
     // Context initializes on user gesture
@@ -32,7 +35,9 @@ class SoundEngine {
         }
         window.removeEventListener('pointerdown', handleFirstInteraction);
         window.removeEventListener('keydown', handleFirstInteraction);
+        this.firstInteractionHandler = null;
       };
+      this.firstInteractionHandler = handleFirstInteraction;
       window.addEventListener('pointerdown', handleFirstInteraction, { once: true });
       window.addEventListener('keydown', handleFirstInteraction, { once: true });
     }
@@ -134,11 +139,25 @@ class SoundEngine {
       if (!this.ctx) return;
 
       this.isBgmPlaying = true;
+      const sessionId = ++this.bgmSessionId;
       const now = this.ctx.currentTime;
       this.bgmMasterGain = this.ctx.createGain();
       this.bgmMasterGain.gain.setValueAtTime(0.001, now);
       this.bgmMasterGain.gain.exponentialRampToValueAtTime(1, now + 3.2);
-      this.connectToOutput(this.bgmMasterGain);
+      // Remove continuous sub pressure before compression. Pure low-frequency
+      // oscillators are especially fatiguing on sealed headphones.
+      const bgmHighpass = this.ctx.createBiquadFilter();
+      const bgmLowShelf = this.ctx.createBiquadFilter();
+      bgmHighpass.type = 'highpass';
+      bgmHighpass.frequency.value = 58;
+      bgmHighpass.Q.value = 0.72;
+      bgmLowShelf.type = 'lowshelf';
+      bgmLowShelf.frequency.value = 145;
+      bgmLowShelf.gain.value = -4.5;
+      this.bgmMasterGain.connect(bgmHighpass);
+      bgmHighpass.connect(bgmLowShelf);
+      this.connectToOutput(bgmLowShelf);
+      this.bgmToneNodes = { highpass: bgmHighpass, lowShelf: bgmLowShelf };
 
       // A warm, slowly breathing foundation. The low-pass keeps it cinematic,
       // instead of exposing the buzzy edge of a raw saw oscillator.
@@ -147,14 +166,14 @@ class SoundEngine {
       const droneFilter = this.ctx.createBiquadFilter();
       const droneGain = this.ctx.createGain();
       droneOsc1.type = 'triangle';
-      droneOsc1.frequency.value = 36.71; // D1
+      droneOsc1.frequency.value = 73.42; // D2 - no sustained sub octave
       droneOsc2.type = 'sine';
-      droneOsc2.frequency.value = 73.42; // D2
+      droneOsc2.frequency.value = 146.83; // D3
       droneOsc2.detune.value = 4;
       droneFilter.type = 'lowpass';
       droneFilter.frequency.value = 260;
       droneFilter.Q.value = 0.7;
-      droneGain.gain.value = 0.115;
+      droneGain.gain.value = 0.042;
       droneOsc1.connect(droneFilter);
       droneOsc2.connect(droneFilter);
       droneFilter.connect(droneGain);
@@ -163,94 +182,146 @@ class SoundEngine {
       droneOsc2.start(now);
       this.bgmDroneNodes = { osc1: droneOsc1, osc2: droneOsc2, gain: droneGain, filter: droneFilter };
 
-      // Dm - Bb - F - C. Eight eighth-notes per chord at 108 BPM.
-      // A look-ahead Web Audio scheduler makes timing stable even when React renders.
+      // Slow orchestral harmony. Long envelopes and layered, filtered harmonics
+      // replace the old short 1/8-note arpeggio that read as chip-tune.
       const progression = [
-        { root: 73.42, notes: [146.83, 220, 293.66, 349.23, 440, 349.23, 293.66, 220] },
-        { root: 58.27, notes: [116.54, 174.61, 233.08, 293.66, 349.23, 293.66, 233.08, 174.61] },
-        { root: 87.31, notes: [174.61, 261.63, 349.23, 440, 523.25, 440, 349.23, 261.63] },
-        { root: 65.41, notes: [130.81, 196, 261.63, 329.63, 392, 329.63, 261.63, 196] },
+        { root: 73.42, strings: [146.83, 174.61, 220, 293.66], brass: [146.83, 220, 293.66] }, // Dm
+        { root: 58.27, strings: [116.54, 146.83, 174.61, 233.08], brass: [116.54, 174.61, 233.08] }, // Bb
+        { root: 87.31, strings: [130.81, 174.61, 220, 261.63], brass: [174.61, 261.63, 349.23] }, // F/C
+        { root: 65.41, strings: [130.81, 164.81, 196, 261.63], brass: [130.81, 196, 261.63] }, // C
+        { root: 49.00, strings: [98, 116.54, 146.83, 196], brass: [98, 146.83, 196] }, // Gm
+        { root: 58.27, strings: [116.54, 146.83, 174.61, 233.08], brass: [116.54, 174.61, 233.08] }, // Bb
+        { root: 55.00, strings: [110, 146.83, 164.81, 220], brass: [110, 164.81, 220] }, // Asus4
+        { root: 55.00, strings: [110, 138.59, 164.81, 220], brass: [110, 164.81, 220] }, // A
       ];
-      const stepDuration = 60 / 108 / 2;
+      const beatDuration = 60 / 72;
+      const barDuration = beatDuration * 4;
 
-      const schedulePad = (time: number, chord: typeof progression[number]) => {
+      const stringWave = this.ctx.createPeriodicWave(
+        new Float32Array([0, 0, 0, 0, 0, 0, 0, 0]),
+        new Float32Array([0, 1, 0.46, 0.25, 0.14, 0.09, 0.055, 0.03]),
+        { disableNormalization: false }
+      );
+      const brassWave = this.ctx.createPeriodicWave(
+        new Float32Array([0, 0, 0, 0, 0, 0, 0]),
+        new Float32Array([0, 1, 0.72, 0.48, 0.3, 0.16, 0.08]),
+        { disableNormalization: false }
+      );
+
+      const scheduleStrings = (time: number, chord: typeof progression[number]) => {
         if (!this.ctx || !this.bgmMasterGain) return;
-        [chord.notes[0], chord.notes[2], chord.notes[3]].forEach((frequency, index) => {
+        chord.strings.forEach((frequency, noteIndex) => {
+          if (!this.ctx || !this.bgmMasterGain) return;
+          const filter = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
+          const panner = this.ctx.createStereoPanner();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(620, time);
+          filter.frequency.exponentialRampToValueAtTime(1550, time + barDuration * 0.45);
+          filter.frequency.exponentialRampToValueAtTime(760, time + barDuration);
+          filter.Q.value = 0.55;
+          panner.pan.value = (noteIndex - 1.5) * 0.28;
+          gain.gain.setValueAtTime(0.001, time);
+          gain.gain.exponentialRampToValueAtTime(0.009, time + 1.15);
+          gain.gain.setValueAtTime(0.009, time + barDuration - 0.65);
+          gain.gain.exponentialRampToValueAtTime(0.001, time + barDuration + 1.05);
+          filter.connect(gain);
+          gain.connect(panner);
+          panner.connect(this.bgmMasterGain);
+          if (this.reverb) panner.connect(this.reverb);
+
+          // Three subtly detuned players create a string-section chorus.
+          [-7, 0, 6].forEach((detune) => {
+            if (!this.ctx) return;
+            const osc = this.ctx.createOscillator();
+            osc.setPeriodicWave(stringWave);
+            osc.frequency.value = frequency;
+            osc.detune.setValueAtTime(detune - 1.5, time);
+            osc.detune.linearRampToValueAtTime(detune + 1.8, time + barDuration * 0.5);
+            osc.detune.linearRampToValueAtTime(detune - 0.8, time + barDuration);
+            osc.connect(filter);
+            // Tiny start offsets avoid every synthesized player sharing one phase.
+            const playerOffset = noteIndex * 0.004 + (detune + 7) * 0.0007;
+            osc.start(time + playerOffset);
+            osc.stop(time + barDuration + 1.1);
+          });
+        });
+      };
+
+      const scheduleBrassSwell = (time: number, chord: typeof progression[number], intensity: number) => {
+        if (!this.ctx || !this.bgmMasterGain) return;
+        chord.brass.forEach((frequency, index) => {
           if (!this.ctx || !this.bgmMasterGain) return;
           const osc = this.ctx.createOscillator();
           const filter = this.ctx.createBiquadFilter();
           const gain = this.ctx.createGain();
-          osc.type = index === 0 ? 'triangle' : 'sine';
+          osc.setPeriodicWave(brassWave);
           osc.frequency.value = frequency;
-          osc.detune.value = (index - 1) * 5;
+          osc.detune.value = (index - 1) * 3;
           filter.type = 'lowpass';
-          filter.frequency.value = 1100;
+          filter.frequency.setValueAtTime(420, time);
+          filter.frequency.exponentialRampToValueAtTime(1350, time + 0.65);
+          filter.frequency.exponentialRampToValueAtTime(520, time + 2.35);
+          filter.Q.value = 1.1;
           gain.gain.setValueAtTime(0.001, time);
-          gain.gain.exponentialRampToValueAtTime(0.026, time + 0.8);
-          gain.gain.setValueAtTime(0.026, time + 1.55);
-          gain.gain.exponentialRampToValueAtTime(0.001, time + 2.2);
+          gain.gain.exponentialRampToValueAtTime(0.035 * intensity, time + 0.55);
+          gain.gain.setValueAtTime(0.035 * intensity, time + 1.35);
+          gain.gain.exponentialRampToValueAtTime(0.001, time + 2.5);
           osc.connect(filter);
           filter.connect(gain);
           gain.connect(this.bgmMasterGain);
           if (this.reverb) gain.connect(this.reverb);
           osc.start(time);
-          osc.stop(time + 2.25);
+          osc.stop(time + 2.55);
         });
+      };
+
+      const scheduleTimpani = (time: number, root: number, intensity: number) => {
+        if (!this.ctx || !this.bgmMasterGain) return;
+        const drum = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        drum.type = 'sine';
+        drum.frequency.setValueAtTime(root * 1.35, time);
+        drum.frequency.exponentialRampToValueAtTime(root * 0.62, time + 0.34);
+        gain.gain.setValueAtTime(0.001, time);
+        gain.gain.exponentialRampToValueAtTime(0.075 * intensity, time + 0.018);
+        gain.gain.exponentialRampToValueAtTime(0.001, time + 0.58);
+        drum.connect(gain);
+        gain.connect(this.bgmMasterGain);
+        if (this.reverb) gain.connect(this.reverb);
+        drum.start(time);
+        drum.stop(time + 0.62);
       };
 
       const scheduleStep = (time: number, step: number) => {
         if (!this.ctx || !this.bgmMasterGain) return;
-        const chord = progression[Math.floor(step / 8) % progression.length];
-        const beat = step % 8;
+        const chordIndex = Math.floor(step / 4) % progression.length;
+        const chord = progression[chordIndex];
+        const beat = step % 4;
         if (beat === 0) {
-          schedulePad(time, chord);
-          this.bgmDroneNodes?.osc1.frequency.setTargetAtTime(chord.root / 2, time, 0.18);
-          this.bgmDroneNodes?.osc2.frequency.setTargetAtTime(chord.root, time, 0.18);
-          this.bgmDroneNodes?.filter.frequency.setTargetAtTime(220 + chord.root, time, 0.3);
+          scheduleStrings(time, chord);
+          this.bgmDroneNodes?.osc1.frequency.setTargetAtTime(chord.root, time, 0.28);
+          this.bgmDroneNodes?.osc2.frequency.setTargetAtTime(chord.root * 2, time, 0.28);
+          this.bgmDroneNodes?.filter.frequency.setTargetAtTime(190 + chord.root, time, 0.45);
+          scheduleTimpani(time, chord.root, chordIndex === 0 || chordIndex === 6 ? 1 : 0.68);
+
+          // Brass enters as phrases, leaving alternate bars airy and spacious.
+          if (chordIndex === 0 || chordIndex === 2 || chordIndex === 4 || chordIndex === 6) {
+            scheduleBrassSwell(time + 0.12, chord, chordIndex === 6 ? 1.18 : 0.82);
+          }
         }
-
-        const osc = this.ctx.createOscillator();
-        const filter = this.ctx.createBiquadFilter();
-        const gain = this.ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.value = chord.notes[beat];
-        filter.type = 'lowpass';
-        filter.frequency.value = beat % 4 === 0 ? 1800 : 1250;
-        filter.Q.value = 0.9;
-        gain.gain.setValueAtTime(0.001, time);
-        gain.gain.exponentialRampToValueAtTime(beat % 4 === 0 ? 0.075 : 0.045, time + 0.018);
-        gain.gain.exponentialRampToValueAtTime(0.001, time + stepDuration * 0.82);
-        osc.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.bgmMasterGain);
-        if (this.reverb) gain.connect(this.reverb);
-        osc.start(time);
-        osc.stop(time + stepDuration);
-
-        // Restrained cinematic pulse on beats 1 and 3.
-        if (beat === 0 || beat === 4) {
-          const pulse = this.ctx.createOscillator();
-          const pulseGain = this.ctx.createGain();
-          pulse.type = 'sine';
-          pulse.frequency.setValueAtTime(chord.root, time);
-          pulse.frequency.exponentialRampToValueAtTime(chord.root / 2, time + 0.22);
-          pulseGain.gain.setValueAtTime(0.001, time);
-          pulseGain.gain.exponentialRampToValueAtTime(0.12, time + 0.012);
-          pulseGain.gain.exponentialRampToValueAtTime(0.001, time + 0.32);
-          pulse.connect(pulseGain);
-          pulseGain.connect(this.bgmMasterGain);
-          pulse.start(time);
-          pulse.stop(time + 0.34);
+        if (beat === 2) {
+          scheduleTimpani(time, chord.root, 0.32);
         }
       };
 
       this.bgmStep = 0;
       this.bgmNextStepTime = now + 0.08;
       const scheduler = () => {
-        if (!this.ctx || !this.isBgmPlaying) return;
+        if (!this.ctx || !this.isBgmPlaying || sessionId !== this.bgmSessionId) return;
         while (this.bgmNextStepTime < this.ctx.currentTime + 0.12) {
           scheduleStep(this.bgmNextStepTime, this.bgmStep++);
-          this.bgmNextStepTime += stepDuration;
+          this.bgmNextStepTime += beatDuration;
         }
       };
       scheduler();
@@ -261,6 +332,7 @@ class SoundEngine {
 
   public stopBGM() {
     try {
+      this.bgmSessionId++;
       if (this.bgmOstinatoInterval) {
         clearInterval(this.bgmOstinatoInterval);
         this.bgmOstinatoInterval = null;
@@ -268,31 +340,42 @@ class SoundEngine {
       if (this.bgmPadInterval) clearInterval(this.bgmPadInterval);
       this.bgmPadInterval = null;
 
-      if (this.ctx && this.bgmMasterGain) {
+      const fadingMaster = this.bgmMasterGain;
+      const fadingDrone = this.bgmDroneNodes;
+      const fadingTone = this.bgmToneNodes;
+      this.bgmMasterGain = null;
+      this.bgmDroneNodes = null;
+      this.bgmToneNodes = null;
+      this.isBgmPlaying = false;
+
+      if (this.ctx && fadingMaster) {
         const now = this.ctx.currentTime;
-        this.bgmMasterGain.gain.setValueAtTime(this.bgmMasterGain.gain.value, now);
-        this.bgmMasterGain.gain.cancelScheduledValues(now);
-        this.bgmMasterGain.gain.setTargetAtTime(0.0001, now, 0.22);
+        fadingMaster.gain.cancelScheduledValues(now);
+        fadingMaster.gain.setValueAtTime(Math.max(0.0001, fadingMaster.gain.value), now);
+        fadingMaster.gain.setTargetAtTime(0.0001, now, 0.22);
       }
 
       setTimeout(() => {
-        if (this.bgmDroneNodes) {
+        if (fadingDrone) {
           try {
-            this.bgmDroneNodes.osc1.stop();
-            this.bgmDroneNodes.osc2.stop();
-            this.bgmDroneNodes.osc1.disconnect();
-            this.bgmDroneNodes.osc2.disconnect();
+            fadingDrone.osc1.stop();
+            fadingDrone.osc2.stop();
+            fadingDrone.osc1.disconnect();
+            fadingDrone.osc2.disconnect();
           } catch {}
-          this.bgmDroneNodes = null;
         }
-        if (this.bgmMasterGain) {
+        if (fadingMaster) {
           try {
-            this.bgmMasterGain.disconnect();
+            fadingMaster.disconnect();
           } catch {}
-          this.bgmMasterGain = null;
         }
-        this.isBgmPlaying = false;
-        }, 1200);
+        if (fadingTone) {
+          try {
+            fadingTone.highpass.disconnect();
+            fadingTone.lowShelf.disconnect();
+          } catch {}
+        }
+      }, 1200);
     } catch {
       this.isBgmPlaying = false;
     }
@@ -593,15 +676,17 @@ class SoundEngine {
   }
 
   // E. Hyperspace: charge -> launch transient -> sub impact -> distant tail.
-  public playHyperspeedJump() {
+  public playHyperspeedJump(durationSeconds = 1.6) {
     try {
       if (!this.soundEnabled) return;
       this.initContext();
       if (!this.ctx) return;
 
       const now = this.ctx.currentTime;
-      const launch = now + 0.72;
-      this.duckBGM(1.45, 0.22);
+      const duration = Math.max(1.2, Math.min(4, durationSeconds));
+      const launch = now + duration * 0.45;
+      const tail = duration * 0.48;
+      this.duckBGM(duration * 0.92, 0.22);
 
       // Harmonic charge rises in pitch but stays rounded through a low-pass.
       [0, 7].forEach((detune, index) => {
@@ -635,16 +720,16 @@ class SoundEngine {
         noise.buffer = this.noiseBuffer;
         band.type = 'bandpass';
         band.frequency.setValueAtTime(420, now);
-        band.frequency.exponentialRampToValueAtTime(6800, launch + 0.18);
+        band.frequency.exponentialRampToValueAtTime(6800, launch + tail * 0.2);
         band.Q.value = 0.65;
         gain.gain.setValueAtTime(0.001, now);
         gain.gain.exponentialRampToValueAtTime(0.2, launch);
-        gain.gain.exponentialRampToValueAtTime(0.001, launch + 0.65);
+        gain.gain.exponentialRampToValueAtTime(0.001, launch + tail * 0.9);
         noise.connect(band);
         band.connect(gain);
         this.connectToOutput(gain, 0.16);
         noise.start(now);
-        noise.stop(launch + 0.7);
+        noise.stop(launch + tail);
       }
 
       // The launch transient is deliberately delayed to match the white flash.
@@ -652,14 +737,14 @@ class SoundEngine {
       const boomGain = this.ctx.createGain();
       boom.type = 'sine';
       boom.frequency.setValueAtTime(105, launch);
-      boom.frequency.exponentialRampToValueAtTime(28, launch + 0.72);
+      boom.frequency.exponentialRampToValueAtTime(28, launch + tail * 0.82);
       boomGain.gain.setValueAtTime(0.001, launch);
       boomGain.gain.exponentialRampToValueAtTime(0.42, launch + 0.018);
-      boomGain.gain.exponentialRampToValueAtTime(0.001, launch + 0.86);
+      boomGain.gain.exponentialRampToValueAtTime(0.001, launch + tail * 0.96);
       boom.connect(boomGain);
       this.connectToOutput(boomGain, 0.32);
       boom.start(launch);
-      boom.stop(launch + 0.9);
+      boom.stop(launch + tail);
     } catch {}
   }
 
@@ -884,6 +969,36 @@ class SoundEngine {
       this.stopBGM();
     }
   }
+
+  public dispose() {
+    if (this.firstInteractionHandler) {
+      window.removeEventListener('pointerdown', this.firstInteractionHandler);
+      window.removeEventListener('keydown', this.firstInteractionHandler);
+      this.firstInteractionHandler = null;
+    }
+    this.stopBGM();
+    this.stopShipEngine(0.05);
+    const context = this.ctx;
+    this.ctx = null;
+    if (context && context.state !== 'closed') {
+      window.setTimeout(() => context.close().catch(() => {}), 80);
+    }
+  }
 }
 
-export const soundService = new SoundEngine();
+declare global {
+  interface Window {
+    __novaStarsSoundEngine?: SoundEngine;
+  }
+}
+
+export const soundService = typeof window === 'undefined'
+  ? new SoundEngine()
+  : (window.__novaStarsSoundEngine ??= new SoundEngine());
+
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    soundService.dispose();
+    delete window.__novaStarsSoundEngine;
+  });
+}

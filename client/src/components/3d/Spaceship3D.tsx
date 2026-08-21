@@ -72,6 +72,7 @@ export const Spaceship3D: React.FC<Props> = ({
 
   // Setup flight trajectory when a new node is selected
   useEffect(() => {
+    let accelerationTimer: number | undefined;
     if (activeNode && isFlyingToNode) {
       const target = getCartesianForNode(activeNode, HOVER_RADIUS_OFFSET);
       animState.current.targetPos.copy(target);
@@ -85,7 +86,7 @@ export const Spaceship3D: React.FC<Props> = ({
       // SFX 1 & 2: Khởi động động cơ & Phụt tăng tốc bứt phá quỹ đạo
       soundService.stopShipEngine(0.08);
       soundService.playEngineStart();
-      setTimeout(() => {
+      accelerationTimer = window.setTimeout(() => {
         soundService.startShipEngine(0.18);
         soundService.playShipAccelerate();
       }, 380);
@@ -127,6 +128,9 @@ export const Spaceship3D: React.FC<Props> = ({
       animState.current.progress = 0;
       setThrustPower(1.0);
     }
+    return () => {
+      if (accelerationTimer !== undefined) window.clearTimeout(accelerationTimer);
+    };
   }, [activeNode, isFlyingToNode, planetRadius, planetGroupRef]);
 
   useEffect(() => () => soundService.stopShipEngine(0.2), []);

@@ -24,6 +24,7 @@ interface Props {
   onShipArrival?: () => void;
   showNodes?: boolean;
   interactiveSpin?: boolean;
+  resetViewSignal?: number;
 }
 
 // Polar Concentric Ring Geometry with Exact Polar UV Coordinates (0 to 1 radially)
@@ -182,6 +183,7 @@ export const PlanetMesh: React.FC<Props> = ({
   onShipArrival,
   showNodes = true,
   interactiveSpin = true,
+  resetViewSignal = 0,
 }) => {
   const { isFlyingToNode, selectedCoordinateNode } = useGameStore();
   const planetGroupRef = useRef<THREE.Group>(null);
@@ -266,15 +268,29 @@ export const PlanetMesh: React.FC<Props> = ({
   const activePointersRef = useRef<Map<number, { x: number; y: number }>>(new Map());
   const initialPinchDistanceRef = useRef<number | null>(null);
   const basePinchZoomRef = useRef<number>(1.0);
+  const initialPinchCenterRef = useRef<{ x: number; y: number } | null>(null);
+  const basePinchPanRef = useRef(new THREE.Vector2());
+  const targetPanRef = useRef(new THREE.Vector2());
+  const currentPanRef = useRef(new THREE.Vector2());
 
   React.useEffect(() => {
     zoomProgressRef.current = 0;
     userZoomScaleRef.current = 1.0;
     currentZoomScaleRef.current = 1.0;
+    targetPanRef.current.set(0, 0);
+    currentPanRef.current.set(0, 0);
     if (planetGroupRef.current) {
       planetGroupRef.current.scale.set(0.3, 0.3, 0.3);
+      planetGroupRef.current.position.set(0, 0, 0);
     }
   }, [planet.id]);
+
+  React.useEffect(() => {
+    if (resetViewSignal === 0) return;
+    userZoomScaleRef.current = 1;
+    targetPanRef.current.set(0, 0);
+    rotationVelocityRef.current = { x: 0, y: 0 };
+  }, [resetViewSignal]);
 
   // Pointer / Multi-touch / Pinch / Wheel zoom handlers for interactive 360 spinning and zoom
   React.useEffect(() => {
@@ -293,22 +309,42 @@ export const PlanetMesh: React.FC<Props> = ({
         isDraggingRef.current = false;
         const pts = Array.from(activePointersRef.current.values());
         initialPinchDistanceRef.current = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+        initialPinchCenterRef.current = {
+          x: (pts[0].x + pts[1].x) / 2,
+          y: (pts[0].y + pts[1].y) / 2,
+        };
         basePinchZoomRef.current = userZoomScaleRef.current;
+        basePinchPanRef.current.copy(targetPanRef.current);
       }
     };
 
     const onPointerMove = (e: PointerEvent) => {
       if (!planetGroupRef.current) return;
+      if (!activePointersRef.current.has(e.pointerId)) return;
       activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-      // Two fingers: Pinch to zoom
+      // Two fingers: pinch to zoom and move the zoomed planet like a hand tool.
       if (activePointersRef.current.size === 2 && initialPinchDistanceRef.current) {
         const pts = Array.from(activePointersRef.current.values());
         const currentDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+        const center = {
+          x: (pts[0].x + pts[1].x) / 2,
+          y: (pts[0].y + pts[1].y) / 2,
+        };
         if (initialPinchDistanceRef.current > 10) {
           const pinchRatio = currentDist / initialPinchDistanceRef.current;
           const targetZoom = basePinchZoomRef.current * pinchRatio;
           userZoomScaleRef.current = Math.min(1.85, Math.max(0.65, targetZoom));
+        }
+        if (initialPinchCenterRef.current && userZoomScaleRef.current > 1.02) {
+          const panLimit = Math.max(0, (userZoomScaleRef.current - 1) * 1.15);
+          const worldPerPixel = 2.8 / Math.max(320, canvas.clientHeight);
+          const nextX = basePinchPanRef.current.x + (center.x - initialPinchCenterRef.current.x) * worldPerPixel;
+          const nextY = basePinchPanRef.current.y - (center.y - initialPinchCenterRef.current.y) * worldPerPixel;
+          targetPanRef.current.set(
+            THREE.MathUtils.clamp(nextX, -panLimit, panLimit),
+            THREE.MathUtils.clamp(nextY, -panLimit, panLimit)
+          );
         }
         return;
       }
@@ -335,6 +371,7 @@ export const PlanetMesh: React.FC<Props> = ({
 
       if (activePointersRef.current.size < 2) {
         initialPinchDistanceRef.current = null;
+        initialPinchCenterRef.current = null;
       }
       if (activePointersRef.current.size === 1) {
         const remainingPt = Array.from(activePointersRef.current.values())[0];
@@ -387,6 +424,12 @@ export const PlanetMesh: React.FC<Props> = ({
 
     const finalScale = baseScale * currentZoomScaleRef.current;
     planetGroupRef.current.scale.set(finalScale, finalScale, finalScale);
+
+    const panLimit = Math.max(0, (currentZoomScaleRef.current - 1) * 1.15);
+    targetPanRef.current.x = THREE.MathUtils.clamp(targetPanRef.current.x, -panLimit, panLimit);
+    targetPanRef.current.y = THREE.MathUtils.clamp(targetPanRef.current.y, -panLimit, panLimit);
+    currentPanRef.current.lerp(targetPanRef.current, Math.min(1, delta * 12));
+    planetGroupRef.current.position.set(currentPanRef.current.x, currentPanRef.current.y, 0);
 
     if (autoAligningRef.current) {
       planetGroupRef.current.quaternion.slerp(targetRotationRef.current, Math.min(1, delta * 3.5));
