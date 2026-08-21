@@ -737,6 +737,8 @@ export const NASASaturnVRocket: React.FC<{ hasVnFlag?: boolean }> = ({ hasVnFlag
   );
 };
 
+import { Cinematic250GreebleXWing } from './CinematicHyperGreebleShips';
+
 // =========================================================================
 // MASTER ICONIC HARD-SURFACE SHIP RENDERER
 // =========================================================================
@@ -758,7 +760,7 @@ export const AerodynamicShipRenderer: React.FC<ShipMeshProps> = ({
         return <NASASaturnVRocket hasVnFlag={hasVnFlag} />;
       case 'explorer_v1':
       default:
-        return <NovaXWingShip hasVnFlag={hasVnFlag} />;
+        return <Cinematic250GreebleXWing hasVnFlag={hasVnFlag} />;
     }
   };
 

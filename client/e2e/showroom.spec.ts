@@ -45,26 +45,26 @@ test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
 
     const shipTitle = page.locator('[data-testid="showroom-ship-title"]');
 
-    // Ship 1: Nova X-Wing Explorer
+    // Ship 1: Nova Apex Hunter
     await safeSelect(page.locator('[data-testid="ship-select-explorer_v1"]'));
-    await expect(shipTitle).toContainText('X-Wing', { timeout: 5000 });
+    await expect(shipTitle).toContainText('Apex', { timeout: 5000 });
     await expect(page.locator('text=Tốc độ').first()).toBeVisible();
 
-    // Ship 2: Centurion Falcon
+    // Ship 2: Chrono Voyager
     await safeSelect(page.locator('[data-testid="ship-select-falcon_apex"]'));
-    await expect(shipTitle).toContainText('Falcon', { timeout: 5000 });
+    await expect(shipTitle).toContainText('Chrono', { timeout: 5000 });
 
-    // Ship 3: Pegasus Star-Carrier
+    // Ship 3: Orion Sky-Carrier
     await safeSelect(page.locator('[data-testid="ship-select-solar_phoenix"]'));
-    await expect(shipTitle).toContainText('Pegasus', { timeout: 5000 });
+    await expect(shipTitle).toContainText('Orion', { timeout: 5000 });
 
-    // Ship 4: NASA Space Shuttle
+    // Ship 4: AeroShuttle X-9
     await safeSelect(page.locator('[data-testid="ship-select-starlight_runner"]'));
-    await expect(shipTitle).toContainText('Tàu Con Thoi', { timeout: 5000 });
+    await expect(shipTitle).toContainText('AeroShuttle', { timeout: 5000 });
 
-    // Ship 5: NASA Saturn V
+    // Ship 5: Hyperion Star-Lifter V
     await safeSelect(page.locator('[data-testid="ship-select-astral_shuttle"]'));
-    await expect(shipTitle).toContainText('Saturn V', { timeout: 5000 });
+    await expect(shipTitle).toContainText('Hyperion', { timeout: 5000 });
   });
 
   test('3. Switch to 5 Planets Mode and verify each unique planetary body', async ({ page }) => {
