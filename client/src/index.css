@@ -299,3 +299,63 @@ canvas, .touch-canvas-interactive {
 .animate-slide-up-fade {
   animation: slideUpFade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Asteroid Runner: cheap composited polish that remains stable on iPhone X. */
+.runner-vignette {
+  background:
+    radial-gradient(circle at center, transparent 42%, rgba(0, 0, 0, 0.34) 100%),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.04), transparent 18%, transparent 82%, rgba(168, 85, 247, 0.05));
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.52);
+}
+
+[data-testid='asteroid-runner-lobby'] .overflow-x-auto {
+  scrollbar-width: none;
+}
+
+[data-testid='asteroid-runner-lobby'] .overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
+.runner-feedback-hit {
+  animation: runnerHitShake 0.24s ease-out;
+}
+
+.runner-feedback-power::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(103, 232, 249, 0.23), transparent 58%);
+  animation: runnerPowerFlash 0.7s ease-out forwards;
+}
+
+.runner-feedback-boss::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(251, 191, 36, 0.22), transparent 38%);
+  animation: runnerPowerFlash 1.35s ease-out forwards;
+}
+
+@keyframes runnerHitShake {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  24% { transform: translate3d(-5px, 2px, 0); }
+  48% { transform: translate3d(5px, -2px, 0); }
+  72% { transform: translate3d(-2px, 1px, 0); }
+}
+
+@keyframes runnerPowerFlash {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runner-feedback-hit,
+  .runner-feedback-power::after,
+  .runner-feedback-boss::after {
+    animation: none;
+  }
+}

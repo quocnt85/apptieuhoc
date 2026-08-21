@@ -7,7 +7,7 @@ import { Planet3DView } from './components/views/Planet3DView';
 import { SpaceHangarView } from './components/views/SpaceHangarView';
 import { SpaceShowroomView } from './components/views/SpaceShowroomView';
 import { ProfileView } from './components/views/ProfileView';
-import { CanvasMiniGame } from './components/game/CanvasMiniGame';
+import { AsteroidRunnerGame } from './components/game/AsteroidRunnerGame';
 import { VercelHeader } from './components/ui/VercelHeader';
 import { VercelBottomNav, VercelTab } from './components/ui/VercelBottomNav';
 import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
@@ -55,6 +55,8 @@ export const App: React.FC = () => {
         return 'Xưởng Tàu Không Gian';
       case 'profile':
         return 'Hồ Sơ Phi Hành Gia';
+      case 'minigame':
+        return 'Vượt Dải Thiên Thạch';
       default:
         return 'Hành Tinh Tri Thức';
     }
@@ -72,7 +74,7 @@ export const App: React.FC = () => {
         ) : (
           <>
             {/* Cosmic Header */}
-            {!isLessonRunning && (
+            {!isLessonRunning && activeTab !== 'minigame' && (
               <VercelHeader
                 title={getHeaderTitle()}
               />
@@ -85,7 +87,7 @@ export const App: React.FC = () => {
                   {activeTab === 'home' && (
                     <HomeView 
                       onNavigateToMap={() => setActiveTab('planet')}
-                      onNavigateToMiniGame={() => setActiveTab('planet')}
+                      onNavigateToMiniGame={() => setActiveTab('minigame')}
                     />
                   )}
                   {activeTab === 'planet' && (
@@ -98,13 +100,18 @@ export const App: React.FC = () => {
                     <SpaceHangarView />
                   )}
                   {activeTab === 'profile' && <ProfileView />}
+                  {activeTab === 'minigame' && (
+                    <AsteroidRunnerGame onExit={() => setActiveTab('home')} />
+                  )}
                 </main>
 
                 {/* Bottom Navigation Bar */}
-                <VercelBottomNav
-                  activeTab={activeTab}
-                  onChangeTab={(tab) => setActiveTab(tab)}
-                />
+                {activeTab !== 'minigame' && (
+                  <VercelBottomNav
+                    activeTab={activeTab}
+                    onChangeTab={(tab) => setActiveTab(tab)}
+                  />
+                )}
 
                 {/* First-Time User Experience (FTUE) Welcome Modal */}
                 {showFTUEModal && (
@@ -119,8 +126,8 @@ export const App: React.FC = () => {
             )}
 
             {/* Dev God Mode Global Elements */}
-            <DevFloatingButton />
-            <DevGodModeModal onOpenShowroom={() => setActiveTab('showroom')} />
+            {activeTab !== 'minigame' && <DevFloatingButton />}
+            {activeTab !== 'minigame' && <DevGodModeModal onOpenShowroom={() => setActiveTab('showroom')} />}
             <PerformanceOverlay />
           </>
         )}

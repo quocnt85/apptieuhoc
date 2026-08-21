@@ -15,6 +15,13 @@ export default defineConfig({
   },
   projects: [
     {
+      name: 'Minimum iOS (iPhone X WebKit)',
+      use: {
+        ...devices['iPhone X'],
+        browserName: 'webkit',
+      },
+    },
+    {
       name: 'Mobile Android (Pixel 7)',
       use: { 
         ...devices['Pixel 7'],

@@ -45,6 +45,10 @@ export class ToneAudioEngine {
   private coinSynth: Tone.Synth | null = null;
   private fanfareSynth: Tone.PolySynth | null = null;
   private sirenSynth: Tone.Synth | null = null;
+  private gameShotSynth: Tone.PolySynth | null = null;
+  private gameImpactSynth: Tone.MembraneSynth | null = null;
+  private gamePowerSynth: Tone.PolySynth | null = null;
+  private gameNoiseSynth: Tone.NoiseSynth | null = null;
 
   // Spaceship Flight Continuous Nodes
   private engineNoise: Tone.Noise | null = null;
@@ -231,6 +235,30 @@ export class ToneAudioEngine {
       oscillator: { type: 'triangle' },
       envelope: { attack: 0.1, decay: 0.4, sustain: 0.3, release: 0.2 },
       volume: -10,
+    }));
+
+    // Arcade combat palette. Shared voices keep rapid fire cheap on iPhone X.
+    this.gameShotSynth = this.safetyGraph.routeSfx(new Tone.PolySynth(Tone.Synth, {
+      oscillator: { type: 'square8' },
+      envelope: { attack: 0.001, decay: 0.055, sustain: 0.01, release: 0.035 },
+      volume: -19,
+    }));
+    this.gameImpactSynth = this.safetyGraph.routeSfx(new Tone.MembraneSynth({
+      pitchDecay: 0.035,
+      octaves: 4,
+      oscillator: { type: 'sine' },
+      envelope: { attack: 0.001, decay: 0.12, sustain: 0.01, release: 0.08 },
+      volume: -13,
+    }));
+    this.gamePowerSynth = this.safetyGraph.routeSfx(new Tone.PolySynth(Tone.Synth, {
+      oscillator: { type: 'triangle8' },
+      envelope: { attack: 0.008, decay: 0.18, sustain: 0.08, release: 0.45 },
+      volume: -14,
+    }), 'reverb');
+    this.gameNoiseSynth = this.safetyGraph.routeSfx(new Tone.NoiseSynth({
+      noise: { type: 'pink' },
+      envelope: { attack: 0.001, decay: 0.18, sustain: 0, release: 0.08 },
+      volume: -20,
     }));
   }
 
@@ -638,6 +666,64 @@ export class ToneAudioEngine {
         this.sirenSynth.triggerAttackRelease('F#4', '0.35s', start, 0.45);
         this.sirenSynth.triggerAttackRelease('C4', '0.35s', start + 0.38, 0.4);
       }
+    } catch {}
+  }
+
+  public playGameShot(kind: 'single' | 'twin' | 'cluster' | 'spread' | 'missile') {
+    try {
+      if (!this.sfxEnabled) return;
+      this.initAudioGraph();
+      if (!this.gameShotSynth) return;
+      const notes = {
+        single: ['C6'],
+        twin: ['A5', 'E6'],
+        cluster: ['D4'],
+        spread: ['G5', 'B5'],
+        missile: ['E4', 'B4'],
+      }[kind];
+      this.gameShotSynth.triggerAttackRelease(notes, kind === 'cluster' ? '0.1s' : '0.045s', undefined, kind === 'missile' ? 0.5 : 0.3);
+    } catch {}
+  }
+
+  public playGameImpact(strength = 0.5) {
+    try {
+      if (!this.sfxEnabled) return;
+      this.initAudioGraph();
+      this.gameImpactSynth?.triggerAttackRelease(strength > 0.75 ? 'C2' : 'G2', '0.08s', undefined, Math.min(0.55, 0.18 + strength * 0.3));
+    } catch {}
+  }
+
+  public playGameExplosion(size = 1) {
+    try {
+      if (!this.sfxEnabled) return;
+      this.initAudioGraph();
+      const now = Tone.now();
+      this.gameImpactSynth?.triggerAttackRelease(size > 1.8 ? 'D1' : 'A1', size > 1.8 ? '0.32s' : '0.16s', now, Math.min(0.7, 0.26 + size * 0.12));
+      this.gameNoiseSynth?.triggerAttackRelease(size > 1.8 ? '0.3s' : '0.14s', now, Math.min(0.5, 0.2 + size * 0.08));
+      if (size > 2.5) this.duckBGM(1.4, 0.28);
+    } catch {}
+  }
+
+  public playGamePowerUp() {
+    try {
+      if (!this.sfxEnabled) return;
+      this.initAudioGraph();
+      const now = Tone.now();
+      ['C5', 'G5', 'C6', 'E6'].forEach((note, index) => {
+        this.gamePowerSynth?.triggerAttackRelease(note, '0.2s', now + index * 0.045, 0.35);
+      });
+    } catch {}
+  }
+
+  public playWormhole() {
+    try {
+      if (!this.sfxEnabled) return;
+      this.initAudioGraph();
+      this.duckBGM(1.8, 0.24);
+      const now = Tone.now();
+      ['D3', 'A3', 'D4', 'F#4', 'A4', 'D5'].forEach((note, index) => {
+        this.gamePowerSynth?.triggerAttackRelease(note, '0.75s', now + index * 0.08, 0.32);
+      });
     } catch {}
   }
 
