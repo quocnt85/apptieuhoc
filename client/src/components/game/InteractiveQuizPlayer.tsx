@@ -101,7 +101,7 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
 
         {/* Options List */}
         <div className="space-y-2.5">
-          <div className="text-xs font-black text-slate-400 px-1">LỰA CHỌN CỦA BÉ:</div>
+          <div className="text-xs font-black text-slate-400 px-1">CHỌN ĐÁP ÁN:</div>
           {question.options.map((option, idx) => {
             const isSelected = selectedOptionId === option.id;
             let btnStyle = "bg-slate-900 border-slate-800 text-slate-200 hover:border-slate-700";
@@ -155,7 +155,7 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
               <div className="flex items-center gap-2">
                 <span className="text-2xl">{result.isCorrect ? '🎉' : '💡'}</span>
                 <span className={`font-black text-sm sm:text-base ${result.isCorrect ? 'text-emerald-300' : 'text-amber-300'}`}>
-                  {result.isCorrect ? 'Tuyệt vời! Bé chọn đúng rồi' : 'Chưa đúng rồi, hãy đọc lời khuyên nhé'}
+                  {result.isCorrect ? 'Đúng rồi! Bé giỏi quá' : 'Chưa đúng, đọc lời khuyên nhé'}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-xs font-black">
@@ -185,7 +185,7 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
               <div className="flex items-start gap-2 text-xs text-emerald-200 bg-emerald-950/50 p-3 rounded-xl border border-emerald-500/20 font-bold">
                 <Home className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-emerald-300">Nhiệm vụ ở nhà: </span>
+                  <span className="text-emerald-300">Việc ở nhà: </span>
                   {question.realLifeTask}
                 </div>
               </div>
@@ -207,7 +207,7 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
                   : 'bg-slate-800 text-slate-500 border-2 border-slate-700 cursor-not-allowed'
               }`}
             >
-              Xác Nhận Câu Trả Lời ✨
+              Xác Nhận ✨
             </button>
           ) : (
             <button
@@ -215,7 +215,7 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
               className="w-full min-h-[54px] py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-sm shadow-lg shadow-emerald-600/30 active:scale-95 ns-btn-3d ns-btn-green flex items-center justify-center gap-2"
             >
               <Trophy className="w-5 h-5" />
-              <span>Hoàn Thành & Nhận Thưởng</span>
+              <span>Nhận Thưởng 🎁</span>
             </button>
           )}
         </div>

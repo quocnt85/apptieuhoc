@@ -98,73 +98,73 @@ export interface LessonZeroPackage {
 
 export const LESSON_ZERO_DATA: LessonZeroPackage = {
   id: "lesson_0_polite_greetings",
-  competencyName: "Chào Hỏi Lịch Sự & Tự Tin",
-  competencyGroup: "Trí Tuệ Cảm Xúc & Xã Hội (SEL)",
-  estimatedTime: "15 phút",
+  competencyName: "Chào Hỏi Tự Tin",
+  competencyGroup: "Giao Tiếp & Cảm Xúc (SEL)",
+  estimatedTime: "10 phút",
   rewardsPreview: { xp: 100, stars: 3, badge: "Ngôi Sao Giao Tiếp" },
 
   stages: [
-    /* Stage 1: Pre-test */
+    /* Chặng 1: Thử tài */
     {
       id: "stage_1_pretest",
       type: "pretest",
-      title: "Đánh Giá Ban Đầu",
-      instruction: "Thử tài suy nghĩ của em trước khi bắt đầu sứ mệnh nhé!",
+      title: "Chặng 1: Thử tài",
+      instruction: "Thử tài suy nghĩ nhanh của em nhé!",
       questions: [
         {
           id: "q1",
-          question: "Khi gặp người lớn tuổi (ông bà, thầy cô) ở hành lang, em nên làm gì?",
+          question: "Gặp người lớn ở trường, em làm gì?",
           options: [
-            "A. Quay đi chỗ khác coi như không thấy",
-            "B. Dừng lại, khoanh tay mỉm cười và chào lễ phép",
-            "C. Hét thật to từ đằng xa",
+            "A. Quay đi chỗ khác",
+            "B. Mỉm cười và chào lễ phép",
+            "C. Hét thật to từ xa",
             "D. Chạy lại vỗ vai"
           ],
           answer: 1,
-          explanation: "Chào mỉm cười và khoanh tay lịch sự thể hiện sự tôn trọng và tình cảm ấm áp!"
+          explanation: "Mỉm cười và chào lễ phép giúp mọi người vui vẻ, yêu quý em!"
         }
       ]
     },
 
-    /* Stage 2: Story */
+    /* Chặng 2: Câu chuyện */
     {
       id: "stage_2_story",
       type: "story",
-      title: "Câu Chuyện: Chuyến Phiêu Lưu Của Su",
+      title: "Chặng 2: Câu chuyện",
       character: "Su",
       npc: "Sao Nova",
       dialogues: [
         {
           speaker: "Sao Nova",
           avatar: "🌟",
-          text: "Chào Su! Hôm nay xóm nhỏ có gia đình bạn Kem mới chuyển đến đấy. Em đã sẵn sàng sang chào hỏi chưa?"
+          text: "Chào Su! Bạn Kem mới chuyển đến xóm mình đấy, em qua chào bạn nhé!"
         },
         {
           speaker: "Su",
           avatar: "👧",
-          text: "Ôi Sao Nova ơi... Em thấy rụt rè quá. Em không biết nên bắt đầu nói gì với bạn Kem..."
+          text: "Em hơi ngại... Không biết nên nói gì với bạn Kem trước ạ!"
         },
         {
           speaker: "Sao Nova",
           avatar: "🌟",
-          text: "Đừng lo Su nhé! Bí kíp 'Lời Chào Ngôi Sao' gồm 3 bước kỳ diệu sẽ giúp em cực kỳ tự tin!"
+          text: "Chỉ cần 3 bước 'Lời Chào Ngôi Sao' là em sẽ cực kỳ tự tin ngay!"
         }
       ],
       decision: {
-        prompt: "Em hãy giúp Su chọn quyết định đúng đắn nhất:",
+        prompt: "Giúp Su chọn cách làm đúng nào:",
         choices: [
-          { text: "Dũng cảm mỉm cười và tiến lại gần chào bạn Kem", correct: true, feedback: "Tuyệt vời! Nụ cười chính là chìa khóa mở rộng trái tim bạn bè!" },
-          { text: "Trốn sau cái cây ngắm bạn Kem từ xa", correct: false, feedback: "Núp sau cây sẽ làm bạn Kem thấy bối rối đấy. Hãy thử lại mỉm cười nhé!" }
+          { text: "Mỉm cười lại gần chào bạn Kem", correct: true, feedback: "Tuyệt vời! Nụ cười mở đầu tình bạn đẹp!" },
+          { text: "Trốn sau cây nhìn từ xa", correct: false, feedback: "Trốn sau cây sẽ làm bạn bối rối đấy. Hãy tự tin lại gần nhé!" }
         ]
       }
     },
 
-    /* Stage 3: Mini Game 1 (Drag & Drop Expressions) */
+    /* Chặng 3: Chọn hành động đúng */
     {
       id: "stage_3_minigame1",
       type: "minigame_drag",
-      title: "Trò Chơi 1: Nụ Cười Thân Thiện",
-      instruction: "Chọn những cử chỉ thích hợp vào ô 'Bí Kíp Chào Lịch Sự'!",
+      title: "Chặng 3: Chọn hành động đúng",
+      instruction: "Chạm chọn 2 hành động đúng để chào lịch sự:",
       draggables: [
         { id: "d1", label: "😊 Mỉm cười ấm áp", isCorrect: true },
         { id: "d2", label: "👀 Nhìn thẳng mắt bạn", isCorrect: true },
@@ -174,90 +174,90 @@ export const LESSON_ZERO_DATA: LessonZeroPackage = {
       targetZoneLabel: "Bí Kíp Chào Lịch Sự"
     },
 
-    /* Stage 4: Mini Game 2 (Matching Grid) */
+    /* Chặng 4: Nối cặp */
     {
       id: "stage_4_minigame2",
       type: "minigame_match",
-      title: "Trò Chơi 2: Ghép Đôi Lời Chào",
-      instruction: "Hãy ghép lời chào phù hợp với từng hoàn cảnh nhé!",
+      title: "Chặng 4: Nối cặp",
+      instruction: "Nối tình huống với lời chào đúng:",
       pairs: [
-        { id: 1, left: "Gặp thầy cô buổi sáng", right: "Em chào thầy/cô ạ!" },
-        { id: 2, left: "Lần đầu gặp bạn mới", right: "Chào bạn, tớ là Su!" },
-        { id: 3, left: "Bác hàng xóm vẫy tay", right: "Cháu chào bác ạ!" }
+        { id: 1, left: "Gặp thầy cô", right: "Em chào thầy/cô ạ!" },
+        { id: 2, left: "Gặp bạn mới", right: "Chào bạn, tớ là Su!" },
+        { id: 3, left: "Bác hàng xóm", right: "Cháu chào bác ạ!" }
       ]
     },
 
-    /* Stage 5: Mini Game 3 (Sequence Builder) */
+    /* Chặng 5: Xếp thứ tự */
     {
       id: "stage_5_minigame3",
       type: "minigame_sequence",
-      title: "Trò Chơi 3: 3 Bước Chào Ngôi Sao",
-      instruction: "Sắp xếp 3 bước chào hỏi theo đúng thứ tự chuẩn nhé!",
+      title: "Chặng 5: Xếp thứ tự",
+      instruction: "Sắp xếp 3 bước chào hỏi đúng thứ tự:",
       steps: [
-        { id: "s1", text: "Bước 1: Dừng lại, nhìn bạn và Mỉm Cười", correctOrder: 1 },
-        { id: "s2", text: "Bước 2: Cất lời chào lịch sự (Chào bạn/Thầy cô)", correctOrder: 2 },
-        { id: "s3", text: "Bước 3: Tự giới thiệu tên hoặc hỏi thăm ngắn", correctOrder: 3 }
+        { id: "s1", text: "Bước 1: Mỉm cười và nhìn bạn", correctOrder: 1 },
+        { id: "s2", text: "Bước 2: Cất lời chào lễ phép", correctOrder: 2 },
+        { id: "s3", text: "Bước 3: Tự giới thiệu tên mình", correctOrder: 3 }
       ]
     },
 
-    /* Stage 6: Boss Battle */
+    /* Chặng 6: Đấu Boss */
     {
       id: "stage_6_boss",
       type: "boss",
-      title: "Thử Thách Boss: Công Viên Ngôi Sao",
-      bossName: "Thử Thách Kết Bạn Công Viên",
-      instruction: "Su đang đứng ở công viên và có nhóm bạn đang chơi nhảy dây. Hãy giúp Su xử lý tình huống!",
+      title: "Chặng 6: Đấu Boss",
+      bossName: "Rồng Kết Bạn Công Viên",
+      instruction: "Giúp Su hòa nhập cùng nhóm bạn đang chơi nhảy dây:",
       scenarios: [
         {
           step: 1,
-          question: "Các bạn đang chơi rất vui. Su nên tiếp cận nhóm bạn thế nào?",
+          question: "Các bạn đang chơi rất vui. Su nên làm gì?",
           options: [
-            { text: "Chạy thẳng vào giữa dây nhảy", correct: false, hpDamage: 20, feedback: "Như vậy sẽ làm đứt nhịp chơi của các bạn!" },
-            { text: "Đứng bên cạnh, mỉm cười và đợi các bạn nhảy xong lượt", correct: true, hpDamage: 0, feedback: "Chính xác! Kiên nhẫn chờ lượt là biểu hiện rất lịch sự." }
+            { text: "Chạy thẳng vào cắt ngang dây nhảy", correct: false, hpDamage: 20, feedback: "Như vậy sẽ làm ngắt quãng lượt chơi của các bạn!" },
+            { text: "Mỉm cười chờ các bạn nhảy xong lượt rồi xin vào chơi", correct: true, hpDamage: 0, feedback: "Chính xác! Kiên nhẫn chờ đợi rất lịch sự." }
           ]
         }
       ]
     },
 
-    /* Stage 7: Reflection */
+    /* Chặng 7: Bài học */
     {
       id: "stage_7_reflection",
       type: "reflection",
-      title: "Phản Tư & Bài Học",
-      question: "Sau bài học này, em cảm thấy thế nào khi chào hỏi ai đó bằng một nụ cười?",
+      title: "Chặng 7: Bài học",
+      question: "Sau bài học này, em cảm thấy thế nào khi chào hỏi mọi người?",
       options: [
-        "A. Tự tin và cảm thấy ấm áp, vui vẻ!",
-        "B. Thấy mình giống như một người anh hùng giao tiếp!",
-        "C. Sẵn sàng thực hành ngay hôm nay!"
+        "A. Tự tin và thấy rất vui vẻ!",
+        "B. Sẵn sàng kết thêm nhiều bạn mới!",
+        "C. Em sẽ thực hành ngay hôm nay!"
       ]
     },
 
-    /* Stage 8: Real-life Challenge */
+    /* Chặng 8: Việc tốt hôm nay */
     {
       id: "stage_8_challenge",
       type: "challenge",
-      title: "Thử Thách Thực Tế",
-      missionText: "Hôm nay, em hãy mỉm cười và khoanh tay chào lịch sự 1 người lớn (ông bà, bố mẹ, thầy cô) hoặc 1 bạn mới!",
-      guideText: "Nhớ thực hiện 3 bước: 1. Mỉm cười -> 2. Nhìn mắt -> 3. Chào lễ phép!"
+      title: "Chặng 8: Việc tốt hôm nay",
+      missionText: "Hôm nay, em hãy mỉm cười và chào lễ phép 1 người lớn hoặc 1 người bạn!",
+      guideText: "3 bước: 1. Mỉm cười -> 2. Nhìn mắt -> 3. Chào lễ phép"
     },
 
-    /* Stage 9: Parent Confirmation */
+    /* Chặng 9: Bố mẹ duyệt */
     {
       id: "stage_9_parent",
       type: "parent_confirm",
-      title: "Xác Nhận Từ Phụ Huynh",
-      parentPrompt: "Ba/mẹ đã quan sát bé thực hiện nụ cười và lời chào lịch sự ngoài đời thực chưa?",
-      confirmButtonText: "Bố/Mẹ Xác Nhận Bé Đã Làm Tốt!"
+      title: "Chặng 9: Bố mẹ duyệt",
+      parentPrompt: "Bố/mẹ xác nhận bé đã mỉm cười chào hỏi lễ phép hôm nay:",
+      confirmButtonText: "Bố/Mẹ Xác Nhận ✨"
     },
 
-    /* Stage 10: Post-test & Reward */
+    /* Chặng 10: Nhận huy chương */
     {
       id: "stage_10_posttest",
       type: "posttest",
-      title: "Kiểm Tra & Nhận Phụ Kiện Ngôi Sao",
-      question: "Nếu gặp bạn mới ở sân chơi chiều nay, em sẽ dùng Bí Kíp gì?",
+      title: "Chặng 10: Nhận huy chương",
+      question: "Chiều nay gặp bạn mới ở sân chơi, em làm gì?",
       options: [
-        "A. Mỉm cười, nhìn thẳng mắt và tự tin chào tự giới thiệu tên",
+        "A. Mỉm cười và tự tin chào, giới thiệu tên",
         "B. Đi chỗ khác chơi một mình"
       ],
       correctAnswer: 0,
@@ -270,3 +270,4 @@ export const LESSON_ZERO_DATA: LessonZeroPackage = {
     }
   ]
 };
+

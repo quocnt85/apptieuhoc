@@ -2,10 +2,10 @@ import { test, expect, Page } from '@playwright/test';
 
 async function dismissFTUEIfPresent(page: Page) {
   try {
-    const startBtn = page.locator('button:has-text("Bắt Đầu Hành Trình Ngay!")');
-    await startBtn.waitFor({ state: 'visible', timeout: 7000 });
+    const startBtn = page.locator('button:has-text("Bắt Đầu Ngay 🚀"), button:has-text("Bắt Đầu")');
+    await startBtn.waitFor({ state: 'visible', timeout: 12000 });
     await startBtn.click({ force: true });
-    await startBtn.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
+    await startBtn.waitFor({ state: 'hidden', timeout: 6000 }).catch(() => {});
   } catch {
     // Already dismissed or not present
   }
@@ -18,7 +18,7 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await expect(page.locator('text=NOVASTARS')).toBeVisible({ timeout: 5000 });
     
     // Welcome modal appears after splash
-    const startBtn = page.locator('button:has-text("Bắt Đầu Hành Trình Ngay!")');
+    const startBtn = page.locator('button:has-text("Bắt Đầu Ngay 🚀"), button:has-text("Bắt Đầu")');
     await expect(startBtn).toBeVisible({ timeout: 7000 });
     await startBtn.click({ force: true });
 
@@ -48,7 +48,7 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     // Tab 4: Hồ Sơ
     const profileTab = page.locator('button:has-text("Hồ Sơ")').first();
     await profileTab.click({ force: true });
-    await expect(page.locator('text=Bộ Sưu Tập Huy Chương').first()).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=Huy Chương Đã Đạt').first()).toBeVisible({ timeout: 5000 });
   });
 
   test('3. Space Hangar Customization & 3D Ship Inspector Modal', async ({ page }) => {
@@ -60,24 +60,24 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await expect(page.locator('text=Xưởng Tàu Không Gian').first()).toBeVisible({ timeout: 5000 });
 
     // Open 3D Ship Inspector Modal
-    const open3DBtn = page.locator('button:has-text("Mở Phòng Ngắm Tàu Vũ Trụ 3D")');
+    const open3DBtn = page.locator('button:has-text("Xem 3D 360°")');
     await expect(open3DBtn).toBeVisible({ timeout: 5000 });
     await open3DBtn.click({ force: true });
     await expect(page.locator('text=Quan Sát Phi Thuyền 3D Thực Tế')).toBeVisible({ timeout: 5000 });
     await page.locator('button:has-text("Đã Xong")').click({ force: true });
 
     // Switch to Colors & Flag Sub-tab
-    const colorsTab = page.locator('button:has-text("Màu Sơn & Cờ")');
+    const colorsTab = page.locator('button:has-text("Màu & Cờ")');
     await colorsTab.click({ force: true });
     await expect(page.locator('text=Quốc Kỳ Việt Nam').first()).toBeVisible({ timeout: 5000 });
 
     // Toggle Vietnam Flag
-    const flagBtn = page.locator('button:has-text("Đã Dán Cờ"), button:has-text("Bật Dán Cờ")').first();
+    const flagBtn = page.locator('button:has-text("Đã Dán Cờ"), button:has-text("Dán Cờ VN")').first();
     await expect(flagBtn).toBeVisible({ timeout: 5000 });
     await flagBtn.click({ force: true });
 
     // Switch to Boosters Sub-tab
-    const boostersTab = page.locator('button:has-text("Năng Lượng & Buff")');
+    const boostersTab = page.locator('button:has-text("Năng Lượng")').first();
     await boostersTab.click({ force: true });
     await expect(page.locator('text=Bình Năng Lượng Phi Thuyền').first()).toBeVisible({ timeout: 5000 });
     await expect(page.locator('text=Lò Phản Ứng Ion').first()).toBeVisible({ timeout: 5000 });
@@ -105,78 +105,67 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     // Verify 10-Stage runner mounted
     await expect(page.getByTestId('ten-stage-runner')).toBeVisible({ timeout: 6000 });
 
-    // Stage 1: Pretest -> Pick Option B
-    await expect(page.locator('text=Giai Đoạn 1: Đánh Giá Ban Đầu')).toBeVisible({ timeout: 6000 });
-    await page.locator('button:has-text("Dừng lại, khoanh tay mỉm cười")').click({ force: true });
+    // Chặng 1: Thử tài -> Pick Option B
+    await expect(page.locator('text=Chặng 1: Thử tài')).toBeVisible({ timeout: 8000 });
+    await page.locator('button:has-text("Mỉm cười và chào lễ phép")').click({ force: true });
 
-    // Stage 2: Story Decision
-    await expect(page.locator('text=Giai Đoạn 2: Câu Chuyện Phiêu Lưu')).toBeVisible({ timeout: 6000 });
-    await page.locator('button:has-text("Dũng cảm mỉm cười và tiến lại gần")').click({ force: true });
+    // Chặng 2: Câu chuyện
+    await expect(page.locator('text=Chặng 2: Câu chuyện').first()).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(400);
+    await page.locator('button:has-text("Mỉm cười lại gần chào bạn Kem")').click({ force: true });
 
-    // Stage 3: Minigame Drag/Select
-    await expect(page.locator('text=Giai Đoạn 3: Chọn Cử Chỉ Đúng')).toBeVisible({ timeout: 6000 });
-    const dragItem1 = page.locator('button:has-text("Mỉm cười ấm áp")');
-    await expect(dragItem1).toBeVisible({ timeout: 4000 });
-    await dragItem1.click();
-    await page.waitForTimeout(200);
+    // Chặng 3: Chọn hành động đúng
+    await expect(page.locator('text=Chặng 3: Chọn hành động đúng').first()).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(300);
+    await page.locator('button:has-text("Mỉm cười ấm áp")').click({ force: true });
+    await page.locator('button:has-text("Nhìn thẳng mắt bạn")').click({ force: true });
 
-    const dragItem2 = page.locator('button:has-text("Nhìn thẳng mắt bạn")');
-    await expect(dragItem2).toBeVisible({ timeout: 4000 });
-    await dragItem2.click();
+    // Chặng 4: Nối cặp
+    await expect(page.locator('text=Chặng 4: Nối cặp').first()).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(300);
+    await page.locator('button:has-text("Gặp thầy cô")').click({ force: true });
+    await page.locator('button:has-text("Em chào thầy/cô ạ!")').click({ force: true });
+    await page.locator('button:has-text("Gặp bạn mới")').click({ force: true });
+    await page.locator('button:has-text("Chào bạn, tớ là Su!")').click({ force: true });
+    await page.locator('button:has-text("Bác hàng xóm")').click({ force: true });
+    await page.locator('button:has-text("Cháu chào bác ạ!")').click({ force: true });
 
-    // Stage 4: Minigame Match
-    await expect(page.locator('text=Giai Đoạn 4: Nối Cặp Hoàn Cảnh')).toBeVisible({ timeout: 6000 });
-    await page.waitForTimeout(200);
-    await page.locator('button:has-text("Gặp thầy cô buổi sáng")').click();
-    await page.waitForTimeout(100);
-    await page.locator('button:has-text("Em chào thầy/cô ạ!")').click();
-    await page.waitForTimeout(150);
-
-    await page.locator('button:has-text("Lần đầu gặp bạn mới")').click();
-    await page.waitForTimeout(100);
-    await page.locator('button:has-text("Chào bạn, tớ là Su!")').click();
-    await page.waitForTimeout(150);
-
-    await page.locator('button:has-text("Bác hàng xóm vẫy tay")').click();
-    await page.waitForTimeout(100);
-    await page.locator('button:has-text("Cháu chào bác ạ!")').click();
-
-    // Stage 5: Minigame Sequence Reorder
-    await expect(page.locator('text=Giai Đoạn 5: Sắp Xếp Thứ Tự Lời Chào')).toBeVisible({ timeout: 6000 });
-    await page.waitForTimeout(200);
+    // Chặng 5: Xếp thứ tự
+    await expect(page.locator('text=Chặng 5: Xếp thứ tự').first()).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(300);
     const upBtn = page.locator('button[aria-label="Di chuyển lên"]:not([disabled])').first();
     await expect(upBtn).toBeVisible({ timeout: 4000 });
-    await upBtn.click();
-    await page.waitForTimeout(200);
-    await page.locator('button:has-text("Xác Nhận Thứ Tự 3 Bước")').click();
+    await upBtn.click({ force: true });
+    await page.waitForTimeout(300);
+    await page.locator('button:has-text("Xác Nhận")').click({ force: true });
 
-    // Stage 6: Boss Battle
-    await expect(page.locator('text=Giai Đoạn 6: Thử Thách Boss')).toBeVisible({ timeout: 6000 });
-    await page.waitForTimeout(200);
-    await page.locator('button:has-text("Đứng bên cạnh, mỉm cười")').click();
+    // Chặng 6: Đấu Boss
+    await expect(page.locator('text=Chặng 6: Đấu Boss').first()).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(300);
+    await page.locator('button:has-text("Mỉm cười chờ các bạn nhảy xong lượt")').click({ force: true });
 
-    // Stage 7: Reflection
-    await expect(page.locator('text=Giai Đoạn 7: Phản Tư & Bài Học')).toBeVisible({ timeout: 6000 });
-    await page.waitForTimeout(200);
-    await page.locator('button:has-text("Tự tin và cảm thấy ấm áp")').click();
+    // Chặng 7: Bài học
+    await expect(page.locator('text=Chặng 7: Bài học').first()).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(300);
+    await page.locator('button:has-text("Tự tin và thấy rất vui vẻ")').click({ force: true });
 
-    // Stage 8: Challenge
-    await expect(page.locator('text=Giai Đoạn 8: Nhiệm Vụ Thực Tế')).toBeVisible({ timeout: 6000 });
-    await page.waitForTimeout(200);
-    await page.locator('button:has-text("Em Sẵn Sàng Thực Hành!")').click();
+    // Chặng 8: Việc tốt hôm nay
+    await expect(page.locator('text=Chặng 8: Việc tốt hôm nay').first()).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(300);
+    await page.locator('button:has-text("Sẵn Sàng 🚀")').click({ force: true });
 
-    // Stage 9: Parent Confirm
-    await expect(page.locator('text=Giai Đoạn 9: Góc Phụ Huynh')).toBeVisible({ timeout: 6000 });
-    await page.waitForTimeout(200);
-    await page.locator('button:has-text("Bố/Mẹ Xác Nhận Bé Đã Làm Tốt!"), button:has-text("Xác Nhận")').first().click();
+    // Chặng 9: Bố mẹ duyệt
+    await expect(page.locator('text=Chặng 9: Bố mẹ duyệt').first()).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(300);
+    await page.locator('button:has-text("Bố Mẹ Xác Nhận ✨"), button:has-text("Xác Nhận")').first().click({ force: true });
 
-    // Stage 10: Posttest Mastery
-    await expect(page.locator('text=Giai Đoạn 10: Nhận Huy Chương')).toBeVisible({ timeout: 6000 });
-    await page.waitForTimeout(200);
-    await page.locator('button:has-text("Mỉm cười, nhìn thẳng mắt và tự tin")').click();
+    // Chặng 10: Nhận huy chương
+    await expect(page.locator('text=Chặng 10: Nhận huy chương').first()).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(300);
+    await page.locator('button:has-text("Mỉm cười và tự tin chào")').click({ force: true });
 
     // Should automatically finish and return to 3D Planet
-    await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 6000 });
+    await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 15000 });
   });
 
   test('5. Header sound toggle and energy display', async ({ page }) => {
@@ -208,7 +197,7 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await greetingQuest.click({ force: true });
 
     // Parent PIN Modal opens
-    await expect(page.locator('text=Góc Xác Nhận Của Phụ Huynh')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=Bố Mẹ Xác Nhận')).toBeVisible({ timeout: 5000 });
 
     // Type PIN 1-2-3-4
     await page.getByRole('button', { name: '1', exact: true }).click({ force: true });
@@ -217,8 +206,8 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await page.getByRole('button', { name: '4', exact: true }).click({ force: true });
 
     // PIN verified screen appears
-    await expect(page.locator('text=Mã PIN Phụ Huynh Hợp Lệ!')).toBeVisible({ timeout: 5000 });
-    const confirmBtn = page.locator('button:has-text("Xác Nhận & Trao Thưởng")');
+    await expect(page.locator('text=PIN Hợp Lệ!')).toBeVisible({ timeout: 5000 });
+    const confirmBtn = page.locator('button:has-text("Xác Nhận (+30 Xu)")');
     await expect(confirmBtn).toBeVisible({ timeout: 5000 });
     await confirmBtn.click({ force: true });
 

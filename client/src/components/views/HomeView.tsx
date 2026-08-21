@@ -69,10 +69,10 @@ const ParentGreetingConfirmModal: React.FC<{
             </div>
 
             <h3 className="font-black text-lg sm:text-xl text-yellow-300">
-              Góc Xác Nhận Của Phụ Huynh
+              Bố Mẹ Xác Nhận
             </h3>
             <p className="text-xs text-sky-200 font-bold mt-1 max-w-xs">
-              Vui lòng nhập mã PIN phụ huynh để xác nhận bé đã thực hành chào hỏi lễ phép ngoài đời.
+              Nhập mã PIN để xác nhận bé đã chào hỏi lễ phép hôm nay.
             </p>
 
             {/* PIN Code Dots Indicator */}
@@ -95,7 +95,7 @@ const ParentGreetingConfirmModal: React.FC<{
               <p className="text-xs font-bold text-rose-400 mb-3 animate-shake">{errorMsg}</p>
             ) : (
               <p className="text-[11px] font-bold text-slate-400 mb-3">
-                (Mã PIN mặc định của phụ huynh là: <b className="text-yellow-400 font-mono">1234</b>)
+                Mã PIN mặc định: <b className="text-yellow-400 font-mono">1234</b>
               </p>
             )}
 
@@ -138,10 +138,10 @@ const ParentGreetingConfirmModal: React.FC<{
             </div>
 
             <h3 className="font-black text-lg sm:text-xl text-yellow-300">
-              Mã PIN Phụ Huynh Hợp Lệ!
+              PIN Hợp Lệ!
             </h3>
             <p className="text-xs text-sky-200 font-bold mt-1">
-              Phụ huynh vui lòng xác nhận hành vi thực tế của bé:
+              Bố mẹ xác nhận hành vi thực tế của bé:
             </p>
 
             <div
@@ -156,7 +156,7 @@ const ParentGreetingConfirmModal: React.FC<{
                 {isAgreed && <Check className="w-4 h-4" />}
               </div>
               <p className="text-xs sm:text-sm font-bold text-slate-200 leading-snug">
-                Bố/Mẹ xác nhận bé đã chủ động chào hỏi lễ phép, mỉm cười và tự tin ngoài đời thực hôm nay.
+                Bé đã chủ động chào hỏi lễ phép, mỉm cười và tự tin hôm nay.
               </p>
             </div>
 
@@ -165,7 +165,7 @@ const ParentGreetingConfirmModal: React.FC<{
               disabled={!isAgreed}
               className="w-full py-3.5 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-950 border-2 border-white shadow-xl active:scale-95 transition-all"
             >
-              ⭐ Xác Nhận & Trao Thưởng (+30 Xu Nova)
+              Xác Nhận (+30 Xu) ⭐
             </button>
           </div>
         )}
@@ -308,12 +308,12 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
           </div>
         </div>
 
-        {/* Primary Action Button to Planet (Without 3D in Title) */}
+        {/* Primary Action Button to Planet */}
         <button
           onClick={() => handleAction(onNavigateToMap)}
           className="mt-4 w-full py-4 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 text-white border-2 border-sky-200 shadow-[0_6px_0_0_#0284c7,0_10px_24px_rgba(2,132,199,0.45)] active:translate-y-1 active:shadow-[0_2px_0_0_#0284c7] flex items-center justify-center gap-2 transition-all"
         >
-          <span>🚀 Tiếp Tục Thám Hiểm: Tinh Cầu Dũng Khí</span>
+          <span>Vào Học Tiếp 🚀</span>
         </button>
       </div>
 
@@ -336,10 +336,10 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
           <div>
             <div className="inline-flex items-center gap-1 text-[11px] font-black text-yellow-300 uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-              <span>Thử Thách Vũ Trụ</span>
+              <span>Minigame</span>
             </div>
-            <h3 className="font-black text-sm sm:text-base text-white drop-shadow">Thử Thách Phi Thuyền Nova</h3>
-            <p className="text-[11px] text-violet-200 font-bold mt-0.5">Lái phi thuyền thu thập sao & né chướng ngại vật</p>
+            <h3 className="font-black text-sm sm:text-base text-white drop-shadow">Thử Thách Phi Thuyền</h3>
+            <p className="text-[11px] text-violet-200 font-bold mt-0.5">Thu thập sao và né vật cản 🚀</p>
           </div>
         </div>
         <ChevronRight className="w-6 h-6 text-violet-200 shrink-0 group-hover:translate-x-1 transition-transform relative z-10" />

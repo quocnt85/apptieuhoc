@@ -25,22 +25,21 @@ export const WelcomeModal: React.FC<Props> = ({ onStart }) => {
           />
         </div>
 
-        <h2 className="text-xl sm:text-2xl font-black text-yellow-300">Chào Mừng Đến NovaStars!</h2>
+        <h2 className="text-xl sm:text-2xl font-black text-yellow-300">Chào Phi Hành Gia Nhí!</h2>
         <p className="text-sm font-bold text-slate-300 leading-relaxed">
-          Sao Nova chào phi công nhí! Bạn đã sẵn sàng lái phi thuyền thám hiểm các <span className="text-sky-300">Hành Tinh Tri Thức</span> 3D chưa?
+          Sẵn sàng lái phi thuyền thám hiểm các <span className="text-sky-300">Hành Tinh Tri Thức</span> chưa?
         </p>
 
-        <div className="bg-slate-950/80 p-4 rounded-3xl border border-sky-500/30 text-left shadow-sm">
-          <p className="font-black text-sky-400 text-xs mb-1">🪐 Sứ Mệnh Đầu Tiên:</p>
-          <p className="font-black text-white text-sm">Tinh Cầu Dũng Khí → Bài 1: Lời Chào Ngôi Sao</p>
+        <div className="bg-slate-950/80 p-3.5 rounded-3xl border border-sky-500/30 text-left shadow-sm">
+          <p className="font-black text-sky-400 text-xs mb-0.5">🪐 Điểm Dừng Đầu Tiên:</p>
+          <p className="font-black text-white text-sm">Tinh Cầu Dũng Khí • Bài 1</p>
         </div>
 
         <button
           onClick={handleStart}
-          className="w-full min-h-[58px] py-4 rounded-2xl font-black text-base bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 text-white border-2 border-sky-200 shadow-[0_8px_0_0_#0284c7,0_12px_24px_rgba(2,132,199,0.35)] active:translate-y-1 active:shadow-[0_2px_0_0_#0284c7] flex items-center justify-center gap-2 transition-all"
+          className="w-full min-h-[56px] py-3.5 rounded-2xl font-black text-base bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 text-white border-2 border-sky-200 shadow-[0_8px_0_0_#0284c7,0_12px_24px_rgba(2,132,199,0.35)] active:translate-y-1 active:shadow-[0_2px_0_0_#0284c7] flex items-center justify-center gap-2 transition-all"
         >
-          <span>Bắt Đầu Hành Trình Ngay!</span>
-          <span>🚀</span>
+          <span>Bắt Đầu Ngay 🚀</span>
         </button>
       </div>
     </div>

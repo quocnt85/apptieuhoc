@@ -6,7 +6,7 @@ export const PLANETS_DATA: PlanetData[] = [
     name: 'Bravery Prime',
     nameVi: 'Tinh Cầu Dũng Khí',
     titleVi: 'Tinh Cầu Dũng Khí',
-    description: 'Hành tinh đất đá đỏ kết hợp tinh thể vàng rực rỡ, nơi rèn luyện sự tự tin, lòng quả cảm và kỹ năng giao tiếp xã hội.',
+    description: 'Hành tinh rực rỡ sắc vàng, nơi rèn luyện sự tự tin và lòng dũng cảm.',
     type: 'terrestrial',
     color: '#e07a5f',
     glowColor: '#f4a261',
@@ -21,13 +21,12 @@ export const PLANETS_DATA: PlanetData[] = [
     moonColor: '#94a3b8',
     moonDistance: 2.5,
     diameterKm: 12742,
-    surfaceTemp: '18°C ~ 38°C',
-    gravity: '1.02 G',
+    surfaceTemp: '25°C',
+    gravity: '1.0 G',
     geologyHighlights: [
-      'Cao nguyên đất đỏ bazan và sa mạc thạch anh vàng óng',
-      'Dãy núi đá nhô cao với đỉnh phủ băng tuyết trắng',
-      'Hẻm vực kiến tạo sâu thẳm giàu khoáng thạch năng lượng',
-      'Thềm lục địa biển xanh ngọc bích bao quanh bờ biển'
+      'Sa mạc cát vàng và tinh thể phát sáng',
+      'Đỉnh núi tuyết trắng đón ánh bình minh',
+      'Vành đai sao lấp lánh bao quanh hành tinh'
     ],
     nodes: [
       {
@@ -80,8 +79,8 @@ export const PLANETS_DATA: PlanetData[] = [
       },
       {
         id: 'island_1_boss',
-        title: 'Boss: Rồng Vũ Trụ Dũng Cảm',
-        subtitle: 'Thử Thách Tổng Hợp Kỹ Năng Tinh Cầu',
+        title: 'Boss: Rồng Dũng Cảm',
+        subtitle: 'Thử Thách Tổng Hợp Kỹ Năng',
         icon: '🐉',
         lat: 0.75,
         lon: -0.1,
@@ -99,7 +98,7 @@ export const PLANETS_DATA: PlanetData[] = [
     name: 'Aqua Nova',
     nameVi: 'Tinh Cầu Đại Dương',
     titleVi: 'Tinh Cầu Đại Dương',
-    description: 'Hành tinh nước xanh ngọc sâu thẳm với các rạn san hô phát quang và quần đảo nhiệt đới, nơi rèn luyện thói quen tự lập và chăm sóc sức khỏe.',
+    description: 'Hành tinh biển xanh ngọc bích, rèn luyện thói quen tự lập và sức khỏe.',
     type: 'ocean',
     color: '#0284c7',
     glowColor: '#38bdf8',
@@ -111,13 +110,12 @@ export const PLANETS_DATA: PlanetData[] = [
     moonColor: '#cbd5e1',
     moonDistance: 2.3,
     diameterKm: 14200,
-    surfaceTemp: '22°C ~ 32°C',
-    gravity: '0.98 G',
+    surfaceTemp: '26°C',
+    gravity: '1.0 G',
     geologyHighlights: [
-      'Đại dương xanh ngọc lam bao phủ 96% bề mặt hành tinh',
-      'Hàng trăm quần đảo san hô trắng và rạn san hô phát quang',
-      'Hệ thống rãnh vực Mariana sâu hơn 15.000 mét',
-      'Xoáy bão đối lưu nhiệt và dải mây bão xoắn ốc tuyệt đẹp'
+      'Biển xanh ngọc bao phủ toàn hành tinh',
+      'Rạn san hô rực rỡ sắc màu',
+      'Quần đảo nhiệt đới mát mẻ'
     ],
     nodes: [
       {
@@ -165,7 +163,7 @@ export const PLANETS_DATA: PlanetData[] = [
     name: 'Storm Giant',
     nameVi: 'Tinh Cầu Bão Táp',
     titleVi: 'Tinh Cầu Bão Táp',
-    description: 'Hành tinh khí khổng lồ với các dải mây bão đối lưu nhiều tầng màu sắc và Mắt Bão Vĩ Đại, nơi thử thách tư duy phản biện & giải quyết vấn đề.',
+    description: 'Hành tinh bão sắc màu kỳ thú, rèn luyện tư duy nhanh nhạy và phản biện.',
     type: 'gas_giant',
     color: '#7c3aed',
     glowColor: '#c084fc',
@@ -180,13 +178,12 @@ export const PLANETS_DATA: PlanetData[] = [
     moonColor: '#e2e8f0',
     moonDistance: 3.1,
     diameterKm: 139820,
-    surfaceTemp: '-110°C (Tầng mây đỉnh)',
-    gravity: '2.36 G',
+    surfaceTemp: '-50°C',
+    gravity: '1.2 G',
     geologyHighlights: [
-      'Các dải vân bão ngang khí động học đối lưu đan xen đa sắc',
-      'Mắt Bão Vĩ Đại (Great Storm Vortex) quay liên tục hàng triệu năm',
-      'Hệ thống vành đai bụi đá Cassini đa tầng phản quang rực rỡ',
-      'Tia sét plasma khổng lồ trong tầng đối lưu hydro-heli'
+      'Mắt bão xoáy khổng lồ huyền ảo',
+      'Vành đai ánh sáng lung linh đa sắc',
+      'Tia sét phát sáng giữa các tầng mây'
     ],
     nodes: [
       {
@@ -204,7 +201,7 @@ export const PLANETS_DATA: PlanetData[] = [
       {
         id: 'storm_boss',
         title: 'Boss: Lôi Thần Bão Táp',
-        subtitle: 'Thử Thách Tư Duy Phản Biện Cực Hạn',
+        subtitle: 'Thử Thách Tư Duy Phản Biện',
         icon: '⚡',
         lat: 0.5,
         lon: -1.2,
@@ -222,7 +219,7 @@ export const PLANETS_DATA: PlanetData[] = [
     name: 'Frost Aegis',
     nameVi: 'Tinh Cầu Băng Vĩnh Cửu',
     titleVi: 'Tinh Cầu Băng Vĩnh Cửu',
-    description: 'Hành tinh băng tuyết lấp lánh với các sông băng neon xanh và quầng cực quang kỳ ảo, nơi rèn luyện sự kiên nhẫn, bảo mật thông tin và an toàn số.',
+    description: 'Hành tinh băng tuyết lấp lánh quầng cực quang, rèn luyện an toàn số.',
     type: 'ice',
     color: '#38bdf8',
     glowColor: '#7dd3fc',
@@ -237,13 +234,12 @@ export const PLANETS_DATA: PlanetData[] = [
     moonColor: '#f1f5f9',
     moonDistance: 2.6,
     diameterKm: 11800,
-    surfaceTemp: '-85°C ~ -40°C',
-    gravity: '0.88 G',
+    surfaceTemp: '-30°C',
+    gravity: '0.9 G',
     geologyHighlights: [
-      'Đồng bằng băng tuyết vĩnh cửu phản xạ ánh sáng sao lấp lánh',
-      'Các khe nứt sông băng (Glacial Crevasses) màu xanh neon phát quang',
-      'Quầng Cực Quang (Aurora Borealis) uốn lượn rực rỡ ở 2 đầu cực',
-      'Đỉnh núi băng titan cao ngất sừng sững giữa bầu trời'
+      'Cánh đồng băng tuyết phản chiếu ánh sao',
+      'Cực quang màu ngọc bích tuyệt đẹp',
+      'Lâu đài băng pha lê huyền diệu'
     ],
     nodes: [
       {
@@ -279,7 +275,7 @@ export const PLANETS_DATA: PlanetData[] = [
     name: 'Magma Ignis',
     nameVi: 'Tinh Cầu Dung Nham',
     titleVi: 'Tinh Cầu Dung Nham',
-    description: 'Hỏa cầu núi lửa rực lửa với các dòng magma nóng chảy phát sáng qua vết nứt đá bazan đen, nơi rèn luyện kỹ năng quản lý tài nguyên và tài chính thông minh.',
+    description: 'Hỏa cầu rực lửa ấm áp, rèn luyện kỹ năng quản lý tài chính thông minh.',
     type: 'magma',
     color: '#ef4444',
     glowColor: '#f97316',
@@ -291,13 +287,12 @@ export const PLANETS_DATA: PlanetData[] = [
     moonColor: '#475569',
     moonDistance: 2.2,
     diameterKm: 13500,
-    surfaceTemp: '420°C ~ 850°C',
-    gravity: '1.15 G',
+    surfaceTemp: '80°C',
+    gravity: '1.1 G',
     geologyHighlights: [
-      'Vỏ đá bazan đen tuyền nứt nẻ để lộ dòng dung nham rực sáng',
-      'Hàng trăm miệng núi lửa hoạt động liên tục phun trào tro bụi nhiệt thạch',
-      'Hồ nham thạch vàng cam phát xạ nhiệt cực mạnh',
-      'Khí quyển ion hóa chứa bụi lưu huỳnh và quầng lửa phát quang'
+      'Dòng dung nham phát sáng lấp lánh',
+      'Kho báu đá quý ẩn mình trong đá',
+      'Núi lửa pháo hoa kỳ vĩ'
     ],
     nodes: [
       {

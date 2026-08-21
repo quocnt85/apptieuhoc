@@ -523,39 +523,11 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   toggleUnlimitedMode: () => {
-    const { isUnlimitedMode, user, devBackupUser } = get();
+    const { isUnlimitedMode } = get();
     soundService.playVictory();
-    if (!isUnlimitedMode) {
-      set({
-        isUnlimitedMode: true,
-        devBackupUser: { ...user },
-        user: {
-          ...user,
-          energy: 9999,
-          maxEnergy: 9999,
-          novaCoins: 999999,
-          diamonds: 99999,
-          gems: 99999,
-          stars: 9999,
-          freeBossPassCount: 999,
-        }
-      });
-    } else {
-      set({
-        isUnlimitedMode: false,
-        user: devBackupUser ? { ...devBackupUser } : {
-          ...user,
-          energy: 50,
-          maxEnergy: 50,
-          novaCoins: Math.min(user.novaCoins, 10000),
-          diamonds: Math.min(user.diamonds, 1000),
-          gems: Math.min(user.gems, 1000),
-          stars: Math.min(user.stars, 50),
-          freeBossPassCount: 1,
-        },
-        devBackupUser: null,
-      });
-    }
+    set({
+      isUnlimitedMode: !isUnlimitedMode,
+    });
     get().saveToLocalStorage();
   },
 
@@ -722,3 +694,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
   },
 }));
+
+if (typeof window !== 'undefined') {
+  (window as any).__gameStore = useGameStore;
+}

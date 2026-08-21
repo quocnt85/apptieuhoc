@@ -36,10 +36,10 @@ export const SettingsView: React.FC = () => {
       <div>
         <h1 className="text-xl sm:text-2xl font-black text-slate-100 flex items-center gap-2">
           <Settings className="w-6 h-6 text-indigo-400" />
-          <span>Cài Đặt Ứng Dụng</span>
+          <span>Cài Đặt</span>
         </h1>
-        <p className="text-xs text-slate-400 mt-1">
-          Tùy chỉnh âm thanh, đại diện học sinh và chế độ bảo vệ trẻ em.
+        <p className="text-xs text-slate-400 mt-0.5">
+          Âm thanh, hình đại diện và bảo vệ mắt cho bé.
         </p>
       </div>
 
@@ -47,7 +47,7 @@ export const SettingsView: React.FC = () => {
       <div className="rounded-3xl bg-slate-900 border-2 border-slate-800 p-4 sm:p-5 space-y-3 shadow-lg">
         <div className="text-xs font-black text-slate-300 flex items-center gap-2">
           <User className="w-4 h-4 text-indigo-400" />
-          <span>CHỌN HÌNH ĐẠI DIỆN YÊU THÍCH</span>
+          <span>ĐỔI ẢNH ĐẠI DIỆN</span>
         </div>
 
         <div className="grid grid-cols-4 gap-2.5">
@@ -69,14 +69,14 @@ export const SettingsView: React.FC = () => {
 
       {/* Sound & Haptics Toggle */}
       <div className="rounded-3xl bg-slate-900 border-2 border-slate-800 p-4 sm:p-5 space-y-4 shadow-lg">
-        <div className="text-xs font-black text-slate-300">ÂM THANH & PHẢN HỒI</div>
+        <div className="text-xs font-black text-slate-300">ÂM THANH</div>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {settings.soundEnabled ? <Volume2 className="w-6 h-6 text-blue-400" /> : <VolumeX className="w-6 h-6 text-slate-500" />}
             <div>
-              <div className="text-xs sm:text-sm font-black text-slate-100">Hiệu ứng âm thanh & Xúc giác</div>
-              <div className="text-xs text-slate-400 mt-0.5">Âm thanh vui tươi và rung phản hồi khi chọn đáp án</div>
+              <div className="text-xs sm:text-sm font-black text-slate-100">Âm thanh & Rung</div>
+              <div className="text-xs text-slate-400 mt-0.5">Hiệu ứng vui nhộn khi chọn đáp án</div>
             </div>
           </div>
           <button
@@ -94,12 +94,12 @@ export const SettingsView: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs font-black text-slate-300">
             <Clock className="w-4 h-4 text-purple-400" />
-            <span>GIỚI HẠN THỜI GIAN HỌC MỖI NGÀY</span>
+            <span>GIỚI HẠN THỜI GIAN MỖI NGÀY</span>
           </div>
           <span className="text-xs font-black text-purple-400 font-mono">{settings.dailyTimeLimitMinutes} phút</span>
         </div>
         <p className="text-xs text-slate-400 font-medium">
-          Giúp bé cân bằng thời gian sử dụng thiết bị và bảo vệ thị lực theo khuyến nghị khoa học.
+          Bảo vệ mắt và cân bằng thời gian sử dụng thiết bị.
         </p>
       </div>
 
@@ -110,7 +110,7 @@ export const SettingsView: React.FC = () => {
           className="w-full min-h-[50px] py-3 rounded-2xl bg-rose-950/40 border-2 border-rose-800/60 hover:bg-rose-900/40 text-rose-300 font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors active:scale-98"
         >
           <RotateCcw className="w-4 h-4" />
-          <span>Đặt lại dữ liệu luyện tập</span>
+          <span>Đặt lại tiến độ làm bài</span>
         </button>
       </div>
     </div>
