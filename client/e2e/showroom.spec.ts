@@ -107,7 +107,7 @@ test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
     await expect(planetTitle).toContainText('Dung Nham', { timeout: 5000 });
   });
 
-  test('4. Test Camera Presets, Wind Streamlines and Paint / Flag Customization', async ({ page }) => {
+  test('4. Test Camera Presets, Wind Streamlines and Paint Customization', async ({ page }) => {
     await openShowroom(page);
 
     // Camera preset buttons
@@ -115,10 +115,6 @@ test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
     await page.locator('button:has-text("Buồng Lái")').first().click();
     await page.locator('button:has-text("Động Cơ")').first().click();
     await page.locator('button:has-text("Tổng Thể")').first().click();
-
-    // Toggle Flag
-    const flagBtn = page.locator('button:has-text("Cờ VN")').first();
-    await flagBtn.click();
 
     // Toggle Wind Streamlines button
     const windBtn = page.locator('button[title*="Vệt Gió"], button[title*="Khí Động Học"]').first();

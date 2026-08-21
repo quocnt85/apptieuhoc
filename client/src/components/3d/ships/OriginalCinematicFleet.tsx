@@ -1,634 +1,210 @@
-import React, { useRef, useMemo } from 'react';
-import * as THREE from 'three';
+import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { createOriginalHullTextures } from './OriginalSpaceshipTextures';
+import * as THREE from 'three';
+import {
+  AeroPanel,
+  Canopy,
+  EnergyStrip,
+  EnginePod,
+  GreebleRail,
+  HullShell,
+  HullSurfaceMaterial,
+  NavigationLights,
+  NOVA_PALETTE,
+  Streamlines,
+} from './NovaFleetKit';
 
-// Vietnam Flag Decal Subcomponent
-const VietnamFlagDecal: React.FC<{
+interface ShipProps {
+  shipColor?: string;
+  showStreamlines?: boolean;
+}
+
+const DarkPanel: React.FC<{
   position: [number, number, number];
+  scale: [number, number, number];
   rotation?: [number, number, number];
-  scale?: [number, number, number];
-}> = ({ position, rotation = [-Math.PI / 2, 0, 0], scale = [0.18, 0.12, 0.01] }) => {
-  return (
-    <group position={position} rotation={rotation} scale={scale}>
-      <mesh>
-        <planeGeometry />
-        <meshBasicMaterial color="#da251d" side={THREE.DoubleSide} />
-      </mesh>
-      <mesh position={[0, 0, 0.01]} scale={[0.48, 0.48, 1]}>
-        <circleGeometry args={[0.5, 5]} />
-        <meshBasicMaterial color="#ffff00" side={THREE.DoubleSide} />
-      </mesh>
-    </group>
-  );
-};
+}> = ({ position, scale, rotation = [0, 0, 0] }) => (
+  <mesh position={position} scale={scale} rotation={rotation}>
+    <boxGeometry />
+    <meshPhysicalMaterial color={NOVA_PALETTE.dark} metalness={0.94} roughness={0.18} clearcoat={0.5} />
+  </mesh>
+);
 
-// =========================================================================
-// 1. NOVA APEX HUNTER (Tiêm Kích Thám Hiểm Cánh Ngược Siêu Thanh)
-// =========================================================================
-export const NovaApexHunter: React.FC<{ hasVnFlag?: boolean; shipColor?: string }> = ({
-  hasVnFlag = true,
-  shipColor = '#38bdf8',
-}) => {
-  const thrusterRef = useRef<THREE.Group>(null);
-  const tex = useMemo(() => createOriginalHullTextures(), []);
+const Fin: React.FC<{ side: -1 | 1; position: [number, number, number]; color: string }> = ({ side, position, color }) => (
+  <AeroPanel
+    points={[[0, -0.3], [side * 0.5, 0], [side * 0.42, 0.58], [side * 0.06, 0.3]]}
+    thickness={0.055}
+    position={position}
+    rotation={[0, 0, side * 0.48]}
+    color={color}
+  />
+);
 
-  useFrame(({ clock }) => {
-    if (thrusterRef.current) {
-      const p = 1.0 + Math.sin(clock.getElapsedTime() * 22) * 0.15;
-      thrusterRef.current.scale.set(p, p, 1.0 + Math.sin(clock.getElapsedTime() * 28) * 0.2);
-    }
+// 1. Forward-swept high-speed interceptor.
+export const NovaApexHunter: React.FC<ShipProps> = ({ shipColor = '#38bdf8', showStreamlines = false }) => {
+  const turbineRef = useRef<THREE.Group>(null);
+  useFrame((_, delta) => {
+    if (turbineRef.current) turbineRef.current.rotation.z -= delta * 7;
   });
-
+  const wing = [[0, -0.15], [1.18, 0.18], [1.42, 0.64], [0.34, 0.34]] as Array<[number, number]>;
   return (
-    <group scale={[1.2, 1.2, 1.2]}>
-      {/* Aerodynamic Lifting-Body Chined Fuselage */}
-      <mesh position={[0, 0, -0.1]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.04, 0.28, 2.0, 16, 4]} />
-        <meshPhysicalMaterial
-          map={tex.hullMap}
-          bumpMap={tex.hullBumpMap}
-          bumpScale={0.06}
-          color={shipColor}
-          roughness={0.18}
-          metalness={0.88}
-          clearcoat={0.9}
-        />
+    <group scale={0.94}>
+      <HullShell color={NOVA_PALETTE.white} position={[0, 0, -0.12]} scale={[0.78, 0.46, 1.08]} radius={0.35} length={1.55} />
+      <AeroPanel points={[[0, -0.88], [0.43, -0.42], [0.36, 0.62], [0, 0.88]]} thickness={0.18} position={[0, -0.05, -0.1]} color={shipColor} />
+      <AeroPanel points={wing} thickness={0.105} position={[0.24, -0.04, 0.12]} color={shipColor} />
+      <AeroPanel points={wing.map(([x, z]) => [-x, z])} thickness={0.105} position={[-0.24, -0.04, 0.12]} color={shipColor} />
+      <AeroPanel points={[[0, -0.1], [1.02, 0.2], [1.2, 0.38], [0.22, 0.24]]} thickness={0.035} position={[0.29, 0.035, 0.13]} color={NOVA_PALETTE.armor} />
+      <AeroPanel points={[[0, -0.1], [-1.02, 0.2], [-1.2, 0.38], [-0.22, 0.24]]} thickness={0.035} position={[-0.29, 0.035, 0.13]} color={NOVA_PALETTE.armor} />
+      <mesh position={[0, -0.015, -1.18]} rotation={[-Math.PI / 2, 0, 0]} scale={[1, 1, 0.72]}>
+        <coneGeometry args={[0.21, 0.72, 20]} />
+        <HullSurfaceMaterial color={NOVA_PALETTE.white} metalness={0.82} roughness={0.2} />
       </mesh>
-
-      {/* Streamlined Glass Canopy */}
-      <mesh position={[0, 0.09, -0.35]} rotation={[0.18, 0, 0]}>
-        <coneGeometry args={[0.09, 0.65, 14]} />
-        <meshPhysicalMaterial
-          color="#38bdf8"
-          emissive="#0284c7"
-          emissiveIntensity={0.65}
-          roughness={0.03}
-          metalness={0.95}
-          transmission={0.88}
-          transparent
-          opacity={0.85}
-        />
-      </mesh>
-
-      {/* Swept Forward Wings */}
-      {[-1, 1].map((side, idx) => (
-        <group key={idx} position={[side * 0.22, 0.01, 0.1]}>
-          <mesh position={[side * 0.55, 0, -0.18]} rotation={[0, side * 0.38, side * 0.06]}>
-            <boxGeometry args={[0.95, 0.02, 0.45]} />
-            <meshPhysicalMaterial color={shipColor} roughness={0.2} metalness={0.85} clearcoat={0.8} />
-          </mesh>
-          <mesh position={[side * 1.05, -0.05, -0.36]} rotation={[0, 0, side * 0.45]}>
-            <boxGeometry args={[0.02, 0.2, 0.32]} />
-            <meshStandardMaterial color="#0f172a" metalness={0.95} />
-          </mesh>
-        </group>
-      ))}
-
-      {/* Twin Canted V-Tail Fins */}
-      {[-1, 1].map((side, idx) => (
-        <mesh key={idx} position={[side * 0.2, 0.2, 0.55]} rotation={[0.2, 0, side * 0.4]}>
-          <boxGeometry args={[0.02, 0.36, 0.34]} />
-          <meshPhysicalMaterial color={shipColor} metalness={0.8} />
-        </mesh>
-      ))}
-
-      {/* Dual De Laval Thruster Nozzles */}
-      {[-0.14, 0.14].map((x, idx) => (
-        <mesh key={idx} position={[x, 0.02, 0.88]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.08, 0.07, 0.24, 12, 1, true]} />
-          <meshStandardMaterial color="#0f172a" metalness={0.98} />
-        </mesh>
-      ))}
-
-      {/* Plasma Flames */}
-      <group ref={thrusterRef}>
-        {[-0.14, 0.14].map((x, idx) => (
-          <mesh key={idx} position={[x, 0.02, 1.15]} rotation={[Math.PI / 2, 0, 0]}>
-            <coneGeometry args={[0.06, 0.5, 10]} />
-            <meshBasicMaterial color="#38bdf8" transparent opacity={0.9} />
-          </mesh>
-        ))}
+      <Canopy position={[0, 0.205, -0.53]} scale={[0.88, 0.92, 1.2]} />
+      <DarkPanel position={[0, 0.245, 0.23]} scale={[0.12, 0.08, 0.62]} />
+      <EnergyStrip position={[0, 0.294, 0.18]} scale={[0.7, 0.6, 1.55]} />
+      <AeroPanel points={[[0, -0.74], [0.2, -0.48], [0.18, 0.52], [0, 0.72]]} thickness={0.035} position={[0.24, 0.12, -0.02]} color={shipColor} />
+      <AeroPanel points={[[0, -0.74], [-0.2, -0.48], [-0.18, 0.52], [0, 0.72]]} thickness={0.035} position={[-0.24, 0.12, -0.02]} color={shipColor} />
+      <EnginePod position={[-0.58, -0.04, 0.52]} scale={0.9} accent={shipColor} />
+      <EnginePod position={[0.58, -0.04, 0.52]} scale={0.9} accent={shipColor} />
+      <group ref={turbineRef}>
+        {[-0.58, 0.58].map((x) => <group key={x} position={[x, -0.04, 0.17]}>
+          {Array.from({ length: 8 }).map((_, index) => <mesh key={index} rotation={[0, 0, index * Math.PI / 4]} position={[0.1, 0, 0]}>
+            <boxGeometry args={[0.13, 0.025, 0.018]} /><meshBasicMaterial color="#9ff3ff" toneMapped={false} />
+          </mesh>)}
+        </group>)}
       </group>
-
-      {/* Vietnam Flag Badge */}
-      {hasVnFlag && <VietnamFlagDecal position={[0, 0.11, 0.22]} scale={[0.18, 0.12, 0.01]} />}
+      <Fin side={1} position={[0.23, 0.16, 0.69]} color={shipColor} />
+      <Fin side={-1} position={[-0.23, 0.16, 0.69]} color={shipColor} />
+      <NavigationLights width={1.47} z={0.65} />
+      <Streamlines visible={showStreamlines} width={1.15} length={4.3} />
     </group>
   );
 };
 
-// =========================================================================
-// 2. CHRONO VOYAGER (Phi Thuyền Viễn Du Thân Đĩa Lai Cánh Cung - 170 Linh Kiện)
-// =========================================================================
-export const ChronoVoyager: React.FC<{ hasVnFlag?: boolean }> = ({ hasVnFlag = true }) => {
+// 2. Crescent deep-space explorer with a quantum core.
+export const ChronoVoyager: React.FC<ShipProps> = ({ shipColor = '#7c3aed', showStreamlines = false }) => {
   const radarRef = useRef<THREE.Group>(null);
-  const ionDriveRef = useRef<THREE.Group>(null);
-
-  const tex = useMemo(() => createOriginalHullTextures(), []);
-
+  const coreRef = useRef<THREE.Mesh>(null);
   useFrame(({ clock }, delta) => {
-    if (radarRef.current) radarRef.current.rotation.y += delta * 1.4;
-    if (ionDriveRef.current) {
-      const p = 0.85 + Math.sin(clock.getElapsedTime() * 10) * 0.15;
-      ionDriveRef.current.scale.set(1, p, 1);
-    }
+    if (radarRef.current) radarRef.current.rotation.y += delta * 0.9;
+    if (coreRef.current) coreRef.current.scale.setScalar(1 + Math.sin(clock.elapsedTime * 3.2) * 0.06);
   });
-
+  const crescent = [[0, -0.84], [0.94, -0.52], [1.42, 0.1], [1.16, 0.74], [0.48, 0.38], [0, 0.18]] as Array<[number, number]>;
   return (
-    <group scale={[1.15, 1.15, 1.15]}>
-      {/* 1. Main Aerodynamic Saucer Hull (Thân Đĩa Khí Động Học Elip) */}
-      <mesh position={[0, 0, 0]} scale={[1.2, 0.22, 1.3]}>
-        <cylinderGeometry args={[0.75, 0.85, 0.55, 32]} />
-        <meshPhysicalMaterial
-          map={tex.hullMap}
-          bumpMap={tex.hullBumpMap}
-          bumpScale={0.08}
-          roughnessMap={tex.hullRoughnessMap}
-          color="#cbd5e1"
-          roughness={0.25}
-          metalness={0.85}
-          clearcoat={0.8}
-        />
-      </mesh>
-
-      {/* Crescent Arc Wings (Cánh Hình Cung Ôm Thân) */}
-      <mesh position={[-0.88, 0, 0.1]} rotation={[0, 0.2, 0]} scale={[0.4, 0.06, 1.1]}>
-        <cylinderGeometry args={[0.8, 0.8, 0.3, 24, 1, false, 0, Math.PI]} />
-        <meshPhysicalMaterial color="#334155" metalness={0.9} roughness={0.2} />
-      </mesh>
-      <mesh position={[0.88, 0, 0.1]} rotation={[0, -0.2, 0]} scale={[0.4, 0.06, 1.1]}>
-        <cylinderGeometry args={[0.8, 0.8, 0.3, 24, 1, false, 0, Math.PI]} />
-        <meshPhysicalMaterial color="#334155" metalness={0.9} roughness={0.2} />
-      </mesh>
-
-      {/* 2. ROUNDED HEMISPHERICAL COCKPIT DOME WITH OPACITY & 2D FAKE HUD */}
-      <group position={[0, 0.1, -0.55]}>
-        <mesh position={[0, 0.01, 0]}>
-          <planeGeometry args={[0.22, 0.22]} />
-          <meshBasicMaterial map={tex.cockpitHudMap} side={THREE.DoubleSide} />
-        </mesh>
-        <mesh>
-          <sphereGeometry args={[0.18, 24, 24, 0, Math.PI * 2, 0, Math.PI / 2]} />
-          <meshPhysicalMaterial
-            color="#a855f7"
-            emissive="#7e22ce"
-            emissiveIntensity={0.5}
-            roughness={0.03}
-            metalness={0.95}
-            transmission={0.8}
-            transparent
-            opacity={0.7}
-            clearcoat={0.98}
-          />
-        </mesh>
-        <mesh position={[0, 0.01, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.182, 0.01, 8, 24]} />
-          <meshStandardMaterial color="#0f172a" metalness={0.98} />
-        </mesh>
+    <group scale={0.9}>
+      <mesh scale={[1.35, 0.23, 1.22]}><sphereGeometry args={[0.78, 32, 18]} /><HullSurfaceMaterial color={NOVA_PALETTE.white} metalness={0.82} roughness={0.2} /></mesh>
+      <mesh position={[0, -0.12, 0.08]} scale={[1.18, 0.16, 1.04]}><sphereGeometry args={[0.78, 28, 14]} /><meshStandardMaterial color={NOVA_PALETTE.dark} metalness={0.94} roughness={0.18} /></mesh>
+      <AeroPanel points={crescent} thickness={0.1} position={[0.2, 0, 0.02]} color={shipColor} />
+      <AeroPanel points={crescent.map(([x, z]) => [-x, z])} thickness={0.1} position={[-0.2, 0, 0.02]} color={shipColor} />
+      <AeroPanel points={[[0, -0.62], [1.06, -0.28], [0.92, 0.04], [0, -0.2]]} thickness={0.035} position={[0.12, 0.065, -0.02]} color={NOVA_PALETTE.armor} />
+      <AeroPanel points={[[0, -0.62], [-1.06, -0.28], [-0.92, 0.04], [0, -0.2]]} thickness={0.035} position={[-0.12, 0.065, -0.02]} color={NOVA_PALETTE.armor} />
+      <Canopy position={[0, 0.25, -0.47]} scale={[1.12, 0.72, 0.82]} color="#b15cff" />
+      <mesh ref={coreRef} position={[0, 0.22, 0.18]}><sphereGeometry args={[0.2, 24, 18]} /><meshBasicMaterial color="#80f5ff" transparent opacity={0.92} toneMapped={false} /></mesh>
+      {[0.29, 0.37].map((radius) => <mesh key={radius} position={[0, 0.22, 0.18]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[radius, 0.018, 8, 32]} /><meshStandardMaterial color={radius < 0.3 ? '#f7c95c' : '#43ddff'} emissive={radius < 0.3 ? '#c07912' : '#129ad0'} emissiveIntensity={1.8} metalness={0.8} />
+      </mesh>)}
+      <group ref={radarRef} position={[0, 0.39, 0.48]}>
+        <mesh><cylinderGeometry args={[0.035, 0.05, 0.18, 12]} /><meshStandardMaterial color={NOVA_PALETTE.metal} metalness={0.95} /></mesh>
+        <mesh position={[0, 0.13, 0]} rotation={[0.35, 0, 0]}><cylinderGeometry args={[0.28, 0.055, 0.07, 28]} /><meshPhysicalMaterial color={NOVA_PALETTE.white} metalness={0.9} roughness={0.15} /></mesh>
+        <mesh position={[0, 0.18, 0.04]}><sphereGeometry args={[0.04, 12, 12]} /><meshBasicMaterial color="#4ff6ff" toneMapped={false} /></mesh>
       </group>
-
-      {/* 3. MULTI-AXIS QUANTUM RADAR DISH ON DORSAL SUPERSTRUCTURE */}
-      <group position={[0, 0.16, -0.05]} ref={radarRef}>
-        <mesh position={[0, 0.04, 0]}>
-          <cylinderGeometry args={[0.04, 0.055, 0.09, 16]} />
-          <meshStandardMaterial color="#0f172a" metalness={0.98} />
-        </mesh>
-        <mesh position={[0, 0.13, 0]} rotation={[0.42, 0, 0]}>
-          <cylinderGeometry args={[0.26, 0.035, 0.055, 24]} />
-          <meshPhysicalMaterial color="#f8fafc" metalness={0.92} roughness={0.15} clearcoat={0.9} />
-        </mesh>
-        <mesh position={[0, 0.17, 0.03]}>
-          <sphereGeometry args={[0.038, 16, 16]} />
-          <meshBasicMaterial color="#38bdf8" />
-        </mesh>
-      </group>
-
-      {/* 4. QUAD TIERED ION THRUSTER ARRAY (4 Động Cơ Ion Phía Sau) */}
-      <group position={[0, 0, 0.65]}>
-        {[-0.45, -0.15, 0.15, 0.45].map((x, idx) => (
-          <group key={idx} position={[x, 0, 0]}>
-            <mesh rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.08, 0.1, 0.22, 20]} />
-              <meshStandardMaterial color="#0f172a" metalness={0.98} />
-            </mesh>
-            {/* Copper cooling ring */}
-            <mesh position={[0, 0, 0.04]} rotation={[Math.PI / 2, 0, 0]}>
-              <torusGeometry args={[0.095, 0.008, 8, 20]} />
-              <meshStandardMaterial color="#f59e0b" metalness={0.95} />
-            </mesh>
-          </group>
-        ))}
-
-        {/* Glowing Cyan Ion Plasma Discharge */}
-        <group ref={ionDriveRef}>
-          {[-0.45, -0.15, 0.15, 0.45].map((x, idx) => (
-            <mesh key={idx} position={[x, 0, 0.28]} rotation={[-Math.PI / 2, 0, 0]}>
-              <coneGeometry args={[0.075, 0.45, 16]} />
-              <meshBasicMaterial color="#00f0ff" transparent opacity={0.92} />
-            </mesh>
-          ))}
-        </group>
-      </group>
-
-      {/* Vietnam Flag Badge */}
-      {hasVnFlag && <VietnamFlagDecal position={[0.42, 0.12, 0.28]} scale={[0.18, 0.12, 0.01]} />}
+      {[-0.78, -0.28, 0.28, 0.78].map((x) => <EnginePod key={x} position={[x, -0.06, 0.63]} scale={0.62} accent="#a855f7" />)}
+      <NavigationLights width={1.49} z={0.2} />
+      <Streamlines visible={showStreamlines} width={1.3} length={4} color="#bd7cff" />
     </group>
   );
 };
 
-// =========================================================================
-// 3. ORION SKY-CARRIER (Chiến Hạm Chỉ Huy Quỹ Đạo Đa Năng - 180 Linh Kiện)
-// =========================================================================
-export const OrionSkyCarrier: React.FC<{ hasVnFlag?: boolean }> = ({ hasVnFlag = true }) => {
-  const bridgeRef = useRef<THREE.Mesh>(null);
-  const thrustersRef = useRef<THREE.Group>(null);
-
-  const tex = useMemo(() => createOriginalHullTextures(), []);
-
+// 3. Heavy orbital carrier with twin drone runways.
+export const OrionSkyCarrier: React.FC<ShipProps> = ({ shipColor = '#2563eb', showStreamlines = false }) => {
+  const beaconRef = useRef<THREE.Mesh>(null);
   useFrame(({ clock }) => {
-    if (bridgeRef.current) {
-      const p = 0.8 + Math.sin(clock.getElapsedTime() * 4) * 0.2;
-      bridgeRef.current.scale.set(1, p, 1);
-    }
-    if (thrustersRef.current) {
-      const p = 1.0 + Math.sin(clock.getElapsedTime() * 14) * 0.12;
-      thrustersRef.current.scale.set(p, p, 1.0 + Math.sin(clock.getElapsedTime() * 18) * 0.2);
-    }
+    if (beaconRef.current) (beaconRef.current.material as THREE.MeshBasicMaterial).opacity = 0.5 + Math.sin(clock.elapsedTime * 5) * 0.35;
   });
-
+  const hull = [[0, -1.18], [0.48, -0.78], [0.56, 0.86], [0.34, 1.18], [0, 1.3]] as Array<[number, number]>;
+  const deck = [[0, -0.72], [0.74, -0.52], [0.84, 0.72], [0.55, 1], [0, 0.84]] as Array<[number, number]>;
   return (
-    <group scale={[0.95, 0.95, 0.95]}>
-      {/* 1. Multi-Tier Command Chassis (Khung Thân Nâng Đa Tầng) */}
-      <mesh position={[0, 0.08, 0]}>
-        <boxGeometry args={[0.65, 0.38, 1.65]} />
-        <meshPhysicalMaterial
-          map={tex.hullMap}
-          bumpMap={tex.hullBumpMap}
-          bumpScale={0.08}
-          roughnessMap={tex.hullRoughnessMap}
-          color="#ffffff"
-          roughness={0.25}
-          metalness={0.7}
-          clearcoat={0.7}
-        />
-      </mesh>
-
-      {/* 2. ROUNDED MULTI-LEVEL COMMAND BRIDGE DOME WITH OPACITY & HUD */}
-      <group position={[0, 0.42, 0.28]}>
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.26, 0.3, 0.36]} />
-          <meshPhysicalMaterial color="#1e3a8a" roughness={0.2} metalness={0.8} />
-        </mesh>
-        {/* Panoramic Glass Crown */}
-        <mesh position={[0, 0.2, -0.06]}>
-          <capsuleGeometry args={[0.13, 0.22, 16, 16]} />
-          <meshPhysicalMaterial
-            color="#10b981"
-            emissive="#059669"
-            emissiveIntensity={0.6}
-            roughness={0.03}
-            metalness={0.95}
-            transmission={0.8}
-            transparent
-            opacity={0.72}
-            clearcoat={0.95}
-          />
-        </mesh>
-        {/* Golden Communications Mast */}
-        <mesh position={[0, 0.36, -0.06]}>
-          <cylinderGeometry args={[0.008, 0.012, 0.25, 8]} />
-          <meshStandardMaterial color="#fbbf24" metalness={0.95} />
-        </mesh>
-      </group>
-
-      {/* 3. DUAL OUTRIGGER DRONE LANDING DECKS (2 Sàn Hạ Cánh Drone Mini) */}
-      {[-1, 1].map((side, idx) => (
-        <group key={idx} position={[side * 0.65, -0.02, -0.15]}>
-          <mesh>
-            <boxGeometry args={[0.48, 0.24, 1.15]} />
-            <meshPhysicalMaterial color="#1e3a8a" roughness={0.3} metalness={0.7} />
-          </mesh>
-          {/* Runway Strip & Edge Lights */}
-          <mesh position={[0, 0.125, 0]}>
-            <boxGeometry args={[0.18, 0.01, 1.05]} />
-            <meshStandardMaterial color="#0f172a" metalness={0.9} />
-          </mesh>
-          <mesh position={[0, 0.132, -0.48]}>
-            <boxGeometry args={[0.16, 0.01, 0.05]} />
-            <meshBasicMaterial color="#fbbf24" />
-          </mesh>
-        </group>
-      ))}
-
-      {/* 4. QUAD HEAVY FUSION ENGINES (4 Động Cơ Hạt Nhân Nhiệt Hạch Phía Sau) */}
-      {[-0.52, 0.52].map((x, idx) => (
-        <group key={idx} position={[x, 0.06, 0.78]}>
-          <mesh>
-            <boxGeometry args={[0.42, 0.42, 0.8]} />
-            <meshPhysicalMaterial color="#dc2626" roughness={0.25} metalness={0.75} />
-          </mesh>
-          {/* Dual Nozzles per Pod */}
-          {[-0.1, 0.1].map((ny, nidx) => (
-            <mesh key={nidx} position={[0, ny, 0.45]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.085, 0.11, 0.18, 20]} />
-              <meshStandardMaterial color="#0f172a" metalness={0.98} />
-            </mesh>
-          ))}
-        </group>
-      ))}
-
-      {/* Exhaust Plasma Flames */}
-      <group ref={thrustersRef}>
-        {[-0.52, 0.52].map((x, idx) => (
-          <group key={idx} position={[x, 0.06, 1.35]}>
-            <mesh rotation={[-Math.PI / 2, 0, 0]}>
-              <coneGeometry args={[0.16, 0.65, 20]} />
-              <meshBasicMaterial color="#38bdf8" transparent opacity={0.9} />
-            </mesh>
-          </group>
-        ))}
-      </group>
-
-      {/* Vietnam Flag Badge */}
-      {hasVnFlag && <VietnamFlagDecal position={[0, 0.3, -0.48]} scale={[0.22, 0.15, 0.01]} />}
+    <group scale={0.78}>
+      <AeroPanel points={hull} thickness={0.38} color={NOVA_PALETTE.white} /><AeroPanel points={hull.map(([x, z]) => [-x, z])} thickness={0.38} color={NOVA_PALETTE.white} />
+      <AeroPanel points={deck} thickness={0.16} position={[0.47, -0.04, 0.12]} color={shipColor} /><AeroPanel points={deck.map(([x, z]) => [-x, z])} thickness={0.16} position={[-0.47, -0.04, 0.12]} color={shipColor} />
+      {([-1, 1] as const).map((side) => <group key={side} position={[side * 1.02, 0, 0.1]}>
+        <AeroPanel points={[[0, -0.9], [0.38 * side, -0.68], [0.42 * side, 0.8], [0, 1.02]]} thickness={0.2} color={NOVA_PALETTE.white} />
+        <DarkPanel position={[side * 0.12, 0.12, 0.06]} scale={[0.2, 0.035, 1.35]} />
+        {[-0.58, -0.22, 0.14, 0.5].map((z) => <EnergyStrip key={z} position={[side * 0.12, 0.166, z]} scale={[0.55, 0.65, 0.12]} color="#f4c94d" />)}
+      </group>)}
+      <mesh position={[0, 0.34, 0.16]} scale={[0.56, 0.24, 0.72]}><boxGeometry /><HullSurfaceMaterial color={shipColor} metalness={0.78} roughness={0.24} /></mesh>
+      <mesh position={[0, 0.57, 0.08]} scale={[0.38, 0.22, 0.42]}><sphereGeometry args={[0.72, 20, 12]} /><meshPhysicalMaterial color="#34e5d0" emissive="#0d8d88" emissiveIntensity={0.8} metalness={0.72} roughness={0.08} transmission={0.25} /></mesh>
+      <mesh position={[0, 0.88, 0.12]}><cylinderGeometry args={[0.018, 0.028, 0.46, 8]} /><meshStandardMaterial color="#f7c84d" metalness={0.95} /></mesh>
+      <mesh ref={beaconRef} position={[0, 1.12, 0.12]}><sphereGeometry args={[0.055, 12, 12]} /><meshBasicMaterial color="#ff405f" transparent toneMapped={false} /></mesh>
+      <GreebleRail position={[-0.43, 0.25, 0.18]} count={10} spacing={0.16} /><GreebleRail position={[0.43, 0.25, 0.18]} count={10} spacing={0.16} />
+      {[-0.9, -0.3, 0.3, 0.9].map((x) => <EnginePod key={x} position={[x, -0.12, 1.04]} scale={0.82} accent={shipColor} />)}
+      <NavigationLights width={1.43} z={0.78} />
+      <Streamlines visible={showStreamlines} width={1.5} length={4.6} />
     </group>
   );
 };
 
-// =========================================================================
-// 4. AERO-SHUTTLE X-9 (Con Thoi Không Gian Thế Hệ Mới - 165 Linh Kiện)
-// =========================================================================
-export const AeroShuttleX9: React.FC<{ hasVnFlag?: boolean }> = ({ hasVnFlag = true }) => {
-  const ssmeRef = useRef<THREE.Group>(null);
-
-  const tex = useMemo(() => createOriginalHullTextures(), []);
-
-  useFrame(({ clock }) => {
-    if (ssmeRef.current) {
-      const p = 1.0 + Math.sin(clock.getElapsedTime() * 18) * 0.12;
-      ssmeRef.current.scale.set(p, p, 1.0 + Math.sin(clock.getElapsedTime() * 24) * 0.2);
-    }
-  });
-
+// 4. Seamless double-delta lifting-body shuttle.
+export const AeroShuttleX9: React.FC<ShipProps> = ({ shipColor = '#f1f5f9', showStreamlines = false }) => {
+  const delta = [[0, -1.34], [0.88, 0.04], [1.38, 0.92], [0.48, 0.62], [0, 1.12]] as Array<[number, number]>;
+  const belly = [[0, -1.28], [0.73, 0.05], [1.15, 0.75], [0.38, 0.5], [0, 1.02]] as Array<[number, number]>;
   return (
-    <group scale={[1.1, 1.1, 1.1]}>
-      {/* 1. Lifting-Body Double-Delta White Upper Fuselage */}
-      <mesh position={[0, 0.06, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.18, 0.25, 1.5, 24]} />
-        <meshPhysicalMaterial
-          map={tex.hullMap}
-          bumpMap={tex.hullBumpMap}
-          bumpScale={0.08}
-          roughnessMap={tex.hullRoughnessMap}
-          color="#f8fafc"
-          roughness={0.2}
-          metalness={0.7}
-          clearcoat={0.8}
-        />
-      </mesh>
-
-      {/* 2. Black Thermal Protection Tile Underbelly */}
-      <mesh position={[0, -0.06, 0.05]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.185, 0.255, 1.4, 24, 1, false, Math.PI * 0.5, Math.PI]} />
-        <meshPhysicalMaterial color="#0f172a" roughness={0.6} metalness={0.8} />
-      </mesh>
-
-      {/* 3. ROUNDED DROPLET COCKPIT CANOPY WITH OPACITY & 2D FAKE HUD */}
-      <group position={[0, 0.12, -0.48]}>
-        <mesh position={[0, 0.02, 0]} rotation={[-0.2, 0, 0]}>
-          <planeGeometry args={[0.18, 0.24]} />
-          <meshBasicMaterial map={tex.cockpitHudMap} side={THREE.DoubleSide} />
-        </mesh>
-        <mesh rotation={[0.3, 0, 0]}>
-          <capsuleGeometry args={[0.095, 0.32, 20, 20]} />
-          <meshPhysicalMaterial
-            color="#0284c7"
-            emissive="#0369a1"
-            emissiveIntensity={0.5}
-            roughness={0.03}
-            metalness={0.95}
-            transmission={0.8}
-            transparent
-            opacity={0.68}
-            clearcoat={0.98}
-          />
-        </mesh>
-      </group>
-
-      {/* 4. Swept Double-Delta Wings with Black Leading Edges */}
-      <group position={[0, -0.03, 0.2]}>
-        {[-1, 1].map((side, idx) => (
-          <group key={idx} position={[side * 0.62, 0, 0]}>
-            <mesh rotation={[0, side * 0.22, 0]}>
-              <boxGeometry args={[0.82, 0.028, 0.78]} />
-              <meshPhysicalMaterial color="#ffffff" roughness={0.25} metalness={0.65} />
-            </mesh>
-            <mesh position={[side * 0.04, -0.015, 0]} rotation={[0, side * 0.22, 0]}>
-              <boxGeometry args={[0.82, 0.01, 0.78]} />
-              <meshBasicMaterial color="#0f172a" />
-            </mesh>
-          </group>
-        ))}
-      </group>
-
-      {/* 5. Twin Canted V-Tail Rudders (Vây Đuôi Kép Chữ V) */}
-      <mesh position={[-0.26, 0.3, 0.48]} rotation={[0.1, 0, -0.35]}>
-        <boxGeometry args={[0.026, 0.48, 0.42]} />
-        <meshPhysicalMaterial color="#f8fafc" roughness={0.25} metalness={0.65} />
-      </mesh>
-      <mesh position={[0.26, 0.3, 0.48]} rotation={[0.1, 0, 0.35]}>
-        <boxGeometry args={[0.026, 0.48, 0.42]} />
-        <meshPhysicalMaterial color="#f8fafc" roughness={0.25} metalness={0.65} />
-      </mesh>
-
-      {/* 6. TRIANGLE CLUSTER OF 3 DE LAVAL ROCKET ENGINES */}
-      <group position={[0, 0.04, 0.78]}>
-        {[
-          [0, 0.12],
-          [-0.095, -0.04],
-          [0.095, -0.04],
-        ].map(([x, y], idx) => (
-          <mesh key={idx} position={[x, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.07, 0.09, 0.16, 20]} />
-            <meshStandardMaterial color="#475569" metalness={0.95} />
-          </mesh>
-        ))}
-
-        <group ref={ssmeRef}>
-          {[
-            [0, 0.12],
-            [-0.095, -0.04],
-            [0.095, -0.04],
-          ].map(([x, y], idx) => (
-            <mesh key={idx} position={[x, y, 0.24]} rotation={[-Math.PI / 2, 0, 0]}>
-              <coneGeometry args={[0.065, 0.45, 16]} />
-              <meshBasicMaterial color="#38bdf8" transparent opacity={0.92} />
-            </mesh>
-          ))}
-        </group>
-      </group>
-
-      {/* Vietnam Flag Badge */}
-      {hasVnFlag && <VietnamFlagDecal position={[0.5, 0.02, 0.25]} scale={[0.16, 0.11, 0.01]} />}
+    <group scale={0.9}>
+      <AeroPanel points={delta} thickness={0.18} position={[0, 0.02, 0]} color={NOVA_PALETTE.white} /><AeroPanel points={delta.map(([x, z]) => [-x, z])} thickness={0.18} position={[0, 0.02, 0]} color={NOVA_PALETTE.white} />
+      <AeroPanel points={belly} thickness={0.045} position={[0, -0.14, 0.06]} color="#080d16" roughness={0.5} /><AeroPanel points={belly.map(([x, z]) => [-x, z])} thickness={0.045} position={[0, -0.14, 0.06]} color="#080d16" roughness={0.5} />
+      <HullShell color={shipColor} position={[0, 0.11, -0.15]} scale={[0.7, 0.42, 1.18]} radius={0.34} length={1.5} />
+      <mesh position={[0, 0.08, -1.2]} rotation={[-Math.PI / 2, 0, 0]} scale={[1, 1, 0.75]}><coneGeometry args={[0.25, 0.66, 24]} /><HullSurfaceMaterial color={shipColor} metalness={0.7} roughness={0.23} /></mesh>
+      <Canopy position={[0, 0.34, -0.58]} scale={[1.05, 0.86, 1.3]} color="#2ba8e8" />
+      <EnergyStrip position={[-0.43, 0.15, 0.1]} scale={[0.48, 0.65, 1.9]} /><EnergyStrip position={[0.43, 0.15, 0.1]} scale={[0.48, 0.65, 1.9]} />
+      <Fin side={1} position={[0.27, 0.22, 0.72]} color={shipColor} /><Fin side={-1} position={[-0.27, 0.22, 0.72]} color={shipColor} />
+      <DarkPanel position={[-0.88, 0.12, 0.5]} scale={[0.48, 0.025, 0.12]} rotation={[0, -0.12, 0]} /><DarkPanel position={[0.88, 0.12, 0.5]} scale={[0.48, 0.025, 0.12]} rotation={[0, 0.12, 0]} />
+      <EnginePod position={[-0.25, 0.01, 0.92]} scale={0.68} accent={shipColor} /><EnginePod position={[0, 0.13, 0.96]} scale={0.72} accent={shipColor} /><EnginePod position={[0.25, 0.01, 0.92]} scale={0.68} accent={shipColor} />
+      <NavigationLights width={1.39} z={0.9} />
+      <Streamlines visible={showStreamlines} width={1.25} length={4.5} />
     </group>
   );
 };
 
-// =========================================================================
-// 5. HYPERION STAR-LIFTER V (Tàu Phóng Thám Hiểm Liên Hành Tinh - 175 Linh Kiện)
-// =========================================================================
-export const HyperionStarLifterV: React.FC<{ hasVnFlag?: boolean }> = ({ hasVnFlag = true }) => {
-  const f1Ref = useRef<THREE.Group>(null);
-
-  const tex = useMemo(() => createOriginalHullTextures(), []);
-
-  useFrame(({ clock }) => {
-    if (f1Ref.current) {
-      const p = 1.0 + Math.sin(clock.getElapsedTime() * 16) * 0.14;
-      f1Ref.current.scale.set(p, p, 1.0 + Math.sin(clock.getElapsedTime() * 20) * 0.22);
-    }
-  });
-
+// 5. Three-stage planetary launch ship.
+export const HyperionStarLifterV: React.FC<ShipProps> = ({ shipColor = '#f8fafc', showStreamlines = false }) => {
+  const ringRef = useRef<THREE.Group>(null);
+  useFrame((_, delta) => { if (ringRef.current) ringRef.current.rotation.z += delta * 0.45; });
   return (
-    <group scale={[0.88, 0.88, 0.88]}>
-      {/* 1. Stage 1 Heavy Booster with Geometric Roll Pattern */}
-      <mesh position={[0, 0, 0.58]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.23, 0.23, 1.0, 32]} />
-        <meshPhysicalMaterial
-          map={tex.hullMap}
-          bumpMap={tex.hullBumpMap}
-          bumpScale={0.08}
-          color="#ffffff"
-          roughness={0.25}
-          metalness={0.7}
-        />
-      </mesh>
-
-      {/* Stage 1 Geometric Black Roll Pattern */}
-      <mesh position={[0, 0, 0.58]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.232, 0.232, 0.48, 32, 1, false, 0, Math.PI * 0.5]} />
-        <meshBasicMaterial color="#0f172a" />
-      </mesh>
-      <mesh position={[0, 0, 0.58]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.232, 0.232, 0.48, 32, 1, false, Math.PI, Math.PI * 0.5]} />
-        <meshBasicMaterial color="#0f172a" />
-      </mesh>
-
-      {/* 4 Folding Aerodynamic Grid Fins on Upper Booster (4 Vây Lưới Gập) */}
-      {[0, Math.PI / 2, Math.PI, (Math.PI * 3) / 2].map((angle, idx) => (
-        <group key={idx} rotation={[0, 0, angle]} position={[0, 0, 0.15]}>
-          <mesh position={[0.3, 0, 0]}>
-            <boxGeometry args={[0.14, 0.015, 0.16]} />
-            <meshStandardMaterial color="#0f172a" metalness={0.95} wireframe />
-          </mesh>
-        </group>
-      ))}
-
-      {/* 2. Stage 2 & Stage 3 Interstage Cylinder */}
-      <mesh position={[0, 0, -0.15]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.23, 0.23, 0.75, 32]} />
-        <meshPhysicalMaterial color="#f8fafc" roughness={0.25} metalness={0.7} />
-      </mesh>
-      <mesh position={[0, 0, -0.65]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.17, 0.23, 0.55, 32]} />
-        <meshPhysicalMaterial color="#ffffff" roughness={0.25} metalness={0.7} />
-      </mesh>
-
-      {/* 3. ROUNDED ASTRONAUT COMMAND CAPSULE DOME ON STAGE 3 */}
-      <group position={[0, 0, -1.05]}>
-        <mesh rotation={[-Math.PI / 2, 0, 0]}>
-          <capsuleGeometry args={[0.15, 0.2, 20, 20]} />
-          <meshPhysicalMaterial
-            color="#94a3b8"
-            metalness={0.9}
-            roughness={0.15}
-            clearcoat={0.9}
-          />
-        </mesh>
+    <group scale={0.78}>
+      <mesh position={[0, 0, 0.45]} rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.42, 0.48, 1.72, 28]} /><HullSurfaceMaterial color={shipColor} metalness={0.68} roughness={0.25} /></mesh>
+      <mesh position={[0, 0, -0.72]} rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.28, 0.42, 0.72, 28]} /><HullSurfaceMaterial color={shipColor} metalness={0.72} roughness={0.22} /></mesh>
+      <mesh position={[0, 0, -1.27]} rotation={[-Math.PI / 2, 0, 0]}><coneGeometry args={[0.28, 0.58, 28]} /><HullSurfaceMaterial color={shipColor} metalness={0.75} roughness={0.2} /></mesh>
+      <Canopy position={[0, 0.02, -1.05]} scale={[0.95, 0.68, 0.72]} color="#7adfff" />
+      {[-0.34, 0.05, 0.76, 1.17].map((z, index) => <mesh key={z} position={[0, 0, z]}><torusGeometry args={[index < 2 ? 0.39 : 0.445, 0.045, 10, 30]} /><meshStandardMaterial color={index === 1 ? '#f59e0b' : NOVA_PALETTE.armor} metalness={0.94} roughness={0.18} /></mesh>)}
+      <group ref={ringRef} position={[0, 0, -0.48]}>
+        <mesh><torusGeometry args={[0.47, 0.028, 10, 40]} /><meshStandardMaterial color="#43e7ff" emissive="#13a6d8" emissiveIntensity={2.8} toneMapped={false} /></mesh>
+        {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((angle) => <mesh key={angle} position={[Math.cos(angle) * 0.47, Math.sin(angle) * 0.47, 0]}><sphereGeometry args={[0.055, 12, 12]} /><meshBasicMaterial color="#f5feff" toneMapped={false} /></mesh>)}
       </group>
-
-      {/* 4. Launch Escape System & Science Sensor Tower (Tháp Cứu Hộ Lưới Thép 3D) */}
-      <group position={[0, 0, -1.3]}>
-        <mesh position={[0, 0, -0.22]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.035, 0.055, 0.42, 8]} />
-          <meshStandardMaterial color="#cbd5e1" wireframe />
-        </mesh>
-        <mesh position={[0, 0, -0.5]} rotation={[-Math.PI / 2, 0, 0]}>
-          <coneGeometry args={[0.034, 0.24, 16]} />
-          <meshPhysicalMaterial color="#ea580c" roughness={0.3} />
-        </mesh>
-      </group>
-
-      {/* 5. 5 AEROSPIKE / ROCKETDYNE F-1 ENGINES WITH ORANGE FLAME */}
-      <group position={[0, 0, 1.1]}>
-        {[
-          [0, 0],
-          [-0.11, -0.11],
-          [0.11, -0.11],
-          [-0.11, 0.11],
-          [0.11, 0.11],
-        ].map(([x, y], idx) => (
-          <mesh key={idx} position={[x, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.07, 0.1, 0.24, 20]} />
-            <meshStandardMaterial color="#334155" metalness={0.95} />
-          </mesh>
-        ))}
-
-        <group ref={f1Ref}>
-          {[
-            [0, 0],
-            [-0.11, -0.11],
-            [0.11, -0.11],
-            [-0.11, 0.11],
-            [0.11, 0.11],
-          ].map(([x, y], idx) => (
-            <mesh key={idx} position={[x, y, 0.35]} rotation={[-Math.PI / 2, 0, 0]}>
-              <coneGeometry args={[0.085, 0.7, 20]} />
-              <meshBasicMaterial color="#f97316" transparent opacity={0.92} />
-            </mesh>
-          ))}
-        </group>
-      </group>
-
-      {/* Vietnam Flag Badge */}
-      {hasVnFlag && <VietnamFlagDecal position={[0, 0.24, 0.25]} scale={[0.18, 0.12, 0.01]} />}
+      {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((angle, index) => <group key={angle} rotation={[0, 0, angle]} position={[0, 0, 0.22]}>
+        <mesh position={[0.61, 0, 0]}><boxGeometry args={[0.4, 0.035, 0.42, 4, 1, 4]} /><meshStandardMaterial color={index % 2 ? NOVA_PALETTE.armor : shipColor} metalness={0.9} roughness={0.26} wireframe /></mesh>
+        <mesh position={[0.53, 0, 0.92]} rotation={[0, -0.22, 0]}><boxGeometry args={[0.08, 0.07, 0.9]} /><meshStandardMaterial color={NOVA_PALETTE.metal} metalness={0.94} /></mesh>
+      </group>)}
+      {[[0, 0], [-0.27, -0.27], [0.27, -0.27], [-0.27, 0.27], [0.27, 0.27]].map(([x, y], index) => <EnginePod key={index} position={[x, y, 1.42]} scale={0.64} accent="#ff8a20" flame="#ff7a18" rings={2} />)}
+      <EnergyStrip position={[-0.435, 0, 0.45]} rotation={[0, 0, Math.PI / 2]} scale={[0.8, 0.7, 2.4]} color="#ffb02e" /><EnergyStrip position={[0.435, 0, 0.45]} rotation={[0, 0, Math.PI / 2]} scale={[0.8, 0.7, 2.4]} color="#ffb02e" />
+      <Streamlines visible={showStreamlines} width={0.75} length={4.8} color="#ffb44a" />
     </group>
   );
 };
 
-// =========================================================================
-// MASTER ORIGINAL CINEMATIC SHIP RENDERER
-// =========================================================================
 export const AerodynamicShipRenderer: React.FC<{
   shipId: string;
   shipColor?: string;
-  hasVnFlag?: boolean;
   showStreamlines?: boolean;
   scale?: number;
-}> = ({
-  shipId,
-  hasVnFlag = true,
-  scale = 1.0,
-}) => {
-  const renderShipModel = () => {
-    switch (shipId) {
-      case 'falcon_apex':
-        return <ChronoVoyager hasVnFlag={hasVnFlag} />;
-      case 'solar_phoenix':
-        return <OrionSkyCarrier hasVnFlag={hasVnFlag} />;
-      case 'starlight_runner':
-        return <AeroShuttleX9 hasVnFlag={hasVnFlag} />;
-      case 'astral_shuttle':
-        return <HyperionStarLifterV hasVnFlag={hasVnFlag} />;
-      case 'explorer_v1':
-      default:
-        return <NovaApexHunter hasVnFlag={hasVnFlag} />;
-    }
-  };
-
-  return (
-    <group scale={[scale, scale, scale]}>
-      {renderShipModel()}
-    </group>
-  );
+}> = ({ shipId, shipColor = '#38bdf8', showStreamlines = false, scale = 1 }) => {
+  const props = { shipColor, showStreamlines };
+  let model: React.ReactNode;
+  switch (shipId) {
+    case 'falcon_apex': model = <ChronoVoyager {...props} />; break;
+    case 'solar_phoenix': model = <OrionSkyCarrier {...props} />; break;
+    case 'starlight_runner': model = <AeroShuttleX9 {...props} />; break;
+    case 'astral_shuttle': model = <HyperionStarLifterV {...props} />; break;
+    default: model = <NovaApexHunter {...props} />;
+  }
+  return <group scale={scale}>{model}</group>;
 };
