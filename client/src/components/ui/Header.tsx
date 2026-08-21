@@ -3,7 +3,8 @@ import { useGameStore } from '../../stores/useGameStore';
 import { Zap, Diamond, Volume2, VolumeX, ShieldCheck } from 'lucide-react';
 
 export const Header: React.FC = () => {
-  const { user, settings, toggleSound, setActiveTab, activeTab } = useGameStore();
+  const { user, settings, setActiveTab, activeTab } = useGameStore();
+  const anyAudioEnabled = settings.bgmEnabled || settings.sfxEnabled;
 
   const xpProgress = Math.min(100, Math.round((user.xp / user.xpToNextLevel) * 100));
 
@@ -70,17 +71,17 @@ export const Header: React.FC = () => {
             <span>{user.streakDays} ngày</span>
           </div>
 
-          {/* Sound Toggle */}
+          {/* Audio settings shortcut */}
           <button
-            onClick={toggleSound}
-            aria-label="Bật tắt âm thanh"
+            onClick={() => setActiveTab('settings')}
+            aria-label="Mở cài đặt âm thanh"
             className={`p-2 rounded-xl border transition-all ${
-              settings.soundEnabled 
+              anyAudioEnabled
                 ? 'bg-indigo-600/20 border-indigo-500/40 text-indigo-400 hover:bg-indigo-600/30' 
                 : 'bg-slate-800 border-slate-700 text-slate-500 hover:bg-slate-700'
             }`}
           >
-            {settings.soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+            {anyAudioEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
           </button>
 
           {/* Parent Mode Quick Access */}

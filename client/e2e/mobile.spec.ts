@@ -176,20 +176,86 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 15000 });
   });
 
-  test('5. Header sound toggle and energy display', async ({ page }) => {
+  test('5. Header audio popover, sound toggle and BGM style switching', async ({ page }) => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
-    // Verify sound toggle in header
+    // Verify sound button in header
     const header = page.locator('header');
     await expect(header).toBeVisible({ timeout: 4000 });
 
-    const soundBtn = header.locator('button').last();
+    const soundBtn = header.locator('button[aria-label="Cài đặt âm thanh và nhạc nền"]').first();
     await expect(soundBtn).toBeVisible();
-    await soundBtn.click({ force: true });
+
+    // 1. Click speaker button to open Audio Menu
+    await soundBtn.click();
+    await expect(page.locator('text=Âm thanh & Nhạc nền').first()).toBeVisible({ timeout: 3000 });
+    await expect(page.locator('text=🪐 Vũ trụ êm dịu').first()).toBeVisible();
+    await expect(page.locator('text=🚀 Phiêu lưu ngân hà').first()).toBeVisible();
+
+    // 2. BGM and SFX can be controlled independently
+    const bgmToggle = page.locator('button[aria-label="Bật tắt nhạc nền BGM"]').first();
+    const sfxToggle = page.locator('button[aria-label="Bật tắt hiệu ứng âm thanh SFX"]').first();
+    await expect(bgmToggle).toHaveAttribute('aria-pressed', 'true');
+    await expect(sfxToggle).toHaveAttribute('aria-pressed', 'true');
+
+    await bgmToggle.click();
+    await expect(bgmToggle).toHaveAttribute('aria-pressed', 'false');
+    await expect(sfxToggle).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('button:has-text("🚀 Phiêu lưu ngân hà")').first()).toBeDisabled();
+    await bgmToggle.click();
+
+    // 3. Select Adventure style
+    const adventureBtn = page.locator('button:has-text("🚀 Phiêu lưu ngân hà")').first();
+    await adventureBtn.click();
+
+    // 4. Select Ambient style back
+    const ambientBtn = page.locator('button:has-text("🪐 Vũ trụ êm dịu")').first();
+    await ambientBtn.click();
+
+    // 5. Independent states persist after reload
+    await sfxToggle.click();
+    await expect(sfxToggle).toHaveAttribute('aria-pressed', 'false');
+    await page.reload();
+    await dismissFTUEIfPresent(page);
+    await page.locator('button[aria-label="Cài đặt âm thanh và nhạc nền"]').first().click();
+    await expect(page.locator('button[aria-label="Bật tắt nhạc nền BGM"]').first()).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('button[aria-label="Bật tắt hiệu ứng âm thanh SFX"]').first()).toHaveAttribute('aria-pressed', 'false');
+
+    // 6. Close audio menu
+    const closeBtn = page.locator('button[aria-label="Đóng cài đặt âm thanh"]').first();
+    if (await closeBtn.isVisible()) {
+      await closeBtn.click({ force: true });
+    }
 
     // Verify energy counter display
     await expect(header.locator('span:text-is("50")').first()).toBeVisible({ timeout: 4000 });
+  });
+
+  test('5b. Legacy audio settings migrate to independent BGM and SFX controls', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => {
+      localStorage.setItem('novastars_space_state_v2', JSON.stringify({
+        settings: { soundEnabled: false, musicEnabled: true, bgmStyle: 'ambient' },
+      }));
+    });
+    await page.reload();
+    await page.waitForFunction(() => (window as any).__gameStore?.getState().settings.audioSettingsVersion === 2);
+    let settings = await page.evaluate(() => (window as any).__gameStore.getState().settings);
+    expect(settings.bgmEnabled).toBe(false);
+    expect(settings.sfxEnabled).toBe(false);
+
+    await page.evaluate(() => {
+      localStorage.setItem('novastars_space_state_v2', JSON.stringify({
+        settings: { soundEnabled: true, musicEnabled: false, bgmStyle: 'adventure' },
+      }));
+    });
+    await page.reload();
+    await page.waitForFunction(() => (window as any).__gameStore?.getState().settings.bgmStyle === 'adventure');
+    settings = await page.evaluate(() => (window as any).__gameStore.getState().settings);
+    expect(settings.bgmEnabled).toBe(false);
+    expect(settings.sfxEnabled).toBe(true);
+    expect(settings.audioSettingsVersion).toBe(2);
   });
 
   test('5. Home View UI verification: Play button, parent review label, square checkbox', async ({ page }) => {
