@@ -1,0 +1,6 @@
+NEON_DATABASE_URL=postgresql://user:password@host/database?sslmode=require
+SESSION_PEPPER=replace-with-at-least-32-random-bytes
+OTP_PEPPER=replace-with-at-least-32-random-bytes
+PIN_PEPPER=replace-with-at-least-32-random-bytes
+REVENUECAT_WEBHOOK_SECRET=replace-with-a-random-webhook-secret
+ADMIN_UPLOAD_SECRET=replace-with-a-random-admin-secret

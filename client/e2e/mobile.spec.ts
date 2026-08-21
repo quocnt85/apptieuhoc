@@ -93,6 +93,7 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
 
   test('4. Full 10-Stage Universal Lesson Runner Walkthrough', async ({ page }) => {
     test.setTimeout(60000);
+    await page.clock.setFixedTime(new Date('2026-08-22T12:00:00+07:00'));
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
@@ -101,8 +102,10 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 5000 });
 
     // Click Lesson 1 Node on Planet surface (force: true for 3D animated canvas)
-    const nodePin = page.locator('button[title*="Bài 1"], button:has-text("1")').first();
-    await nodePin.click({ force: true });
+    const nodePin = page.getByTestId('lesson-node-island_1_node_1');
+    // Drei's transformed Html overlays can overlap visually in headless WebKit.
+    // Dispatch to the exact semantic node instead of coordinate-based clicking.
+    await nodePin.dispatchEvent('click');
 
     // Coordinate Preview Modal pops up after 3-5s flight animation
     await expect(page.locator('text=Bài 1: Lời Chào Ngôi Sao').first()).toBeVisible({ timeout: 12000 });
@@ -162,10 +165,10 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await page.waitForTimeout(300);
     await page.locator('button:has-text("Sẵn Sàng 🚀")').click({ force: true });
 
-    // Chặng 9: Bố mẹ duyệt
-    await expect(page.locator('text=Chặng 9: Bố mẹ duyệt').first()).toBeVisible({ timeout: 8000 });
+    // Chặng 9: trẻ báo hoàn thành; phụ huynh duyệt sau trong Parent Zone
+    await expect(page.locator('text=Chặng 9: Con báo hoàn thành').first()).toBeVisible({ timeout: 8000 });
     await page.waitForTimeout(300);
-    await page.locator('button:has-text("Bố Mẹ Xác Nhận ✨"), button:has-text("Xác Nhận")').first().click({ force: true });
+    await page.locator('button:has-text("Con đã làm xong ✨")').first().click({ force: true });
 
     // Chặng 10: Nhận huy chương
     await expect(page.locator('text=Chặng 10: Nhận huy chương').first()).toBeVisible({ timeout: 8000 });

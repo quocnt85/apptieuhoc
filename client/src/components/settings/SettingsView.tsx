@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
 import { Settings, Volume2, VolumeX, Music, Clock, User, RotateCcw } from 'lucide-react';
 import { interactionService } from '../../services/interaction';
+import { useParentZoneStore } from '../../stores/useParentZoneStore';
 
 export const SettingsView: React.FC = () => {
   const { user, settings, toggleBgm, toggleSfx } = useGameStore();
+  const parentDailyLimit = useParentZoneStore((state) => state.limits[state.activeProfileId]?.dailyMinutes ?? 30);
 
   const [selectedAvatar, setSelectedAvatar] = useState(user.avatar);
   const avatars = ['🦁', '🐼', '🦊', '🚀', '🤖', '🦖', '🦄', '⭐'];
@@ -152,7 +154,7 @@ export const SettingsView: React.FC = () => {
             <Clock className="w-4 h-4 text-purple-400" />
             <span>GIỚI HẠN THỜI GIAN MỖI NGÀY</span>
           </div>
-          <span className="text-xs font-black text-purple-400 font-mono">{settings.dailyTimeLimitMinutes} phút</span>
+          <span className="text-xs font-black text-purple-400 font-mono">{parentDailyLimit} phút</span>
         </div>
         <p className="text-xs text-slate-400 font-medium">
           Bảo vệ mắt và cân bằng thời gian sử dụng thiết bị.

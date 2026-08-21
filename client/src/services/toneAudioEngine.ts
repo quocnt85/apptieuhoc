@@ -622,8 +622,9 @@ export class ToneAudioEngine {
       if (!this.coinSynth) return;
 
       const now = Tone.now();
-      this.coinSynth.triggerAttackRelease('B5', '0.1s', now, 0.35);
-      this.coinSynth.triggerAttackRelease('E6', '0.25s', now + 0.07, 0.45);
+      ['C6', 'E6', 'G6', 'C7'].forEach((note, index) => {
+        this.coinSynth?.triggerAttackRelease(note, index === 3 ? '0.18s' : '0.07s', now + index * 0.055, 0.34 + index * 0.04);
+      });
     } catch {}
   }
 
@@ -669,7 +670,7 @@ export class ToneAudioEngine {
     } catch {}
   }
 
-  public playGameShot(kind: 'single' | 'twin' | 'cluster' | 'spread' | 'missile') {
+  public playGameShot(kind: 'single' | 'twin' | 'piercing' | 'charge' | 'cluster' | 'spread' | 'missile' | 'homing') {
     try {
       if (!this.sfxEnabled) return;
       this.initAudioGraph();
@@ -677,11 +678,16 @@ export class ToneAudioEngine {
       const notes = {
         single: ['C6'],
         twin: ['A5', 'E6'],
+        piercing: ['C7', 'G7'],
+        charge: ['C3', 'G3', 'C4'],
         cluster: ['D4'],
         spread: ['G5', 'B5'],
         missile: ['E4', 'B4'],
+        homing: ['D4', 'A4', 'D5'],
       }[kind];
-      this.gameShotSynth.triggerAttackRelease(notes, kind === 'cluster' ? '0.1s' : '0.045s', undefined, kind === 'missile' ? 0.5 : 0.3);
+      const duration = kind === 'charge' ? '0.16s' : kind === 'cluster' ? '0.1s' : kind === 'homing' ? '0.08s' : '0.045s';
+      const velocity = kind === 'missile' || kind === 'homing' ? 0.5 : kind === 'charge' ? 0.55 : 0.3;
+      this.gameShotSynth.triggerAttackRelease(notes, duration, undefined, velocity);
     } catch {}
   }
 

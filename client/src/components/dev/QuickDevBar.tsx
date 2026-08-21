@@ -18,7 +18,7 @@ export const QuickDevBar: React.FC<Props> = ({
 }) => {
   const { isGodModeUnlocked, toggleDevPanel } = useGameStore();
 
-  if (!isGodModeUnlocked) return null;
+  if (!import.meta.env.DEV || !isGodModeUnlocked) return null;
 
   const handleSkip = () => {
     soundService.playClick();

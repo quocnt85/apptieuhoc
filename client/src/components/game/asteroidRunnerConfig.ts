@@ -1,10 +1,10 @@
 import { SHIPS_DATA } from '../../data/shipsData';
 
 export type RunnerShipId = 'explorer_v1' | 'falcon_apex' | 'solar_phoenix' | 'starlight_runner' | 'astral_shuttle' | 'chuong_duong' | 'son_tinh' | 'thanh_giong';
-export type WeaponKind = 'single' | 'twin' | 'cluster' | 'spread' | 'missile';
-export type AsteroidTier = 'small' | 'medium' | 'large' | 'titan';
-export type AsteroidMaterial = 'rock' | 'hard' | 'crystal';
-export type RunnerPowerUp = 'heal' | 'slow' | 'orbiter';
+export type WeaponKind = 'single' | 'twin' | 'piercing' | 'charge' | 'cluster' | 'spread' | 'missile' | 'homing';
+export type AsteroidTier = 'debris' | 'small' | 'medium' | 'large' | 'huge' | 'titan';
+export type AsteroidMaterial = 'rock' | 'hard' | 'silver' | 'gold' | 'platinum' | 'diamond';
+export type RunnerPowerUp = 'heal' | 'slow' | 'orbiter' | 'attack_speed' | 'move_speed' | 'damage' | 'blackhole' | 'phase' | 'team' | 'mid_wormhole';
 
 export interface WeaponConfig {
   id: string;
@@ -16,6 +16,9 @@ export interface WeaponConfig {
   projectileSpeed: number;
   color: string;
   aoe: number;
+  piercing?: number;
+  homingStrength?: number;
+  autoDetonateDistance?: number;
 }
 
 export interface RunnerShipConfig {
@@ -41,7 +44,7 @@ const WEAPONS: Record<RunnerShipId, WeaponConfig> = {
   },
   solar_phoenix: {
     id: 'W5', name: 'Bom Chùm Sao', shortName: 'CLUSTER', kind: 'cluster',
-    damage: 40, fireInterval: 0.38, projectileSpeed: 9.2, color: '#ffd84f', aoe: 1.35,
+    damage: 40, fireInterval: 0.38, projectileSpeed: 9.2, color: '#ffd84f', aoe: 1.35, autoDetonateDistance: 4.1,
   },
   starlight_runner: {
     id: 'W6', name: 'Đạn Rẻ Quạt', shortName: 'SPREAD', kind: 'spread',
@@ -52,16 +55,16 @@ const WEAPONS: Record<RunnerShipId, WeaponConfig> = {
     damage: 25, fireInterval: 0.29, projectileSpeed: 10.8, color: '#ff824d', aoe: 0.85,
   },
   chuong_duong: {
-    id: 'W3', name: 'Pháo Đôi Hộ Vệ', shortName: 'GUARD', kind: 'twin',
-    damage: 10, fireInterval: 0.22, projectileSpeed: 12.8, color: '#55eaff', aoe: 0,
+    id: 'W3', name: 'Laser Xuyên Thấu', shortName: 'PIERCE', kind: 'piercing',
+    damage: 17, fireInterval: 0.25, projectileSpeed: 11.6, color: '#55eaff', aoe: 0, piercing: 24,
   },
   son_tinh: {
-    id: 'W4', name: 'Chấn Động Địa Chất', shortName: 'QUAKE', kind: 'cluster',
-    damage: 34, fireInterval: 0.42, projectileSpeed: 9.6, color: '#fbbf24', aoe: 1.15,
+    id: 'W4', name: 'Plasma Tích Năng', shortName: 'CHARGE', kind: 'charge',
+    damage: 62, fireInterval: 0.7, projectileSpeed: 7.2, color: '#fbbf24', aoe: 0.72,
   },
   thanh_giong: {
-    id: 'W8', name: 'Lôi Đình Thiết Mã', shortName: 'THUNDER', kind: 'spread',
-    damage: 7.5, fireInterval: 0.2, projectileSpeed: 14, color: '#b98cff', aoe: 0,
+    id: 'W8', name: 'Tên Lửa Tầm Nhiệt', shortName: 'HOMING', kind: 'homing',
+    damage: 28, fireInterval: 0.28, projectileSpeed: 9.8, color: '#b98cff', aoe: 0.78, homingStrength: 4.8,
   },
 };
 
@@ -91,7 +94,7 @@ export const RUNNER_BALANCE = {
   victoryRewardCap: 45,
   runCoinCap: 32,
   retryEnergyCost: 10,
-  continueEnergyCost: 10,
+  continueEnergyCost: 15,
   worldHalfWidth: 4.75,
   worldBottom: -8.2,
   worldTop: 8.2,
@@ -107,16 +110,21 @@ export const RUNNER_BALANCE = {
 } as const;
 
 export const ASTEROID_STATS: Record<AsteroidTier, { radius: number; hpFactor: number; speed: number; damage: number; coins: number }> = {
-  small: { radius: 0.48, hpFactor: 0.64, speed: 2.55, damage: 10, coins: 1 },
-  medium: { radius: 0.82, hpFactor: 0.8, speed: 2.05, damage: 18, coins: 1 },
-  large: { radius: 1.18, hpFactor: 1, speed: 1.48, damage: 28, coins: 2 },
+  debris: { radius: 0.25, hpFactor: 0.512, speed: 3.15, damage: 10, coins: 0 },
+  small: { radius: 0.48, hpFactor: 0.64, speed: 2.55, damage: 15, coins: 1 },
+  medium: { radius: 0.82, hpFactor: 0.8, speed: 2.05, damage: 25, coins: 1 },
+  large: { radius: 1.18, hpFactor: 1, speed: 1.48, damage: 35, coins: 2 },
+  huge: { radius: 1.62, hpFactor: 1.25, speed: 1.08, damage: 100, coins: 3 },
   titan: { radius: 5.65, hpFactor: 1, speed: 0.48, damage: 100, coins: 6 },
 };
 
 export const MATERIAL_STATS: Record<AsteroidMaterial, { label: string; baseHp: number; color: string; emissive: string }> = {
-  rock: { label: 'Đá Sao', baseHp: 76, color: '#6f7891', emissive: '#111827' },
-  hard: { label: 'Đá Cứng', baseHp: 142, color: '#8a5f4c', emissive: '#2b1008' },
-  crystal: { label: 'Tinh Thể', baseHp: 230, color: '#7a54d8', emissive: '#351884' },
+  rock: { label: 'Đá Sao', baseHp: 14, color: '#6f7891', emissive: '#111827' },
+  hard: { label: 'Đá Cứng', baseHp: 28, color: '#8a5f4c', emissive: '#2b1008' },
+  silver: { label: 'Khoáng Bạc', baseHp: 56, color: '#b9c7d8', emissive: '#26384c' },
+  gold: { label: 'Khoáng Vàng', baseHp: 112, color: '#e7ad32', emissive: '#6b3808' },
+  platinum: { label: 'Bạch Kim', baseHp: 224, color: '#a8e5df', emissive: '#185e69' },
+  diamond: { label: 'Kim Cương', baseHp: 448, color: '#8f72ed', emissive: '#351884' },
 };
 
 export const getRunnerShip = (shipId: string): RunnerShipConfig => (

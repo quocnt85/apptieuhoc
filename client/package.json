@@ -14,6 +14,8 @@
     "cap:ios": "npx cap open ios"
   },
   "dependencies": {
+    "@aparajita/capacitor-biometric-auth": "^6.0.1",
+    "@aparajita/capacitor-secure-storage": "^6.0.1",
     "@capacitor/android": "^6.1.2",
     "@capacitor/app": "^6.0.1",
     "@capacitor/cli": "^6.1.2",
@@ -24,9 +26,9 @@
     "@capacitor/preferences": "^6.0.2",
     "@capacitor/screen-orientation": "^6.0.2",
     "@capacitor/status-bar": "^6.0.1",
-    "@neondatabase/serverless": "^0.10.4",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
+    "@revenuecat/purchases-capacitor": "^9.2.2",
     "@types/three": "^0.185.4",
     "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
@@ -50,5 +52,8 @@
     "tailwindcss": "^3.4.17",
     "typescript": "~5.7.2",
     "vite": "^6.1.0"
+  },
+  "overrides": {
+    "tar": "7.5.22"
   }
 }
