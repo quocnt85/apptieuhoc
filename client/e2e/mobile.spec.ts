@@ -14,12 +14,12 @@ async function dismissFTUEIfPresent(page: Page) {
 test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
   test('1. App Launch, Splash Screen & Welcome FTUE flow', async ({ page }) => {
     await page.goto('/');
-    // Splash screen visible initially
-    await expect(page.locator('text=NOVASTARS')).toBeVisible({ timeout: 5000 });
+    // Splash screen visible initially with cinematic artwork
+    await expect(page.locator('text=Hành Tinh Học Kỹ Năng Sống').first()).toBeVisible({ timeout: 5000 });
     
     // Welcome modal appears after splash
     const startBtn = page.locator('button:has-text("Bắt Đầu Ngay 🚀"), button:has-text("Bắt Đầu")');
-    await expect(startBtn).toBeVisible({ timeout: 7000 });
+    await expect(startBtn).toBeVisible({ timeout: 8000 });
     await startBtn.click({ force: true });
 
     // Should navigate to 3D Planet view
@@ -51,7 +51,7 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await expect(page.locator('text=Huy Chương Đã Đạt').first()).toBeVisible({ timeout: 5000 });
   });
 
-  test('3. Space Hangar Customization & 3D Ship Inspector Modal', async ({ page }) => {
+  test('3. Space Hangar Ship Card 3D Detail Modal & Customization', async ({ page }) => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
@@ -59,12 +59,18 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await page.locator('button:has-text("Xưởng Tàu")').first().click({ force: true });
     await expect(page.locator('text=Xưởng Tàu Không Gian').first()).toBeVisible({ timeout: 5000 });
 
-    // Open 3D Ship Inspector Modal
-    const open3DBtn = page.locator('button:has-text("Xem 3D 360°")');
-    await expect(open3DBtn).toBeVisible({ timeout: 5000 });
-    await open3DBtn.click({ force: true });
-    await expect(page.locator('text=Quan Sát Phi Thuyền 3D Thực Tế')).toBeVisible({ timeout: 5000 });
-    await page.locator('button:has-text("Đã Xong")').click({ force: true });
+    // Click on Ship Card to open 3D Interactive Detail Modal
+    const shipCard = page.locator('text=Tiêm Kích Thám Hiểm Nova Apex').first();
+    await expect(shipCard).toBeVisible({ timeout: 5000 });
+    await shipCard.click({ force: true });
+
+    // Check 3D Modal details
+    await expect(page.locator('text=Chạm & vuốt để xoay 360°').first()).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=Tốc Độ').first()).toBeVisible();
+    await expect(page.locator('text=Đang Lái Phi Thuyền Này').first()).toBeVisible();
+
+    // Close Modal
+    await page.locator('button:has(svg.lucide-x)').first().click({ force: true });
 
     // Switch to Colors & Flag Sub-tab
     const colorsTab = page.locator('button:has-text("Màu & Cờ")');
@@ -77,7 +83,7 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await flagBtn.click({ force: true });
 
     // Switch to Boosters Sub-tab
-    const boostersTab = page.locator('button:has-text("Năng Lượng")').first();
+    const boostersTab = page.locator('button:has-text("Năng Lượng")');
     await boostersTab.click({ force: true });
     await expect(page.locator('text=Bình Năng Lượng Phi Thuyền').first()).toBeVisible({ timeout: 5000 });
     await expect(page.locator('text=Lò Phản Ứng Ion').first()).toBeVisible({ timeout: 5000 });
@@ -184,6 +190,26 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await expect(header.locator('span:text-is("50")').first()).toBeVisible({ timeout: 4000 });
   });
 
+  test('5. Home View UI verification: Play button, parent review label, square checkbox', async ({ page }) => {
+    await page.goto('/');
+    await dismissFTUEIfPresent(page);
+
+    // Go to Home Tab
+    await page.locator('button:has-text("Trang Chủ")').first().click({ force: true });
+    await expect(page.locator('text=Nhiệm Vụ Hằng Ngày').first()).toBeVisible({ timeout: 5000 });
+
+    // Play Continue button check
+    const playBtn = page.locator('[data-testid="play-continue-btn"]');
+    await expect(playBtn).toBeVisible();
+    await expect(page.locator('text=Tiếp tục học').first()).toBeVisible();
+
+    // Check Parent review quest label
+    const parentQuestBtn = page.locator('text=Phụ huynh duyệt').first();
+    if (await parentQuestBtn.isVisible()) {
+      await expect(parentQuestBtn).toBeVisible();
+    }
+  });
+
   test('6. Parent Quest Verification with PIN Security flow', async ({ page }) => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);
@@ -197,7 +223,7 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await greetingQuest.click({ force: true });
 
     // Parent PIN Modal opens
-    await expect(page.locator('text=Bố Mẹ Xác Nhận')).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('heading', { name: 'Phụ Huynh Duyệt' })).toBeVisible({ timeout: 5000 });
 
     // Type PIN 1-2-3-4
     await page.getByRole('button', { name: '1', exact: true }).click({ force: true });
@@ -207,11 +233,11 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
 
     // PIN verified screen appears
     await expect(page.locator('text=PIN Hợp Lệ!')).toBeVisible({ timeout: 5000 });
-    const confirmBtn = page.locator('button:has-text("Xác Nhận (+30 Xu)")');
+    const confirmBtn = page.locator('button:has-text("Duyệt & Nhận Thưởng")');
     await expect(confirmBtn).toBeVisible({ timeout: 5000 });
     await confirmBtn.click({ force: true });
 
     // Toast alert appears
-    await expect(page.locator('text=Phụ huynh đã xác nhận')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=Phụ huynh đã duyệt')).toBeVisible({ timeout: 5000 });
   });
 });

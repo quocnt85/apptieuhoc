@@ -22,7 +22,11 @@ import {
 
 type DevTab = 'energy' | 'economy' | 'progression' | 'system';
 
-export const DevGodModeModal: React.FC = () => {
+interface DevGodModeModalProps {
+  onOpenShowroom?: () => void;
+}
+
+export const DevGodModeModal: React.FC<DevGodModeModalProps> = ({ onOpenShowroom }) => {
   const {
     user,
     isDevPanelOpen,
@@ -491,6 +495,27 @@ export const DevGodModeModal: React.FC = () => {
                 <span>🎨 Mở</span>
               </button>
 
+              {/* Open 3D Space Fleet Showroom (Admin Feature) */}
+              {onOpenShowroom && (
+                <button
+                  onClick={() => {
+                    toggleDevPanel(false);
+                    onOpenShowroom();
+                  }}
+                  data-testid="dev-open-showroom-btn"
+                  className="w-full p-3.5 rounded-2xl bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 text-white font-black text-xs sm:text-sm shadow-lg flex items-center justify-between active:scale-95 transition-all"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Sparkles className="w-5 h-5 text-yellow-300" />
+                    <div className="text-left">
+                      <div>Phòng Duyệt 3D Không Gian (Admin)</div>
+                      <div className="text-[10px] text-sky-200 font-normal">Duyệt 5 phi thuyền khí động học & tinh cầu</div>
+                    </div>
+                  </div>
+                  <span>✨ Mở</span>
+                </button>
+              )}
+
               {/* Complete Daily Greeting Quest */}
               <button
                 onClick={() => {
@@ -502,7 +527,7 @@ export const DevGodModeModal: React.FC = () => {
                 <div className="flex items-center gap-2.5">
                   <ShieldCheck className="w-5 h-5 text-purple-400" />
                   <div className="text-left">
-                    <div>Tự Động Duyệt Nhiệm Vụ Phuh Huynh</div>
+                    <div>Tự Động Duyệt Nhiệm Vụ Phụ Huynh</div>
                     <div className="text-[10px] text-slate-400 font-normal">Bypass mã PIN phụ huynh 1234</div>
                   </div>
                 </div>

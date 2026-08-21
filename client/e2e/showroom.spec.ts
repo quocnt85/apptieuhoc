@@ -12,15 +12,23 @@ async function dismissFTUEIfPresent(page: Page) {
 }
 
 async function openShowroom(page: Page) {
-  const headerBtn = page.locator('[data-testid="header-showroom-btn"]');
-  if (await headerBtn.isVisible()) {
-    await headerBtn.click();
-  } else {
-    const hangarTab = page.locator('button:has-text("Xưởng Tàu")').first();
-    await hangarTab.click();
-    const showroomBtn = page.locator('button:has-text("Phòng Duyệt 3D"), button:has-text("Duyệt 3D")').first();
-    await showroomBtn.click();
-  }
+  // Trigger God Mode via window store helper
+  await page.evaluate(() => {
+    (window as any).__gameStore?.getState().unlockGodMode();
+  });
+  
+  // Wait for Dev God Mode Modal
+  const godModal = page.locator('[data-testid="dev-god-mode-modal"]');
+  await expect(godModal).toBeVisible({ timeout: 6000 });
+  
+  // Go to Progression Tab
+  await page.locator('[data-testid="dev-tab-progression"]').click({ force: true });
+  
+  // Click Open Showroom button
+  const showroomBtn = page.locator('[data-testid="dev-open-showroom-btn"]');
+  await expect(showroomBtn).toBeVisible({ timeout: 5000 });
+  await showroomBtn.click({ force: true });
+  
   await expect(page.locator('text=Phòng Duyệt 3D Không Gian').first()).toBeVisible({ timeout: 10000 });
 }
 

@@ -70,7 +70,6 @@ export const App: React.FC = () => {
             {!isLessonRunning && (
               <VercelHeader
                 title={getHeaderTitle()}
-                onOpenShowroom={() => setActiveTab('showroom')}
               />
             )}
 
@@ -91,7 +90,7 @@ export const App: React.FC = () => {
                     <SpaceShowroomView onClose={() => setActiveTab('hangar')} />
                   )}
                   {activeTab === 'hangar' && (
-                    <SpaceHangarView onOpenShowroom={() => setActiveTab('showroom')} />
+                    <SpaceHangarView />
                   )}
                   {activeTab === 'profile' && <ProfileView />}
                 </main>
@@ -116,7 +115,7 @@ export const App: React.FC = () => {
 
             {/* Dev God Mode Global Elements */}
             <DevFloatingButton />
-            <DevGodModeModal />
+            <DevGodModeModal onOpenShowroom={() => setActiveTab('showroom')} />
             <PerformanceOverlay />
           </>
         )}

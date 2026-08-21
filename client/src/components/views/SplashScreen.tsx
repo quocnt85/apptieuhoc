@@ -8,36 +8,45 @@ export const SplashScreen: React.FC<Props> = ({ onFinish }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onFinish();
-    }, 1800);
+    }, 2400);
     return () => clearTimeout(timer);
   }, [onFinish]);
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-sky-400 via-blue-500 to-indigo-600 text-white p-6 sm:p-8 text-center animate-fadeIn select-none relative overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute w-72 h-72 bg-yellow-300/25 blur-3xl rounded-full pointer-events-none -z-10" />
-
-      <div className="relative mb-4">
-        <img 
-          src="/assets/3d/star_mascot.png" 
-          alt="Sao Nova" 
-          className="w-28 h-28 sm:w-32 sm:h-32 object-contain drop-shadow-[0_12px_24px_rgba(251,191,36,0.6)] animate-float" 
+    <div className="w-full h-full flex flex-col justify-between bg-slate-950 text-white select-none relative overflow-hidden animate-fadeIn">
+      {/* Background Cinematic Space Splash Artwork */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/assets/novastars_splash_art.jpg"
+          alt="NovaStars Space Adventure"
+          className="w-full h-full object-cover object-center animate-scaleSlow"
         />
-        <div className="absolute -inset-2 bg-yellow-300/30 blur-xl rounded-full -z-10 animate-pulse" />
+        {/* Gradients to blend UI smoothly */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-slate-950/80 to-transparent" />
       </div>
 
-      <h1 className="text-3xl sm:text-4xl font-black text-yellow-300 tracking-tight mb-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
-        NOVASTARS
-      </h1>
-      <p className="text-sm sm:text-base font-extrabold text-sky-100 mb-8 tracking-wide">
-        Hành Tinh Học Kỹ Năng Sống
-      </p>
-
-      {/* 3D Starlight Loading Bar */}
-      <div className="w-56 sm:w-68 h-3.5 bg-white/20 rounded-full overflow-hidden mb-3.5 p-0.5 border border-white/30 shadow-inner">
-        <div className="h-full bg-gradient-to-r from-amber-400 via-yellow-300 to-emerald-400 rounded-full animate-pulse shadow-sm" style={{ width: '100%' }} />
+      {/* Top Brand Subtitle */}
+      <div className="relative z-10 pt-10 sm:pt-12 px-6 text-center">
+        <div className="inline-flex items-center gap-2 bg-slate-950/60 backdrop-blur-md border border-sky-400/50 px-4 py-1 rounded-full shadow-lg">
+          <span className="text-yellow-300 animate-spin" style={{ animationDuration: '8s' }}>⭐</span>
+          <span className="text-xs sm:text-sm font-black tracking-wider text-sky-200 uppercase">Hành Tinh Học Kỹ Năng Sống</span>
+        </div>
       </div>
-      <p className="text-xs sm:text-sm text-sky-100 font-bold">Đang kết nối hành tinh tri thức...</p>
+
+      {/* Bottom Loading Progress & Action Indicator */}
+      <div className="relative z-10 pb-12 sm:pb-16 px-6 flex flex-col items-center text-center">
+        {/* Loading Progress Bar */}
+        <div className="w-64 sm:w-72 h-3.5 bg-slate-950/80 backdrop-blur-md rounded-full overflow-hidden mb-3 p-0.5 border-2 border-sky-400/80 shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+          <div className="h-full bg-gradient-to-r from-amber-400 via-yellow-300 to-sky-400 rounded-full animate-pulse shadow-sm" style={{ width: '100%' }} />
+        </div>
+        
+        <p className="text-xs sm:text-sm text-sky-200 font-black tracking-wide drop-shadow flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+          <span>Đang nạp năng lượng & khởi động hành trình...</span>
+        </p>
+      </div>
     </div>
   );
 };
+

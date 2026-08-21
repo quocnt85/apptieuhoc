@@ -1,45 +1,55 @@
 import React, { useState, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useGameStore } from '../../stores/useGameStore';
-import { SHIPS_DATA } from '../../data/shipsData';
+import { SHIPS_DATA, SpaceshipModelData } from '../../data/shipsData';
 import { AerodynamicShipRenderer } from '../3d/ships/AerodynamicShips';
-import { Rocket, Palette, Flag, Zap, Sparkles, Check, Lock, Gift, Eye, RotateCw, X, Wind, Trophy } from 'lucide-react';
+import { Rocket, Palette, Zap, Check, Lock, RotateCw, X, Sparkles, Shield, Flame } from 'lucide-react';
 import { soundService } from '../../services/audio';
 import * as THREE from 'three';
 
-// Interactive 3D Orbit Viewer Modal in Hangar
-const ShipViewer3DModal: React.FC<{
+// Interactive 3D Orbit Viewer & Action Detail Modal in Hangar
+const ShipInteractiveDetailModal: React.FC<{
+  ship: SpaceshipModelData;
   onClose: () => void;
-  shipId: string;
   shipColor: string;
   hasVnFlag: boolean;
-}> = ({ onClose, shipId, shipColor, hasVnFlag }) => {
+  isUnlocked: boolean;
+  isEquipped: boolean;
+  onEquip: () => void;
+  onBuy: () => void;
+}> = ({ ship, onClose, shipColor, hasVnFlag, isUnlocked, isEquipped, onEquip, onBuy }) => {
   const groupRef = useRef<THREE.Group>(null);
   const isDraggingRef = useRef(false);
   const prevPointerRef = useRef({ x: 0, y: 0 });
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 select-none animate-fadeIn">
-      <div className="bg-gradient-to-b from-[#0f172a] via-[#1e1b4b] to-[#0f172a] border-2 border-sky-400 rounded-[32px] p-5 max-w-lg w-full text-white shadow-[0_0_50px_rgba(56,189,248,0.4)] relative flex flex-col items-center">
+    <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 select-none animate-fadeIn overflow-y-auto">
+      <div className="bg-gradient-to-b from-[#0f172a] via-[#1e1b4b] to-[#0f172a] border-2 border-sky-400 rounded-[32px] p-4 sm:p-5 max-w-lg w-full text-white shadow-[0_0_50px_rgba(56,189,248,0.4)] relative flex flex-col items-center my-auto">
         {/* Close Button */}
         <button
           onClick={() => { soundService.playClick(); onClose(); }}
-          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 border border-white/20 flex items-center justify-center text-slate-300 hover:text-white active:scale-95 transition-all z-10"
+          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 border border-white/20 flex items-center justify-center text-slate-300 hover:text-white active:scale-95 transition-all z-20"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <h3 className="font-black text-lg sm:text-xl text-yellow-300 flex items-center gap-2 mb-1">
-          <Eye className="w-5 h-5 text-sky-400" />
-          <span>Quan Sát Phi Thuyền 3D Thực Tế</span>
-        </h3>
-        <p className="text-xs text-sky-200 font-bold mb-3">
-          Vuốt hoặc kéo chuột để xoay 360° quan sát cánh và động cơ
-        </p>
+        {/* Modal Header */}
+        <div className="text-center pr-8 pl-2 mb-2 w-full">
+          <span className="bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+            {ship.badge}
+          </span>
+          <h3 className="font-black text-lg sm:text-xl text-yellow-300 flex items-center justify-center gap-1.5 mt-1">
+            <span>{ship.nameVi}</span>
+            {isEquipped && <Check className="w-5 h-5 text-emerald-400 stroke-[3]" />}
+          </h3>
+          <p className="text-xs text-sky-200 font-bold">
+            {ship.classType}
+          </p>
+        </div>
 
-        {/* 3D Canvas Container */}
+        {/* 3D Interactive Canvas Container */}
         <div
-          className="w-full h-72 sm:h-80 rounded-2xl overflow-hidden bg-radial from-[#1e1b4b] via-[#0b1026] to-[#050814] border border-sky-400/40 relative cursor-grab active:cursor-grabbing shadow-inner touch-none touch-canvas-interactive overscroll-none"
+          className="w-full h-56 sm:h-64 rounded-2xl overflow-hidden bg-radial from-[#1e1b4b] via-[#0b1026] to-[#050814] border border-sky-400/40 relative cursor-grab active:cursor-grabbing shadow-inner touch-none touch-canvas-interactive overscroll-none mb-3"
           onPointerDown={(e) => {
             isDraggingRef.current = true;
             prevPointerRef.current = { x: e.clientX, y: e.clientY };
@@ -83,11 +93,11 @@ const ShipViewer3DModal: React.FC<{
             <pointLight position={[-4, -3, -2]} intensity={1.5} color="#38bdf8" />
             <group ref={groupRef}>
               <AerodynamicShipRenderer
-                shipId={shipId}
+                shipId={ship.id}
                 shipColor={shipColor}
                 hasVnFlag={hasVnFlag}
                 showStreamlines={true}
-                scale={1.2}
+                scale={1.25}
               />
             </group>
           </Canvas>
@@ -96,24 +106,79 @@ const ShipViewer3DModal: React.FC<{
           <div className="absolute bottom-2 inset-x-0 flex justify-center pointer-events-none">
             <span className="bg-slate-950/80 border border-white/20 text-sky-300 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1.5 shadow">
               <RotateCw className="w-3 h-3 text-sky-400 animate-spin" style={{ animationDuration: '6s' }} />
-              <span>Chạm & vuốt màn hình để xoay 360°</span>
+              <span>Chạm & vuốt để xoay 360°</span>
             </span>
           </div>
         </div>
 
+        {/* Detailed Stats & Description */}
+        <div className="w-full space-y-2.5 text-left mb-4">
+          <p className="text-xs text-slate-200 font-medium leading-relaxed bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+            {ship.description}
+          </p>
+
+          {/* 3 Game Stats Bar */}
+          <div className="grid grid-cols-3 gap-2">
+            <div className="bg-slate-900/90 border border-sky-400/40 p-2 rounded-xl text-center">
+              <div className="text-[10px] font-black text-sky-300 flex items-center justify-center gap-1">
+                <Zap className="w-3 h-3 text-sky-400" /> Tốc Độ
+              </div>
+              <div className="text-sm font-black text-white mt-0.5">{ship.speed}/100</div>
+            </div>
+
+            <div className="bg-slate-900/90 border border-emerald-400/40 p-2 rounded-xl text-center">
+              <div className="text-[10px] font-black text-emerald-300 flex items-center justify-center gap-1">
+                <Shield className="w-3 h-3 text-emerald-400" /> Giáp
+              </div>
+              <div className="text-sm font-black text-white mt-0.5">{ship.shield}/100</div>
+            </div>
+
+            <div className="bg-slate-900/90 border border-amber-400/40 p-2 rounded-xl text-center">
+              <div className="text-[10px] font-black text-amber-300 flex items-center justify-center gap-1">
+                <Flame className="w-3 h-3 text-amber-400" /> Sức Mạnh
+              </div>
+              <div className="text-sm font-black text-white mt-0.5">{ship.power}/100</div>
+            </div>
+          </div>
+
+          {/* Special Feature */}
+          <div className="bg-indigo-950/60 border border-indigo-400/40 p-2 rounded-xl text-[11px] font-bold text-indigo-200 flex items-start gap-1.5">
+            <Sparkles className="w-4 h-4 text-yellow-300 shrink-0 mt-0.5" />
+            <span>Kỹ năng: <b className="text-yellow-300 font-black">{ship.specialFeature}</b></span>
+          </div>
+        </div>
+
         {/* Action Button */}
-        <button
-          onClick={() => { soundService.playClick(); onClose(); }}
-          className="mt-4 w-full py-3 rounded-2xl font-black text-sm bg-gradient-to-r from-sky-400 to-blue-600 text-white border border-sky-200 shadow-lg active:scale-95 transition-all"
-        >
-          Đã Xong ✨
-        </button>
+        <div className="w-full">
+          {isEquipped ? (
+            <div className="w-full py-3.5 rounded-2xl font-black text-sm sm:text-base bg-emerald-950 border-2 border-emerald-400 text-emerald-200 flex items-center justify-center gap-2 shadow-lg">
+              <Check className="w-5 h-5 text-emerald-400 stroke-[3]" />
+              <span>Đang Lái Phi Thuyền Này</span>
+            </div>
+          ) : isUnlocked ? (
+            <button
+              onClick={onEquip}
+              className="w-full py-3.5 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 text-white border-2 border-sky-200 shadow-[0_5px_0_0_#0284c7,0_8px_20px_rgba(2,132,199,0.5)] active:translate-y-1 active:shadow-[0_1px_0_0_#0284c7] flex items-center justify-center gap-2 transition-all cursor-pointer"
+            >
+              <Rocket className="w-5 h-5" />
+              <span>Trang Bị Phi Thuyền ✨</span>
+            </button>
+          ) : (
+            <button
+              onClick={onBuy}
+              className="w-full py-3.5 rounded-2xl font-black text-sm sm:text-base bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-amber-950 border-2 border-yellow-200 shadow-[0_5px_0_0_#b45309,0_8px_20px_rgba(245,158,11,0.5)] active:translate-y-1 active:shadow-[0_1px_0_0_#b45309] flex items-center justify-center gap-2 transition-all cursor-pointer"
+            >
+              <Lock className="w-5 h-5" />
+              <span>Mở Khóa ({ship.price} Xu Nova 🟡)</span>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onOpenShowroom }) => {
+export const SpaceHangarView: React.FC = () => {
   const {
     user,
     buyShip,
@@ -128,8 +193,7 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
 
   const [activeSubTab, setActiveSubTab] = useState<'ships' | 'colors' | 'boosters'>('ships');
   const [adRewardMsg, setAdRewardMsg] = useState<string | null>(null);
-  const [inspectShipId, setInspectShipId] = useState<string | null>(null);
-  const [confirmEquipShip, setConfirmEquipShip] = useState<(typeof SHIPS_DATA)[0] | null>(null);
+  const [selectedShipDetail, setSelectedShipDetail] = useState<SpaceshipModelData | null>(null);
 
   const currentShipColor = user.customization?.equippedColor || '#38bdf8';
   const hasVnFlag = user.customization?.hasVietnamFlag ?? true;
@@ -150,6 +214,26 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
     setTimeout(() => setAdRewardMsg(null), 4000);
   };
 
+  const handleSelectShipCard = (s: SpaceshipModelData) => {
+    soundService.playClick();
+    setSelectedShipDetail(s);
+  };
+
+  const handleEquipShipInModal = (shipId: string) => {
+    equipShip(shipId);
+    setSelectedShipDetail(null);
+  };
+
+  const handleBuyShipInModal = (s: SpaceshipModelData) => {
+    const ok = buyShip(s.id, s.price);
+    if (!ok) {
+      alert('Bạn không đủ Xu Nova 🟡! Hãy hoàn thành thêm bài học nhé.');
+    } else {
+      equipShip(s.id);
+      setSelectedShipDetail(null);
+    }
+  };
+
   return (
     <div className="flex-1 w-full h-full flex flex-col overflow-y-auto pb-24 p-4 sm:p-6 bg-gradient-to-b from-[#050814] via-[#0b1026] to-[#160e33] text-white select-none animate-fadeIn">
       {/* Top Header */}
@@ -160,27 +244,6 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
         <p className="text-xs sm:text-sm font-bold text-sky-200 mt-0.5">
           Tùy biến phi thuyền, sơn màu & nạp năng lượng
         </p>
-      </div>
-
-      {/* Button to Open Full 3D Showroom View */}
-      <div className="mb-4 grid grid-cols-2 gap-2">
-        {onOpenShowroom && (
-          <button
-            onClick={() => { soundService.playClick(); onOpenShowroom(); }}
-            className="py-3 px-3 rounded-2xl bg-gradient-to-r from-sky-500 via-indigo-600 to-purple-600 hover:from-sky-400 hover:to-purple-500 text-white font-black text-xs sm:text-sm border-2 border-sky-300 shadow-lg flex items-center justify-center gap-1.5 active:scale-98 transition-all"
-          >
-            <Sparkles className="w-4 h-4 text-yellow-300" />
-            <span>Phòng Duyệt 3D ✨</span>
-          </button>
-        )}
-
-        <button
-          onClick={() => { soundService.playClick(); setInspectShipId(user.customization?.equippedShip || 'explorer_v1'); }}
-          className="py-3 px-3 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-sky-200 font-bold text-xs sm:text-sm border border-sky-500/40 flex items-center justify-center gap-1.5 active:scale-98 transition-all"
-        >
-          <Eye className="w-4 h-4 text-sky-400" />
-          <span>Xem 3D 360° 🛸</span>
-        </button>
       </div>
 
       {/* Sub Tabs Switcher */}
@@ -239,73 +302,74 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
             return (
               <div
                 key={s.id}
-                onClick={() => {
-                  if (isUnlocked && !isEquipped) {
-                    soundService.playClick();
-                    setConfirmEquipShip(s);
-                  }
-                }}
-                className={`p-4 sm:p-5 rounded-3xl border-2 transition-all flex items-center justify-between gap-4 shadow-xl relative overflow-hidden ${
+                onClick={() => handleSelectShipCard(s)}
+                className={`p-3.5 sm:p-4 rounded-3xl border-2 transition-all flex items-center justify-between gap-3 sm:gap-4 shadow-xl relative overflow-hidden cursor-pointer group active:scale-98 ${
                   isEquipped
                     ? 'bg-sky-950/90 border-sky-400 ring-2 ring-sky-400/50 shadow-[0_0_25px_rgba(56,189,248,0.3)]'
                     : isUnlocked
-                    ? 'bg-slate-900/80 border-slate-700 hover:border-sky-400/60 cursor-pointer active:scale-98'
-                    : 'bg-slate-900/50 border-slate-800 opacity-85'
+                    ? 'bg-slate-900/80 border-slate-700 hover:border-sky-400/60'
+                    : 'bg-slate-900/50 border-slate-800 opacity-90'
                 }`}
               >
-                {/* Ship Graphic Card */}
-                <div className="flex items-center gap-3.5 flex-1">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-sky-400/40 flex items-center justify-center shrink-0 shadow-lg relative text-3xl sm:text-4xl">
-                    <span>{s.icon || '🚀'}</span>
-                    <span className="absolute -top-1 -right-1 bg-yellow-400 text-slate-950 font-black text-[9px] px-1.5 py-0.2 rounded-full shadow">
+                {/* Ship Graphic 3D Image Thumbnail */}
+                <div className="flex items-center gap-3 sm:gap-3.5 flex-1 min-w-0">
+                  <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-2xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-sky-400/40 shrink-0 shadow-lg relative overflow-hidden flex items-center justify-center">
+                    <img
+                      src={s.image}
+                      alt={s.nameVi}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute -top-1 -right-1 bg-yellow-400 text-slate-950 font-black text-[8px] sm:text-[9px] px-1.5 py-0.2 rounded-full shadow z-10">
                       {s.badge}
                     </span>
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-black text-sm sm:text-base text-yellow-300 flex items-center gap-1.5">
+                    <h4 className="font-black text-sm sm:text-base text-yellow-300 flex items-center gap-1.5 truncate">
                       <span>{s.nameVi}</span>
-                      {isEquipped && <Check className="w-4 h-4 text-emerald-400" />}
+                      {isEquipped && <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />}
                     </h4>
-                    <p className="text-sm font-bold text-slate-200 mt-0.5 leading-snug">{s.description}</p>
+                    <p className="text-xs text-slate-300 font-medium line-clamp-2 mt-0.5 leading-snug">{s.description}</p>
                     
-                    {/* 3 Game Stats: Speed, Shield, Power (Icon & Numbers Only) */}
-                    <div className="flex items-center gap-2 mt-2">
-                      <span className="bg-slate-950/80 border border-sky-500/30 px-2 py-0.5 rounded-lg text-xs font-black text-sky-300">
+                    {/* 3 Game Stats: Speed, Shield, Power */}
+                    <div className="flex items-center gap-1.5 sm:gap-2 mt-1.5">
+                      <span className="bg-slate-950/80 border border-sky-500/30 px-1.5 py-0.5 rounded-lg text-[11px] font-black text-sky-300">
                         ⚡ {s.speed}
                       </span>
-                      <span className="bg-slate-950/80 border border-sky-500/30 px-2 py-0.5 rounded-lg text-xs font-black text-emerald-300">
+                      <span className="bg-slate-950/80 border border-emerald-500/30 px-1.5 py-0.5 rounded-lg text-[11px] font-black text-emerald-300">
                         🛡️ {s.shield}
                       </span>
-                      <span className="bg-slate-950/80 border border-sky-500/30 px-2 py-0.5 rounded-lg text-xs font-black text-amber-300">
+                      <span className="bg-slate-950/80 border border-amber-500/30 px-1.5 py-0.5 rounded-lg text-[11px] font-black text-amber-300">
                         💥 {s.power}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Unlock Button for locked ships */}
-                {!isUnlocked && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const ok = buyShip(s.id, s.price);
-                      if (!ok) alert('Bạn không đủ Xu Nova 🟡! Hãy hoàn thành thêm bài học nhé.');
-                    }}
-                    className="bg-amber-500 hover:bg-amber-400 active:scale-95 text-amber-950 font-black text-xs sm:text-sm px-3.5 py-2 rounded-2xl border border-amber-300 shadow-md transition-all flex items-center gap-1 shrink-0"
-                  >
-                    <Lock className="w-3.5 h-3.5" />
-                    <span>{s.price}</span>
-                    <span>🟡</span>
-                  </button>
-                )}
+                {/* Status / Action Indicator */}
+                <div className="shrink-0 flex items-center">
+                  {isEquipped ? (
+                    <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 font-black text-xs px-2.5 py-1.5 rounded-xl flex items-center gap-1">
+                      <Check className="w-3.5 h-3.5 stroke-[3]" /> Lái
+                    </span>
+                  ) : isUnlocked ? (
+                    <span className="bg-sky-600 text-white font-black text-xs px-3 py-1.5 rounded-xl shadow border border-sky-300">
+                      Chọn
+                    </span>
+                  ) : (
+                    <span className="bg-amber-500 text-amber-950 font-black text-xs px-2.5 py-1.5 rounded-xl border border-amber-300 shadow flex items-center gap-1">
+                      <Lock className="w-3.5 h-3.5" />
+                      <span>{s.price} 🟡</span>
+                    </span>
+                  )}
+                </div>
               </div>
             );
           })}
 
           {/* Footer Note */}
           <div className="text-center text-xs font-bold text-slate-400 py-3 border-t border-slate-800/80 mt-2">
-            ⚡: Tốc độ • 🛡️: Giáp • 💥: Sức mạnh
+            Nhấn vào bất kỳ phi thuyền nào để xoay 3D 360° và xem chi tiết
           </div>
         </div>
       )}
@@ -440,7 +504,7 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
             </div>
           </div>
 
-          {/* Boosters Grid (Diamond Prices without KC) */}
+          {/* Boosters Grid */}
           <div className="space-y-3">
             {/* Double Regen */}
             <div className="p-4 rounded-3xl bg-slate-900/90 border-2 border-purple-500/50 shadow-xl flex items-center justify-between gap-3">
@@ -534,45 +598,17 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
         </div>
       )}
 
-      {/* Confirm Equip Ship Modal */}
-      {confirmEquipShip && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 select-none animate-fadeIn">
-          <div className="bg-slate-900 border-2 border-sky-400 rounded-3xl p-5 max-w-xs sm:max-w-sm w-full text-center space-y-4 shadow-2xl animate-scaleUp">
-            <div className="text-5xl">{confirmEquipShip.icon || '🚀'}</div>
-            <div>
-              <h3 className="font-black text-lg text-yellow-300">Trang Bị Phi Thuyền</h3>
-              <p className="text-sm font-bold text-slate-200 mt-1">
-                Bé có muốn chuyển sang lái <span className="text-sky-300">{confirmEquipShip.nameVi}</span> không?
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-2.5 pt-1">
-              <button
-                onClick={() => setConfirmEquipShip(null)}
-                className="py-3 rounded-2xl bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm border border-slate-700 active:scale-95 transition-all"
-              >
-                Hủy
-              </button>
-              <button
-                onClick={() => {
-                  equipShip(confirmEquipShip.id);
-                  setConfirmEquipShip(null);
-                }}
-                className="py-3 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-black text-xs sm:text-sm border border-sky-300 shadow-lg active:scale-95 transition-all"
-              >
-                Trang Bị ✨
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 3D Ship Inspector Modal */}
-      {inspectShipId && (
-        <ShipViewer3DModal
-          onClose={() => setInspectShipId(null)}
-          shipId={inspectShipId}
+      {/* Interactive 3D Orbit Detail Modal when user selects a ship */}
+      {selectedShipDetail && (
+        <ShipInteractiveDetailModal
+          ship={selectedShipDetail}
+          onClose={() => setSelectedShipDetail(null)}
           shipColor={currentShipColor}
           hasVnFlag={hasVnFlag}
+          isUnlocked={user.customization?.unlockedShips?.includes(selectedShipDetail.id) ?? false}
+          isEquipped={user.customization?.equippedShip === selectedShipDetail.id}
+          onEquip={() => handleEquipShipInModal(selectedShipDetail.id)}
+          onBuy={() => handleBuyShipInModal(selectedShipDetail)}
         />
       )}
     </div>
