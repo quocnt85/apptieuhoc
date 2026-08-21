@@ -49,7 +49,6 @@ export const SpaceshipCockpitDashboard: React.FC<Props> = ({
     }
     soundService.playVictory();
     onStartLesson(node);
-    startLesson(node.id);
   };
 
   const handleReturnToOriginPlanet = () => {

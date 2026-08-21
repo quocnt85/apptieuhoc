@@ -78,11 +78,17 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     // Close Modal
     await page.locator('button:has(svg.lucide-x)').first().click({ force: true });
 
-    // Switch to Boosters Sub-tab
-    const boostersTab = page.locator('button:has-text("Năng Lượng")');
+    // Switch to Boosters Sub-tab (Nạp Năng Lượng)
+    const boostersTab = page.locator('button:has-text("Nạp Năng Lượng")');
+    await expect(boostersTab).toBeVisible({ timeout: 5000 });
     await boostersTab.click({ force: true });
     await expect(page.locator('text=Bình Năng Lượng Phi Thuyền').first()).toBeVisible({ timeout: 5000 });
     await expect(page.locator('text=Lò Phản Ứng Ion').first()).toBeVisible({ timeout: 5000 });
+
+    // Switch back to Ships Sub-tab (Phi Thuyền)
+    const shipsTab = page.locator('button:has-text("Phi Thuyền")');
+    await expect(shipsTab).toBeVisible({ timeout: 5000 });
+    await shipsTab.click({ force: true });
   });
 
   test('4. Full 10-Stage Universal Lesson Runner Walkthrough', async ({ page }) => {

@@ -1,9 +1,10 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { useGameStore } from '../../stores/useGameStore';
 import { PlanetCoordinateNode } from '../../types';
 import { AerodynamicShipRenderer } from './ships/AerodynamicShips';
+import { soundService } from '../../services/audio';
 
 interface Props {
   planetRadius: number;
@@ -21,6 +22,15 @@ export const Spaceship3D: React.FC<Props> = ({
   const { user, isFlyingToNode } = useGameStore();
   const shipGroupRef = useRef<THREE.Group>(null);
   const [thrustPower, setThrustPower] = useState<number>(0.3);
+  const renderedThrustRef = useRef(0.3);
+
+  const sfxStateRef = useRef<{
+    cruisingPlayed: boolean;
+    deceleratePlayed: boolean;
+  }>({
+    cruisingPlayed: false,
+    deceleratePlayed: false,
+  });
 
   const shipColor = user.customization?.equippedColor || '#38bdf8';
 
@@ -61,10 +71,24 @@ export const Spaceship3D: React.FC<Props> = ({
   };
 
   // Setup flight trajectory when a new node is selected
-  React.useEffect(() => {
+  useEffect(() => {
     if (activeNode && isFlyingToNode) {
       const target = getCartesianForNode(activeNode, HOVER_RADIUS_OFFSET);
       animState.current.targetPos.copy(target);
+
+      // Reset flight SFX triggers
+      sfxStateRef.current = {
+        cruisingPlayed: false,
+        deceleratePlayed: false,
+      };
+
+      // SFX 1 & 2: Khởi động động cơ & Phụt tăng tốc bứt phá quỹ đạo
+      soundService.stopShipEngine(0.08);
+      soundService.playEngineStart();
+      setTimeout(() => {
+        soundService.startShipEngine(0.18);
+        soundService.playShipAccelerate();
+      }, 380);
 
       // Compute level parallel docking quaternion (tangent to sphere surface)
       const surfaceNormal = target.clone().normalize();
@@ -105,6 +129,8 @@ export const Spaceship3D: React.FC<Props> = ({
     }
   }, [activeNode, isFlyingToNode, planetRadius, planetGroupRef]);
 
+  useEffect(() => () => soundService.stopShipEngine(0.2), []);
+
   useFrame((state, delta) => {
     if (!shipGroupRef.current) return;
 
@@ -120,6 +146,29 @@ export const Spaceship3D: React.FC<Props> = ({
       const step = delta / animState.current.flightDuration;
       animState.current.progress = Math.min(1, animState.current.progress + step);
       const t = animState.current.progress;
+
+      // One continuous engine follows the same energy curve as the animation.
+      // This removes audible gaps between the old one-shot SFX phases.
+      const accelerate = THREE.MathUtils.smoothstep(t, 0.02, 0.22);
+      const brake = 1 - THREE.MathUtils.smoothstep(t, 0.68, 0.98);
+      const enginePower = 0.16 + 0.84 * accelerate * brake;
+      soundService.setShipEnginePower(enginePower);
+      if (Math.abs(enginePower - renderedThrustRef.current) > 0.06) {
+        renderedThrustRef.current = enginePower;
+        setThrustPower(enginePower);
+      }
+
+      // SFX 3: Tiếng di chuyển / du hành quỹ đạo (ở giữa chuyến bay t ~ 0.38)
+      if (t > 0.35 && !sfxStateRef.current.cruisingPlayed) {
+        sfxStateRef.current.cruisingPlayed = true;
+        soundService.playShipCruising();
+      }
+
+      // SFX 4: Tiếng hãm phanh retro-rockets giảm tốc tiếp cận (t > 0.70)
+      if (t > 0.70 && !sfxStateRef.current.deceleratePlayed) {
+        sfxStateRef.current.deceleratePlayed = true;
+        soundService.playShipDecelerate();
+      }
 
       // Smoothstep ease-in-out curve
       const smoothT = t * t * (3 - 2 * t);
@@ -195,7 +244,9 @@ export const Spaceship3D: React.FC<Props> = ({
 
       // Check arrival
       if (t >= 1) {
+        renderedThrustRef.current = 0.3;
         setThrustPower(0.3);
+        soundService.stopShipEngine(0.7);
         onArrival();
       }
     } else {
@@ -211,14 +262,12 @@ export const Spaceship3D: React.FC<Props> = ({
     }
   });
 
-  const isFlying = animState.current.progress < 1;
-
   return (
     <group ref={shipGroupRef} scale={[BASE_SCALE, BASE_SCALE, BASE_SCALE]}>
       <AerodynamicShipRenderer
         shipId={user.customization?.equippedShip || 'explorer_v1'}
         shipColor={shipColor}
-        showStreamlines={isFlying && thrustPower > 0.5}
+        showStreamlines={false}
         thrustPower={thrustPower}
       />
     </group>

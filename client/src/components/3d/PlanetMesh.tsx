@@ -261,66 +261,132 @@ export const PlanetMesh: React.FC<Props> = ({
 
   // Warp Zoom-In Animation when entering a new planet (30% -> 100% scale)
   const zoomProgressRef = useRef(0);
+  const userZoomScaleRef = useRef(1.0);
+  const currentZoomScaleRef = useRef(1.0);
+  const activePointersRef = useRef<Map<number, { x: number; y: number }>>(new Map());
+  const initialPinchDistanceRef = useRef<number | null>(null);
+  const basePinchZoomRef = useRef<number>(1.0);
+
   React.useEffect(() => {
     zoomProgressRef.current = 0;
+    userZoomScaleRef.current = 1.0;
+    currentZoomScaleRef.current = 1.0;
     if (planetGroupRef.current) {
       planetGroupRef.current.scale.set(0.3, 0.3, 0.3);
     }
   }, [planet.id]);
 
-  // Pointer / Touch drag handlers for interactive 360 spinning
+  // Pointer / Multi-touch / Pinch / Wheel zoom handlers for interactive 360 spinning and zoom
   React.useEffect(() => {
     if (!interactiveSpin) return;
     const canvas = gl.domElement;
 
     const onPointerDown = (e: PointerEvent) => {
-      isDraggingRef.current = true;
+      activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
       autoAligningRef.current = false;
-      previousPointerRef.current = { x: e.clientX, y: e.clientY };
+
+      if (activePointersRef.current.size === 1) {
+        isDraggingRef.current = true;
+        previousPointerRef.current = { x: e.clientX, y: e.clientY };
+      } else if (activePointersRef.current.size === 2) {
+        // Switch to Pinch to Zoom mode
+        isDraggingRef.current = false;
+        const pts = Array.from(activePointersRef.current.values());
+        initialPinchDistanceRef.current = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+        basePinchZoomRef.current = userZoomScaleRef.current;
+      }
     };
 
     const onPointerMove = (e: PointerEvent) => {
-      if (!isDraggingRef.current || !planetGroupRef.current) return;
-      const deltaX = e.clientX - previousPointerRef.current.x;
-      const deltaY = e.clientY - previousPointerRef.current.y;
-      previousPointerRef.current = { x: e.clientX, y: e.clientY };
+      if (!planetGroupRef.current) return;
+      activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-      const rotateSpeed = 0.005;
-      planetGroupRef.current.rotation.y += deltaX * rotateSpeed;
-      planetGroupRef.current.rotation.x += deltaY * rotateSpeed;
+      // Two fingers: Pinch to zoom
+      if (activePointersRef.current.size === 2 && initialPinchDistanceRef.current) {
+        const pts = Array.from(activePointersRef.current.values());
+        const currentDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+        if (initialPinchDistanceRef.current > 10) {
+          const pinchRatio = currentDist / initialPinchDistanceRef.current;
+          const targetZoom = basePinchZoomRef.current * pinchRatio;
+          userZoomScaleRef.current = Math.min(1.85, Math.max(0.65, targetZoom));
+        }
+        return;
+      }
 
-      rotationVelocityRef.current = {
-        x: deltaY * rotateSpeed * 0.5,
-        y: deltaX * rotateSpeed * 0.5,
-      };
+      // One finger: 360 Drag rotation
+      if (activePointersRef.current.size === 1 && isDraggingRef.current) {
+        const deltaX = e.clientX - previousPointerRef.current.x;
+        const deltaY = e.clientY - previousPointerRef.current.y;
+        previousPointerRef.current = { x: e.clientX, y: e.clientY };
+
+        const rotateSpeed = 0.005;
+        planetGroupRef.current.rotation.y += deltaX * rotateSpeed;
+        planetGroupRef.current.rotation.x += deltaY * rotateSpeed;
+
+        rotationVelocityRef.current = {
+          x: deltaY * rotateSpeed * 0.5,
+          y: deltaX * rotateSpeed * 0.5,
+        };
+      }
     };
 
-    const onPointerUp = () => {
-      isDraggingRef.current = false;
+    const onPointerUp = (e: PointerEvent) => {
+      activePointersRef.current.delete(e.pointerId);
+
+      if (activePointersRef.current.size < 2) {
+        initialPinchDistanceRef.current = null;
+      }
+      if (activePointersRef.current.size === 1) {
+        const remainingPt = Array.from(activePointersRef.current.values())[0];
+        previousPointerRef.current = { x: remainingPt.x, y: remainingPt.y };
+        isDraggingRef.current = true;
+      } else if (activePointersRef.current.size === 0) {
+        isDraggingRef.current = false;
+      }
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const zoomDelta = -e.deltaY * 0.0015;
+      userZoomScaleRef.current = Math.min(1.85, Math.max(0.65, userZoomScaleRef.current + zoomDelta));
     };
 
     canvas.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+    canvas.addEventListener('wheel', onWheel, { passive: false });
 
     return () => {
       canvas.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
+      canvas.removeEventListener('wheel', onWheel);
     };
   }, [gl, interactiveSpin]);
 
   useFrame((_, delta) => {
     if (!planetGroupRef.current) return;
 
-    // Smooth Warp Zoom-In from 30% to 100%
+    // Smooth Warp Zoom-In from 30% to 100% on enter
+    let baseScale = 1.0;
     if (zoomProgressRef.current < 1) {
       zoomProgressRef.current = Math.min(1, zoomProgressRef.current + delta / 1.1);
       const t = zoomProgressRef.current;
       const ease = 1 - Math.pow(1 - t, 3);
-      const scale = 0.3 + 0.7 * ease;
-      planetGroupRef.current.scale.set(scale, scale, scale);
+      baseScale = 0.3 + 0.7 * ease;
     }
+
+    // Dynamic User Pinch / Wheel Zoom Lerp Damping
+    currentZoomScaleRef.current = THREE.MathUtils.lerp(
+      currentZoomScaleRef.current,
+      userZoomScaleRef.current,
+      Math.min(1, delta * 10.0)
+    );
+
+    const finalScale = baseScale * currentZoomScaleRef.current;
+    planetGroupRef.current.scale.set(finalScale, finalScale, finalScale);
 
     if (autoAligningRef.current) {
       planetGroupRef.current.quaternion.slerp(targetRotationRef.current, Math.min(1, delta * 3.5));
