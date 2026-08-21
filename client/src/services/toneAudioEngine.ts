@@ -63,13 +63,16 @@ export class ToneAudioEngine {
       if (Tone.context.state !== 'running') {
         await Tone.start();
       }
+      if (Tone.context.state !== 'running') return false;
       this.initAudioGraph();
+      if (!this.safetyGraph) return false;
       this.isContextStarted = true;
       if (this.bgmEnabled && !this.isBgmPlaying) {
         this.startBGM(this.currentBgmStyle);
       }
       return true;
-    } catch {
+    } catch (error) {
+      console.warn('Tone.js could not resume AudioContext.', error);
       return false;
     }
   }
