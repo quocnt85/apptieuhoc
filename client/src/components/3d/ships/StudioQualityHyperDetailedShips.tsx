@@ -195,8 +195,8 @@ export const HyperDetailedXWing: React.FC<{ hasVnFlag?: boolean }> = ({ hasVnFla
             <meshBasicMaterial color="#ef4444" />
           </mesh>
           {/* Green Data Holo Projector */}
-          <mesh position={[-0.025, 0.032, -0.04]}>
-            <cylinderGeometry args={[0.007, 0.007, 0.015, 8]} rotation={[0.4, 0, 0]} />
+          <mesh position={[-0.025, 0.032, -0.04]} rotation={[0.4, 0, 0]}>
+            <cylinderGeometry args={[0.007, 0.007, 0.015, 8]} />
             <meshBasicMaterial color="#10b981" />
           </mesh>
         </group>
