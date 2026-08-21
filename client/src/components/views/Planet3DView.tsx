@@ -7,6 +7,7 @@ import { useGameStore } from '../../stores/useGameStore';
 import { PlanetCoordinateNode } from '../../types';
 import { Compass, Sparkles, ChevronLeft, ChevronRight, Lock, Rocket, AlertTriangle } from 'lucide-react';
 import { soundService } from '../../services/audio';
+import { HyperspaceTransition } from '../effects/HyperspaceTransition';
 
 interface Props {
   onStartLesson: (nodeId: string) => void;
@@ -75,6 +76,7 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [isWarping, setIsWarping] = useState(false);
+  const [isHyperspeed, setIsHyperspeed] = useState(false);
   const [bossAlertActive, setBossAlertActive] = useState(false);
 
   const currentPlanet = PLANETS_DATA.find((p) => p.id === activePlanetId) || PLANETS_DATA[0];
@@ -117,24 +119,34 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
   const handleShipArrival = () => {
     finishFlyingToCoordinate();
     soundService.playVictory();
-    // Reveal spaceship cockpit dashboard ONLY after ship has arrived
-    setShowModal(true);
+    
+    // Dừng 0.5 giây trước khi bảng thông tin hiện lên
+    setTimeout(() => {
+      setShowModal(true);
 
-    // Trigger Boss Red Alert & Siren if arriving at a Boss coordinate
-    if (selectedCoordinateNode?.isBoss) {
-      soundService.playBossAlarmSiren();
-      setBossAlertActive(true);
-      setTimeout(() => {
-        setBossAlertActive(false);
-      }, 3000);
-    }
+      // Trigger Boss Red Alert & Siren if arriving at a Boss coordinate
+      if (selectedCoordinateNode?.isBoss) {
+        soundService.playBossAlarmSiren();
+        setBossAlertActive(true);
+        setTimeout(() => {
+          setBossAlertActive(false);
+        }, 3000);
+      }
+    }, 500);
   };
 
   const handleLaunchLesson = (node: PlanetCoordinateNode) => {
     setShowModal(false);
     setBossAlertActive(false);
-    closeCoordinateModal();
-    onStartLesson(node.id);
+    setIsHyperspeed(true);
+    soundService.playHyperspeedJump();
+
+    // Keep navigation aligned with the visual charge/launch/afterglow sequence.
+    setTimeout(() => {
+      setIsHyperspeed(false);
+      closeCoordinateModal();
+      onStartLesson(node.id);
+    }, 1600);
   };
 
   return (
@@ -267,6 +279,9 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
           </div>
         </div>
       )}
+
+      {/* 3.5. Multi-stage charge → jump → afterglow transition. */}
+      {isHyperspeed && <HyperspaceTransition />}
 
       {/* 4. BOTTOM FLOATING EXPLORATION HINT */}
       {!showModal && (

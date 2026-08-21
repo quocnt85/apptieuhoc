@@ -372,9 +372,6 @@ export const SpaceHangarView: React.FC = () => {
         <h2 className="text-xl sm:text-2xl font-black text-yellow-300 tracking-tight flex items-center justify-center gap-2">
           <span>🛠️</span> Xưởng Tàu Không Gian
         </h2>
-        <p className="text-xs sm:text-sm font-bold text-sky-200 mt-0.5">
-          Tùy biến phi thuyền, sơn màu 3D & nạp năng lượng
-        </p>
       </div>
 
       {/* Sub Tabs Switcher (Clean 2-Tab Layout: Ships & Boosters) */}
@@ -388,7 +385,7 @@ export const SpaceHangarView: React.FC = () => {
           }`}
         >
           <Rocket className="w-4 h-4" />
-          <span>Phi Thuyền Không Gian</span>
+          <span>Phi Thuyền</span>
         </button>
 
         <button
@@ -400,7 +397,7 @@ export const SpaceHangarView: React.FC = () => {
           }`}
         >
           <Zap className="w-4 h-4" />
-          <span>Năng Lượng & Tiện Ích</span>
+          <span>Nạp Năng Lượng</span>
         </button>
       </div>
 
