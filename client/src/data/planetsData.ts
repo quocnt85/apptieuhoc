@@ -13,12 +13,12 @@ export const PLANETS_DATA: PlanetData[] = [
     tiltAngle: 0.41, // ~23.5 degrees
     rotationSpeed: 0.003,
     hasRings: true,
-    ringInnerRadius: 2.3,
-    ringOuterRadius: 3.2,
+    ringInnerRadius: 1.65,
+    ringOuterRadius: 2.25,
     ringColor: '#fde047',
     hasMoon: true,
     moonColor: '#94a3b8',
-    moonDistance: 3.8,
+    moonDistance: 2.5,
     nodes: [
       {
         id: 'island_1_node_1',
@@ -98,7 +98,7 @@ export const PLANETS_DATA: PlanetData[] = [
     hasRings: false,
     hasMoon: true,
     moonColor: '#cbd5e1',
-    moonDistance: 3.5,
+    moonDistance: 2.5,
     nodes: [],
   },
   {
@@ -113,12 +113,12 @@ export const PLANETS_DATA: PlanetData[] = [
     tiltAngle: 0.6,
     rotationSpeed: 0.005,
     hasRings: true,
-    ringInnerRadius: 2.5,
-    ringOuterRadius: 4.2,
+    ringInnerRadius: 1.75,
+    ringOuterRadius: 2.45,
     ringColor: '#e879f9',
     hasMoon: true,
     moonColor: '#e2e8f0',
-    moonDistance: 4.8,
+    moonDistance: 2.8,
     nodes: [],
   },
 ];

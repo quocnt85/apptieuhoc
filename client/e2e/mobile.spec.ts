@@ -35,29 +35,36 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     await homeTab.click({ force: true });
     await expect(page.locator('text=Nhiệm Vụ Hằng Ngày').first()).toBeVisible({ timeout: 5000 });
 
-    // Tab 2: Hành Tinh 3D
-    const planetTab = page.locator('button:has-text("Hành Tinh 3D")');
+    // Tab 2: Hành Tinh
+    const planetTab = page.locator('button:has-text("Hành Tinh")').first();
     await planetTab.click({ force: true });
     await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 5000 });
 
     // Tab 3: Xưởng Tàu
-    const hangarTab = page.locator('button:has-text("Xưởng Tàu")');
+    const hangarTab = page.locator('button:has-text("Xưởng Tàu")').first();
     await hangarTab.click({ force: true });
     await expect(page.locator('text=Xưởng Tàu Không Gian').first()).toBeVisible({ timeout: 5000 });
 
     // Tab 4: Hồ Sơ
-    const profileTab = page.locator('button:has-text("Hồ Sơ")');
+    const profileTab = page.locator('button:has-text("Hồ Sơ")').first();
     await profileTab.click({ force: true });
     await expect(page.locator('text=Bộ Sưu Tập Huy Chương').first()).toBeVisible({ timeout: 5000 });
   });
 
-  test('3. Space Hangar Customization (Vietnam Flag Decal & Booster Depot)', async ({ page }) => {
+  test('3. Space Hangar Customization & 3D Ship Inspector Modal', async ({ page }) => {
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
     // Go to Xưởng Tàu Tab
-    await page.locator('button:has-text("Xưởng Tàu")').click({ force: true });
+    await page.locator('button:has-text("Xưởng Tàu")').first().click({ force: true });
     await expect(page.locator('text=Xưởng Tàu Không Gian').first()).toBeVisible({ timeout: 5000 });
+
+    // Open 3D Ship Inspector Modal
+    const open3DBtn = page.locator('button:has-text("Mở Phòng Ngắm Tàu Vũ Trụ 3D")');
+    await expect(open3DBtn).toBeVisible({ timeout: 5000 });
+    await open3DBtn.click({ force: true });
+    await expect(page.locator('text=Quan Sát Phi Thuyền 3D Thực Tế')).toBeVisible({ timeout: 5000 });
+    await page.locator('button:has-text("Đã Xong")').click({ force: true });
 
     // Switch to Colors & Flag Sub-tab
     const colorsTab = page.locator('button:has-text("Màu Sơn & Cờ")');
@@ -73,22 +80,24 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
     const boostersTab = page.locator('button:has-text("Năng Lượng & Buff")');
     await boostersTab.click({ force: true });
     await expect(page.locator('text=Bình Năng Lượng Phi Thuyền').first()).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('text=Lò Phản Ứng Ion').first()).toBeVisible({ timeout: 5000 });
   });
 
   test('4. Full 10-Stage Universal Lesson Runner Walkthrough', async ({ page }) => {
+    test.setTimeout(60000);
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
     // Ensure on 3D Planet
-    await page.locator('button:has-text("Hành Tinh 3D")').click({ force: true });
+    await page.locator('button:has-text("Hành Tinh")').first().click({ force: true });
     await expect(page.locator('text=Tinh Cầu Dũng Khí').first()).toBeVisible({ timeout: 5000 });
 
     // Click Lesson 1 Node on Planet surface (force: true for 3D animated canvas)
-    const nodePin = page.locator('text=Bài 1').first();
+    const nodePin = page.locator('button[title*="Bài 1"], button:has-text("1")').first();
     await nodePin.click({ force: true });
 
-    // Coordinate Preview Modal pops up
-    await expect(page.locator('text=Bài 1: Lời Chào Ngôi Sao').first()).toBeVisible({ timeout: 6000 });
+    // Coordinate Preview Modal pops up after 3-5s flight animation
+    await expect(page.locator('text=Bài 1: Lời Chào Ngôi Sao').first()).toBeVisible({ timeout: 12000 });
     const launchBtn = page.getByTestId('start-lesson-btn');
     await expect(launchBtn).toBeVisible({ timeout: 6000 });
     await launchBtn.click();
@@ -184,5 +193,36 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
 
     // Verify energy counter display
     await expect(header.locator('span:text-is("50")').first()).toBeVisible({ timeout: 4000 });
+  });
+
+  test('6. Parent Quest Verification with PIN Security flow', async ({ page }) => {
+    await page.goto('/');
+    await dismissFTUEIfPresent(page);
+
+    // Click Home Tab
+    await page.locator('button:has-text("Trang Chủ")').first().click({ force: true });
+
+    // Click greeting quest
+    const greetingQuest = page.locator('text=Thực hành chào hỏi lễ phép ngoài đời thực');
+    await expect(greetingQuest).toBeVisible({ timeout: 5000 });
+    await greetingQuest.click({ force: true });
+
+    // Parent PIN Modal opens
+    await expect(page.locator('text=Góc Xác Nhận Của Phụ Huynh')).toBeVisible({ timeout: 5000 });
+
+    // Type PIN 1-2-3-4
+    await page.locator('button:has-text("1")').click({ force: true });
+    await page.locator('button:has-text("2")').click({ force: true });
+    await page.locator('button:has-text("3")').click({ force: true });
+    await page.locator('button:has-text("4")').click({ force: true });
+
+    // PIN verified screen appears
+    await expect(page.locator('text=Mã PIN Phụ Huynh Hợp Lệ!')).toBeVisible({ timeout: 5000 });
+    const confirmBtn = page.locator('button:has-text("Xác Nhận & Trao Thưởng")');
+    await expect(confirmBtn).toBeVisible({ timeout: 5000 });
+    await confirmBtn.click({ force: true });
+
+    // Toast alert appears
+    await expect(page.locator('text=Phụ huynh đã xác nhận')).toBeVisible({ timeout: 5000 });
   });
 });

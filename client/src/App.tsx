@@ -10,6 +10,9 @@ import { CanvasMiniGame } from './components/game/CanvasMiniGame';
 import { VercelHeader } from './components/ui/VercelHeader';
 import { VercelBottomNav, VercelTab } from './components/ui/VercelBottomNav';
 import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
+import { DevGodModeModal } from './components/dev/DevGodModeModal';
+import { PerformanceOverlay } from './components/dev/PerformanceOverlay';
+import { DevFloatingButton } from './components/dev/DevFloatingButton';
 
 export const App: React.FC = () => {
   const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage, isLessonRunning, startLesson, closeLesson } = useGameStore();
@@ -40,7 +43,7 @@ export const App: React.FC = () => {
       case 'home':
         return 'Hành Tinh Tri Thức';
       case 'planet':
-        return 'Tinh Cầu Dũng Khí 3D';
+        return 'Tinh Cầu Dũng Khí';
       case 'hangar':
         return 'Xưởng Tàu Không Gian';
       case 'profile':
@@ -99,6 +102,11 @@ export const App: React.FC = () => {
                 <TenStageLessonRunner onClose={closeLesson} />
               </div>
             )}
+
+            {/* Dev God Mode Global Elements */}
+            <DevFloatingButton />
+            <DevGodModeModal />
+            <PerformanceOverlay />
           </>
         )}
 

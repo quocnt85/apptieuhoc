@@ -3,6 +3,7 @@ import { useGameStore } from '../../stores/useGameStore';
 import { LESSON_ZERO_DATA } from '../../data/lessonZeroData';
 import { interactionService } from '../../services/interaction';
 import { ArrowLeft, Sparkles, CheckCircle2, ShieldCheck, ArrowUp, ArrowDown, Award, Trophy, Play } from 'lucide-react';
+import { QuickDevBar } from '../dev/QuickDevBar';
 import confetti from 'canvas-confetti';
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
-  const { addXP, addGems, addStars, completeLessonNode } = useGameStore();
+  const { addXP, addGems, addStars, completeLessonNode, instantCompleteCurrentLesson } = useGameStore();
 
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [bossHp, setBossHp] = useState(100);
@@ -48,6 +49,19 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
     } else {
       onClose();
     }
+  };
+
+  const handleDevSkipStage = () => {
+    if (currentStageIndex + 1 < stages.length) {
+      setCurrentStageIndex(prev => prev + 1);
+    } else {
+      handlePosttestAnswer(0);
+    }
+  };
+
+  const handleDevInstantComplete = () => {
+    instantCompleteCurrentLesson();
+    onClose();
   };
 
   // 1. Pretest
@@ -202,6 +216,14 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
 
   return (
     <div data-testid="ten-stage-runner" className="absolute inset-0 z-50 bg-[#080c14] text-slate-100 flex flex-col justify-between overflow-hidden">
+      {/* Dev Quick Action Bar */}
+      <QuickDevBar
+        onSkipStage={handleDevSkipStage}
+        onInstantComplete={handleDevInstantComplete}
+        currentStageIndex={currentStageIndex}
+        totalStages={stages.length}
+      />
+
       {/* Top Header & Stage Progress with Safe-Area Inset */}
       <div className="sticky top-0 z-20 bg-[#080c14]/95 backdrop-blur-md border-b-2 border-slate-800 px-4 sm:px-6 pt-[max(0.85rem,var(--sat))] pb-3 shrink-0">
         <div className="w-full max-w-xl mx-auto flex items-center justify-between gap-3">

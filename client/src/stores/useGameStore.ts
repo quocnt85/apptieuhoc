@@ -66,6 +66,27 @@ interface GameState {
   consumeEnergy: (amount?: number) => boolean;
   answerQuestion: (question: QuestionItem, optionId: string) => { isCorrect: boolean; xpEarned: number; gemsEarned: number };
 
+  // Dev God Mode State & Actions
+  isGodModeUnlocked: boolean;
+  isDevPanelOpen: boolean;
+  isUnlimitedMode: boolean;
+  showFpsOverlay: boolean;
+  devBackupUser: UserProfile | null;
+
+  unlockGodMode: () => void;
+  toggleDevPanel: (open?: boolean) => void;
+  toggleUnlimitedMode: () => void;
+  toggleFpsOverlay: (show?: boolean) => void;
+  setEnergy: (amount: number) => void;
+  setNovaCoins: (amount: number) => void;
+  setDiamonds: (amount: number) => void;
+  setStars: (amount: number) => void;
+  setLevel: (level: number) => void;
+  instantCompleteCurrentLesson: (nodeId?: string) => void;
+  unlockAllPlanetNodes: () => void;
+  unlockAllCosmetics: () => void;
+  resetAllProgress: () => void;
+
   // Persistence
   saveToLocalStorage: () => void;
   loadFromLocalStorage: () => void;
@@ -85,7 +106,7 @@ const initialUser: UserProfile = {
   id: 'user_001',
   name: 'Phi Hành Gia Nhí',
   grade: 3,
-  avatar: '🚀',
+  avatar: '👨‍🚀',
   level: 1,
   xp: 150,
   xpToNextLevel: 300,
@@ -106,7 +127,7 @@ const initialUser: UserProfile = {
     unlockedShips: ['explorer_v1'],
     unlockedColors: ['#38bdf8', '#f59e0b'],
     unlockedAccessories: ['flag_vn'],
-    unlockedAvatars: ['🚀', '👧', '👦', '🤖', '🦊', '⭐'],
+    unlockedAvatars: ['👨‍🚀', '👩‍🚀', '🧑‍🚀', '⭐', '🤖', '🦊', '🦁', '🐼', '🦄', '🦖'],
   },
 };
 
@@ -135,6 +156,13 @@ export const useGameStore = create<GameState>((set, get) => ({
   selectedCoordinateNode: null,
   isFlyingToNode: false,
   flightProgress: 0,
+
+  // Dev God Mode State
+  isGodModeUnlocked: false,
+  isDevPanelOpen: false,
+  isUnlimitedMode: false,
+  showFpsOverlay: false,
+  devBackupUser: null,
 
   // Lesson Runner State
   isLessonRunning: false,
@@ -188,7 +216,13 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   consumeEnergyForNode: (nodeId: string, isBoss = false) => {
     get().refreshEnergy();
-    const { user, completedNodes } = get();
+    const { user, completedNodes, isUnlimitedMode } = get();
+
+    // Dev Unlimited Mode bypass
+    if (isUnlimitedMode) {
+      return { success: true, cost: 0 };
+    }
+
     const isFirstTry = !completedNodes[nodeId];
 
     // First attempt is free!
@@ -272,7 +306,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   consumeEnergy: (amount = 1) => {
-    const { user } = get();
+    const { user, isUnlimitedMode } = get();
+    if (isUnlimitedMode) return true;
     if (user.energy < amount) return false;
     set((state) => ({
       user: { ...state.user, energy: state.user.energy - amount, lastEnergyTimestamp: Date.now() }
@@ -339,14 +374,14 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   buyShip: (shipId: string, priceCoins: number) => {
-    const { user } = get();
-    if (user.novaCoins < priceCoins) return false;
+    const { user, isUnlimitedMode } = get();
+    if (!isUnlimitedMode && user.novaCoins < priceCoins) return false;
 
     soundService.playVictory();
     set((state) => ({
       user: {
         ...state.user,
-        novaCoins: state.user.novaCoins - priceCoins,
+        novaCoins: isUnlimitedMode ? state.user.novaCoins : state.user.novaCoins - priceCoins,
         customization: {
           ...state.user.customization,
           unlockedShips: [...state.user.customization.unlockedShips, shipId],
@@ -370,14 +405,14 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   buyColor: (colorHex: string, priceCoins: number) => {
-    const { user } = get();
-    if (user.novaCoins < priceCoins) return false;
+    const { user, isUnlimitedMode } = get();
+    if (!isUnlimitedMode && user.novaCoins < priceCoins) return false;
 
     soundService.playVictory();
     set((state) => ({
       user: {
         ...state.user,
-        novaCoins: state.user.novaCoins - priceCoins,
+        novaCoins: isUnlimitedMode ? state.user.novaCoins : state.user.novaCoins - priceCoins,
         customization: {
           ...state.user.customization,
           unlockedColors: [...state.user.customization.unlockedColors, colorHex],
@@ -412,14 +447,17 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   buyBooster: (type: 'double_regen' | 'boss_pass' | 'instant_refuel', costDiamonds: number) => {
-    const { user } = get();
-    if (user.diamonds < costDiamonds) return false;
+    const { user, isUnlimitedMode } = get();
+    if (!isUnlimitedMode && user.diamonds < costDiamonds) return false;
 
     soundService.playVictory();
     const now = Date.now();
 
     set((state) => {
-      const updatedUser = { ...state.user, diamonds: state.user.diamonds - costDiamonds };
+      const updatedUser = { 
+        ...state.user, 
+        diamonds: isUnlimitedMode ? state.user.diamonds : state.user.diamonds - costDiamonds 
+      };
 
       if (type === 'double_regen') {
         const currentEnd = updatedUser.doubleRegenUntil && updatedUser.doubleRegenUntil > now ? updatedUser.doubleRegenUntil : now;
@@ -474,10 +512,183 @@ export const useGameStore = create<GameState>((set, get) => ({
     get().saveToLocalStorage();
   },
 
+  // Dev God Mode Implementations
+  unlockGodMode: () => {
+    soundService.playVictory();
+    set({ isGodModeUnlocked: true, isDevPanelOpen: true });
+  },
+
+  toggleDevPanel: (open) => {
+    set((state) => ({ isDevPanelOpen: open !== undefined ? open : !state.isDevPanelOpen }));
+  },
+
+  toggleUnlimitedMode: () => {
+    const { isUnlimitedMode, user, devBackupUser } = get();
+    soundService.playVictory();
+    if (!isUnlimitedMode) {
+      set({
+        isUnlimitedMode: true,
+        devBackupUser: { ...user },
+        user: {
+          ...user,
+          energy: 9999,
+          maxEnergy: 9999,
+          novaCoins: 999999,
+          diamonds: 99999,
+          gems: 99999,
+          stars: 9999,
+          freeBossPassCount: 999,
+        }
+      });
+    } else {
+      set({
+        isUnlimitedMode: false,
+        user: devBackupUser ? { ...devBackupUser } : {
+          ...user,
+          energy: 50,
+          maxEnergy: 50,
+          novaCoins: Math.min(user.novaCoins, 10000),
+          diamonds: Math.min(user.diamonds, 1000),
+          gems: Math.min(user.gems, 1000),
+          stars: Math.min(user.stars, 50),
+          freeBossPassCount: 1,
+        },
+        devBackupUser: null,
+      });
+    }
+    get().saveToLocalStorage();
+  },
+
+  toggleFpsOverlay: (show) => {
+    set((state) => ({ showFpsOverlay: show !== undefined ? show : !state.showFpsOverlay }));
+    get().saveToLocalStorage();
+  },
+
+  setEnergy: (amount) => {
+    soundService.playClick();
+    const cleanAmount = Math.max(0, amount);
+    set((state) => ({
+      user: { ...state.user, energy: cleanAmount, maxEnergy: Math.max(state.user.maxEnergy, cleanAmount), lastEnergyTimestamp: Date.now() }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  setNovaCoins: (amount) => {
+    soundService.playCoin();
+    const cleanAmount = Math.max(0, amount);
+    set((state) => ({
+      user: { ...state.user, novaCoins: cleanAmount }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  setDiamonds: (amount) => {
+    soundService.playCoin();
+    const cleanAmount = Math.max(0, amount);
+    set((state) => ({
+      user: { ...state.user, diamonds: cleanAmount, gems: cleanAmount }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  setStars: (amount) => {
+    soundService.playCoin();
+    const cleanAmount = Math.max(0, amount);
+    set((state) => ({
+      user: { ...state.user, stars: cleanAmount }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  setLevel: (level) => {
+    soundService.playVictory();
+    const cleanLevel = Math.max(1, level);
+    set((state) => ({
+      user: { ...state.user, level: cleanLevel }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  instantCompleteCurrentLesson: (nodeId) => {
+    soundService.playVictory();
+    const currentPlanet = PLANETS_DATA.find((p) => p.id === get().activePlanetId);
+    const targetNodeId = nodeId || get().activeLessonId || currentPlanet?.nodes[0]?.id || 'bravery_prime_node_1';
+    
+    get().completeLessonNode(targetNodeId, 3);
+    set({ isLessonRunning: false, activeLessonId: null, selectedCoordinateNode: null });
+    get().saveToLocalStorage();
+  },
+
+  unlockAllPlanetNodes: () => {
+    soundService.playVictory();
+    const newCompleted: Record<string, boolean> = {};
+    const newNodeStars: Record<string, number> = {};
+    let totalStars = 0;
+
+    PLANETS_DATA.forEach((planet) => {
+      planet.nodes.forEach((node) => {
+        newCompleted[node.id] = true;
+        newNodeStars[node.id] = 3;
+        totalStars += 3;
+      });
+    });
+
+    set((state) => ({
+      completedNodes: { ...state.completedNodes, ...newCompleted },
+      nodeStars: { ...state.nodeStars, ...newNodeStars },
+      user: {
+        ...state.user,
+        stars: Math.max(state.user.stars, totalStars),
+      }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  unlockAllCosmetics: () => {
+    soundService.playVictory();
+    const allShips = ['explorer_v1', 'falcon_apex', 'starlight_runner'];
+    const allColors = ['#38bdf8', '#f59e0b', '#ef4444', '#10b981', '#8b5cf6'];
+    const allAvatars = ['👨‍🚀', '👩‍🚀', '🧑‍🚀', '⭐', '🤖', '🦊', '🦁', '🐼', '🦄', '🦖'];
+    const allAccessories = ['flag_vn', 'cosmic_wings', 'hyper_drive'];
+
+    set((state) => ({
+      user: {
+        ...state.user,
+        customization: {
+          ...state.user.customization,
+          unlockedShips: allShips,
+          unlockedColors: allColors,
+          unlockedAvatars: allAvatars,
+          unlockedAccessories: allAccessories,
+        }
+      }
+    }));
+    get().saveToLocalStorage();
+  },
+
+  resetAllProgress: () => {
+    soundService.playClick();
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem('novastars_quest_greeting_done');
+    set({
+      user: initialUser,
+      hasSeenFTUE: false,
+      completedNodes: {},
+      nodeStars: {},
+      isUnlimitedMode: false,
+      devBackupUser: null,
+      activePlanetId: 'bravery_prime',
+      selectedCoordinateNode: null,
+      isFlyingToNode: false,
+      isLessonRunning: false,
+      activeLessonId: null,
+    });
+  },
+
   saveToLocalStorage: () => {
     try {
-      const { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId } = get();
-      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId };
+      const { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay } = get();
+      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch (e) {
       console.warn('Failed to save space state to localStorage', e);
@@ -489,14 +700,20 @@ export const useGameStore = create<GameState>((set, get) => ({
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
+        const loadedUser = parsed.user || {};
+        if (loadedUser.avatar === '🚀') {
+          loadedUser.avatar = '👨‍🚀';
+        }
         set((state) => ({
           ...state,
-          user: { ...state.user, ...(parsed.user || {}) },
+          user: { ...state.user, ...loadedUser },
           hasSeenFTUE: parsed.hasSeenFTUE ?? state.hasSeenFTUE,
           completedNodes: parsed.completedNodes || {},
           nodeStars: parsed.nodeStars || {},
           settings: { ...state.settings, ...(parsed.settings || {}) },
           activePlanetId: parsed.activePlanetId || 'bravery_prime',
+          isGodModeUnlocked: parsed.isGodModeUnlocked ?? state.isGodModeUnlocked,
+          showFpsOverlay: parsed.showFpsOverlay ?? state.showFpsOverlay,
         }));
       }
       get().refreshEnergy();

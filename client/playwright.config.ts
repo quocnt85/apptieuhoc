@@ -52,9 +52,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run preview -- --port 4173',
-    port: 4173,
-    reuseExistingServer: !process.env.CI,
+    command: 'npx.cmd vite preview --port 4173 --host',
+    url: 'http://localhost:4173',
+    reuseExistingServer: true,
     timeout: 120000,
   },
 });

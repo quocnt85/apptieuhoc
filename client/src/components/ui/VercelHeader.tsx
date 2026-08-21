@@ -8,8 +8,29 @@ interface Props {
 }
 
 export const VercelHeader: React.FC<Props> = ({ title = 'Hành Tinh Tri Thức' }) => {
-  const { user, settings, toggleSound, refreshEnergy } = useGameStore();
+  const { user, settings, toggleSound, refreshEnergy, unlockGodMode } = useGameStore();
   const [countdownText, setCountdownText] = useState<string>('');
+
+  // 5-click Easter Egg state
+  const clickCountRef = React.useRef<number>(0);
+  const lastClickRef = React.useRef<number>(0);
+
+  const handleAvatarClick = () => {
+    const now = Date.now();
+    if (now - lastClickRef.current > 4000) {
+      clickCountRef.current = 1;
+    } else {
+      clickCountRef.current += 1;
+    }
+    lastClickRef.current = now;
+
+    soundService.playClick();
+
+    if (clickCountRef.current >= 5) {
+      clickCountRef.current = 0;
+      unlockGodMode();
+    }
+  };
 
   // Live timer for energy regeneration
   useEffect(() => {
@@ -40,10 +61,15 @@ export const VercelHeader: React.FC<Props> = ({ title = 'Hành Tinh Tri Thức' 
   return (
     <header className="w-full bg-slate-950/85 backdrop-blur-xl border-b border-sky-500/25 px-3 sm:px-6 py-2.5 flex items-center justify-between shadow-2xl shrink-0 z-30 select-none text-white">
       {/* Pilot Avatar & Level Badge */}
-      <div className="flex items-center gap-2.5">
+      <div 
+        onClick={handleAvatarClick}
+        data-testid="header-avatar-btn"
+        className="flex items-center gap-2.5 cursor-pointer active:scale-95 transition-transform"
+        title="Nhấp 5 lần để mở Dev God Mode"
+      >
         <div className="relative">
           <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-2 border-sky-400/80 flex items-center justify-center text-2xl shadow-[0_0_12px_rgba(56,189,248,0.4)]">
-            {user.avatar}
+            {user.avatar === '🚀' ? '👨‍🚀' : user.avatar}
           </div>
           <div className="absolute -bottom-1 -right-1 bg-yellow-400 text-slate-950 font-black text-[9px] px-1.5 py-0.2 rounded-full border border-slate-900 shadow">
             Lv.{user.level}
