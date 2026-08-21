@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaStars Life Skills Adventure - Project Wiki & Knowledge Hub</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1E40AF;
+            --primary-light: #3B82F6;
+            --secondary: #F59E0B;
+            --accent: #10B981;
+            --purple: #8B5CF6;
+            --dark-bg: #0F172A;
+            --card-bg: #1E293B;
+            --card-hover: #334155;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 300px;
+            background-color: #090D16;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            padding: 24px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.3), rgba(139, 92, 246, 0.1));
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .brand-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            color: #FFF;
+            line-height: 1.2;
+        }
+
+        .brand-text span {
+            font-size: 11px;
+            color: var(--secondary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin: 16px 8px 8px 8px;
+            font-weight: 700;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: #FFF;
+            border-left: 3px solid var(--primary-light);
+        }
+
+        .nav-item .icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, rgba(30, 64, 175, 0.1), transparent 40%);
+        }
+
+        /* Header */
+        .top-header {
+            height: 70px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box {
+            position: relative;
+            width: 360px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: #FFF;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-light);
+            color: #FFF;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Content Area */
+        .content-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        /* View Sections */
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.6), rgba(139, 92, 246, 0.5)), url('assets/nova_mascot.png') no-repeat right 30px center;
+            background-size: contain;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: #FFF;
+        }
+
+        .hero-banner p {
+            max-width: 650px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            background-color: var(--card-hover);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .stat-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Cards & Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #FFF;
+        }
+
+        /* Table Design */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: rgba(15, 23, 42, 0.6);
+            color: var(--text-muted);
+            padding: 12px 16px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-blue { background: rgba(59, 130, 246, 0.2); color: #60A5FA; }
+        .badge-green { background: rgba(16, 185, 129, 0.2); color: #34D399; }
+        .badge-yellow { background: rgba(245, 158, 11, 0.2); color: #FBBF24; }
+        .badge-purple { background: rgba(139, 92, 246, 0.2); color: #A78BFA; }
+
+        /* Accordion */
+        .accordion-item {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            overflow: hidden;
+            background-color: rgba(30, 41, 59, 0.5);
+        }
+
+        .accordion-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: var(--card-hover);
+        }
+
+        .accordion-title {
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .accordion-body {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            display: none;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #CBD5E1;
+            background-color: rgba(15, 23, 42, 0.4);
+        }
+
+        .accordion-item.open .accordion-body {
+            display: block;
+        }
+
+        /* Question Card */
+        .question-card {
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #FFF;
+        }
+
+        .option-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .option-item {
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+        }
+
+        .option-item.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34D399;
+            font-weight: 600;
+        }
+
+        .explanation {
+            font-size: 12px;
+            color: var(--secondary);
+            background: rgba(245, 158, 11, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">🌟</div>
+            <div class="brand-text">
+                <h1>NovaStars Wiki</h1>
+                <span>Knowledge Base Hub</span>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section-title">Tổng quan & Trung tâm</div>
+            <div class="nav-item active" onclick="switchTab('dashboard')">
+                <span class="icon">📊</span> Tổng quan Dự án
+            </div>
+            <div class="nav-item" onclick="switchTab('modules')">
+                <span class="icon">📁</span> Danh mục 10 Modules
+                <span class="nav-badge">10</span>
+            </div>
+
+            <div class="nav-section-title">Nội dung Pedagogy</div>
+            <div class="nav-item" onclick="switchTab('competency')">
+                <span class="icon">🎓</span> Khung Năng lực LSCAF
+                <span class="nav-badge">40 Skills</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('questions')">
+                <span class="icon">❓</span> Ngân hàng Câu hỏi
+                <span class="nav-badge">680 Qs</span>
+            </div>
+
+            <div class="nav-section-title">Kiến trúc & Lộ trình</div>
+            <div class="nav-item" onclick="switchTab('architecture')">
+                <span class="icon">💻</span> Kiến trúc & AI Bible
+            </div>
+            <div class="nav-item" onclick="switchTab('decisions')">
+                <span class="icon">📌</span> Decision Logs (ADR)
+                <span class="nav-badge">3 ADRs</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('roadmap')">
+                <span class="icon">🗺️</span> Lộ trình Roadmap
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+        <!-- Top Header Bar -->
+        <header class="top-header">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="wikiSearch" placeholder="Tìm kiếm module, kỹ năng, câu hỏi..." oninput="handleSearch()">
+            </div>
+
+            <div class="header-actions">
+                <a href="WIKI.md" target="_blank" class="btn btn-outline">
+                    📄 Xem WIKI.md
+                </a>
+                <button class="btn btn-primary" onclick="window.print()">
+                    🛈 In / Xuất PDF Wiki
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Body -->
+        <div class="content-body">
+
+            <!-- TAB 1: DASHBOARD -->
+            <section id="dashboard" class="view-section active">
+                <div class="hero-banner">
+                    <h2>NovaStars Life Skills Adventure</h2>
+                    <p>Hệ sinh thái Game nhập vai giáo dục kết hợp Trợ lý AI (Nova), rèn luyện 40 Kỹ năng sống cốt lõi cho học sinh tiểu học (6 - 11 tuổi) theo tiêu chuẩn LSCAF.</p>
+                </div>
+
+                <!-- Stats Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(59, 130, 246, 0.2); color: #60A5FA;">📁</div>
+                        <div class="stat-info">
+                            <h3>10</h3>
+                            <p>Modules Hoàn Thành</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.2); color: #34D399;">🎓</div>
+                        <div class="stat-info">
+                            <h3>40</h3>
+                            <p>Kỹ năng Cốt lõi</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.2); color: #FBBF24;">❓</div>
+                        <div class="stat-info">
+                            <h3>680</h3>
+                            <p>Câu hỏi Tình huống</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: rgba(139, 92, 246, 0.2); color: #A78BFA;">📌</div>
+                        <div class="stat-info">
+                            <h3>3</h3>
+                            <p>Quyết định ADRs Khóa</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid Section -->
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">🌐 6 Nhóm Năng Lực Khung Novastars LSCAF</h3>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Được biên soạn chuẩn mực cho tiểu học (Lớp 1-5) với 3 tầng nhận thức Bloom (Biết, Dụng, Ngộ).</p>
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+                            <li style="display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                                <span>1. Tự chăm sóc & An toàn cá nhân</span>
+                                <span class="badge badge-blue">8 Skills / 160 Qs</span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                                <span>2. An toàn & Tư duy cơ bản</span>
+                                <span class="badge badge-green">7 Skills / 120 Qs</span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                                <span>3. Giao tiếp & Cảm xúc</span>
+                                <span class="badge badge-purple">7 Skills / 140 Qs</span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                                <span>4. Thuyết trình & Học đường</span>
+                                <span class="badge badge-yellow">6 Skills / 140 Qs</span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                                <span>5. Trách nhiệm & Tự quản</span>
+                                <span class="badge badge-blue">6 Skills / 120 Qs</span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                                <span>6. Kỹ năng Số & Tài chính cơ bản</span>
+                                <span class="badge badge-green">6 Skills / 60 Qs</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">🚀 Tiến Trình Dự Án (Roadmap Summary)</h3>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            <div style="padding: 12px; border-left: 4px solid var(--accent); background: rgba(16, 185, 129, 0.1); border-radius: 0 8px 8px 0;">
+                                <div style="display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 4px;">
+                                    <span>Giai đoạn 1: Framework & Content</span>
+                                    <span style="color: var(--accent);">Đã hoàn thành ✅</span>
+                                </div>
+                                <span style="font-size: 13px; color: var(--text-muted);">Khung năng lực 40 kỹ năng, Blueprint Epic 1 và 680 câu hỏi.</span>
+                            </div>
+
+                            <div style="padding: 12px; border-left: 4px solid var(--secondary); background: rgba(245, 158, 11, 0.1); border-radius: 0 8px 8px 0;">
+                                <div style="display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 4px;">
+                                    <span>Giai đoạn 2: UI/UX & Game Prototype</span>
+                                    <span style="color: var(--secondary);">Tiếp theo ⏳</span>
+                                </div>
+                                <span style="font-size: 13px; color: var(--text-muted);">Thiết kế Giao diện Game Client Canvas & Linh vật Nova 2D/3D.</span>
+                            </div>
+
+                            <div style="padding: 12px; border-left: 4px solid var(--primary-light); background: rgba(59, 130, 246, 0.1); border-radius: 0 8px 8px 0;">
+                                <div style="display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 4px;">
+                                    <span>Giai đoạn 3: AI Companion & Backend</span>
+                                    <span style="color: var(--primary-light);">Q3/2026</span>
+                                </div>
+                                <span style="font-size: 13px; color: var(--text-muted);">Tích hợp Trợ lý Nova AI Engine & Đồng bộ Cloud Firestore.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: MODULES WIKI -->
+            <section id="modules" class="view-section">
+                <h2 style="font-family: 'Fredoka'; margin-bottom: 20px;">📁 Danh mục 10 Modules Dự án</h2>
+                <p style="color: var(--text-muted); margin-bottom: 24px;">Chi tiết từng hạng mục công việc đã thực hiện trong dự án NovaStars Life Skills Adventure.</p>
+
+                <div id="moduleAccordion">
+                    <!-- Module 00 -->
+                    <div class="accordion-item open">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>📘</span> 00_Project Charter - Tuyên ngôn & Tầm nhìn Dự án</span>
+                            <span class="badge badge-blue">Tài liệu Cốt lõi</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Định hình triết lý, sứ mệnh và các yêu cầu tuân thủ an toàn trẻ em cho dự án NovaStars.</p>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>Phân định vai trò Phụ huynh, Giáo viên và Trẻ em trong ứng dụng.</li>
+                                <li>Thiết lập nguyên tắc "No Pay-to-Win", không hiển thị quảng cáo thương mại.</li>
+                                <li>Tuân thủ tiêu chuẩn an toàn dữ liệu trẻ em COPPA & K-12.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Module 01 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>📕</span> 01_Product Foundation - Nền tảng Sản phẩm & Blueprint (Epic 1)</span>
+                            <span class="badge badge-green">Product Spec</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Định nghĩa toàn bộ trải nghiệm người dùng, quy trình học tập và cơ chế kết hợp giữa Giáo dục & Gamification.</p>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li><strong>Core Learning Loop:</strong> Learn ➔ Practice ➔ Reflect ➔ Real-world Mission ➔ Mastery.</li>
+                                <li>Đặc tả Portal Phụ huynh theo dõi sự tiến bộ kỹ năng của con theo thời gian thực.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Module 02 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>📗</span> 02_Curriculum Framework - Khung Năng lực LSCAF & CSDL</span>
+                            <span class="badge badge-purple">Pedagogy</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Xây dựng Khung Năng lực 40 Kỹ năng Cốt lõi, Lược đồ CSDL tĩnh/động và Mẫu quy chuẩn kỹ năng.</p>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>Phân tầng 3 Tầng nhận thức Bloom: Tier A (Biết), Tier B (Dụng), Tier C (Ngộ).</li>
+                                <li>Thiết kế Lược đồ CSDL Firestore & Relational SQL chi tiết trong <code>DATABASE_SCHEMA.md</code>.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Module 03 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>📙</span> 03_Game Design Bible - Thiết kế Trò chơi & Cơ chế Gameplay</span>
+                            <span class="badge badge-yellow">Game Design</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Thiết kế thế giới Nova Land với 5 Đảo Nguyên Tố, cơ chế Đấu Boss Năng Lực và Hệ thống Kinh tế Game an toàn.</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 04 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>🤖</span> 04_AI Bible - Trợ lý AI Nova & Hàng rào An toàn</span>
+                            <span class="badge badge-blue">AI Architecture</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Định nghĩa persona Linh vật Nova, thuật toán điều chỉnh độ khó IRIS và nguyên tắc Hàng rào Bảo vệ An toàn tuyệt đối (Zero-Toxic Prompt Guardrails).</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 05 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>🎨</span> 05_Design System - Ngôn ngữ Thiết kế UI/UX & Linh vật Nova</span>
+                            <span class="badge badge-green">UI/UX</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Quy chuẩn bảng màu (Nova Blue, Star Yellow, Emerald Green), phông chữ Fredoka/Quicksand và component thư viện UI dành riêng cho trẻ em.</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 06 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>💻</span> 06_Technical Architecture - Kiến trúc Hệ thống & APIs</span>
+                            <span class="badge badge-purple">Tech Lead</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Xây dựng mô hình Client Canvas SPA, Cloud Firestore CSDL động và Biên dịch Ngân hàng Câu hỏi Tĩnh qua CDN JavaScript.</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 07 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>⚙️</span> 07_Content Production SOP - Quy trình Biên soạn 6 Bước</span>
+                            <span class="badge badge-yellow">Operations</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Chuẩn hóa luồng làm việc giữa AI Generator và Biên tập viên Giáo dục từ khâu khởi tạo kịch bản đến phát hành CSDL.</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 08 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>📌</span> 08_Decision Log - Nhật ký Quyết định Đã Đóng băng</span>
+                            <span class="badge badge-blue">ADRs</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Ghi nhận 3 quyết định kiến trúc chiến lược đã được ban quản trị chốt khóa (DEC-2026-001 đến 003).</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 09 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title"><span>🗺️</span> 09_Roadmap - Lộ trình Phát triển & Phân công AI Agents</span>
+                            <span class="badge badge-green">PM / Orchestration</span>
+                        </div>
+                        <div class="accordion-body">
+                            <p><strong>Mục tiêu:</strong> Lập kế hoạch 4 Giai đoạn phát triển sản phẩm, phân định trách nhiệm cho Biệt đội AI Agents (Orchestrator, Pedagogical Lead, Game Designer, AI Architect, Tech Lead, QA).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: COMPETENCY FRAMEWORK -->
+            <section id="competency" class="view-section">
+                <h2 style="font-family: 'Fredoka'; margin-bottom: 20px;">🎓 Khung Năng lực Novastars LSCAF (40 Kỹ năng Cốt lõi)</h2>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên Kỹ năng Cốt lõi</th>
+                                    <th>Nhóm Năng lực</th>
+                                    <th>Lứa tuổi / Lớp</th>
+                                    <th>Tầng Nhận thức (Bloom)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="competencyTable">
+                                <tr><td>1</td><td>Vệ sinh cá nhân tự lập</td><td>Tự chăm sóc & An toàn</td><td>Lớp 1-2</td><td><span class="badge badge-blue">Tier A - Biết</span></td></tr>
+                                <tr><td>2</td><td>Ăn uống đủ chất & Lành mạnh</td><td>Tự chăm sóc & An toàn</td><td>Lớp 1-3</td><td><span class="badge badge-green">Tier B - Dụng</span></td></tr>
+                                <tr><td>3</td><td>Phòng tránh và xử lý khi bị đi lạc</td><td>Tự chăm sóc & An toàn</td><td>Lớp 1-5</td><td><span class="badge badge-purple">Tier C - Ngộ</span></td></tr>
+                                <tr><td>4</td><td>An toàn điện & Thiết bị gia dụng</td><td>Tự chăm sóc & An toàn</td><td>Lớp 2-4</td><td><span class="badge badge-yellow">Tier B - Dụng</span></td></tr>
+                                <tr><td>5</td><td>Xử lý vết thương nhẹ đơn giản</td><td>Tự chăm sóc & An toàn</td><td>Lớp 3-5</td><td><span class="badge badge-green">Tier B - Dụng</span></td></tr>
+                                <tr><td>6</td><td>Quản lý cảm xúc & Cơn giận</td><td>Giao tiếp & Cảm xúc</td><td>Lớp 1-5</td><td><span class="badge badge-purple">Tier C - Ngộ</span></td></tr>
+                                <tr><td>7</td><td>Thuyết trình & Tự tin phát biểu</td><td>Thuyết trình & Học đường</td><td>Lớp 2-5</td><td><span class="badge badge-blue">Tier B - Dụng</span></td></tr>
+                                <tr><td>8</td><td>Nhận diện giá trị tiền tệ & Tiết kiệm</td><td>Kỹ năng Số & Tài chính</td><td>Lớp 1-4</td><td><span class="badge badge-green">Tier A - Biết</span></td></tr>
+                                <tr><td>9</td><td>An toàn khi sử dụng Internet & Màn hình</td><td>Kỹ năng Số & Tài chính</td><td>Lớp 3-5</td><td><span class="badge badge-purple">Tier C - Ngộ</span></td></tr>
+                                <tr><td>10</td><td>Giúp đỡ việc nhà & Tự giác học tập</td><td>Trách nhiệm & Tự quản</td><td>Lớp 1-5</td><td><span class="badge badge-yellow">Tier C - Ngộ</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: QUESTION BANK -->
+            <section id="questions" class="view-section">
+                <h2 style="font-family: 'Fredoka'; margin-bottom: 20px;">❓ Ngân hàng Câu hỏi Tình huống (680 Câu)</h2>
+                <div id="questionContainer">
+                    <!-- Dynamic Question Samples -->
+                    <div class="question-card">
+                        <div class="question-header">
+                            <span class="badge badge-blue">Tự chăm sóc & An toàn</span>
+                            <span style="font-size: 12px; color: var(--text-muted);">ID: Q001_01_01</span>
+                        </div>
+                        <div class="question-text">Khi đi siêu thị cùng mẹ, nếu không thấy mẹ đâu, việc ĐẦU TIÊN em nên làm là gì?</div>
+                        <div class="option-list">
+                            <div class="option-item">A. Khóc thật to để mẹ nghe thấy.</div>
+                            <div class="option-item">B. Chạy đi tìm mẹ khắp các gian hàng.</div>
+                            <div class="option-item correct">C. Đứng yên tại chỗ và quan sát xung quanh, nhờ nhân viên bảo vệ hỗ trợ.</div>
+                            <div class="option-item">D. Chạy ra ngoài đường để tìm mẹ.</div>
+                        </div>
+                        <div class="explanation">💡 <strong>Giải thích Pedagogy:</strong> Đứng yên tại chỗ giúp phụ huynh và bảo vệ dễ dàng tìm thấy trẻ hơn, tránh nguy cơ gặp rủi ro khi di chuyển tự do.</div>
+                    </div>
+
+                    <div class="question-card">
+                        <div class="question-header">
+                            <span class="badge badge-purple">Giao tiếp & Cảm xúc</span>
+                            <span style="font-size: 12px; color: var(--text-muted);">ID: Q002_03_02</span>
+                        </div>
+                        <div class="question-text">Khi bị bạn vô tình làm vỡ đồ chơi yêu thích, cách ứng xử tích cực nhất là gì?</div>
+                        <div class="option-list">
+                            <div class="option-item">A. Hét to và đánh bạn lập tức.</div>
+                            <div class="option-item correct">B. Hít thở sâu, nói cho bạn biết mình hụt hẫng và cùng bạn dọn dẹp.</div>
+                            <div class="option-item">C. Giấu đồ chơi đi và không bao giờ nói chuyện với bạn nữa.</div>
+                            <div class="option-item">D. Đập vỡ đồ chơi của bạn để trả đũa.</div>
+                        </div>
+                        <div class="explanation">💡 <strong>Giải thích Pedagogy:</strong> Giúp học sinh làm chủ cảm xúc (Tier C - Ngộ), giải quyết xung đột ôn hòa thông qua giao tiếp tích cực.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: ARCHITECTURE -->
+            <section id="architecture" class="view-section">
+                <h2 style="font-family: 'Fredoka'; margin-bottom: 20px;">💻 Kiến trúc Kỹ thuật & AI Guardrails</h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3 class="card-title" style="margin-bottom: 12px;">🏢 Technical Stack Breakdown</h3>
+                        <ul style="line-height: 1.8; color: var(--text-muted); font-size: 14px;">
+                            <li><strong>Frontend Client:</strong> HTML5 Canvas / Vite SPA, CSS Vanilla Glassmorphism.</li>
+                            <li><strong>Offline Cache:</strong> Ngân hàng câu hỏi static <code>questions_data.js</code> giúp load app dưới 0.5s.</li>
+                            <li><strong>Backend Services:</strong> Node.js Microservices, Firebase Auth & Firestore Dynamic DB.</li>
+                            <li><strong>Cross-Platform:</strong> Responsive Tablet (iPad/Android), Laptop & Desktop.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title" style="margin-bottom: 12px;">🛡️ AI Safety Guardrails (Nova Engine)</h3>
+                        <ul style="line-height: 1.8; color: var(--text-muted); font-size: 14px;">
+                            <li><strong>Zero-Toxic Content:</strong> Bộ lọc ngôn từ không phù hợp trẻ em ở mức 100%.</li>
+                            <li><strong>IRIS Adaptive Algorithm:</strong> Tự động điều chỉnh độ khó kịch bản theo năng lực học sinh.</li>
+                            <li><strong>Positive Reinforcement:</strong> Khích lệ tư duy phản tư, không phạt tiêu cực khi trẻ trả lời sai.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: DECISIONS -->
+            <section id="decisions" class="view-section">
+                <h2 style="font-family: 'Fredoka'; margin-bottom: 20px;">📌 Decision Log (Architectural Decision Records)</h2>
+                <div class="card">
+                    <div class="accordion-item open">
+                        <div class="accordion-header">
+                            <span class="accordion-title">📌 DEC-2026-001: Khóa Khung Chương trình 40 Kỹ năng Cốt lõi</span>
+                            <span class="badge badge-green">FROZEN</span>
+                        </div>
+                        <div class="accordion-body">
+                            Quyết định chốt khóa 40 kỹ năng sống cho tiểu học dựa trên nghiên cứu tiêu chuẩn Bộ GD&ĐT kết hợp Khung năng lực CASEL quốc tế.
+                        </div>
+                    </div>
+
+                    <div class="accordion-item open">
+                        <div class="accordion-header">
+                            <span class="accordion-title">📌 DEC-2026-002: Hệ thống Đánh giá 3 Tầng LSCAF (Bloom Taxonomy)</span>
+                            <span class="badge badge-green">FROZEN</span>
+                        </div>
+                        <div class="accordion-body">
+                            Áp dụng phân tầng 3 bước (Tier A: Biết ➔ Tier B: Dụng ➔ Tier C: Ngộ) giúp việc rèn luyện có tính đo lường thực tế.
+                        </div>
+                    </div>
+
+                    <div class="accordion-item open">
+                        <div class="accordion-header">
+                            <span class="accordion-title">📌 DEC-2026-003: Phân phối Ngân hàng Câu hỏi Tĩnh qua CDN JavaScript</span>
+                            <span class="badge badge-green">FROZEN</span>
+                        </div>
+                        <div class="accordion-body">
+                            Tối ưu hóa hiệu năng bằng cách đóng gói 680 câu hỏi vào file static JS <code>questions_data.js</code>, giảm tải 90% chi phí truy vấn database.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 7: ROADMAP -->
+            <section id="roadmap" class="view-section">
+                <h2 style="font-family: 'Fredoka'; margin-bottom: 20px;">🗺️ Lộ trình Phát triển Dự án (Detailed Roadmap)</h2>
+                <div class="card">
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div style="border-left: 4px solid var(--accent); padding-left: 16px;">
+                            <h4 style="color: var(--accent);">Giai đoạn 1: Khung Chương trình & Ngân hàng Câu hỏi (ĐÃ HOÀN THÀNH)</h4>
+                            <p style="font-size: 14px; color: var(--text-muted);">Biên soạn 10 Modules, Khung 40 Kỹ năng LSCAF, 680 Câu hỏi tình huống và chuẩn hóa Blueprint sản phẩm.</p>
+                        </div>
+                        <div style="border-left: 4px solid var(--secondary); padding-left: 16px;">
+                            <h4 style="color: var(--secondary);">Giai đoạn 2: UI/UX Design & Game Client Prototype (TIẾP THEO)</h4>
+                            <p style="font-size: 14px; color: var(--text-muted);">Thiết kế Giao diện Game Client Canvas, Bản đồ 5 Đảo Nova Land & Linh vật Nova tương tác 2D/3D.</p>
+                        </div>
+                        <div style="border-left: 4px solid var(--primary-light); padding-left: 16px;">
+                            <h4 style="color: var(--primary-light);">Giai đoạn 3: AI Companion & Backend API Integration (Q3/2026)</h4>
+                            <p style="font-size: 14px; color: var(--text-muted);">Kết nối Trợ lý Nova AI Engine, Portal Phụ huynh và đồng bộ Cloud Firestore.</p>
+                        </div>
+                        <div style="border-left: 4px solid var(--purple); padding-left: 16px;">
+                            <h4 style="color: var(--purple);">Giai đoạn 4: Kiểm thử Beta & Chính thức Ra mắt (Q4/2026)</h4>
+                            <p style="font-size: 14px; color: var(--text-muted);">Chạy thử nghiệm tại 5 trường tiểu học đối tác, tối ưu hiệu năng và phát hành ứng dụng.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function switchTab(tabId) {
+            // Update nav active states
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Hide all view sections
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected view section
+            const selectedSection = document.getElementById(tabId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+        }
+
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            item.classList.toggle('open');
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('wikiSearch').value.toLowerCase().trim();
+            if (!query) return;
+
+            // Search through accordions & text elements
+            document.querySelectorAll('.accordion-item').forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'block';
+                    item.classList.add('open');
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+    <script src="question_bank/questions_data.js"></script>
+</body>
+</html>
