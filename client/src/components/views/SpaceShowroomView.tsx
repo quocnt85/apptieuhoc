@@ -233,9 +233,9 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
   return (
     <div className="flex-1 w-full h-full flex flex-col bg-gradient-to-b from-[#030712] via-[#0b1026] to-[#0f172a] text-white select-none overflow-hidden relative animate-fadeIn">
       {/* Top Header Bar */}
-      <div className="p-3 sm:p-4 bg-slate-950/80 backdrop-blur-xl border-b border-sky-500/25 flex items-center justify-between z-20 shrink-0">
+      <div className="p-3 sm:p-4 bg-slate-950/80 backdrop-blur-xl border-b border-sky-500/25 flex flex-wrap items-center justify-between gap-2 z-20 shrink-0">
         <div className="flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 border border-white/30 flex items-center justify-center text-xl shadow-lg shadow-sky-500/30">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 border border-white/30 flex items-center justify-center text-xl shadow-lg shadow-sky-500/30 shrink-0">
             {mode === 'ships' ? '🚀' : '🪐'}
           </div>
           <div>
@@ -251,8 +251,8 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
           </div>
         </div>
 
-        {/* Mode Switcher: Ships <-> Planets */}
-        <div className="flex bg-slate-900 border border-sky-400/40 p-1 rounded-2xl shadow-inner">
+        {/* Mode Switcher: Ships <-> Planets <-> Poly Inspector */}
+        <div className="flex bg-slate-900 border border-sky-400/40 p-1 rounded-2xl shadow-inner flex-wrap gap-1">
           <button
             data-testid="showroom-tab-ships"
             onClick={() => {
@@ -260,15 +260,14 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
               setMode('ships');
               setCameraPreset('default');
             }}
-            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
+            className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
               mode === 'ships'
                 ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <Rocket className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">5 Tàu Khám Phá</span>
-            <span className="sm:hidden">Tàu</span>
+            <span>5 Tàu Khám Phá</span>
           </button>
 
           <button
@@ -278,20 +277,19 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
               setMode('planets');
               setCameraPreset('default');
             }}
-            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
+            className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
               mode === 'planets'
                 ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-md'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <Globe2 className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">5 Hành Tinh</span>
-            <span className="sm:hidden">Hành Tinh</span>
+            <span>5 Hành Tinh</span>
           </button>
         </div>
       </div>
 
-      {/* Main Interactive 3D Canvas Area (Extended Zoom Distance for Majestic Wide View) */}
+      {/* Main Interactive 3D Canvas Area */}
       <div className="relative flex-1 w-full overflow-hidden bg-radial from-[#1e1b4b] via-[#070d1e] to-[#030712] cursor-grab active:cursor-grabbing touch-none touch-canvas-interactive overscroll-none">
         <Canvas
           camera={{ position: [0, 0.35, 4.4], fov: 45 }}
@@ -320,6 +318,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
 
         {/* Floating Quick Action Overlay Controls (Top Right of 3D Canvas) */}
         <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
+
           {/* Toggle Wind Streamlines (Only for Ships) */}
           {mode === 'ships' && (
             <button
@@ -424,254 +423,253 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
 
       {/* Bottom Selector & Technical Specs Panel */}
       <div className="bg-slate-950/95 border-t-2 border-sky-500/30 p-3.5 sm:p-4 shrink-0 flex flex-col gap-3 max-h-[48vh] overflow-y-auto shadow-2xl z-20">
-        {/* Horizontal Carousel Selector */}
         <div className="flex gap-2.5 overflow-x-auto pb-1.5 scrollbar-thin">
-          {mode === 'ships'
-            ? SHIPS_DATA.map((ship, idx) => {
-                const isSelected = idx === selectedShipIndex;
-                const isShipEquipped = user.customization?.equippedShip === ship.id;
+              {mode === 'ships'
+                ? SHIPS_DATA.map((ship, idx) => {
+                    const isSelected = idx === selectedShipIndex;
+                    const isShipEquipped = user.customization?.equippedShip === ship.id;
 
-                return (
+                    return (
+                      <button
+                        key={ship.id}
+                        data-testid={`ship-select-${ship.id}`}
+                        onClick={() => {
+                          soundService.playClick();
+                          setSelectedShipIndex(idx);
+                        }}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-2xl border-2 shrink-0 transition-all active:scale-95 ${
+                          isSelected
+                            ? 'bg-sky-950/90 border-sky-400 shadow-lg shadow-sky-500/25 ring-2 ring-sky-400/30'
+                            : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-slate-800 border border-white/20 flex items-center justify-center text-base">
+                          🚀
+                        </div>
+                        <div className="text-left">
+                          <div className="text-xs font-black text-white flex items-center gap-1">
+                            <span>{ship.name}</span>
+                            {isShipEquipped && <Check className="w-3 h-3 text-emerald-400" />}
+                          </div>
+                          <div className="text-[10px] text-sky-300 font-bold truncate max-w-[120px]">
+                            {ship.badge}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })
+                : PLANETS_DATA.map((pl, idx) => {
+                    const isSelected = idx === selectedPlanetIndex;
+                    const isPlanetActive = activePlanetId === pl.id;
+
+                    return (
+                      <button
+                        key={pl.id}
+                        data-testid={`planet-select-${pl.id}`}
+                        onClick={() => {
+                          soundService.playClick();
+                          setSelectedPlanetIndex(idx);
+                        }}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-2xl border-2 shrink-0 transition-all active:scale-95 ${
+                          isSelected
+                            ? 'bg-purple-950/90 border-purple-400 shadow-lg shadow-purple-500/25 ring-2 ring-purple-400/30'
+                            : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:border-slate-700'
+                        }`}
+                      >
+                        <div
+                          className="w-8 h-8 rounded-xl border border-white/20 flex items-center justify-center text-base shadow"
+                          style={{ backgroundColor: pl.color }}
+                        >
+                          🪐
+                        </div>
+                        <div className="text-left">
+                          <div className="text-xs font-black text-white flex items-center gap-1">
+                            <span>{pl.titleVi}</span>
+                            {isPlanetActive && <Check className="w-3 h-3 text-emerald-400" />}
+                          </div>
+                          <div className="text-[10px] text-purple-300 font-bold capitalize">
+                            {pl.type}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+            </div>
+
+            {/* Details Card & Action Bar */}
+            {mode === 'ships' ? (
+              <div className="space-y-2.5">
+                {/* Header Title with Aesthetic Style Tag */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-slate-900/90 border border-slate-800 p-3 rounded-2xl">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 data-testid="showroom-ship-title" className="font-black text-sm sm:text-base text-yellow-300">{currentShip.nameVi}</h3>
+                      <span className="text-[10px] bg-sky-500/20 text-sky-300 font-black px-2 py-0.5 rounded-full border border-sky-400/30">
+                        {currentShip.badge}
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-emerald-300 font-bold mt-0.5">
+                      🎨 Phong Cách: {currentShip.aestheticStyle}
+                    </div>
+                    <p className="text-xs text-slate-300 font-medium mt-0.5 leading-relaxed">{currentShip.description}</p>
+                  </div>
+
+                  {/* Action Button: Equip Ship */}
+                  <div className="shrink-0 w-full sm:w-auto">
+                    {isEquipped ? (
+                      <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/60 font-black text-xs px-4 py-2 rounded-2xl flex items-center justify-center gap-1 shadow">
+                        <Check className="w-4 h-4" /> Đang Trang Bị
+                      </span>
+                    ) : (
+                      <button
+                        onClick={handleEquipShip}
+                        className="w-full sm:w-auto bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 active:scale-95 text-white font-black text-xs px-5 py-2.5 rounded-2xl border border-sky-300 shadow-lg shadow-sky-500/25 transition-all flex items-center justify-center gap-1.5"
+                      >
+                        <span>Trang Bị Phi Thuyền Này ✨</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Scientific Instruments List */}
+                {currentShip.scientificInstruments && (
+                  <div className="p-3 rounded-2xl bg-slate-900/80 border border-sky-500/25">
+                    <span className="text-[11px] font-black text-sky-200 flex items-center gap-1.5 mb-1.5">
+                      <Radio className="w-3.5 h-3.5 text-sky-400 animate-pulse" />
+                      <span>Trang Bị Khám Phá Khoa Học & Cảm Biến:</span>
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                      {currentShip.scientificInstruments.map((inst, iidx) => (
+                        <div key={iidx} className="text-[11px] text-slate-300 flex items-start gap-1.5 bg-slate-950/70 p-2 rounded-xl border border-sky-500/15">
+                          <span className="text-sky-400 font-bold shrink-0">•</span>
+                          <span>{inst}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 3 Game Stats: Speed, Shield, Power */}
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
+                    <div className="flex justify-between text-[11px] font-bold text-slate-400">
+                      <span>⚡ Tốc độ</span>
+                      <span className="text-sky-300 font-black">{currentShip.speed}</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+                      <div className="h-full bg-sky-400 rounded-full" style={{ width: `${currentShip.speed}%` }} />
+                    </div>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
+                    <div className="flex justify-between text-[11px] font-bold text-slate-400">
+                      <span>🛡️ Giáp</span>
+                      <span className="text-emerald-300 font-black">{currentShip.shield}</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+                      <div className="h-full bg-emerald-400 rounded-full" style={{ width: `${currentShip.shield}%` }} />
+                    </div>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
+                    <div className="flex justify-between text-[11px] font-bold text-slate-400">
+                      <span>💥 Năng lượng quét</span>
+                      <span className="text-amber-300 font-black">{currentShip.power}</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
+                      <div className="h-full bg-amber-400 rounded-full" style={{ width: `${currentShip.power}%` }} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Live Customization Bar: Color Picker & Flag Toggle */}
+                <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                  {/* Color Palette */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-slate-300 flex items-center gap-1">
+                      <Palette className="w-3.5 h-3.5 text-yellow-300" /> Màu Sơn:
+                    </span>
+                    <div className="flex gap-1.5">
+                      {colorsList.map((c) => (
+                        <button
+                          key={c.hex}
+                          onClick={() => equipColor(c.hex)}
+                          className={`w-6 h-6 rounded-full border-2 transition-all ${
+                            currentShipColor === c.hex
+                              ? 'border-white scale-110 shadow-lg shadow-sky-400/50 ring-2 ring-sky-400'
+                              : 'border-slate-600 opacity-80 hover:opacity-100'
+                          }`}
+                          style={{ backgroundColor: c.hex }}
+                          title={c.name}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Vietnam Flag Toggle */}
                   <button
-                    key={ship.id}
-                    data-testid={`ship-select-${ship.id}`}
-                    onClick={() => {
-                      soundService.playClick();
-                      setSelectedShipIndex(idx);
-                    }}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-2xl border-2 shrink-0 transition-all active:scale-95 ${
-                      isSelected
-                        ? 'bg-sky-950/90 border-sky-400 shadow-lg shadow-sky-500/25 ring-2 ring-sky-400/30'
-                        : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:border-slate-700'
+                    onClick={toggleVietnamFlag}
+                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
+                      hasVnFlag
+                        ? 'bg-red-600/90 text-white border-yellow-300 shadow-md shadow-red-500/30'
+                        : 'bg-slate-800 text-slate-400 border-slate-700'
                     }`}
                   >
-                    <div className="w-8 h-8 rounded-xl bg-slate-800 border border-white/20 flex items-center justify-center text-base">
-                      🚀
-                    </div>
-                    <div className="text-left">
-                      <div className="text-xs font-black text-white flex items-center gap-1">
-                        <span>{ship.name}</span>
-                        {isShipEquipped && <Check className="w-3 h-3 text-emerald-400" />}
-                      </div>
-                      <div className="text-[10px] text-sky-300 font-bold truncate max-w-[120px]">
-                        {ship.badge}
-                      </div>
-                    </div>
+                    <span>⭐</span>
+                    <span>{hasVnFlag ? 'Đã Dán Cờ VN' : 'Dán Cờ VN'}</span>
                   </button>
-                );
-              })
-            : PLANETS_DATA.map((pl, idx) => {
-                const isSelected = idx === selectedPlanetIndex;
-                const isPlanetActive = activePlanetId === pl.id;
-
-                return (
-                  <button
-                    key={pl.id}
-                    data-testid={`planet-select-${pl.id}`}
-                    onClick={() => {
-                      soundService.playClick();
-                      setSelectedPlanetIndex(idx);
-                    }}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-2xl border-2 shrink-0 transition-all active:scale-95 ${
-                      isSelected
-                        ? 'bg-purple-950/90 border-purple-400 shadow-lg shadow-purple-500/25 ring-2 ring-purple-400/30'
-                        : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:border-slate-700'
-                    }`}
-                  >
-                    <div
-                      className="w-8 h-8 rounded-xl border border-white/20 flex items-center justify-center text-base shadow"
-                      style={{ backgroundColor: pl.color }}
-                    >
-                      🪐
-                    </div>
-                    <div className="text-left">
-                      <div className="text-xs font-black text-white flex items-center gap-1">
-                        <span>{pl.titleVi}</span>
-                        {isPlanetActive && <Check className="w-3 h-3 text-emerald-400" />}
-                      </div>
-                      <div className="text-[10px] text-purple-300 font-bold capitalize">
-                        {pl.type}
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-        </div>
-
-        {/* Details Card & Action Bar */}
-        {mode === 'ships' ? (
-          <div className="space-y-2.5">
-            {/* Header Title with Aesthetic Style Tag */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-slate-900/90 border border-slate-800 p-3 rounded-2xl">
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <h3 data-testid="showroom-ship-title" className="font-black text-sm sm:text-base text-yellow-300">{currentShip.nameVi}</h3>
-                  <span className="text-[10px] bg-sky-500/20 text-sky-300 font-black px-2 py-0.5 rounded-full border border-sky-400/30">
-                    {currentShip.badge}
-                  </span>
                 </div>
-                <div className="text-[11px] text-emerald-300 font-bold mt-0.5">
-                  🎨 Phong Cách: {currentShip.aestheticStyle}
-                </div>
-                <p className="text-xs text-slate-300 font-medium mt-0.5 leading-relaxed">{currentShip.description}</p>
               </div>
+            ) : (
+              /* Planet Details Card */
+              <div className="space-y-2.5">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-slate-900/90 border border-slate-800 p-3 rounded-2xl">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 data-testid="showroom-planet-title" className="font-black text-sm sm:text-base text-yellow-300">{currentPlanet.titleVi}</h3>
+                      <span className="text-[10px] bg-purple-500/20 text-purple-300 font-black px-2 py-0.5 rounded-full border border-purple-400/30">
+                        {currentPlanet.name}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-300 font-medium mt-0.5 leading-relaxed">{currentPlanet.description}</p>
+                  </div>
 
-              {/* Action Button: Equip Ship */}
-              <div className="shrink-0 w-full sm:w-auto">
-                {isEquipped ? (
-                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/60 font-black text-xs px-4 py-2 rounded-2xl flex items-center justify-center gap-1 shadow">
-                    <Check className="w-4 h-4" /> Đang Trang Bị
-                  </span>
-                ) : (
-                  <button
-                    onClick={handleEquipShip}
-                    className="w-full sm:w-auto bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 active:scale-95 text-white font-black text-xs px-5 py-2.5 rounded-2xl border border-sky-300 shadow-lg shadow-sky-500/25 transition-all flex items-center justify-center gap-1.5"
-                  >
-                    <span>Trang Bị Phi Thuyền Này ✨</span>
-                  </button>
+                  {/* Action Button: Travel to Planet */}
+                  <div className="shrink-0 w-full sm:w-auto">
+                    {isCurrentPlanet ? (
+                      <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/60 font-black text-xs px-4 py-2 rounded-2xl flex items-center justify-center gap-1 shadow">
+                        <Check className="w-4 h-4" /> Đang Ở Đây
+                      </span>
+                    ) : (
+                      <button
+                        onClick={handleSelectPlanet}
+                        className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 active:scale-95 text-white font-black text-xs px-5 py-2.5 rounded-2xl border border-purple-300 shadow-lg shadow-purple-500/25 transition-all flex items-center justify-center gap-1.5"
+                      >
+                        <span>Du Hành Tới Tinh Cầu 🪐</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Geological Highlights */}
+                {currentPlanet.geologyHighlights && (
+                  <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
+                    <span className="text-[11px] font-black text-purple-200 flex items-center gap-1.5 mb-1.5">
+                      <Globe2 className="w-3.5 h-3.5 text-purple-400" />
+                      <span>Điểm Nổi Bật:</span>
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                      {currentPlanet.geologyHighlights.map((geo, gidx) => (
+                        <div key={gidx} className="text-[11px] text-slate-300 flex items-start gap-1.5 bg-slate-950/60 p-2 rounded-xl border border-purple-500/20">
+                          <span className="text-purple-400 font-bold shrink-0">•</span>
+                          <span>{geo}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
-            </div>
-
-            {/* Scientific Instruments List */}
-            {currentShip.scientificInstruments && (
-              <div className="p-3 rounded-2xl bg-slate-900/80 border border-sky-500/25">
-                <span className="text-[11px] font-black text-sky-200 flex items-center gap-1.5 mb-1.5">
-                  <Radio className="w-3.5 h-3.5 text-sky-400 animate-pulse" />
-                  <span>Trang Bị Khám Phá Khoa Học & Cảm Biến:</span>
-                </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                  {currentShip.scientificInstruments.map((inst, iidx) => (
-                    <div key={iidx} className="text-[11px] text-slate-300 flex items-start gap-1.5 bg-slate-950/70 p-2 rounded-xl border border-sky-500/15">
-                      <span className="text-sky-400 font-bold shrink-0">•</span>
-                      <span>{inst}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
             )}
-
-            {/* 3 Game Stats: Speed, Shield, Power */}
-            <div className="grid grid-cols-3 gap-2 text-xs">
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
-                <div className="flex justify-between text-[11px] font-bold text-slate-400">
-                  <span>⚡ Tốc độ</span>
-                  <span className="text-sky-300 font-black">{currentShip.speed}</span>
-                </div>
-                <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
-                  <div className="h-full bg-sky-400 rounded-full" style={{ width: `${currentShip.speed}%` }} />
-                </div>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
-                <div className="flex justify-between text-[11px] font-bold text-slate-400">
-                  <span>🛡️ Giáp</span>
-                  <span className="text-emerald-300 font-black">{currentShip.shield}</span>
-                </div>
-                <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
-                  <div className="h-full bg-emerald-400 rounded-full" style={{ width: `${currentShip.shield}%` }} />
-                </div>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-sky-500/30">
-                <div className="flex justify-between text-[11px] font-bold text-slate-400">
-                  <span>💥 Năng lượng quét</span>
-                  <span className="text-amber-300 font-black">{currentShip.power}</span>
-                </div>
-                <div className="w-full h-1.5 bg-slate-800 rounded-full mt-1.5 overflow-hidden">
-                  <div className="h-full bg-amber-400 rounded-full" style={{ width: `${currentShip.power}%` }} />
-                </div>
-              </div>
-            </div>
-
-            {/* Live Customization Bar: Color Picker & Flag Toggle */}
-            <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 flex flex-wrap items-center justify-between gap-3">
-              {/* Color Palette */}
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-300 flex items-center gap-1">
-                  <Palette className="w-3.5 h-3.5 text-yellow-300" /> Màu Sơn:
-                </span>
-                <div className="flex gap-1.5">
-                  {colorsList.map((c) => (
-                    <button
-                      key={c.hex}
-                      onClick={() => equipColor(c.hex)}
-                      className={`w-6 h-6 rounded-full border-2 transition-all ${
-                        currentShipColor === c.hex
-                          ? 'border-white scale-110 shadow-lg shadow-sky-400/50 ring-2 ring-sky-400'
-                          : 'border-slate-600 opacity-80 hover:opacity-100'
-                      }`}
-                      style={{ backgroundColor: c.hex }}
-                      title={c.name}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Vietnam Flag Toggle */}
-              <button
-                onClick={toggleVietnamFlag}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
-                  hasVnFlag
-                    ? 'bg-red-600/90 text-white border-yellow-300 shadow-md shadow-red-500/30'
-                    : 'bg-slate-800 text-slate-400 border-slate-700'
-                }`}
-              >
-                <span>⭐</span>
-                <span>{hasVnFlag ? 'Đã Dán Cờ VN' : 'Dán Cờ VN'}</span>
-              </button>
-            </div>
-          </div>
-        ) : (
-          /* Planet Details Card */
-          <div className="space-y-2.5">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 bg-slate-900/90 border border-slate-800 p-3 rounded-2xl">
-              <div>
-                <div className="flex items-center gap-2">
-                  <h3 data-testid="showroom-planet-title" className="font-black text-sm sm:text-base text-yellow-300">{currentPlanet.titleVi}</h3>
-                  <span className="text-[10px] bg-purple-500/20 text-purple-300 font-black px-2 py-0.5 rounded-full border border-purple-400/30">
-                    {currentPlanet.name}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-300 font-medium mt-0.5 leading-relaxed">{currentPlanet.description}</p>
-              </div>
-
-              {/* Action Button: Travel to Planet */}
-              <div className="shrink-0 w-full sm:w-auto">
-                {isCurrentPlanet ? (
-                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/60 font-black text-xs px-4 py-2 rounded-2xl flex items-center justify-center gap-1 shadow">
-                    <Check className="w-4 h-4" /> Đang Ở Đây
-                  </span>
-                ) : (
-                  <button
-                    onClick={handleSelectPlanet}
-                    className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 active:scale-95 text-white font-black text-xs px-5 py-2.5 rounded-2xl border border-purple-300 shadow-lg shadow-purple-500/25 transition-all flex items-center justify-center gap-1.5"
-                  >
-                    <span>Du Hành Tới Tinh Cầu 🪐</span>
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Geological Highlights */}
-            {currentPlanet.geologyHighlights && (
-              <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
-                <span className="text-[11px] font-black text-purple-200 flex items-center gap-1.5 mb-1.5">
-                  <Globe2 className="w-3.5 h-3.5 text-purple-400" />
-                  <span>Điểm Nổi Bật:</span>
-                </span>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
-                  {currentPlanet.geologyHighlights.map((geo, gidx) => (
-                    <div key={gidx} className="text-[11px] text-slate-300 flex items-start gap-1.5 bg-slate-950/60 p-2 rounded-xl border border-purple-500/20">
-                      <span className="text-purple-400 font-bold shrink-0">•</span>
-                      <span>{geo}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );

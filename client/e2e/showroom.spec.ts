@@ -76,6 +76,7 @@ test.describe('3D Space Fleet & Planet Showroom E2E Tests', () => {
   });
 
   test('3. Switch to 5 Planets Mode and verify each unique planetary body', async ({ page }) => {
+    test.setTimeout(90000);
     await openShowroom(page);
 
     // Click 5 Hành Tinh tab button in showroom

@@ -90,7 +90,7 @@ export const App: React.FC = () => {
                     <SpaceShowroomView onClose={() => setActiveTab('hangar')} />
                   )}
                   {activeTab === 'hangar' && (
-                    <SpaceHangarView />
+                    <SpaceHangarView onOpenShowroom={() => setActiveTab('showroom')} />
                   )}
                   {activeTab === 'profile' && <ProfileView />}
                 </main>
