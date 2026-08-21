@@ -128,6 +128,72 @@ const EMPTY_HUD: HudState = {
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 const distanceSquared = (ax: number, ay: number, bx: number, by: number) => ((ax - bx) ** 2) + ((ay - by) ** 2);
+
+const seededNoise = (value: number) => {
+  const x = Math.sin(value * 91.733) * 43758.5453;
+  return x - Math.floor(x);
+};
+
+const createIrregularAsteroidGeometry = (variant: number, detail = 1) => {
+  const geometry = new THREE.IcosahedronGeometry(1, detail).toNonIndexed();
+  const positions = geometry.getAttribute('position') as THREE.BufferAttribute;
+  const shades = new Float32Array(positions.count * 3);
+  for (let index = 0; index < positions.count; index += 1) {
+    const x = positions.getX(index);
+    const y = positions.getY(index);
+    const z = positions.getZ(index);
+    const ridge = seededNoise(x * 7.1 + y * 11.3 + z * 17.7 + variant * 23.9);
+    const broad = seededNoise(x * 2.4 + z * 4.7 + variant * 13.1);
+    const radius = 0.72 + ridge * 0.34 + broad * 0.16;
+    positions.setXYZ(index, x * radius * (0.88 + seededNoise(variant + 1) * 0.26), y * radius, z * radius * (0.84 + seededNoise(variant + 5) * 0.3));
+    const shade = 0.5 + seededNoise(index * 0.37 + variant * 5.9) * 0.55;
+    shades[index * 3] = shade;
+    shades[index * 3 + 1] = shade;
+    shades[index * 3 + 2] = shade;
+  }
+  geometry.setAttribute('color', new THREE.BufferAttribute(shades, 3));
+  geometry.computeVertexNormals();
+  return geometry;
+};
+
+const ASTEROID_GEOMETRIES = Array.from({ length: 9 }, (_, index) => createIrregularAsteroidGeometry(index));
+const TITAN_GEOMETRY = createIrregularAsteroidGeometry(19, 2);
+const ASTEROID_MATERIALS: Record<AsteroidMaterial, THREE.MeshStandardMaterial> = {
+  rock: new THREE.MeshStandardMaterial({ color: '#78839b', roughness: 0.94, metalness: 0.05, vertexColors: true, flatShading: true }),
+  hard: new THREE.MeshStandardMaterial({ color: '#9a674f', emissive: '#2b1008', emissiveIntensity: 0.25, roughness: 0.86, metalness: 0.16, vertexColors: true, flatShading: true }),
+  crystal: new THREE.MeshStandardMaterial({ color: '#8c69e8', emissive: '#351884', emissiveIntensity: 1.35, roughness: 0.48, metalness: 0.52, vertexColors: true, flatShading: true }),
+};
+const BULLET_GEOMETRY = new THREE.CapsuleGeometry(1, 2.6, 4, 8);
+const ORBITER_GEOMETRY = new THREE.OctahedronGeometry(0.18, 0);
+const PICKUP_COIN_GEOMETRY = new THREE.CylinderGeometry(0.24, 0.24, 0.08, 18);
+const PICKUP_POWER_GEOMETRY = new THREE.OctahedronGeometry(0.3, 0);
+const BURST_DISC_GEOMETRY = new THREE.CircleGeometry(0.32, 12);
+const BURST_RING_GEOMETRY = new THREE.RingGeometry(0.45, 0.56, 24);
+const CRATER_GEOMETRY = new THREE.RingGeometry(0.5, 1, 10);
+const CRYSTAL_CORE_GEOMETRY = new THREE.OctahedronGeometry(1, 0);
+const TITAN_SHOCK_GEOMETRY = new THREE.TorusGeometry(1.08, 0.045, 8, 56);
+const TITAN_SHOCK_OUTER_GEOMETRY = new THREE.TorusGeometry(1.08, 0.025, 6, 48);
+const WORMHOLE_TORUS_GEOMETRY = new THREE.TorusGeometry(1.4, 0.3, 14, 48);
+const WORMHOLE_CORE_GEOMETRY = new THREE.CircleGeometry(1.12, 40);
+const BULLET_MATERIALS = new Map<string, THREE.MeshBasicMaterial>([
+  '#55f6ff', '#b66cff', '#ffd84f', '#48ffbd', '#ff824d',
+].map((color) => [color, new THREE.MeshBasicMaterial({ color, toneMapped: false })]));
+const PICKUP_MATERIALS: Record<PickupEntity['kind'], THREE.MeshStandardMaterial> = {
+  coin: new THREE.MeshStandardMaterial({ color: '#ffd447', emissive: '#bd7300', emissiveIntensity: 2.4, metalness: 0.65, roughness: 0.2 }),
+  heal: new THREE.MeshStandardMaterial({ color: '#4cff9d', emissive: '#175bd8', emissiveIntensity: 2.4, metalness: 0.65, roughness: 0.2 }),
+  slow: new THREE.MeshStandardMaterial({ color: '#55e6ff', emissive: '#175bd8', emissiveIntensity: 2.4, metalness: 0.65, roughness: 0.2 }),
+  orbiter: new THREE.MeshStandardMaterial({ color: '#c47aff', emissive: '#4c1d95', emissiveIntensity: 2.4, metalness: 0.65, roughness: 0.2 }),
+};
+const ORBITER_MATERIALS = [
+  new THREE.MeshStandardMaterial({ color: '#75f5ff', emissive: '#27bddd', emissiveIntensity: 2.5 }),
+  new THREE.MeshStandardMaterial({ color: '#f8d35b', emissive: '#c78313', emissiveIntensity: 2.5 }),
+];
+const CRATER_MATERIAL = new THREE.MeshBasicMaterial({ color: '#171923', transparent: true, opacity: 0.58, depthWrite: false });
+const CRYSTAL_CORE_MATERIAL = new THREE.MeshBasicMaterial({ color: '#bb9cff', transparent: true, opacity: 0.34, toneMapped: false });
+const TITAN_SHOCK_MATERIAL = new THREE.MeshBasicMaterial({ color: '#7df7ff', transparent: true, opacity: 0.72, depthWrite: false, toneMapped: false });
+const TITAN_SHOCK_OUTER_MATERIAL = new THREE.MeshBasicMaterial({ color: '#ffb35c', transparent: true, opacity: 0.46, depthWrite: false, toneMapped: false });
+const WORMHOLE_TORUS_MATERIAL = new THREE.MeshStandardMaterial({ color: '#8a5cff', emissive: '#4c1dcb', emissiveIntensity: 4, toneMapped: false });
+const WORMHOLE_CORE_MATERIAL = new THREE.MeshBasicMaterial({ color: '#39e8ff', transparent: true, opacity: 0.42, depthWrite: false, toneMapped: false });
 const localDateKey = () => {
   const now = new Date();
   const offset = now.getTimezoneOffset() * 60_000;
@@ -154,6 +220,77 @@ const CameraSetup: React.FC = () => {
   return null;
 };
 
+const ParallaxStarLayer: React.FC<{
+  count: number;
+  speed: number;
+  size: number;
+  color: string;
+  depth: number;
+  playerX: React.MutableRefObject<{ x: number }>;
+}> = ({ count, speed, size, color, depth, playerX }) => {
+  const points = useRef<THREE.Points>(null);
+  const positions = useMemo(() => {
+    const data = new Float32Array(count * 3);
+    for (let index = 0; index < count; index += 1) {
+      data[index * 3] = (seededNoise(index * 2.17 + depth) - 0.5) * 13;
+      data[index * 3 + 1] = depth;
+      data[index * 3 + 2] = (seededNoise(index * 5.31 + depth * 7) - 0.5) * 28;
+    }
+    return data;
+  }, [count, depth]);
+  useFrame((_, delta) => {
+    if (!points.current) return;
+    const attribute = points.current.geometry.getAttribute('position') as THREE.BufferAttribute;
+    for (let index = 0; index < count; index += 1) {
+      const nextZ = attribute.getZ(index) + speed * delta;
+      attribute.setZ(index, nextZ > 14 ? -14 : nextZ);
+    }
+    attribute.needsUpdate = true;
+    points.current.position.x = -playerX.current.x * (0.02 + speed * 0.025);
+  });
+  return (
+    <points ref={points} frustumCulled={false}>
+      <bufferGeometry><bufferAttribute attach="attributes-position" args={[positions, 3]} /></bufferGeometry>
+      <pointsMaterial color={color} size={size} sizeAttenuation={false} transparent opacity={0.92} depthWrite={false} toneMapped={false} />
+    </points>
+  );
+};
+
+const ParallaxStarfield: React.FC<{ playerX: React.MutableRefObject<{ x: number }> }> = ({ playerX }) => (
+  <group>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-3.2, -0.7, -2]} scale={[5.5, 8, 1]}>
+      <circleGeometry args={[1, 32]} />
+      <meshBasicMaterial color="#173c79" transparent opacity={0.18} depthWrite={false} />
+    </mesh>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[3.6, -0.68, 3]} scale={[4.5, 7, 1]}>
+      <circleGeometry args={[1, 32]} />
+      <meshBasicMaterial color="#6d28a8" transparent opacity={0.14} depthWrite={false} />
+    </mesh>
+    <ParallaxStarLayer playerX={playerX} count={110} speed={0.42} size={1.25} color="#7898c9" depth={-0.62} />
+    <ParallaxStarLayer playerX={playerX} count={72} speed={0.9} size={1.7} color="#d9ecff" depth={-0.42} />
+    <ParallaxStarLayer playerX={playerX} count={42} speed={1.55} size={2.2} color="#a5f3fc" depth={-0.2} />
+  </group>
+);
+
+const SceneAssetPrewarmer: React.FC = () => (
+  <group position={[0, -4, 0]} scale={0.001} dispose={null}>
+    {(['rock', 'hard', 'crystal'] as AsteroidMaterial[]).map((kind, index) => (
+      <mesh key={kind} geometry={ASTEROID_GEOMETRIES[index]} material={ASTEROID_MATERIALS[kind]} />
+    ))}
+    {[...BULLET_MATERIALS.values()].map((material) => <mesh key={material.uuid} geometry={BULLET_GEOMETRY} material={material} />)}
+    {Object.values(PICKUP_MATERIALS).map((material, index) => <mesh key={material.uuid} geometry={index === 0 ? PICKUP_COIN_GEOMETRY : PICKUP_POWER_GEOMETRY} material={material} />)}
+    {ORBITER_MATERIALS.map((material) => <mesh key={material.uuid} geometry={ORBITER_GEOMETRY} material={material} />)}
+    <mesh geometry={CRATER_GEOMETRY} material={CRATER_MATERIAL} />
+    <mesh geometry={CRYSTAL_CORE_GEOMETRY} material={CRYSTAL_CORE_MATERIAL} />
+    <mesh geometry={TITAN_SHOCK_GEOMETRY} material={TITAN_SHOCK_MATERIAL} />
+    <mesh geometry={TITAN_SHOCK_OUTER_GEOMETRY} material={TITAN_SHOCK_OUTER_MATERIAL} />
+    <mesh geometry={WORMHOLE_TORUS_GEOMETRY} material={WORMHOLE_TORUS_MATERIAL} />
+    <mesh geometry={WORMHOLE_CORE_GEOMETRY} material={WORMHOLE_CORE_MATERIAL} />
+    <mesh geometry={BURST_RING_GEOMETRY}><meshBasicMaterial transparent opacity={0} depthWrite={false} toneMapped={false} side={THREE.DoubleSide} /></mesh>
+    <mesh geometry={BURST_DISC_GEOMETRY}><meshBasicMaterial transparent opacity={0} depthWrite={false} toneMapped={false} side={THREE.DoubleSide} /></mesh>
+  </group>
+);
+
 const LobbyShipPreview: React.FC<{ ship: RunnerShipConfig; color: string }> = ({ ship, color }) => (
   <Canvas
     orthographic
@@ -178,7 +315,8 @@ const PlayerModel: React.FC<{
   simPosition: React.MutableRefObject<{ x: number; y: number; vx: number; vy: number; invulnerable: number }>;
   visible: boolean;
   orbiterCount: number;
-}> = ({ ship, color, input, simPosition, visible, orbiterCount }) => {
+  orbiterPositions: React.MutableRefObject<Array<{ x: number; y: number }>>;
+}> = ({ ship, color, input, simPosition, visible, orbiterCount, orbiterPositions }) => {
   const group = useRef<THREE.Group>(null);
   const leftOrbiter = useRef<THREE.Group>(null);
   const rightOrbiter = useRef<THREE.Group>(null);
@@ -186,16 +324,21 @@ const PlayerModel: React.FC<{
     const current = simPosition.current;
     if (group.current) {
       group.current.position.set(current.x, 0.34, -current.y);
-      group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, -current.vx * 0.055, 0.16);
-      group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, current.vy * 0.035, 0.16);
+      const targetRoll = clamp(-current.vx * 0.14, -Math.PI / 4, Math.PI / 4);
+      const targetPitch = clamp(current.vy * 0.11, -Math.PI / 6, Math.PI / 6);
+      group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, targetRoll, 0.18);
+      group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetPitch, 0.18);
       const flicker = current.invulnerable > 0 && Math.floor(clock.elapsedTime * 16) % 2 === 0;
       group.current.visible = visible && !flicker;
     }
     const orbit = clock.elapsedTime * 2.5;
     [leftOrbiter.current, rightOrbiter.current].forEach((node, index) => {
-      if (!node) return;
       const side = index === 0 ? -1 : 1;
-      node.position.set(current.x + side * (0.9 + Math.sin(orbit) * 0.08), 0.42, -current.y + 0.45 + Math.cos(orbit) * 0.12);
+      const orbiterX = current.x + side * (0.9 + Math.sin(orbit) * 0.08);
+      const orbiterY = current.y - 0.45 - Math.cos(orbit) * 0.12;
+      orbiterPositions.current[index] = { x: orbiterX, y: orbiterY };
+      if (!node) return;
+      node.position.set(orbiterX, 0.42, -orbiterY);
     });
     if (!input.current.pointerActive && input.current.keys.size === 0 && group.current) {
       group.current.position.y += Math.sin(clock.elapsedTime * 4) * 0.025;
@@ -208,12 +351,10 @@ const PlayerModel: React.FC<{
         <pointLight position={[0, 0.25, 1.1]} intensity={4} color={color} distance={3.5} />
       </group>
       {orbiterCount >= 1 && <group ref={leftOrbiter}>
-        <mesh><octahedronGeometry args={[0.18, 0]} /><meshStandardMaterial color="#75f5ff" emissive="#27bddd" emissiveIntensity={2.5} /></mesh>
-        <pointLight intensity={2} color="#75f5ff" distance={2} />
+        <mesh geometry={ORBITER_GEOMETRY} material={ORBITER_MATERIALS[0]} dispose={null} />
       </group>}
       {orbiterCount >= 2 && <group ref={rightOrbiter}>
-        <mesh><octahedronGeometry args={[0.18, 0]} /><meshStandardMaterial color="#f8d35b" emissive="#c78313" emissiveIntensity={2.5} /></mesh>
-        <pointLight intensity={2} color="#f8d35b" distance={2} />
+        <mesh geometry={ORBITER_GEOMETRY} material={ORBITER_MATERIALS[1]} dispose={null} />
       </group>}
     </>
   );
@@ -232,14 +373,13 @@ const Wormhole: React.FC<{ visible: boolean; x: number; y: number }> = ({ visibl
   return (
     <group ref={root} position={[x, 0.15, -y]}>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1.4, 0.3, 14, 48]} />
-        <meshStandardMaterial color="#8a5cff" emissive="#4c1dcb" emissiveIntensity={4} toneMapped={false} />
+        <primitive object={WORMHOLE_TORUS_GEOMETRY} attach="geometry" />
+        <primitive object={WORMHOLE_TORUS_MATERIAL} attach="material" />
       </mesh>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[1.12, 40]} />
-        <meshBasicMaterial color="#39e8ff" transparent opacity={0.42} depthWrite={false} toneMapped={false} />
+        <primitive object={WORMHOLE_CORE_GEOMETRY} attach="geometry" />
+        <primitive object={WORMHOLE_CORE_MATERIAL} attach="material" />
       </mesh>
-      <pointLight color="#7b5cff" intensity={18} distance={7} />
     </group>
   );
 };
@@ -281,6 +421,7 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
   const pickupRefs = useRef(new Map<number, THREE.Group>());
   const burstRefs = useRef(new Map<number, THREE.Mesh>());
   const playerPosition = useRef({ x: 0, y: -5.6, vx: 0, vy: 0, invulnerable: 0 });
+  const orbiterPositions = useRef([{ x: -0.9, y: -6.05 }, { x: 0.9, y: -6.05 }]);
   const stageDuration = debugFast ? 4 : RUNNER_BALANCE.stageDurationSeconds;
   const bossEntryDuration = debugFast ? 0.45 : RUNNER_BALANCE.bossEntrySeconds;
   const wormholeTimeout = debugFast ? 1.25 : RUNNER_BALANCE.wormholeTimeoutSeconds;
@@ -348,7 +489,7 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
     const chosenMaterial: AsteroidMaterial = material || (Math.random() < 0.14 ? 'crystal' : Math.random() < 0.36 ? 'hard' : 'rock');
     const base = ASTEROID_STATS[tier];
     const materialInfo = MATERIAL_STATS[chosenMaterial];
-    const maxHp = tier === 'titan' ? (debugFast ? 120 : RUNNER_BALANCE.bossHp) : Math.round(base.hp * materialInfo.hpMultiplier);
+    const maxHp = tier === 'titan' ? (debugFast ? 120 : RUNNER_BALANCE.bossHp) : Math.round(materialInfo.baseHp * base.hpFactor);
     const asteroid: AsteroidEntity = {
       id: ++sim.id,
       x,
@@ -414,12 +555,12 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
     const player = playerPosition.current;
     const weapon = ship.weapon;
     const damage = weapon.damage * getDamageMultiplier(ship);
-    const add = (offsetX: number, angle = 0, damageScale = 1, radius = 0.12) => {
+    const add = (offsetX: number, angle = 0, damageScale = 1, radius = 0.12, origin?: { x: number; y: number }) => {
       const speed = weapon.projectileSpeed;
       sim.bullets.push({
         id: ++sim.id,
-        x: player.x + offsetX,
-        y: player.y + 0.9,
+        x: (origin?.x ?? player.x) + offsetX,
+        y: (origin?.y ?? player.y) + (origin ? 0.18 : 0.9),
         vx: Math.sin(angle) * speed,
         vy: Math.cos(angle) * speed,
         radius,
@@ -442,8 +583,8 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
       add(0);
     }
 
-    if (sim.orbiterCount >= 1) add(-0.92, 0, 0.5, 0.09);
-    if (sim.orbiterCount >= 2) add(0.92, 0, 0.5, 0.09);
+    if (sim.orbiterCount >= 1) add(0, 0, 0.5, 0.09, orbiterPositions.current[0]);
+    if (sim.orbiterCount >= 2) add(0, 0, 0.5, 0.09, orbiterPositions.current[1]);
     soundService.playGameShot(weapon.kind);
     bumpEntities();
   }, [bumpEntities, ship]);
@@ -519,7 +660,6 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
       if (sim.elapsed >= stageDuration) {
         sim.mode = 'boss';
         sim.bossEntry = 0;
-        sim.asteroids.forEach((item) => { item.vy = Math.min(item.vy, -4.5); });
         soundService.playBossAlarmSiren();
         onFeedback('boss', 'THIÊN THẠCH CỔ ĐẠI!');
         onBossStarted();
@@ -527,9 +667,8 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
     } else if (sim.mode === 'boss' && sim.bossId === null) {
       sim.bossEntry += dt;
       if (sim.bossEntry >= bossEntryDuration) {
-        const boss = createAsteroid('titan', 0, RUNNER_BALANCE.worldTop + 3.5, 'crystal');
+        const boss = createAsteroid('titan', 0, RUNNER_BALANCE.worldTop + ASTEROID_STATS.titan.radius + 0.8, 'crystal');
         if (boss) {
-          boss.vy = -1.6;
           sim.bossId = boss.id;
           entitiesChanged = true;
         }
@@ -569,17 +708,12 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
           return;
         }
       }
-      const bossEntering = asteroid.tier === 'titan' && asteroid.y > 4.7;
       asteroid.x += asteroid.vx * dt * entitySlow;
       asteroid.y += asteroid.vy * dt * entitySlow * (lowHpAssist && asteroid.tier !== 'titan' ? 0.84 : 1);
       asteroid.rotation += asteroid.spin * dt;
       if (asteroid.tier === 'titan') {
-        if (bossEntering && asteroid.y <= 4.7) asteroid.vy = 0;
-        if (asteroid.y <= 4.7) {
-          asteroid.y = 4.7;
-          asteroid.x = Math.sin(sim.bossEntry * 0.8) * 0.65;
-          sim.bossEntry += dt;
-        }
+        asteroid.x = Math.sin((sim.elapsed + sim.bossEntry) * 0.42) * 0.22;
+        sim.bossEntry += dt;
       } else if (asteroid.y < RUNNER_BALANCE.worldBottom - 2.2) {
         asteroid.dead = true;
       }
@@ -613,7 +747,7 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
     });
 
     if (player.invulnerable <= 0 && sim.mode !== 'wormhole') {
-      const collision = sim.asteroids.find((asteroid) => !asteroid.dead && asteroid.tier !== 'titan' && distanceSquared(player.x, player.y, asteroid.x, asteroid.y) < (RUNNER_BALANCE.playerHitRadius + asteroid.radius * 0.68) ** 2);
+      const collision = sim.asteroids.find((asteroid) => !asteroid.dead && distanceSquared(player.x, player.y, asteroid.x, asteroid.y) < (RUNNER_BALANCE.playerHitRadius + asteroid.radius * (asteroid.tier === 'titan' ? 0.88 : 0.68)) ** 2);
       if (collision) {
         const damage = ASTEROID_STATS[collision.tier].damage;
         sim.hp = Math.max(0, sim.hp - damage);
@@ -720,12 +854,13 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
   return (
     <>
       <CameraSetup />
-      <color attach="background" args={['#02040c']} />
-      <fog attach="fog" args={['#071022', 8, 27]} />
+      <color attach="background" args={['#06142f']} />
+      <fog attach="fog" args={['#081a38', 10, 31]} />
       <ambientLight intensity={1.15} />
       <directionalLight position={[2, 8, 4]} intensity={2.6} color="#dffaff" />
       <pointLight position={[-4, 3, -4]} intensity={7} color="#6f39ff" distance={12} />
-      <Stars radius={34} depth={24} count={760} factor={2.8} saturation={0.9} fade speed={1.1} />
+      <ParallaxStarfield playerX={playerPosition} />
+      <SceneAssetPrewarmer />
 
       <PlayerModel
         ship={ship}
@@ -734,6 +869,7 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
         simPosition={playerPosition}
         visible={phase !== 'gameover'}
         orbiterCount={sim.orbiterCount}
+        orbiterPositions={orbiterPositions}
       />
 
       {sim.bullets.map((bullet) => (
@@ -741,14 +877,18 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
           key={bullet.id}
           ref={(node) => { if (node) bulletRefs.current.set(bullet.id, node); else bulletRefs.current.delete(bullet.id); }}
           position={[bullet.x, 0.28, -bullet.y]}
+          geometry={BULLET_GEOMETRY}
+          material={BULLET_MATERIALS.get(bullet.color) || BULLET_MATERIALS.get('#55f6ff')}
+          scale={bullet.radius}
+          dispose={null}
         >
-          <capsuleGeometry args={[bullet.radius, bullet.radius * 2.6, 4, 8]} />
-          <meshBasicMaterial color={bullet.color} toneMapped={false} />
         </mesh>
       ))}
 
       {sim.asteroids.map((asteroid) => {
-        const material = MATERIAL_STATS[asteroid.material];
+        const geometry = asteroid.tier === 'titan'
+          ? TITAN_GEOMETRY
+          : ASTEROID_GEOMETRIES[Math.floor(asteroid.seed * ASTEROID_GEOMETRIES.length) % ASTEROID_GEOMETRIES.length];
         return (
           <group
             key={asteroid.id}
@@ -756,21 +896,33 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
             position={[asteroid.x, 0.1, -asteroid.y]}
             scale={asteroid.radius}
           >
-            <mesh scale={[1, 0.78, 1]}>
-              <icosahedronGeometry args={[1, asteroid.tier === 'titan' ? 2 : 1]} />
-              <meshStandardMaterial
-                color={material.color}
-                emissive={material.emissive}
-                emissiveIntensity={asteroid.material === 'crystal' ? 1.5 : 0.35}
-                metalness={asteroid.material === 'crystal' ? 0.62 : 0.2}
-                roughness={0.7}
-                flatShading
-              />
-            </mesh>
+            <mesh geometry={geometry} material={ASTEROID_MATERIALS[asteroid.material]} dispose={null} />
+            {asteroid.tier !== 'titan' && [0, 1, 2].map((crater) => {
+              const angle = seededNoise(asteroid.seed * 100 + crater * 17) * Math.PI * 2;
+              const distance = 0.25 + seededNoise(asteroid.seed * 200 + crater * 9) * 0.35;
+              return (
+                <mesh key={crater} position={[Math.cos(angle) * distance, 0.77, Math.sin(angle) * distance]} rotation={[-Math.PI / 2, 0, angle]} scale={0.12 + seededNoise(asteroid.seed * 300 + crater) * 0.12}>
+                  <primitive object={CRATER_GEOMETRY} attach="geometry" />
+                  <primitive object={CRATER_MATERIAL} attach="material" />
+                </mesh>
+              );
+            })}
             {asteroid.material === 'crystal' && <mesh scale={0.72}>
-              <octahedronGeometry args={[1, 0]} />
-              <meshBasicMaterial color="#bb9cff" transparent opacity={0.34} toneMapped={false} />
+              <primitive object={CRYSTAL_CORE_GEOMETRY} attach="geometry" />
+              <primitive object={CRYSTAL_CORE_MATERIAL} attach="material" />
             </mesh>}
+            {asteroid.tier === 'titan' && (
+              <group position={[0, 0.05, 0.78]}>
+                <mesh rotation={[-Math.PI / 2, 0, 0]} scale={[1.25, 0.78, 1]}>
+                  <primitive object={TITAN_SHOCK_GEOMETRY} attach="geometry" />
+                  <primitive object={TITAN_SHOCK_MATERIAL} attach="material" />
+                </mesh>
+                <mesh rotation={[-Math.PI / 2, 0, 0]} scale={[1.42, 0.9, 1]}>
+                  <primitive object={TITAN_SHOCK_OUTER_GEOMETRY} attach="geometry" />
+                  <primitive object={TITAN_SHOCK_OUTER_MATERIAL} attach="material" />
+                </mesh>
+              </group>
+            )}
           </group>
         );
       })}
@@ -781,17 +933,11 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
           ref={(node) => { if (node) pickupRefs.current.set(pickup.id, node); else pickupRefs.current.delete(pickup.id); }}
           position={[pickup.x, 0.42, -pickup.y]}
         >
-          <mesh>
-            {pickup.kind === 'coin' ? <cylinderGeometry args={[0.24, 0.24, 0.08, 18]} /> : <octahedronGeometry args={[0.3, 0]} />}
-            <meshStandardMaterial
-              color={pickup.kind === 'coin' ? '#ffd447' : pickup.kind === 'heal' ? '#4cff9d' : pickup.kind === 'slow' ? '#55e6ff' : '#c47aff'}
-              emissive={pickup.kind === 'coin' ? '#bd7300' : '#175bd8'}
-              emissiveIntensity={2.4}
-              metalness={0.65}
-              roughness={0.2}
-            />
-          </mesh>
-          <pointLight color={pickup.kind === 'coin' ? '#ffd447' : '#66eaff'} intensity={3.5} distance={2.2} />
+          <mesh
+            geometry={pickup.kind === 'coin' ? PICKUP_COIN_GEOMETRY : PICKUP_POWER_GEOMETRY}
+            material={PICKUP_MATERIALS[pickup.kind]}
+            dispose={null}
+          />
         </group>
       ))}
 
@@ -801,8 +947,9 @@ const RunnerScene: React.FC<RunnerSceneProps> = ({
           ref={(node) => { if (node) burstRefs.current.set(burst.id, node); else burstRefs.current.delete(burst.id); }}
           position={[burst.x, 0.48, -burst.y]}
           rotation={[Math.PI / 2, 0, 0]}
+          geometry={burst.ring ? BURST_RING_GEOMETRY : BURST_DISC_GEOMETRY}
+          dispose={null}
         >
-          {burst.ring ? <ringGeometry args={[0.45, 0.56, 24]} /> : <circleGeometry args={[0.32, 12]} />}
           <meshBasicMaterial color={burst.color} transparent opacity={0.9} depthWrite={false} toneMapped={false} side={THREE.DoubleSide} />
         </mesh>
       ))}
@@ -850,6 +997,7 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
   const [feedback, setFeedback] = useState<{ kind: string; message?: string; id: number } | null>(null);
   const [showTutorial, setShowTutorial] = useState(false);
   const [resumePhase, setResumePhase] = useState<LivePhase>('playing');
+  const pausedHudRef = useRef<HudState | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const settledRef = useRef(false);
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -864,6 +1012,7 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
   });
   const shipColor = user.customization.equippedColor || '#38bdf8';
   const isLive = phase === 'playing' || phase === 'boss' || phase === 'wormhole';
+  const displayedHud = phase === 'paused' && pausedHudRef.current ? pausedHudRef.current : hud;
   const freeRunAvailable = miniGameProgress.lastFreeRunDate !== localDateKey();
   const debugFast = import.meta.env.DEV && new URLSearchParams(window.location.search).get('runnerDebug') === 'fast';
 
@@ -872,6 +1021,15 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
     if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current);
     feedbackTimerRef.current = setTimeout(() => setFeedback(null), kind === 'boss' ? 2200 : 900);
   }, []);
+
+  const pauseRun = useCallback(() => {
+    if (!isLive) return;
+    pausedHudRef.current = hud;
+    setResumePhase(phase as LivePhase);
+    setPhase('paused');
+    input.current.pointerActive = false;
+    soundService.setShipEnginePower(0.08);
+  }, [hud, isLive, phase]);
 
   const settle = useCallback((snapshot: Pick<RunSnapshot, 'score' | 'coins'>, won: boolean) => {
     if (settledRef.current) return null;
@@ -961,8 +1119,7 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
       input.current.keys.add(event.code);
       if (event.code === 'Escape') {
         if (isLive) {
-          setResumePhase(phase as LivePhase);
-          setPhase('paused');
+          pauseRun();
         } else if (phase === 'paused') {
           setPhase(resumePhase);
         }
@@ -975,7 +1132,7 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
     };
-  }, [isLive, phase, resumePhase]);
+  }, [isLive, pauseRun, phase, resumePhase]);
 
   useEffect(() => {
     const onVisibility = () => {
@@ -1027,7 +1184,7 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
-  const hpRatio = clamp(hud.hp / Math.max(1, hud.maxHp), 0, 1);
+  const hpRatio = clamp(displayedHud.hp / Math.max(1, displayedHud.maxHp), 0, 1);
 
   if (phase === 'lobby') {
     return (
@@ -1081,6 +1238,10 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
               })}
             </div>
             <div className="rounded-2xl border border-white/10 bg-slate-900/80 p-3 space-y-2">
+              <div className="flex items-center justify-between rounded-xl border border-fuchsia-300/35 bg-fuchsia-500/10 px-2.5 py-1.5">
+                <span className="text-[10px] font-black uppercase tracking-wider text-fuchsia-200">Tổng sức mạnh</span>
+                <span className="text-base font-black text-white">{selectedShip.totalPower}</span>
+              </div>
               <StatBar label="Tốc độ" value={selectedShip.speed} color="#38d8ff" />
               <StatBar label="Giáp" value={selectedShip.shield} color="#57f0a7" />
               <StatBar label="Sức mạnh" value={selectedShip.power} color="#ffd447" />
@@ -1142,7 +1303,7 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
         <div className="flex items-start gap-2">
           <button
             onPointerDown={(event) => event.stopPropagation()}
-            onClick={() => { if (isLive) { setResumePhase(phase as LivePhase); setPhase('paused'); input.current.pointerActive = false; soundService.setShipEnginePower(0.08); } }}
+            onClick={pauseRun}
             className="pointer-events-auto w-11 h-11 rounded-2xl bg-slate-950/72 border border-white/20 backdrop-blur-lg flex items-center justify-center active:scale-90 shadow-xl"
             aria-label="Tạm dừng"
           >
@@ -1150,9 +1311,9 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
           </button>
           <div className="flex-1 rounded-2xl bg-slate-950/72 border border-white/15 backdrop-blur-lg p-2.5 shadow-xl">
             <div className="flex justify-between items-center text-[10px] font-black mb-1.5">
-              <span className="flex items-center gap-1 text-emerald-300"><Shield className="w-3.5 h-3.5" /> GIÁP {hud.hp}/{hud.maxHp}</span>
-              <span className="text-amber-300">🟡 {hud.coins}</span>
-              <span className="text-cyan-200 font-mono">{hud.score.toLocaleString('vi-VN')}</span>
+              <span className="flex items-center gap-1 text-emerald-300"><Shield className="w-3.5 h-3.5" /> GIÁP {displayedHud.hp}/{displayedHud.maxHp}</span>
+              <span className="text-amber-300">🟡 {displayedHud.coins}</span>
+              <span className="text-cyan-200 font-mono">{displayedHud.score.toLocaleString('vi-VN')}</span>
             </div>
             <div className="h-2 rounded-full overflow-hidden bg-slate-800 border border-white/10">
               <div className={`h-full transition-[width] duration-100 ${hpRatio < 0.35 ? 'bg-gradient-to-r from-rose-600 to-orange-400' : 'bg-gradient-to-r from-emerald-500 to-cyan-300'}`} style={{ width: `${hpRatio * 100}%` }} />
@@ -1162,21 +1323,21 @@ export const AsteroidRunnerGame: React.FC<AsteroidRunnerGameProps> = ({ onExit }
 
         {phase === 'boss' ? (
           <div className="mt-2 rounded-2xl bg-purple-950/85 border border-purple-300/40 backdrop-blur-lg px-3 py-2 shadow-[0_0_24px_rgba(168,85,247,0.28)]">
-            <div className="flex justify-between text-[10px] font-black text-purple-100 mb-1"><span>◈ THIÊN THẠCH CỔ ĐẠI</span><span>{Math.ceil(hud.bossHp)}</span></div>
-            <div className="h-2.5 rounded-full bg-slate-950 overflow-hidden"><div className="h-full bg-gradient-to-r from-purple-600 via-fuchsia-400 to-amber-300 transition-[width] duration-100" style={{ width: `${clamp(hud.bossHp / hud.bossMaxHp, 0, 1) * 100}%` }} /></div>
+            <div className="flex justify-between text-[10px] font-black text-purple-100 mb-1"><span>◈ THIÊN THẠCH CỔ ĐẠI</span><span>{Math.ceil(displayedHud.bossHp)}</span></div>
+            <div className="h-2.5 rounded-full bg-slate-950 overflow-hidden"><div className="h-full bg-gradient-to-r from-purple-600 via-fuchsia-400 to-amber-300 transition-[width] duration-100" style={{ width: `${clamp(displayedHud.bossHp / displayedHud.bossMaxHp, 0, 1) * 100}%` }} /></div>
           </div>
         ) : (
           <div className="mt-2 flex items-center gap-2 rounded-xl bg-slate-950/55 border border-white/10 backdrop-blur px-2.5 py-1.5">
             <span className="text-[9px] font-black text-slate-300 tracking-wider">DẢI THIÊN THẠCH</span>
-            <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden"><div className="h-full bg-gradient-to-r from-cyan-400 via-purple-400 to-amber-300" style={{ width: `${hud.progress * 100}%` }} /></div>
-            <span className="text-[10px] font-black text-cyan-200">{Math.floor(hud.progress * 100)}%</span>
+            <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden"><div className="h-full bg-gradient-to-r from-cyan-400 via-purple-400 to-amber-300" style={{ width: `${displayedHud.progress * 100}%` }} /></div>
+            <span className="text-[10px] font-black text-cyan-200">{Math.floor(displayedHud.progress * 100)}%</span>
           </div>
         )}
 
         <div className="mt-2 flex gap-1.5 justify-end">
-          {hud.combo > 1 && <div className="rounded-full bg-amber-400/20 border border-amber-300/30 px-2 py-1 text-[10px] font-black text-amber-200">COMBO ×{hud.combo}</div>}
-          {hud.orbiterCount > 0 && <div className="rounded-full bg-cyan-400/15 border border-cyan-300/30 px-2 py-1 text-[10px] font-black text-cyan-100">VỆ TINH {hud.orbiterCount}/2</div>}
-          {hud.slowSeconds > 0 && <div className="rounded-full bg-purple-400/15 border border-purple-300/30 px-2 py-1 text-[10px] font-black text-purple-100">SLOW {hud.slowSeconds}s</div>}
+          {displayedHud.combo > 1 && <div className="rounded-full bg-amber-400/20 border border-amber-300/30 px-2 py-1 text-[10px] font-black text-amber-200">COMBO ×{displayedHud.combo}</div>}
+          {displayedHud.orbiterCount > 0 && <div className="rounded-full bg-cyan-400/15 border border-cyan-300/30 px-2 py-1 text-[10px] font-black text-cyan-100">VỆ TINH {displayedHud.orbiterCount}/2</div>}
+          {displayedHud.slowSeconds > 0 && <div className="rounded-full bg-purple-400/15 border border-purple-300/30 px-2 py-1 text-[10px] font-black text-purple-100">SLOW {displayedHud.slowSeconds}s</div>}
         </div>
       </div>
 

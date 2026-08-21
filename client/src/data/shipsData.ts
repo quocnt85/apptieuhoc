@@ -6,6 +6,9 @@ export interface SpaceshipModelData {
   icon: string;
   image: string;
   price: number;
+  purchaseCurrency: 'coins' | 'diamonds';
+  totalPower: number;
+  progressionRank: number;
   badge: string;
   description: string;
   aestheticStyle?: string;
@@ -19,7 +22,7 @@ export interface SpaceshipModelData {
   isPlaceholder?: boolean; // Tàu tương lai đang phát triển
 }
 
-export const SHIPS_DATA: SpaceshipModelData[] = [
+export const SHIPS_DATA = ([
   {
     id: 'explorer_v1',
     name: 'Bạch Đằng Pioneer',
@@ -28,6 +31,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     icon: '🚀',
     image: '/assets/ships/explorer_v1.jpg',
     price: 0,
+    purchaseCurrency: 'coins', totalPower: 100, progressionRank: 1,
     badge: 'Bạch Đằng',
     aestheticStyle: 'Forward-Swept Aerodynamic Interceptor (Cánh Ngược & Tuabin Đôi Sáng)',
     description: 'Tàu tiên phong thám hiểm siêu thanh mang tên chiến thắng Bạch Đằng lừng lẫy. Đôi cánh xuôi ngược vuốt cong khí động học, bứt tốc né vật cản chớp nhoáng.',
@@ -37,9 +41,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
       'Buồng lái vòm kính bo tròn trong suốt nhìn thấy bảng taplo HUD',
       'Que đo cảm biến siêu thanh Pitot Probe và 2 cánh tà canards'
     ],
-    speed: 98,
-    shield: 42,
-    power: 65,
+    speed: 82, shield: 38, power: 36,
     specialFeature: 'Lượn cánh xuôi ngược bứt tốc né vật cản chớp nhoáng'
   },
   {
@@ -49,7 +51,8 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     classType: 'Tuần Dương Hạm Thân Đĩa Lượng Tử',
     icon: '🚀',
     image: '/assets/ships/falcon_apex.jpg',
-    price: 300,
+    price: 6500,
+    purchaseCurrency: 'coins', totalPower: 154, progressionRank: 4,
     badge: 'Chi Lăng',
     aestheticStyle: 'Hybrid Crescent-Saucer Cruiser (Thân Đĩa Lai Cánh Cung & Đĩa Radar Lượng Tử)',
     description: 'Tuần dương hạm viễn du dải ngân hà mang tên thung lũng Chi Lăng hiểm trở. Sở hữu đĩa radar lượng tử xoay 360° quét dữ liệu tinh cầu không gian sâu.',
@@ -59,9 +62,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
       'Buồng lái bán cầu bo tròn phía trước mạ nano chống bức xạ',
       'Cụm 4 động cơ ion đa tầng có vòng tản nhiệt đồng và dải Cyan'
     ],
-    speed: 78,
-    shield: 60,
-    power: 95,
+    speed: 76, shield: 62, power: 58,
     specialFeature: 'Đĩa radar lượng tử lập bản đồ toàn cảnh dải ngân hà'
   },
   {
@@ -71,7 +72,8 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     classType: 'Siêu Mẫu Hạm Chỉ Huy Quỹ Đạo',
     icon: '🚀',
     image: '/assets/ships/solar_phoenix.jpg',
-    price: 450,
+    price: 280,
+    purchaseCurrency: 'diamonds', totalPower: 226, progressionRank: 8,
     badge: 'Điện Biên Phủ',
     aestheticStyle: 'Heavy Orbital Sky-Carrier (Sàn Đáp Drone Mini & Đài Chỉ Huy Vòm Kính)',
     description: 'Siêu mẫu hạm không gian khổng lồ mang tên chiến thắng Điện Biên Phủ lừng lẫy. Sở hữu lớp giáp kiên cố bất khả xâm phạm và 2 sàn triển khai phi đội drone mini.',
@@ -81,9 +83,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
       '4 Khối động cơ phản lực hạt nhân nhiệt hạch siêu công suất',
       'Cột ăng-ten mạ vàng tiếp sóng viễn thám không gian sâu'
     ],
-    speed: 40,
-    shield: 99,
-    power: 90,
+    speed: 50, shield: 100, power: 92,
     specialFeature: 'Sàn đáp triển khai mạng lưới drone thám hiểm không gian'
   },
   {
@@ -93,7 +93,8 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     classType: 'Tàu Con Thoi Khí Động Học Thế Hệ Mới',
     icon: '🚀',
     image: '/assets/ships/starlight_runner.jpg',
-    price: 600,
+    price: 1800,
+    purchaseCurrency: 'coins', totalPower: 118, progressionRank: 2,
     badge: 'Ngọc Hồi',
     aestheticStyle: 'Lifting-Body Double-Delta (Bụng Gạch Đen, Vây Chữ V & 3 Động Cơ Tên Lửa)',
     description: 'Tàu con thoi không gian thế hệ mới mang tên chiến thắng thần tốc Ngọc Hồi - Đống Đa. Thân nâng Double-Delta liền cánh chống nhiệt khí quyển siêu ổn định.',
@@ -103,9 +104,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
       'Buồng lái vòm kính bo tròn trong suốt có màn hình HUD phi công',
       'Cụm 3 động cơ tên lửa De Laval mạ crom và 2 vây đuôi chữ V'
     ],
-    speed: 85,
-    shield: 75,
-    power: 58,
+    speed: 90, shield: 48, power: 46,
     specialFeature: 'Thân nâng Double-Delta hạ cánh mượt mà xuống mọi hành tinh'
   },
   {
@@ -115,7 +114,8 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     classType: 'Tàu Khu Trục Tên Lửa Không Gian Sâu',
     icon: '🚀',
     image: '/assets/ships/astral_shuttle.jpg',
-    price: 750,
+    price: 9000,
+    purchaseCurrency: 'coins', totalPower: 172, progressionRank: 5,
     badge: 'Quảng Trị',
     aestheticStyle: 'Multi-Stage Planetary Star-Lifter (Vây Lưới Gập & 5 Động Cơ Aerospike)',
     description: 'Tàu khu trục không gian mang tinh thần kiên cường của Thành cổ Quảng Trị. 5 động cơ Aerospike cực đại sinh ra lực đẩy vô song thoát khỏi lực hút mọi hành tinh.',
@@ -125,9 +125,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
       'Khoang lái phi hành gia bo tròn hình capsule trên tầng 3',
       'Tháp giàn giáo cảm biến viễn thám lượng tử trên đỉnh'
     ],
-    speed: 92,
-    shield: 88,
-    power: 100,
+    speed: 84, shield: 76, power: 72,
     specialFeature: 'Lực đẩy 5 động cơ Aerospike vượt qua mọi lực hút tinh cầu'
   },
   // --- 3 Placeholder Ships (Chương Dương, Sơn Tinh, Thánh Gióng) ---
@@ -138,7 +136,8 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     classType: 'Tuần Dương Hạm Hộ Vệ Quỹ Đạo',
     icon: '🛸',
     image: '/assets/ships/explorer_v1.jpg',
-    price: 900,
+    price: 4000,
+    purchaseCurrency: 'coins', totalPower: 136, progressionRank: 3,
     badge: 'Chương Dương',
     aestheticStyle: 'Orbital Guardian Cruiser (Lá Chắn Đa Tần & Pháo Phòng Không Không Gian)',
     description: 'Tuần dương hạm hộ vệ quỹ đạo mang tên bến Chương Dương lịch sử. Được trang bị lá chắn năng lượng đa tần bảo vệ biên đội viễn chinh.',
@@ -148,9 +147,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
       'Radar dẫn bắn hạm đội tầm xa',
       'Động cơ phản lực ion công nghệ tương lai'
     ],
-    speed: 75,
-    shield: 90,
-    power: 85,
+    speed: 74, shield: 56, power: 54,
     specialFeature: 'Lá chắn năng lượng đa tần bảo vệ toàn biên đội',
     isPlaceholder: true
   },
@@ -161,7 +158,8 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     classType: 'Tàu Khảo Sát Địa Hình & Vực Thẳm',
     icon: '🏔️',
     image: '/assets/ships/falcon_apex.jpg',
-    price: 1200,
+    price: 120,
+    purchaseCurrency: 'diamonds', totalPower: 190, progressionRank: 6,
     badge: 'Sơn Tinh',
     aestheticStyle: 'Heavy Terrestrial Crawler-Ship (Càng Hạ Cánh Thủy Lực & Lưỡi Khoan Titan)',
     description: 'Tàu khảo sát địa hình mang sức mạnh thần thoại Sơn Tinh dời non lấp biển. Chuyên vượt qua các rặng núi dung nham và vực sâu tinh cầu.',
@@ -171,9 +169,7 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
       'Hệ thống giảm xóc từ trường triệt tiêu rung chấn động đất',
       'Cảm biến quang phổ phát hiện lõi khoáng vật'
     ],
-    speed: 60,
-    shield: 95,
-    power: 92,
+    speed: 62, shield: 84, power: 78,
     specialFeature: 'Định hình địa hình hạ cánh vững chắc trên mọi bề mặt',
     isPlaceholder: true
   },
@@ -184,7 +180,8 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
     classType: 'Siêu Thiết Giáp Hạm Thiết Mã Không Gian',
     icon: '⚡',
     image: '/assets/ships/solar_phoenix.jpg',
-    price: 1500,
+    price: 190,
+    purchaseCurrency: 'diamonds', totalPower: 208, progressionRank: 7,
     badge: 'Thánh Gióng',
     aestheticStyle: 'Legendary Iron-Horse Dreadnought (Giáp Sắt Bất Tử & Động Cơ Lôi Đình)',
     description: 'Siêu thiết giáp hạm mang khí phách Phù Đổng Thiên Vương. Sở hữu động cơ Lôi Đình sấm sét và giáp sắt phi thường, vượt qua mọi giới hạn vũ trụ.',
@@ -194,10 +191,8 @@ export const SHIPS_DATA: SpaceshipModelData[] = [
       'Hệ thống đẩy siêu không gian bẻ cong trường hấp dẫn',
       'Đài quan sát thiên hà siêu viễn vọng 360 độ'
     ],
-    speed: 99,
-    shield: 100,
-    power: 100,
+    speed: 88, shield: 92, power: 88,
     specialFeature: 'Lực đẩy Thiết Mã phi thiên vượt mọi ranh giới vũ trụ',
     isPlaceholder: true
   }
-];
+] satisfies SpaceshipModelData[]).sort((a, b) => a.progressionRank - b.progressionRank);
