@@ -18,7 +18,6 @@ export const Spaceship3D: React.FC<Props> = ({ planetRadius, activeNode, onArriv
   const smokeParticlesRef = useRef<THREE.Points>(null);
 
   const shipColor = user.customization?.equippedColor || '#38bdf8';
-  const hasVnFlag = user.customization?.hasVietnamFlag ?? true;
 
   // Animation interpolation state
   const animState = useRef({
@@ -130,7 +129,6 @@ export const Spaceship3D: React.FC<Props> = ({ planetRadius, activeNode, onArriv
       <AerodynamicShipRenderer
         shipId={user.customization?.equippedShip || 'explorer_v1'}
         shipColor={shipColor}
-        hasVnFlag={hasVnFlag}
         showStreamlines={animState.current.progress < 1}
       />
     </group>

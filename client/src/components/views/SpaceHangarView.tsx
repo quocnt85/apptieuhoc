@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
+import { Environment, Lightformer } from '@react-three/drei';
 import { useGameStore } from '../../stores/useGameStore';
 import { SHIPS_DATA, SpaceshipModelData } from '../../data/shipsData';
 import { AerodynamicShipRenderer } from '../3d/ships/AerodynamicShips';
@@ -12,12 +13,11 @@ const ShipInteractiveDetailModal: React.FC<{
   ship: SpaceshipModelData;
   onClose: () => void;
   shipColor: string;
-  hasVnFlag: boolean;
   isUnlocked: boolean;
   isEquipped: boolean;
   onEquip: () => void;
   onBuy: () => void;
-}> = ({ ship, onClose, shipColor, hasVnFlag, isUnlocked, isEquipped, onEquip, onBuy }) => {
+}> = ({ ship, onClose, shipColor, isUnlocked, isEquipped, onEquip, onBuy }) => {
   const groupRef = useRef<THREE.Group>(null);
   const isDraggingRef = useRef(false);
   const prevPointerRef = useRef({ x: 0, y: 0 });
@@ -85,18 +85,25 @@ const ShipInteractiveDetailModal: React.FC<{
         >
           <Canvas
             camera={{ position: [0, 0.4, 3.2], fov: 45 }}
+            onCreated={({ gl }) => {
+              gl.toneMapping = THREE.ACESFilmicToneMapping;
+              gl.toneMappingExposure = 1.15;
+            }}
             style={{ touchAction: 'none' }}
             className="touch-none"
           >
             <ambientLight intensity={0.9} />
             <directionalLight position={[5, 6, 5]} intensity={2.4} />
             <pointLight position={[-4, -3, -2]} intensity={1.5} color="#38bdf8" />
+            <Environment resolution={96}>
+              <Lightformer form="rect" intensity={5} color="#ecfeff" position={[0, 4, 2]} scale={[6, 2, 1]} rotation={[Math.PI / 2, 0, 0]} />
+              <Lightformer form="rect" intensity={3} color="#38bdf8" position={[-3, 0, 1]} scale={[2, 5, 1]} rotation={[0, Math.PI / 2, 0]} />
+            </Environment>
             <group ref={groupRef}>
               <AerodynamicShipRenderer
                 shipId={ship.id}
                 shipColor={shipColor}
-                hasVnFlag={hasVnFlag}
-                showStreamlines={true}
+                showStreamlines={false}
                 scale={1.25}
               />
             </group>
@@ -185,7 +192,6 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
     equipShip,
     buyColor,
     equipColor,
-    toggleVietnamFlag,
     buyBooster,
     addNovaCoins,
     addDiamonds,
@@ -196,7 +202,6 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
   const [selectedShipDetail, setSelectedShipDetail] = useState<SpaceshipModelData | null>(null);
 
   const currentShipColor = user.customization?.equippedColor || '#38bdf8';
-  const hasVnFlag = user.customization?.hasVietnamFlag ?? true;
 
   const colorsList = [
     { hex: '#38bdf8', name: 'Xanh Lam Cyan', price: 0 },
@@ -400,34 +405,9 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
         </div>
       )}
 
-      {/* SubTab 2: Paint Colors & Vietnam Flag */}
+      {/* SubTab 2: Paint Colors */}
       {activeSubTab === 'colors' && (
         <div className="space-y-4 animate-fadeIn">
-          {/* Vietnam Flag Decal Toggle */}
-          <div className="p-5 rounded-3xl bg-gradient-to-r from-red-950/70 via-slate-900/80 to-slate-900/80 border-2 border-red-500/60 shadow-xl flex items-center justify-between">
-            <div className="flex items-center gap-3.5">
-              <div className="w-14 h-14 rounded-2xl bg-red-600 border-2 border-yellow-300 flex items-center justify-center text-3xl shadow-lg">
-                ⭐
-              </div>
-              <div>
-                <h4 className="font-black text-base sm:text-lg text-yellow-300">Quốc Kỳ Việt Nam</h4>
-                <p className="text-xs text-red-200 font-bold mt-0.5">Dán cờ Tổ quốc trên thân & cánh phi thuyền</p>
-              </div>
-            </div>
-
-            <button
-              onClick={toggleVietnamFlag}
-              className={`px-5 py-2.5 rounded-2xl font-black text-xs sm:text-sm border-2 transition-all flex items-center gap-1.5 shadow ${
-                hasVnFlag
-                  ? 'bg-red-600 text-white border-yellow-300 shadow-red-500/30 active:scale-95'
-                  : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-white'
-              }`}
-            >
-              <span>⭐</span>
-              <span>{hasVnFlag ? 'Đã Dán Cờ' : 'Dán Cờ VN'}</span>
-            </button>
-          </div>
-
           {/* Color Palettes Grid */}
           <div className="p-5 rounded-3xl bg-slate-900/90 border-2 border-sky-400/40 shadow-xl space-y-4">
             <h4 className="font-black text-sm sm:text-base text-yellow-300 flex items-center gap-2">
@@ -630,7 +610,6 @@ export const SpaceHangarView: React.FC<{ onOpenShowroom?: () => void }> = ({ onO
           ship={selectedShipDetail}
           onClose={() => setSelectedShipDetail(null)}
           shipColor={currentShipColor}
-          hasVnFlag={hasVnFlag}
           isUnlocked={user.customization?.unlockedShips?.includes(selectedShipDetail.id) ?? false}
           isEquipped={user.customization?.equippedShip === selectedShipDetail.id}
           onEquip={() => handleEquipShipInModal(selectedShipDetail.id)}

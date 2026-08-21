@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Stars } from '@react-three/drei';
+import { Environment, Lightformer, Stars } from '@react-three/drei';
 import { SHIPS_DATA, SpaceshipModelData } from '../../data/shipsData';
 import { PLANETS_DATA } from '../../data/planetsData';
 import { PlanetData } from '../../types';
@@ -16,7 +16,6 @@ import {
   Eye,
   Camera,
   Check,
-  Flag,
   Sparkles,
   Zap,
   Info,
@@ -36,7 +35,6 @@ const ShowroomScene: React.FC<{
   selectedShip: SpaceshipModelData;
   selectedPlanet: PlanetData;
   shipColor: string;
-  hasVnFlag: boolean;
   showStreamlines: boolean;
   autoRotate: boolean;
   cameraPreset: 'front' | 'cockpit' | 'side' | 'rear' | 'default';
@@ -46,7 +44,6 @@ const ShowroomScene: React.FC<{
   selectedShip,
   selectedPlanet,
   shipColor,
-  hasVnFlag,
   showStreamlines,
   autoRotate,
   cameraPreset,
@@ -171,7 +168,6 @@ const ShowroomScene: React.FC<{
           <AerodynamicShipRenderer
             shipId={selectedShip.id}
             shipColor={shipColor}
-            hasVnFlag={hasVnFlag}
             showStreamlines={showStreamlines}
             scale={1.35}
           />
@@ -192,14 +188,14 @@ const ShowroomScene: React.FC<{
 };
 
 export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
-  const { user, activePlanetId, equipShip, selectPlanet, equipColor, toggleVietnamFlag } = useGameStore();
+  const { user, activePlanetId, equipShip, selectPlanet, equipColor } = useGameStore();
 
   const [mode, setMode] = useState<'ships' | 'planets'>('ships');
   const [selectedShipIndex, setSelectedShipIndex] = useState(0);
   const [selectedPlanetIndex, setSelectedPlanetIndex] = useState(0);
 
   // 3D Controls
-  const [showStreamlines, setShowStreamlines] = useState(true);
+  const [showStreamlines, setShowStreamlines] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
   const [cameraPreset, setCameraPreset] = useState<'front' | 'cockpit' | 'side' | 'rear' | 'default'>('default');
   const [zoomLevel, setZoomLevel] = useState(1.0);
@@ -208,7 +204,6 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
   const currentPlanet = PLANETS_DATA[selectedPlanetIndex] || PLANETS_DATA[0];
 
   const currentShipColor = user.customization?.equippedColor || '#38bdf8';
-  const hasVnFlag = user.customization?.hasVietnamFlag ?? true;
   const isEquipped = user.customization?.equippedShip === currentShip.id;
   const isCurrentPlanet = activePlanetId === currentPlanet.id;
 
@@ -294,6 +289,10 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
         <Canvas
           camera={{ position: [0, 0.35, 4.4], fov: 45 }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
+          onCreated={({ gl }) => {
+            gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.toneMappingExposure = 1.15;
+          }}
           style={{ touchAction: 'none' }}
           className="touch-none"
         >
@@ -302,13 +301,17 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
           <directionalLight position={[7, 9, 7]} intensity={2.6} color="#fffbeb" />
           <directionalLight position={[-7, -5, -5]} intensity={1.3} color="#38bdf8" />
           <pointLight position={[0, 3, 3]} intensity={1.2} color="#a855f7" />
+          <Environment resolution={128}>
+            <Lightformer form="rect" intensity={5} color="#dff6ff" position={[0, 5, 2]} scale={[8, 2, 1]} rotation={[Math.PI / 2, 0, 0]} />
+            <Lightformer form="rect" intensity={3} color="#38bdf8" position={[-4, 0, 1]} scale={[2, 6, 1]} rotation={[0, Math.PI / 2, 0]} />
+            <Lightformer form="ring" intensity={4} color="#a855f7" position={[4, -1, -3]} scale={3} rotation={[0, -Math.PI / 2, 0]} />
+          </Environment>
 
           <ShowroomScene
             mode={mode}
             selectedShip={currentShip}
             selectedPlanet={currentPlanet}
             shipColor={currentShipColor}
-            hasVnFlag={hasVnFlag}
             showStreamlines={showStreamlines}
             autoRotate={autoRotate}
             cameraPreset={cameraPreset}
@@ -423,7 +426,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
 
       {/* Bottom Selector & Technical Specs Panel */}
       <div className="bg-slate-950/95 border-t-2 border-sky-500/30 p-3.5 sm:p-4 shrink-0 flex flex-col gap-3 max-h-[48vh] overflow-y-auto shadow-2xl z-20">
-        <div className="flex gap-2.5 overflow-x-auto pb-1.5 scrollbar-thin">
+        <div className="flex gap-2.5 overflow-x-auto pb-1.5 scrollbar-thin shrink-0 min-h-[58px]">
               {mode === 'ships'
                 ? SHIPS_DATA.map((ship, idx) => {
                     const isSelected = idx === selectedShipIndex;
@@ -582,7 +585,7 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
                   </div>
                 </div>
 
-                {/* Live Customization Bar: Color Picker & Flag Toggle */}
+                {/* Live paint customization */}
                 <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 flex flex-wrap items-center justify-between gap-3">
                   {/* Color Palette */}
                   <div className="flex items-center gap-2">
@@ -606,18 +609,6 @@ export const SpaceShowroomView: React.FC<{ onClose?: () => void }> = ({ onClose 
                     </div>
                   </div>
 
-                  {/* Vietnam Flag Toggle */}
-                  <button
-                    onClick={toggleVietnamFlag}
-                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
-                      hasVnFlag
-                        ? 'bg-red-600/90 text-white border-yellow-300 shadow-md shadow-red-500/30'
-                        : 'bg-slate-800 text-slate-400 border-slate-700'
-                    }`}
-                  >
-                    <span>⭐</span>
-                    <span>{hasVnFlag ? 'Đã Dán Cờ VN' : 'Dán Cờ VN'}</span>
-                  </button>
                 </div>
               </div>
             ) : (
