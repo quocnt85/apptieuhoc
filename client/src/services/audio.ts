@@ -8,7 +8,6 @@ class SoundService {
   private engine: ToneAudioEngine | null = null;
   private unlockPromise: Promise<boolean> | null = null;
   private audioUnlocked = false;
-  private preloadTimer: number | null = null;
   private bgmEnabled = true;
   private sfxEnabled = true;
   private bgmStyle: BgmStyle = 'ambient';
@@ -21,14 +20,13 @@ class SoundService {
     };
     window.addEventListener('touchstart', this.firstInteractionHandler, { capture: true, passive: true });
     window.addEventListener('pointerdown', this.firstInteractionHandler, { capture: true });
+    window.addEventListener('pointerup', this.firstInteractionHandler, { capture: true });
     window.addEventListener('click', this.firstInteractionHandler, { capture: true });
     window.addEventListener('keydown', this.firstInteractionHandler, { capture: true });
-    // Warm the split chunk after the main UI has loaded so the first real
-    // gesture can call AudioContext.resume() while user activation is valid.
-    this.preloadTimer = window.setTimeout(() => {
-      this.preloadTimer = null;
-      void this.loadEngine().catch(() => undefined);
-    }, 800);
+    // Start fetching the split chunk immediately. Mobile Safari only grants a
+    // short-lived user activation, so Tone.js must already be available when
+    // the first real touch arrives.
+    void this.loadEngine().catch(() => undefined);
   }
 
   private loadEngine(): Promise<ToneAudioEngine> {
@@ -55,16 +53,18 @@ class SoundService {
     if (!this.firstInteractionHandler || typeof window === 'undefined') return;
     window.removeEventListener('touchstart', this.firstInteractionHandler, { capture: true });
     window.removeEventListener('pointerdown', this.firstInteractionHandler, { capture: true });
+    window.removeEventListener('pointerup', this.firstInteractionHandler, { capture: true });
     window.removeEventListener('click', this.firstInteractionHandler, { capture: true });
     window.removeEventListener('keydown', this.firstInteractionHandler, { capture: true });
     this.firstInteractionHandler = null;
   }
 
   private run(action: (engine: ToneAudioEngine) => void): void {
-    if (this.audioUnlocked && this.engine) {
+    if (this.audioUnlocked && this.engine?.isAudioRunning()) {
       action(this.engine);
       return;
     }
+    this.audioUnlocked = false;
     // Never silently drop a requested sound. When called from a click/touch
     // handler this invokes AudioContext.resume() in the same user gesture.
     void this.unlockAudio().then((unlocked) => {
@@ -77,12 +77,12 @@ class SoundService {
   }
 
   public unlockAudio(): Promise<boolean> {
-    if (this.audioUnlocked) return Promise.resolve(true);
+    if (this.audioUnlocked && this.engine?.isAudioRunning()) return Promise.resolve(true);
+    this.audioUnlocked = false;
     if (this.unlockPromise) return this.unlockPromise;
 
     const startEngine = (engine: ToneAudioEngine) => engine.unlockAudio().then((unlocked) => {
       this.audioUnlocked = unlocked;
-      if (unlocked) this.removeUnlockListeners();
       return unlocked;
     });
 
@@ -140,8 +140,6 @@ class SoundService {
 
   public dispose(): void {
     this.removeUnlockListeners();
-    if (this.preloadTimer !== null && typeof window !== 'undefined') window.clearTimeout(this.preloadTimer);
-    this.preloadTimer = null;
     if (this.enginePromise) void this.enginePromise.then((engine) => engine.dispose());
     this.engine = null;
     this.enginePromise = null;

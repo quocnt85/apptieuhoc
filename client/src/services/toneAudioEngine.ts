@@ -58,12 +58,32 @@ export class ToneAudioEngine {
   /**
    * Unlock AudioContext on first gesture
    */
+  public isAudioRunning(): boolean {
+    return Tone.context.state === 'running';
+  }
+
+  public getAudioDiagnostics() {
+    return {
+      contextState: Tone.context.state,
+      contextStarted: this.isContextStarted,
+      bgmPlaying: this.isBgmPlaying,
+      transportState: Tone.Transport.state,
+      graphReady: Boolean(this.safetyGraph),
+      outputLevel: this.safetyGraph?.getOutputLevel() ?? 0,
+    };
+  }
+
+  public async suspendAudioForDiagnostics(): Promise<void> {
+    const rawContext = Tone.context.rawContext as AudioContext;
+    if (typeof rawContext.suspend === 'function') await rawContext.suspend();
+  }
+
   public async unlockAudio(): Promise<boolean> {
     try {
-      if (Tone.context.state !== 'running') {
+      if (!this.isAudioRunning()) {
         await Tone.start();
       }
-      if (Tone.context.state !== 'running') return false;
+      if (!this.isAudioRunning()) return false;
       this.initAudioGraph();
       if (!this.safetyGraph) return false;
       this.isContextStarted = true;

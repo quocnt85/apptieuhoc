@@ -11,20 +11,21 @@ export class AudioSafetyGraph {
   private readonly masterGain: Tone.Gain;
   private readonly limiter: Tone.Limiter;
   private readonly compressor: Tone.Compressor;
+  private readonly outputMeter: Tone.Meter | null;
 
   private readonly bgmInput: Tone.Gain;
   private readonly bgmHighpass: Tone.Filter;
   private readonly bgmLowShelf: Tone.Filter;
   private readonly bgmGain: Tone.Gain;
-  private readonly bgmReverb: Tone.Reverb;
-  private readonly bgmChorus: Tone.Chorus;
+  private readonly bgmReverb: Tone.Reverb | null;
+  private readonly bgmChorus: Tone.Chorus | null;
 
   private readonly sfxInput: Tone.Gain;
   private readonly sfxHighpass: Tone.Filter;
   private readonly sfxPresenceDip: Tone.Filter;
   private readonly sfxLowpass: Tone.Filter;
   private readonly sfxGain: Tone.Gain;
-  private readonly sfxReverb: Tone.Reverb;
+  private readonly sfxReverb: Tone.Reverb | null;
 
   private readonly nominalBgmGain = 0.75;
   private readonly nominalSfxGain = 0.78;
@@ -38,6 +39,16 @@ export class AudioSafetyGraph {
       attack: 0.005,
       release: 0.2,
     }).connect(this.limiter);
+    let outputMeter: Tone.Meter | null = null;
+    try {
+      outputMeter = new Tone.Meter({ channelCount: 1, normalRange: true, smoothing: 0.65 });
+      this.masterGain.connect(outputMeter);
+    } catch (error) {
+      outputMeter?.dispose();
+      outputMeter = null;
+      console.warn('Audio output diagnostics are unavailable.', error);
+    }
+    this.outputMeter = outputMeter;
 
     this.bgmGain = new Tone.Gain(this.nominalBgmGain).connect(this.compressor);
     this.bgmLowShelf = new Tone.Filter({
@@ -52,13 +63,25 @@ export class AudioSafetyGraph {
       rolloff: -24,
     }).connect(this.bgmLowShelf);
     this.bgmInput = new Tone.Gain(1).connect(this.bgmHighpass);
-    this.bgmReverb = new Tone.Reverb({ decay: 3.2, preDelay: 0.02, wet: 0.32 }).connect(this.bgmInput);
-    this.bgmChorus = new Tone.Chorus({
-      frequency: 1.2,
-      delayTime: 3.5,
-      depth: 0.65,
-      wet: 0.22,
-    }).connect(this.bgmReverb).start();
+    let bgmReverb: Tone.Reverb | null = null;
+    let bgmChorus: Tone.Chorus | null = null;
+    try {
+      bgmReverb = new Tone.Reverb({ decay: 3.2, preDelay: 0.02, wet: 0.32 }).connect(this.bgmInput);
+      bgmChorus = new Tone.Chorus({
+        frequency: 1.2,
+        delayTime: 3.5,
+        depth: 0.65,
+        wet: 0.22,
+      }).connect(bgmReverb).start();
+    } catch (error) {
+      bgmChorus?.dispose();
+      bgmReverb?.dispose();
+      bgmChorus = null;
+      bgmReverb = null;
+      console.warn('Optional BGM spatial effects are unavailable; using the protected dry bus.', error);
+    }
+    this.bgmReverb = bgmReverb;
+    this.bgmChorus = bgmChorus;
 
     this.sfxGain = new Tone.Gain(this.nominalSfxGain).connect(this.compressor);
     this.sfxLowpass = new Tone.Filter({
@@ -80,16 +103,29 @@ export class AudioSafetyGraph {
       rolloff: -24,
     }).connect(this.sfxPresenceDip);
     this.sfxInput = new Tone.Gain(1).connect(this.sfxHighpass);
-    this.sfxReverb = new Tone.Reverb({ decay: 2.4, preDelay: 0.015, wet: 0.24 }).connect(this.sfxInput);
+    let sfxReverb: Tone.Reverb | null = null;
+    try {
+      sfxReverb = new Tone.Reverb({ decay: 2.4, preDelay: 0.015, wet: 0.24 }).connect(this.sfxInput);
+    } catch (error) {
+      sfxReverb?.dispose();
+      sfxReverb = null;
+      console.warn('Optional SFX reverb is unavailable; using the protected dry bus.', error);
+    }
+    this.sfxReverb = sfxReverb;
   }
 
   public routeBgm<T extends Tone.ToneAudioNode>(source: T, spatial: 'dry' | 'reverb' | 'chorus' = 'dry'): T {
-    source.connect(spatial === 'chorus' ? this.bgmChorus : spatial === 'reverb' ? this.bgmReverb : this.bgmInput);
+    const destination = spatial === 'chorus'
+      ? (this.bgmChorus ?? this.bgmReverb ?? this.bgmInput)
+      : spatial === 'reverb'
+        ? (this.bgmReverb ?? this.bgmInput)
+        : this.bgmInput;
+    source.connect(destination);
     return source;
   }
 
   public routeSfx<T extends Tone.ToneAudioNode>(source: T, spatial: 'dry' | 'reverb' = 'dry'): T {
-    source.connect(spatial === 'reverb' ? this.sfxReverb : this.sfxInput);
+    source.connect(spatial === 'reverb' ? (this.sfxReverb ?? this.sfxInput) : this.sfxInput);
     return source;
   }
 
@@ -120,8 +156,13 @@ export class AudioSafetyGraph {
     this.sfxGain.gain.linearRampToValueAtTime(enabled ? this.nominalSfxGain : 0, now + 0.04);
   }
 
+  public getOutputLevel(): number {
+    const value = this.outputMeter?.getValue() ?? 0;
+    return Array.isArray(value) ? Math.max(...value) : value;
+  }
+
   public dispose(): void {
-    this.bgmChorus.stop();
+    this.bgmChorus?.stop();
     [
       this.bgmChorus,
       this.bgmReverb,
@@ -138,6 +179,7 @@ export class AudioSafetyGraph {
       this.compressor,
       this.limiter,
       this.masterGain,
-    ].forEach((node) => node.dispose());
+      this.outputMeter,
+    ].forEach((node) => node?.dispose());
   }
 }

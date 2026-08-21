@@ -177,6 +177,7 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
   });
 
   test('5. Header audio popover, sound toggle and BGM style switching', async ({ page }) => {
+    test.setTimeout(90_000);
     await page.goto('/');
     await dismissFTUEIfPresent(page);
 
@@ -204,6 +205,35 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
       };
     });
     expect(audioRuntime).toEqual({ audioUnlocked: true, contextStarted: true, graphReady: true });
+
+    // Mobile operating systems suspend/interrupt Web Audio when the page loses
+    // audio focus. The next real gesture must resume it instead of trusting a
+    // stale `audioUnlocked` flag.
+    await page.evaluate(async () => {
+      const service = (window as any).__novaStarsSoundService;
+      const engine = await service.enginePromise;
+      await engine.suspendAudioForDiagnostics();
+    });
+    await page.waitForFunction(
+      () => (window as any).__novaStarsSoundService?.engine?.isAudioRunning() === false,
+      null,
+      { timeout: 3000 }
+    );
+    await soundBtn.click();
+    await page.waitForFunction(
+      () => (window as any).__novaStarsSoundService?.engine?.isAudioRunning() === true,
+      null,
+      { timeout: 8000 }
+    );
+    await soundBtn.click();
+
+    // BGM must produce an actual non-silent signal on the protected output,
+    // not merely report that its graph and context were created.
+    await page.waitForFunction(
+      () => (window as any).__novaStarsSoundService?.engine?.getAudioDiagnostics().outputLevel > 0.00001,
+      null,
+      { timeout: 8000 }
+    );
     await expect(page.locator('text=Âm thanh & Nhạc nền').first()).toBeVisible({ timeout: 3000 });
     await expect(page.locator('text=🪐 Vũ trụ êm dịu').first()).toBeVisible();
     await expect(page.locator('text=🚀 Phiêu lưu ngân hà').first()).toBeVisible();
