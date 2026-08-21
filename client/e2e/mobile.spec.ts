@@ -189,6 +189,21 @@ test.describe('NovaStars Mobile UI & Touch Ergonomics E2E Tests', () => {
 
     // 1. Click speaker button to open Audio Menu
     await soundBtn.click();
+    await page.waitForFunction(
+      () => (window as any).__novaStarsSoundService?.audioUnlocked === true,
+      null,
+      { timeout: 8000 }
+    );
+    const audioRuntime = await page.evaluate(async () => {
+      const service = (window as any).__novaStarsSoundService;
+      const engine = await service.enginePromise;
+      return {
+        audioUnlocked: service.audioUnlocked,
+        contextStarted: engine.isContextStarted,
+        graphReady: Boolean(engine.safetyGraph),
+      };
+    });
+    expect(audioRuntime).toEqual({ audioUnlocked: true, contextStarted: true, graphReady: true });
     await expect(page.locator('text=Âm thanh & Nhạc nền').first()).toBeVisible({ timeout: 3000 });
     await expect(page.locator('text=🪐 Vũ trụ êm dịu').first()).toBeVisible();
     await expect(page.locator('text=🚀 Phiêu lưu ngân hà').first()).toBeVisible();
