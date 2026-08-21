@@ -12,7 +12,7 @@ interface Props {
 export const VercelBottomNav: React.FC<Props> = ({ activeTab, onChangeTab }) => {
   const tabs: { id: VercelTab; label: string; icon: React.ReactNode }[] = [
     { id: 'home', label: 'Trang Chủ', icon: <Home className="w-5 h-5 sm:w-6 sm:h-6" /> },
-    { id: 'planet', label: 'Hành Tinh 3D', icon: <Globe2 className="w-5 h-5 sm:w-6 sm:h-6" /> },
+    { id: 'planet', label: 'Hành Tinh', icon: <Globe2 className="w-5 h-5 sm:w-6 sm:h-6" /> },
     { id: 'hangar', label: 'Xưởng Tàu', icon: <Wrench className="w-5 h-5 sm:w-6 sm:h-6" /> },
     { id: 'profile', label: 'Hồ Sơ', icon: <User className="w-5 h-5 sm:w-6 sm:h-6" /> },
   ];

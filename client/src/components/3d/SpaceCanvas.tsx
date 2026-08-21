@@ -10,7 +10,7 @@ export const SpaceCanvas: React.FC<Props> = ({ children }) => {
   return (
     <div className="w-full h-full relative overflow-hidden bg-gradient-to-b from-[#050814] via-[#0b1026] to-[#160e33] select-none">
       <Canvas
-        camera={{ position: [0, 0, 7.2], fov: 45 }}
+        camera={{ position: [0, 0, 5.5], fov: 45 }}
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         dpr={[1, 2]}
       >

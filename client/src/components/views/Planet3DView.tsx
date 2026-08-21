@@ -27,12 +27,16 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
   const currentPlanet = PLANETS_DATA.find((p) => p.id === activePlanetId) || PLANETS_DATA[0];
 
   const handleSelectCoordinate = (node: PlanetCoordinateNode) => {
+    // Hide any previous modal and trigger ship flight animation
+    setShowModal(false);
     startFlyingToCoordinate(node);
-    setShowModal(true);
   };
 
   const handleShipArrival = () => {
     finishFlyingToCoordinate();
+    soundService.playVictory();
+    // Reveal coordinate preview modal ONLY after ship has arrived
+    setShowModal(true);
   };
 
   const handleLaunchLesson = (node: PlanetCoordinateNode) => {
@@ -57,11 +61,11 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
         <SpaceCanvas>
           <PlanetMesh
             planet={currentPlanet}
-            radius={2.0}
+            radius={1.0}
             onSelectNode={handleSelectCoordinate}
           />
           <Spaceship3D
-            planetRadius={2.0}
+            planetRadius={1.0}
             activeNode={selectedCoordinateNode}
             onArrival={handleShipArrival}
           />

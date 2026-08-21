@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
           <div className="relative">
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-500 p-0.5 shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
               <div className="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center text-xl">
-                {user.avatar}
+                {user.avatar === '🚀' ? '👨‍🚀' : user.avatar}
               </div>
             </div>
             <div className="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 font-extrabold text-[10px] px-1.5 py-0.5 rounded-full border-2 border-slate-900 shadow">

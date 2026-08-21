@@ -8,7 +8,8 @@ export const ProfileView: React.FC = () => {
   const isCompletedNode1 = Boolean(completedNodes['island_1_node_1']);
 
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
-  const avatars = ['🚀', '👧', '👦', '🤖', '🦊', '⭐', '🦁', '🐼', '🦄', '🦖'];
+  const avatars = ['👨‍🚀', '👩‍🚀', '🧑‍🚀', '⭐', '🤖', '🦊', '🦁', '🐼', '🦄', '🦖'];
+  const currentAvatar = user.avatar === '🚀' ? '👨‍🚀' : user.avatar;
 
   const handleSelectAvatar = (av: string) => {
     soundService.playVictory();
@@ -27,7 +28,7 @@ export const ProfileView: React.FC = () => {
             onClick={() => { soundService.playClick(); setShowAvatarPicker(!showAvatarPicker); }}
             className="w-24 h-24 rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-3 border-sky-400 flex items-center justify-center text-5xl shadow-[0_0_20px_rgba(56,189,248,0.4)] cursor-pointer hover:scale-105 active:scale-95 transition-all animate-float"
           >
-            {user.avatar}
+            {currentAvatar}
           </div>
           <div className="absolute -bottom-1 -right-1 bg-gradient-to-r from-sky-400 to-blue-600 text-white font-black text-[11px] px-2.5 py-0.5 rounded-full border border-white shadow-md cursor-pointer">
             Đổi ✨
