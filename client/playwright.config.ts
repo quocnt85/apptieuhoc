@@ -1,10 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const parentAuthE2E = process.env.PARENT_AUTH_E2E === 'true';
-const e2ePort = parentAuthE2E ? 3001 : 3000;
+const requestedE2EPort = Number(process.env.PLAYWRIGHT_E2E_PORT);
+const e2ePort = parentAuthE2E
+  ? 3001
+  : Number.isInteger(requestedE2EPort) && requestedE2EPort > 0 && requestedE2EPort <= 65_535
+    ? requestedE2EPort
+    : 3000;
 const viteCommand = process.platform === 'win32'
-  ? 'npx.cmd vite --port 3000 --host'
-  : 'npx vite --port 3000 --host';
+  ? `npx.cmd vite --port ${e2ePort} --host`
+  : `npx vite --port ${e2ePort} --host`;
 
 export default defineConfig({
   testDir: './e2e',

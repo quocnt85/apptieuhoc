@@ -22,12 +22,17 @@ async function setLimitReached(page: Page) {
   });
 }
 
+async function attemptPlanetNavigationUntilBlocked(page: Page) {
+  await page.getByRole('button', { name: '🪐 Hành Tinh', exact: true })
+    .evaluate((element) => (element as HTMLButtonElement).click());
+}
+
 test.describe('Parent Zone screen-time boundaries', () => {
   test.beforeEach(async ({ page }) => cleanStart(page));
 
-  test('blocks starting a new child area after the daily limit is reached', async ({ page }) => {
+  test('blocks the idle child shell immediately after the daily limit is reached', async ({ page }) => {
     await setLimitReached(page);
-    await page.getByRole('button', { name: '🪐 Hành Tinh', exact: true }).click();
+    await attemptPlanetNavigationUntilBlocked(page);
     await expect(page.getByRole('heading', { name: 'Đến giờ nghỉ rồi' })).toBeVisible();
     await expect(page.getByText('Con đã dùng hết thời gian hôm nay.')).toBeVisible();
   });
@@ -80,7 +85,7 @@ test.describe('Parent Zone screen-time boundaries', () => {
       store.setState({ clockGuard: { lastObservedAt: now + 10 * 60_000, rollbackDetected: false } });
       store.getState().syncUsageClock(false, now);
     });
-    await page.getByRole('button', { name: '🪐 Hành Tinh', exact: true }).click();
+    await attemptPlanetNavigationUntilBlocked(page);
     await expect(page.getByText('Giờ trên thiết bị vừa bị lùi.')).toBeVisible();
     await page.getByRole('button', { name: 'Phụ huynh mở cài đặt' }).click();
     await page.getByPlaceholder('Mật khẩu demo').fill('1234');
