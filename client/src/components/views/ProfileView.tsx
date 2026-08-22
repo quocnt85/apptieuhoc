@@ -7,6 +7,7 @@ import { AvatarStudio } from '../personalization/AvatarStudio';
 import { useParentZoneStore } from '../../stores/useParentZoneStore';
 import { TerritoryFlagStudio } from '../personalization/TerritoryFlagStudio';
 import { PERSONALIZATION_FEATURE_FLAGS } from '../../config/personalizationFeatureFlags';
+import { CaptainIdStudio } from '../personalization/CaptainIdStudio';
 
 export const ProfileView: React.FC = () => {
   const { user, completedNodes } = useGameStore();
@@ -16,6 +17,8 @@ export const ProfileView: React.FC = () => {
   const [showAvatarStudio, setShowAvatarStudio] = useState(false);
   const [showFlagStudio, setShowFlagStudio] = useState(false);
   const flagEnabled = import.meta.env.DEV || PERSONALIZATION_FEATURE_FLAGS.territoryFlag;
+  const [showCaptainId, setShowCaptainId] = useState(false);
+  const captainIdEnabled = import.meta.env.DEV || PERSONALIZATION_FEATURE_FLAGS.captainIdExport;
   const currentAvatar = user.avatar === '🚀' ? '👨‍🚀' : user.avatar;
 
   return (
@@ -74,6 +77,8 @@ export const ProfileView: React.FC = () => {
       {showAvatarStudio && <AvatarStudio childId={activeChildId} onClose={() => setShowAvatarStudio(false)}/>}
       {flagEnabled && <button data-testid="open-flag-studio" onClick={() => setShowFlagStudio(true)} className="rounded-[28px] border-2 border-violet-400/40 bg-gradient-to-r from-indigo-950 to-violet-950 p-4 text-left shadow-xl"><div className="flex items-center gap-3"><span className="text-3xl">🚩</span><div><div className="font-black text-violet-200">Cờ Lãnh Địa</div><div className="text-xs text-slate-400">Tạo cờ local và gửi phụ huynh duyệt trước khi áp dụng</div></div></div></button>}
       {showFlagStudio && <TerritoryFlagStudio childId={activeChildId} onClose={() => setShowFlagStudio(false)}/>}
+      {captainIdEnabled && <button data-testid="open-space-id" onClick={()=>setShowCaptainId(true)} className="rounded-[28px] border-2 border-cyan-400/40 bg-gradient-to-r from-cyan-950 to-blue-950 p-4 text-left shadow-xl"><div className="flex items-center gap-3"><span className="text-3xl">🪪</span><div><div className="font-black text-cyan-200">Space ID</div><div className="text-xs text-slate-400">Tạo thẻ thành tích local; cần PIN phụ huynh để xuất</div></div></div></button>}
+      {showCaptainId&&<CaptainIdStudio childId={activeChildId} onClose={()=>setShowCaptainId(false)}/>}
 
       {/* 3D Cosmic Medals Collection */}
       <div className="p-5 sm:p-6 bg-slate-900/90 backdrop-blur-xl border-2 border-amber-400/40 shadow-xl rounded-[32px] space-y-3.5">
