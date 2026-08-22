@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BarChart3, Clock, Download, HeartHandshake, LogOut, ShieldCheck, ShoppingBag, Upload, UserRound, WalletCards } from 'lucide-react';
+import { BarChart3, Clock, Download, HeartHandshake, LogOut, Palette, ShieldCheck, ShoppingBag, Trash2, Upload, UserRound, WalletCards } from 'lucide-react';
 import { DOMAINS_DATA } from '../../data/mockQuestions';
 import { createEncryptedBackup, restoreEncryptedBackup } from '../../services/parentBackup';
 import { parentApi } from '../../services/parentApi';
@@ -7,7 +7,7 @@ import { parentBiometric } from '../../services/parentBiometric';
 import { PRODUCT_IDS, purchaseProvider, type LocalizedProduct, type ParentProductId } from '../../services/purchaseProvider';
 import { LocalMediaImage } from '../personalization/LocalMediaImage';
 import { processLocalImage } from '../../services/personalization/imageProcessing';
-import { clearAllPersonalizationData, clearChildPersonalizationData, saveProcessedMedia } from '../../services/personalization/personalizationLifecycle';
+import { clearAllPersonalizationData, clearChildPersonalizationData, deleteMediaAsset, saveProcessedMedia } from '../../services/personalization/personalizationLifecycle';
 import { parentGate } from '../../services/personalization/parentGate';
 import { useGameStore } from '../../stores/useGameStore';
 import { useParentZoneStore } from '../../stores/useParentZoneStore';
@@ -15,7 +15,7 @@ import { usePersonalizationStore } from '../../stores/usePersonalizationStore';
 import { PERSONALIZATION_FEATURE_FLAGS } from '../../config/personalizationFeatureFlags';
 import type { ChildGrade } from '../../types/parentZone';
 
-type Section = 'overview' | 'profiles' | 'missions' | 'guides' | 'limits' | 'store' | 'account';
+type Section = 'overview' | 'profiles' | 'personalization' | 'missions' | 'guides' | 'limits' | 'store' | 'account';
 type AuthStep = 'email' | 'otp' | 'setup-pin' | 'pin';
 const Field: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (props) => <input {...props} className={`w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-400 ${props.className ?? ''}`} />;
 const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ className = '', ...props }) => <button {...props} className={`rounded-xl px-4 py-2.5 text-sm font-black transition active:scale-[.98] disabled:opacity-40 ${className}`} />;
@@ -72,13 +72,14 @@ export const ParentDashboard: React.FC = () => {
   }, [unlocked, profile?.id, profile?.childSlotId]);
   useEffect(() => parentGate.subscribe((session) => setUnlocked(Boolean(session))), []);
   if (!unlocked) return <div className="flex h-full overflow-y-auto p-4"><ParentAuth onUnlocked={() => parentGate.markAuthenticated()}/></div>;
-  const tabs: [Section, string, React.ReactNode][] = [['overview','Báo cáo',<BarChart3/>],['profiles','Hồ sơ',<UserRound/>],['missions','Nhiệm vụ',<HeartHandshake/>],['guides','Cẩm nang',<HeartHandshake/>],['limits','Thời gian',<Clock/>],['store','Cửa hàng',<ShoppingBag/>],['account','Tài khoản',<ShieldCheck/>]];
+  const flagEnabled = import.meta.env.DEV || PERSONALIZATION_FEATURE_FLAGS.territoryFlag;
+  const tabs: [Section, string, React.ReactNode][] = [['overview','Báo cáo',<BarChart3/>],['profiles','Hồ sơ',<UserRound/>],...(flagEnabled ? [['personalization','Cá nhân hóa',<Palette/>] as [Section,string,React.ReactNode]] : []),['missions','Nhiệm vụ',<HeartHandshake/>],['guides','Cẩm nang',<HeartHandshake/>],['limits','Thời gian',<Clock/>],['store','Cửa hàng',<ShoppingBag/>],['account','Tài khoản',<ShieldCheck/>]];
   return <div className="flex h-full flex-col overflow-hidden bg-[#070b18]">
     <div className="flex items-center justify-between border-b border-slate-800 px-4 py-3"><div><div className="text-sm font-black text-cyan-200">Góc phụ huynh</div><div className="text-[11px] text-slate-400">{profile?.name} · Kho 💎 {vault.toLocaleString('vi-VN')}</div></div><button onClick={() => parentGate.lock()} className="rounded-lg bg-slate-800 p-2" aria-label="Khóa góc phụ huynh"><ShieldCheck className="h-4 w-4"/></button></div>
     <nav className="flex shrink-0 gap-1 overflow-x-auto border-b border-slate-800 p-2">{tabs.map(([id,label,icon]) => <button key={id} onClick={() => setSection(id)} className={`flex min-w-fit items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold ${section===id?'bg-cyan-500 text-slate-950':'bg-slate-900 text-slate-300'}`}>{React.cloneElement(icon as React.ReactElement<{className:string}>,{className:'h-3.5 w-3.5'})}{label}</button>)}</nav>
     <main className="flex-1 overflow-y-auto p-4 pb-24">{notice && <div className="mb-3 rounded-xl bg-cyan-950 p-3 text-xs text-cyan-200">{notice}</div>}
       {section==='overview' && <Overview profileName={profile?.name ?? user.name} domainProgress={domainProgress} activities={parent.activities.filter((a)=>a.profileId===profile?.id)} walletBalance={walletBalance}/>}
-      {section==='profiles' && <Profiles/>}{section==='missions' && <Missions onWalletRefresh={refreshWallet}/>} {section==='guides' && <Guides isVip={isVip}/>} {section==='limits' && <Limits/>}
+      {section==='profiles' && <Profiles/>}{section==='personalization' && <PersonalizationReview/>}{section==='missions' && <Missions onWalletRefresh={refreshWallet}/>} {section==='guides' && <Guides isVip={isVip}/>} {section==='limits' && <Limits/>}
       {section==='store' && <Store vault={vault} onNotice={setNotice} onRefresh={refreshWallet}/>} {section==='account' && <Account onNotice={setNotice}/>}
     </main>
   </div>;
@@ -122,6 +123,17 @@ const GUIDES = [
 const Guides:React.FC<{isVip:boolean}>=({isVip})=>{const [playing,setPlaying]=useState<string|null>(null);useEffect(()=>()=>speechSynthesis.cancel(),[]);const play=(title:string,text:string)=>{speechSynthesis.cancel();if(playing===title){setPlaying(null);return;}const utterance=new SpeechSynthesisUtterance(text);utterance.lang='vi-VN';utterance.rate=.82;utterance.onend=()=>setPlaying(null);speechSynthesis.speak(utterance);setPlaying(title);};return <div className="space-y-3"><div className="rounded-2xl bg-indigo-950/40 p-4 text-xs text-indigo-200">Nội dung được biên soạn sẵn, không dùng AI. Bản đọc âm thanh chạy bằng giọng đọc trên thiết bị và chỉ hoạt động trong Góc phụ huynh.</div>{GUIDES.map((guide,index)=>{const locked=index>0&&!isVip;return <article key={guide.title} className="rounded-3xl border border-slate-800 bg-slate-900 p-4"><div className="text-[10px] font-black uppercase text-cyan-300">{guide.category}</div><h2 className="mt-1 font-black">{guide.title} {locked&&'🔒'}</h2>{locked?<p className="mt-2 text-xs text-slate-400">Nội dung này thuộc VIP. Gói tháng là lựa chọn chính.</p>:<><ul className="mt-3 list-disc space-y-1 pl-5 text-xs text-slate-300">{guide.checklist.map(item=><li key={item}>{item}</li>)}</ul><Button onClick={()=>play(guide.title,guide.podcast)} className="mt-3 bg-indigo-600">{playing===guide.title?'Dừng podcast':'Nghe podcast ~3 phút'}</Button><div className="mt-3 text-[10px] text-slate-500">{guide.review}</div></>}</article>})}<div className="rounded-2xl border border-amber-800 bg-amber-950/20 p-3 text-xs text-amber-200">Hướng dẫn mát-xa mắt đang gắn PENDING_HEALTH_REVIEW và chỉ được hiển thị trong bản nháp; phải hậu kiểm trước khi bật production.</div></div>};
 
 const ProfileAvatar:React.FC<{profileId:string;emoji:string}>=({profileId,emoji})=>{const assetId=usePersonalizationStore(state=>state.children[profileId]?.avatarAssetId);return assetId?<LocalMediaImage assetId={assetId} alt="Ảnh hồ sơ local" className="h-12 w-12 rounded-full object-cover" fallback={emoji}/>:<>{emoji}</>;};
+
+const PersonalizationReview = () => {
+  const profiles = useParentZoneStore((state) => state.profiles);
+  const children = usePersonalizationStore((state) => state.children);
+  const transition = usePersonalizationStore((state) => state.transitionFlagReview);
+  const [error, setError] = useState('');
+  const rows = profiles.map((profile) => ({ profile, child: children[profile.id] })).filter((row) => row.child?.flagAssetId);
+  const reject = (childId: string) => { const note = prompt('Gợi ý ngắn cho trẻ (tùy chọn):')?.trim() || 'Phụ huynh đề nghị chọn hình khác.'; if (!transition(childId, 'REJECTED', note)) setError('Không thể từ chối ở trạng thái hiện tại.'); };
+  const remove = async (assetId: string) => { if (!confirm('Xóa vĩnh viễn ảnh cờ khỏi thiết bị?')) return; try { await deleteMediaAsset(assetId); } catch { setError('Không thể xóa ảnh cờ local.'); } };
+  return <div className="space-y-3"><div className="rounded-2xl border border-cyan-900 bg-cyan-950/30 p-3 text-xs text-cyan-100">Bạn đang ở trong phiên Góc Phụ Huynh đã mở khóa. Duyệt chỉ cho phép cờ được áp dụng trong game trên thiết bị, không chia sẻ hay đăng công khai.</div>{rows.length===0&&<div className="rounded-2xl bg-slate-900 p-5 text-center text-sm text-slate-400">Chưa có cờ nào chờ xem xét.</div>}{rows.map(({profile,child})=><article key={profile.id} className="rounded-3xl border border-slate-800 bg-slate-900 p-4"><div className="flex gap-3"><div className="aspect-[3/2] w-32 overflow-hidden rounded-xl border border-slate-700">{child.flagAssetId&&<LocalMediaImage assetId={child.flagAssetId} alt={`Cờ của ${profile.name}`} className="h-full w-full object-cover" fallback="🚩"/>}</div><div className="min-w-0 flex-1"><h3 className="font-black">{profile.name}</h3><p className="mt-1 text-xs text-slate-400">{child.flagReviewStatus==='PENDING_PARENT_REVIEW'?'Đang chờ duyệt':child.flagReviewStatus==='APPROVED_LOCAL'?'Đã áp dụng trong game':child.flagReviewStatus==='REJECTED'?'Đã yêu cầu chỉnh lại':'Bản nháp local'}</p>{child.flagReviewNote&&<p className="mt-1 text-xs text-rose-300">{child.flagReviewNote}</p>}</div></div><div className="mt-3 flex flex-wrap gap-2">{child.flagReviewStatus==='PENDING_PARENT_REVIEW'&&<><Button data-testid={`approve-flag-${profile.id}`} onClick={()=>{if(!transition(profile.id,'APPROVED_LOCAL'))setError('Không thể duyệt ở trạng thái hiện tại.');}} className="bg-emerald-500 text-slate-950">Duyệt & áp dụng</Button><Button onClick={()=>reject(profile.id)} className="bg-rose-950 text-rose-300">Yêu cầu chỉnh</Button></>}{child.flagReviewStatus==='APPROVED_LOCAL'&&<Button onClick={()=>transition(profile.id,'DRAFT_LOCAL','Đã gỡ áp dụng bởi phụ huynh.')} className="bg-amber-950 text-amber-200">Gỡ khỏi game</Button>}<Button onClick={()=>void remove(child.flagAssetId!)} className="flex items-center gap-1 bg-slate-800 text-slate-300"><Trash2 className="h-3.5 w-3.5"/>Xóa ảnh</Button></div></article>)}{error&&<p role="alert" className="text-xs text-rose-300">{error}</p>}</div>;
+};
 const Profiles = () => { const state=useParentZoneStore(); const [name,setName]=useState(''); const [grade,setGrade]=useState<ChildGrade|undefined>(); const [avatar,setAvatar]=useState('🧑‍🚀'); const [error,setError]=useState(''); const fileRef=useRef<HTMLInputElement>(null);
   const selectProfile=(id:string)=>{if(id===state.activeProfileId)return;const current=localStorage.getItem('novastars_space_state_v2');if(current)localStorage.setItem(`novastars_space_state_profile_${state.activeProfileId}`,current);const target=localStorage.getItem(`novastars_space_state_profile_${id}`);if(target)localStorage.setItem('novastars_space_state_v2',target);else localStorage.removeItem('novastars_space_state_v2');state.setActiveProfile(id);location.reload();};
   const create=async()=>{setError('');try{const slot=await parentApi.createChildSlot(crypto.randomUUID());const id=state.createProfile({name:name.trim(),grade,avatar,childSlotId:slot.childSlotId});state.setActiveProfile(id);setName('');}catch(value){setError(value instanceof Error?value.message:'Không thể tạo hồ sơ.');}};

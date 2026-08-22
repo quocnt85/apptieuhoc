@@ -55,11 +55,23 @@ interface PersonalizationState {
   setAvatarAsset: (childId: string, assetId: string | null) => void;
   setAvatarMode: (childId: string, mode: ChildPersonalization['avatarMode']) => void;
   setFlagReview: (childId: string, status: FlagReviewStatus, assetId?: string | null, note?: string | null) => void;
+  transitionFlagReview: (childId: string, status: FlagReviewStatus, note?: string | null) => boolean;
   unlockCosmetic: (childId: string, itemId: string) => void;
   equipCosmetic: (childId: string, slot: AvatarCosmeticSlot, itemId: string) => boolean;
   clearChildMetadata: (childId: string) => void;
   markLegacyMigrationCompleted: () => void;
 }
+
+const FLAG_REVIEW_TRANSITIONS: Record<FlagReviewStatus, readonly FlagReviewStatus[]> = {
+  NONE: ['DRAFT_LOCAL'],
+  DRAFT_LOCAL: ['PENDING_PARENT_REVIEW'],
+  PENDING_PARENT_REVIEW: ['APPROVED_LOCAL', 'REJECTED'],
+  APPROVED_LOCAL: ['DRAFT_LOCAL'],
+  REJECTED: ['DRAFT_LOCAL', 'PENDING_PARENT_REVIEW'],
+};
+
+export const canTransitionFlagReview = (from: FlagReviewStatus, to: FlagReviewStatus) =>
+  FLAG_REVIEW_TRANSITIONS[from].includes(to);
 
 const clearReferences = (children: Record<string, ChildPersonalization>, removed: Set<string>) => Object.fromEntries(
   Object.entries(children).map(([childId, child]) => [childId, {
@@ -120,6 +132,16 @@ export const usePersonalizationStore = create<PersonalizationState>()(persist((s
       },
     },
   })),
+  transitionFlagReview: (childId, status, note = null) => {
+    let transitioned = false;
+    set((state) => {
+      const child = normalizeChild(childId, state.children[childId]);
+      if (!child.flagAssetId || !canTransitionFlagReview(child.flagReviewStatus, status)) return state;
+      transitioned = true;
+      return { children: { ...state.children, [childId]: { ...child, flagReviewStatus: status, flagReviewNote: note, updatedAt: Date.now() } } };
+    });
+    return transitioned;
+  },
   unlockCosmetic: (childId, itemId) => set((state) => {
     const child = normalizeChild(childId, state.children[childId]);
     return { children: { ...state.children, [childId]: { ...child, unlockedCosmeticIds: child.unlockedCosmeticIds.includes(itemId) ? child.unlockedCosmeticIds : [...child.unlockedCosmeticIds, itemId], updatedAt: Date.now() } } };
