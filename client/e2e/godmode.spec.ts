@@ -248,4 +248,35 @@ test.describe('Dev God Mode & Performance Monitoring E2E Tests', () => {
     expect(restoredStats.isUnlocked).toBe(false);
     expect(restoredStats.coins).toBe(0);
   });
+
+  test('7. One-click manual review setup removes progression and currency grinding', async ({ page }) => {
+    await page.goto('/');
+    await dismissFTUEIfPresent(page);
+    await triggerGodMode(page);
+    await page.getByTestId('dev-tab-progression').click({ force: true });
+    await page.getByTestId('dev-prepare-review-btn').click({ force: true });
+
+    const prepared = await page.evaluate(() => {
+      const state = (window as any).__gameStore.getState();
+      return {
+        energy: state.user.energy,
+        coins: state.user.novaCoins,
+        diamonds: state.user.diamonds,
+        level: state.user.level,
+        unlimited: state.isUnlimitedMode,
+        completed: Object.keys(state.completedNodes).length,
+        ships: state.user.customization.unlockedShips.length,
+      };
+    });
+    expect(prepared).toMatchObject({ energy: 999, coins: 99_999, diamonds: 9_999, level: 20, unlimited: true });
+    expect(prepared.completed).toBeGreaterThan(0);
+    expect(prepared.ships).toBeGreaterThanOrEqual(8);
+
+    await page.getByTestId('dev-close-btn').click({ force: true });
+    await page.locator('button:has-text("Phụ Huynh")').last().click({ force: true });
+    await page.getByPlaceholder('Mật khẩu demo').fill('1234');
+    await page.getByRole('button', { name: 'Vào Góc phụ huynh' }).click();
+    await page.getByRole('button', { name: 'Hồ sơ' }).click();
+    await expect(page.getByText('Hồ sơ Review B')).toBeVisible();
+  });
 });
