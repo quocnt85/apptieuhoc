@@ -2,6 +2,7 @@
 import { useGameStore } from '../../stores/useGameStore';
 import { Zap, Trophy, FastForward, Wrench } from 'lucide-react';
 import { soundService } from '../../services/audio';
+import { parentFeatureFlags } from '../../config/parentFeatureFlags';
 
 interface Props {
   onSkipStage: () => void;
@@ -18,7 +19,7 @@ export const QuickDevBar: React.FC<Props> = ({
 }) => {
   const { isGodModeUnlocked, toggleDevPanel } = useGameStore();
 
-  if (!import.meta.env.DEV || !isGodModeUnlocked) return null;
+  if ((!import.meta.env.DEV && !parentFeatureFlags.demoAccess) || !isGodModeUnlocked) return null;
 
   const handleSkip = () => {
     soundService.playClick();

@@ -6,6 +6,7 @@ import { interactionService } from '../../services/interaction';
 import { AvatarComposer } from '../personalization/AvatarComposer';
 import { useParentZoneStore } from '../../stores/useParentZoneStore';
 import { ProfileView } from './ProfileView';
+import { parentFeatureFlags } from '../../config/parentFeatureFlags';
 
 interface Props {
   onNavigateToMap: () => void;
@@ -21,7 +22,7 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
   const heroLastClickRef = React.useRef<number>(0);
 
   const handleHeroAvatarClick = () => {
-    if (!import.meta.env.DEV) return;
+    if (!import.meta.env.DEV && !parentFeatureFlags.demoAccess) return;
     const now = Date.now();
     if (now - heroLastClickRef.current > 4000) {
       heroClickCountRef.current = 1;
