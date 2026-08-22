@@ -2,6 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 const parentAuthE2E = process.env.PARENT_AUTH_E2E === 'true';
 const e2ePort = parentAuthE2E ? 3001 : 3000;
+const viteCommand = process.platform === 'win32'
+  ? 'npx.cmd vite --port 3000 --host'
+  : 'npx vite --port 3000 --host';
 
 export default defineConfig({
   testDir: './e2e',
@@ -63,7 +66,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: parentAuthE2E ? 'node scripts/start-parent-auth-e2e-server.mjs' : 'npx.cmd vite --port 3000 --host',
+    command: parentAuthE2E ? 'node scripts/start-parent-auth-e2e-server.mjs' : viteCommand,
     url: `http://localhost:${e2ePort}`,
     reuseExistingServer: !parentAuthE2E,
     timeout: 120000,
