@@ -16,11 +16,13 @@ import { getPlayLimitStatus, useParentZoneStore } from './stores/useParentZoneSt
 import { initializeCameraRestore } from './services/personalization/cameraCapture';
 import { initializeParentGate } from './services/personalization/parentGate';
 import { initializePersonalizationFoundation } from './services/personalization/personalizationLifecycle';
+import { parentFeatureFlags } from './config/parentFeatureFlags';
 
-const AudioDebugOverlay = import.meta.env.DEV ? React.lazy(() => import('./components/dev/AudioDebugOverlay').then((module) => ({ default: module.AudioDebugOverlay }))) : null;
-const DevFloatingButton = import.meta.env.DEV ? React.lazy(() => import('./components/dev/DevFloatingButton').then((module) => ({ default: module.DevFloatingButton }))) : null;
-const DevGodModeModal = import.meta.env.DEV ? React.lazy(() => import('./components/dev/DevGodModeModal').then((module) => ({ default: module.DevGodModeModal }))) : null;
-const PerformanceOverlay = import.meta.env.DEV ? React.lazy(() => import('./components/dev/PerformanceOverlay').then((module) => ({ default: module.PerformanceOverlay }))) : null;
+const reviewToolsEnabled = import.meta.env.DEV || parentFeatureFlags.demoAccess;
+const AudioDebugOverlay = reviewToolsEnabled ? React.lazy(() => import('./components/dev/AudioDebugOverlay').then((module) => ({ default: module.AudioDebugOverlay }))) : null;
+const DevFloatingButton = reviewToolsEnabled ? React.lazy(() => import('./components/dev/DevFloatingButton').then((module) => ({ default: module.DevFloatingButton }))) : null;
+const DevGodModeModal = reviewToolsEnabled ? React.lazy(() => import('./components/dev/DevGodModeModal').then((module) => ({ default: module.DevGodModeModal }))) : null;
+const PerformanceOverlay = reviewToolsEnabled ? React.lazy(() => import('./components/dev/PerformanceOverlay').then((module) => ({ default: module.PerformanceOverlay }))) : null;
 
 export const App: React.FC = () => {
   const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage, isLessonRunning, startLesson, closeLesson, activePlanetId } = useGameStore();
@@ -35,7 +37,7 @@ export const App: React.FC = () => {
   const lastInteraction = useRef(Date.now()); const continuousStart = useRef(Date.now()); const warningsShown = useRef(new Set<number>());
   const recordUsageTick = useParentZoneStore((state) => state.recordUsageTick);
   const activeChildProfile = useParentZoneStore((state) => state.profiles.find((profile) => profile.id === state.activeProfileId));
-  const showDevTools = import.meta.env.DEV;
+  const showDevTools = reviewToolsEnabled;
 
   useEffect(() => {
     loadFromLocalStorage();
