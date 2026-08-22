@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "dialogues": [
+    {
+      "id": "fire.opening",
+      "file": "/content/dialogue/fire-opening.json",
+      "entryKnot": "opening",
+      "sourceHash": "f8c1fd7579b24de57ae7a704d4ba6e5b5ea81142aa0f316b93c9a32814ef4253"
+    }
+  ]
+}
