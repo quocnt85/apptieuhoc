@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
+import { useParentZoneStore } from '../../stores/useParentZoneStore';
 import { soundService } from '../../services/audio';
 import { 
   Wrench, 
@@ -71,6 +72,22 @@ export const DevGodModeModal: React.FC<DevGodModeModalProps> = ({ onOpenShowroom
       setEnergy(val);
       showNotification(`Đã đặt Năng Lượng = ${val} ⚡`);
     }
+  };
+
+  const prepareManualReview = () => {
+    setEnergy(999);
+    setNovaCoins(99_999);
+    setDiamonds(9_999);
+    setLevel(20);
+    unlockAllPlanetNodes();
+    unlockAllCosmetics();
+    setGreetingQuestDone(true);
+    if (!isUnlimitedMode) toggleUnlimitedMode();
+    const parent = useParentZoneStore.getState();
+    if (parent.profiles.length < 2) {
+      parent.createProfile({ name: 'Hồ sơ Review B', grade: 4, avatar: '👩‍🚀' });
+    }
+    showNotification('Đã sẵn sàng: full tài nguyên, nội dung, tàu và 2 hồ sơ review.');
   };
 
   return (
@@ -440,6 +457,25 @@ export const DevGodModeModal: React.FC<DevGodModeModalProps> = ({ onOpenShowroom
               <label className="text-xs font-black text-sky-300 uppercase tracking-wider block">
                 Vượt Màn & Mở Khóa Nội Dung
               </label>
+
+              <button
+                onClick={prepareManualReview}
+                data-testid="dev-prepare-review-btn"
+                className="w-full p-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 text-slate-950 font-black text-xs sm:text-sm shadow-lg flex items-center justify-between active:scale-95 transition-all"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Check className="w-5 h-5" />
+                  <div className="text-left">
+                    <div>Chuẩn Bị Manual Review · 1 Chạm</div>
+                    <div className="text-[10px] text-amber-950/80 font-bold">Full tài nguyên · mở bài/tàu · tạo hồ sơ B · không cần cày</div>
+                  </div>
+                </div>
+                <span>✓ Chạy</span>
+              </button>
+
+              <div className="rounded-xl border border-cyan-700/60 bg-cyan-950/40 p-3 text-[11px] text-cyan-100">
+                Góc Phụ Huynh và Space ID dùng mật khẩu review <strong>1234</strong> hoặc <strong>123456</strong> trong môi trường demo.
+              </div>
 
               {/* Instant Complete Current Lesson */}
               <button
