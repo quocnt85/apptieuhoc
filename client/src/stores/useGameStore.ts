@@ -4,6 +4,7 @@ import { soundService } from '../services/audio';
 import { DOMAINS_DATA, INITIAL_QUESTIONS } from '../data/mockQuestions';
 import { PLANETS_DATA } from '../data/planetsData';
 import { useParentZoneStore } from './useParentZoneStore';
+import { clearAllPersonalizationData } from '../services/personalization/personalizationLifecycle';
 
 export interface MiniGameProgress {
   lastFreeRunDate: string | null;
@@ -1023,6 +1024,9 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   resetAllProgress: () => {
     soundService.playClick();
+    void clearAllPersonalizationData().catch((error) => {
+      if (import.meta.env.DEV) console.warn('Could not clear local personalization media during reset.', error);
+    });
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem('novastars_quest_greeting_done');
     localStorage.removeItem('novastars_app_state_v1');

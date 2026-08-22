@@ -1,6 +1,17 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
+  readonly VITE_ENABLE_LOCAL_MEDIA_FOUNDATION?: string;
+  readonly VITE_ENABLE_PHOTO_AVATAR?: string;
+  readonly VITE_ENABLE_TERRITORY_FLAG?: string;
+  readonly VITE_ENABLE_EXPLORER_FLAG_DECAL?: string;
+  readonly VITE_ENABLE_CAPTAIN_ID_EXPORT?: string;
+  readonly VITE_ENABLE_SHIP_VFX?: string;
+  readonly VITE_ENABLE_PETS?: string;
+  readonly VITE_ENABLE_CAPTAIN_CABIN?: string;
+}
+
+interface ImportMetaEnv {
   readonly VITE_API_BASE_URL?: string;
   readonly VITE_REVENUECAT_IOS_API_KEY?: string;
   readonly VITE_REVENUECAT_ANDROID_API_KEY?: string;

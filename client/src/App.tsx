@@ -14,6 +14,9 @@ import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
 import { PLANETS_DATA } from './data/planetsData';
 import { ParentDashboard } from './components/dashboard/ParentDashboard';
 import { getPlayLimitStatus, useParentZoneStore } from './stores/useParentZoneStore';
+import { initializeCameraRestore } from './services/personalization/cameraCapture';
+import { initializeParentGate } from './services/personalization/parentGate';
+import { initializePersonalizationFoundation } from './services/personalization/personalizationLifecycle';
 
 const AudioDebugOverlay = import.meta.env.DEV ? React.lazy(() => import('./components/dev/AudioDebugOverlay').then((module) => ({ default: module.AudioDebugOverlay }))) : null;
 const DevFloatingButton = import.meta.env.DEV ? React.lazy(() => import('./components/dev/DevFloatingButton').then((module) => ({ default: module.DevFloatingButton }))) : null;
@@ -37,7 +40,16 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     loadFromLocalStorage();
+    initializeParentGate();
+    initializeCameraRestore();
   }, [loadFromLocalStorage]);
+
+  useEffect(() => {
+    if (!activeChildProfile?.id) return;
+    void initializePersonalizationFoundation(activeChildProfile.id).catch((error) => {
+      if (import.meta.env.DEV) console.warn('Personalization media reconciliation failed.', error);
+    });
+  }, [activeChildProfile?.id]);
 
   useEffect(() => {
     if (!activeChildProfile) return;
