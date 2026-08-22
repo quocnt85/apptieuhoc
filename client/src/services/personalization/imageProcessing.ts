@@ -50,7 +50,8 @@ export const processLocalImage = async (input: Blob, options: ImageProcessOption
     context.drawImage(decoded.source, (decoded.width - cropWidth) / 2, (decoded.height - cropHeight) / 2, cropWidth, cropHeight, 0, 0, outputWidth, outputHeight);
     const mimeType = options.outputMimeType ?? 'image/webp';
     const blob = await canvasToBlob(canvas, mimeType, options.quality ?? 0.86);
-    return { blob, mimeType, width: outputWidth, height: outputHeight };
+    const encodedMimeType = ALLOWED_MIME.has(blob.type) ? blob.type as ProcessedImage['mimeType'] : mimeType;
+    return { blob, mimeType: encodedMimeType, width: outputWidth, height: outputHeight };
   } finally {
     decoded.close();
   }

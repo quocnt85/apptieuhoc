@@ -7,7 +7,7 @@ const STORE_NAME = 'media';
 const ROOT = 'personalization';
 const EXPORT_ROOT = 'personalization-export';
 
-type MediaRecord = { key: string; blob: Blob; childId: string; area: MediaStorageArea; createdAt: number };
+type MediaRecord = { key: string; blob?: Blob; data?: ArrayBuffer; mimeType: string; childId: string; area: MediaStorageArea; createdAt: number };
 
 export interface MediaStorageAdapter {
   write(asset: ProcessedImage, target: MediaTarget): Promise<StoredMedia>;
@@ -65,14 +65,19 @@ export class IndexedDbMediaStorage implements MediaStorageAdapter {
   async write(asset: ProcessedImage, target: MediaTarget) {
     const key = keyFor(target, asset.mimeType);
     const { area } = parseKey(key);
-    await withStore('readwrite', (store) => store.put({ key, blob: asset.blob, childId: target.childId, area, createdAt: Date.now() } satisfies MediaRecord));
+    // ArrayBuffer is used instead of Blob because older WebKit builds cannot
+    // structured-clone Blob/File values into IndexedDB reliably.
+    const data = await asset.blob.arrayBuffer();
+    await withStore('readwrite', (store) => store.put({ key, data, mimeType: asset.mimeType, childId: target.childId, area, createdAt: Date.now() } satisfies MediaRecord));
     return { relativePath: key, area, byteSize: asset.blob.size };
   }
 
   async read(relativePath: string) {
     const record = await withStore<MediaRecord | undefined>('readonly', (store) => store.get(relativePath));
-    if (!record?.blob) throw new Error('Local media file is missing.');
-    return record.blob;
+    if (!record) throw new Error('Local media file is missing.');
+    if (record.blob) return record.blob; // Migration support for early Phase 0 records.
+    if (record.data) return new Blob([record.data], { type: record.mimeType });
+    throw new Error('Local media file is missing.');
   }
 
   async getRenderableUri(relativePath: string) { return URL.createObjectURL(await this.read(relativePath)); }
@@ -171,8 +176,8 @@ export class NativeMediaStorage implements MediaStorageAdapter {
 
 export class MemoryMediaStorage implements MediaStorageAdapter {
   private records = new Map<string, MediaRecord>();
-  async write(asset: ProcessedImage, target: MediaTarget) { const key = keyFor(target, asset.mimeType); const { area } = parseKey(key); this.records.set(key, { key, blob: asset.blob, childId: target.childId, area, createdAt: Date.now() }); return { relativePath: key, area, byteSize: asset.blob.size }; }
-  async read(path: string) { const value = this.records.get(path); if (!value) throw new Error('Local media file is missing.'); return value.blob; }
+  async write(asset: ProcessedImage, target: MediaTarget) { const key = keyFor(target, asset.mimeType); const { area } = parseKey(key); this.records.set(key, { key, blob: asset.blob, mimeType: asset.mimeType, childId: target.childId, area, createdAt: Date.now() }); return { relativePath: key, area, byteSize: asset.blob.size }; }
+  async read(path: string) { const value = this.records.get(path); if (!value?.blob) throw new Error('Local media file is missing.'); return value.blob; }
   async getRenderableUri(path: string) { return `memory://${encodeURIComponent(path)}`; }
   async delete(path: string) { this.records.delete(path); }
   async list(childId: string) { return [...this.records.values()].filter((item) => item.childId === childId).map((item) => item.key); }

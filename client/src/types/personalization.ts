@@ -3,6 +3,7 @@ export const PERSONALIZATION_SCHEMA_VERSION = 3 as const;
 export type MediaAssetKind = 'AVATAR_SOURCE' | 'FLAG_SOURCE' | 'SIGNATURE' | 'CARD_EXPORT';
 export type MediaStorageArea = 'library' | 'cache';
 export type FlagReviewStatus = 'NONE' | 'DRAFT_LOCAL' | 'PENDING_PARENT_REVIEW' | 'APPROVED_LOCAL' | 'REJECTED';
+export type AvatarCosmeticSlot = 'OUTFIT' | 'HEADGEAR' | 'ACCESSORY' | 'FRAME' | 'BACKGROUND';
 
 export interface ProcessedImage {
   blob: Blob;
@@ -41,9 +42,12 @@ export interface LocalMediaAsset {
 export interface ChildPersonalization {
   childId: string;
   avatarAssetId: string | null;
+  avatarMode: 'PRESET' | 'PHOTO';
   flagAssetId: string | null;
   flagReviewStatus: FlagReviewStatus;
   flagReviewNote: string | null;
+  unlockedCosmeticIds: string[];
+  equippedCosmetics: Partial<Record<AvatarCosmeticSlot, string>>;
   updatedAt: number;
 }
 

@@ -31,7 +31,7 @@ export const initializeCameraRestore = () => {
 
 export const subscribeToRestoredCapture = (listener: (result: CapturedImage) => void) => {
   initializeCameraRestore(); pendingRestoredListeners.add(listener);
-  return () => pendingRestoredListeners.delete(listener);
+  return () => { pendingRestoredListeners.delete(listener); };
 };
 
 export const captureLocalImage = async (source: CaptureSource = 'prompt'): Promise<CapturedImage> => {
