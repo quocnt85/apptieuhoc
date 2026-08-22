@@ -246,7 +246,7 @@ export const Planet3DView: React.FC<Props> = ({ onStartLesson }) => {
             ) : (
               <span className="text-amber-400 flex items-center gap-1 font-bold" data-testid="planet-status-badge">
                 <Lock className="w-3 h-3 text-amber-400" />
-                <span>Chưa Mở Khóa • Thám Hiểm 3D</span>
+                <span>Chưa Mở Khóa</span>
               </span>
             )}
           </div>

@@ -1,6 +1,7 @@
 import { App as CapacitorApp } from '@capacitor/app';
 import { parentApi } from '../parentApi';
 import type { ParentGatePort, ParentGatePurpose, ParentGateSession } from '../../types/personalization';
+import { PARENT_DEMO_PASSWORD, parentFeatureFlags } from '../../config/parentFeatureFlags';
 
 const DEFAULT_SESSION_MS = 3 * 60_000;
 
@@ -29,6 +30,11 @@ export class ParentGateService implements ParentGatePort {
     if (!forceReauthentication) {
       const existing = this.getSession();
       if (existing) return existing;
+    }
+    if (parentFeatureFlags.demoAccess) {
+      if (pin !== PARENT_DEMO_PASSWORD) throw new Error('Mật khẩu demo không đúng.');
+      this.markAuthenticated(Date.now() + 30 * 60_000);
+      return this.session!;
     }
     const result = await this.verifyPin(pin);
     const parsed = result.unlockedUntil ? Date.parse(result.unlockedUntil) : Number.NaN;

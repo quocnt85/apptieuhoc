@@ -5,6 +5,7 @@ import { soundService } from '../../services/audio';
 import { interactionService } from '../../services/interaction';
 import { AvatarComposer } from '../personalization/AvatarComposer';
 import { useParentZoneStore } from '../../stores/useParentZoneStore';
+import { ProfileView } from './ProfileView';
 
 interface Props {
   onNavigateToMap: () => void;
@@ -210,6 +211,8 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
           ))}
         </div>
       </div>
+
+      <ProfileView embedded />
 
     </div>
   );

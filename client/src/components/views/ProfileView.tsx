@@ -9,7 +9,11 @@ import { TerritoryFlagStudio } from '../personalization/TerritoryFlagStudio';
 import { PERSONALIZATION_FEATURE_FLAGS } from '../../config/personalizationFeatureFlags';
 import { CaptainIdStudio } from '../personalization/CaptainIdStudio';
 
-export const ProfileView: React.FC = () => {
+interface ProfileViewProps {
+  embedded?: boolean;
+}
+
+export const ProfileView: React.FC<ProfileViewProps> = ({ embedded = false }) => {
   const { user, completedNodes } = useGameStore();
   const activeChildId = useParentZoneStore((state) => state.activeProfileId);
   const isCompletedNode1 = Boolean(completedNodes['island_1_node_1']);
@@ -22,7 +26,10 @@ export const ProfileView: React.FC = () => {
   const currentAvatar = user.avatar === '🚀' ? '👨‍🚀' : user.avatar;
 
   return (
-    <div className="flex-1 p-4 sm:p-6 flex flex-col gap-4 overflow-y-auto pb-24 animate-fadeIn bg-gradient-to-b from-[#050814] via-[#0b1026] to-[#160e33] text-white select-none">
+    <section className={embedded
+      ? 'flex flex-col gap-4 text-white'
+      : 'flex-1 p-4 sm:p-6 flex flex-col gap-4 overflow-y-auto pb-24 animate-fadeIn bg-gradient-to-b from-[#050814] via-[#0b1026] to-[#160e33] text-white select-none'}>
+      {embedded && <h2 className="px-1 text-lg font-black text-sky-200">Hồ sơ học sinh</h2>}
       {/* Cosmonaut Profile Card */}
       <div className="p-6 text-center bg-slate-900/90 backdrop-blur-xl border-2 border-sky-400/50 shadow-[0_12px_32px_rgba(56,189,248,0.2)] rounded-[32px] relative overflow-hidden">
         <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-sky-400/20 to-transparent -z-10" />
@@ -119,6 +126,6 @@ export const ProfileView: React.FC = () => {
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

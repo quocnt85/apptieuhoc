@@ -8,7 +8,7 @@ const openStudio = async (page: Page) => {
     await start.click({ force: true });
     await start.waitFor({ state: 'hidden', timeout: 6_000 }).catch(() => undefined);
   } catch { /* FTUE was already completed. */ }
-  await page.locator('button:has-text("Hồ Sơ")').first().click({ force: true });
+  await page.locator('button:has-text("HQ")').first().click({ force: true });
   await page.getByRole('button', { name: 'Mở xưởng avatar' }).click();
   await expect(page.getByRole('dialog', { name: 'Xưởng avatar' })).toBeVisible();
 };
@@ -28,7 +28,7 @@ test.describe('Personalization avatar and wardrobe', () => {
     expect(await page.evaluate(() => (window as any).__gameStore.getState().user.novaCoins)).toBe(110);
 
     await page.reload();
-    await page.locator('button:has-text("Hồ Sơ")').first().click({ force: true });
+    await page.locator('button:has-text("HQ")').first().click({ force: true });
     await page.getByRole('button', { name: 'Mở xưởng avatar' }).click();
     await page.getByRole('button', { name: 'Mũ', exact: true }).click();
     await expect(page.getByRole('button', { name: /Mũ Sao Băng/ })).toContainText('Đã sở hữu');
@@ -42,7 +42,7 @@ test.describe('Personalization avatar and wardrobe', () => {
     await expect(page.getByRole('dialog', { name: 'Xưởng avatar' }).getByAltText('Avatar local')).toBeVisible();
 
     await page.reload();
-    await page.locator('button:has-text("Hồ Sơ")').first().click({ force: true });
+    await page.locator('button:has-text("HQ")').first().click({ force: true });
     await expect(page.getByRole('button', { name: 'Mở xưởng avatar' }).getByAltText('Avatar local')).toBeVisible();
   });
 });

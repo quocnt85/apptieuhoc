@@ -6,7 +6,6 @@ import { HomeView } from './components/views/HomeView';
 import { Planet3DView } from './components/views/Planet3DView';
 import { SpaceHangarView } from './components/views/SpaceHangarView';
 import { SpaceShowroomView } from './components/views/SpaceShowroomView';
-import { ProfileView } from './components/views/ProfileView';
 import { AsteroidRunnerGame } from './components/game/AsteroidRunnerGame';
 import { VercelHeader } from './components/ui/VercelHeader';
 import { VercelBottomNav, VercelTab } from './components/ui/VercelBottomNav';
@@ -111,15 +110,13 @@ export const App: React.FC = () => {
   const getHeaderTitle = () => {
     switch (activeTab) {
       case 'home':
-        return 'Hành Tinh Tri Thức';
+        return 'Trung tâm chỉ huy';
       case 'planet':
         return currentPlanet.titleVi;
       case 'showroom':
         return 'Phòng Duyệt 3D';
       case 'hangar':
         return 'Xưởng Tàu Không Gian';
-      case 'profile':
-        return 'Hồ Sơ Phi Hành Gia';
       case 'minigame':
         return 'Vượt Dải Thiên Thạch';
       case 'parent':
@@ -166,7 +163,6 @@ export const App: React.FC = () => {
                   {activeTab === 'hangar' && (
                     <SpaceHangarView />
                   )}
-                  {activeTab === 'profile' && <ProfileView />}
                   {activeTab === 'minigame' && (
                     <AsteroidRunnerGame onExit={() => navigate('home')} />
                   )}

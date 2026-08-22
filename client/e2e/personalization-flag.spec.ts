@@ -5,7 +5,7 @@ const openFlagStudio = async (page: Page) => {
   const start = page.locator('button:has-text("Bắt Đầu Ngay 🚀"), button:has-text("Bắt Đầu")');
   try { await start.waitFor({ state: 'visible', timeout: 12_000 }); await start.click({ force: true }); }
   catch { /* FTUE was already completed. */ }
-  await page.locator('button:has-text("Hồ Sơ")').first().click({ force: true });
+  await page.locator('button:has-text("HQ")').first().click({ force: true });
   await page.getByTestId('open-flag-studio').click();
   await expect(page.getByRole('dialog', { name: 'Xưởng cờ lãnh địa' })).toBeVisible();
 };
@@ -22,7 +22,7 @@ test('territory flag stays local and cannot apply before parent approval', async
   await expect(dialog).toContainText('Cờ chưa được gắn lên hành tinh');
 
   await page.reload();
-  await page.locator('button:has-text("Hồ Sơ")').first().click({ force: true });
+  await page.locator('button:has-text("HQ")').first().click({ force: true });
   await page.getByTestId('open-flag-studio').click();
   const restoredDialog = page.getByRole('dialog', { name: 'Xưởng cờ lãnh địa' });
   await expect(restoredDialog).toContainText('Đang chờ phụ huynh duyệt');
@@ -38,8 +38,8 @@ test('territory flag stays local and cannot apply before parent approval', async
   await page.evaluate(() => sessionStorage.setItem('novastars_parent_session', 'e2e-token'));
   await restoredDialog.getByRole('button', { name: 'Đóng xưởng cờ' }).click();
   await page.locator('button:has-text("Phụ Huynh")').last().click({ force: true });
-  await page.getByPlaceholder('PIN phụ huynh 6 số').fill('123456');
-  await page.getByRole('button', { name: 'Mở khóa' }).click();
+  await page.getByPlaceholder('Mật khẩu demo').fill('1234');
+  await page.getByRole('button', { name: 'Vào Góc phụ huynh' }).click();
   await page.getByRole('button', { name: 'Cá nhân hóa' }).click();
   await expect(page.getByText('Đang chờ duyệt')).toBeVisible();
   await page.getByRole('button', { name: 'Duyệt & áp dụng' }).click();

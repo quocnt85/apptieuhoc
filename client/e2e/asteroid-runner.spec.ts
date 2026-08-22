@@ -26,7 +26,7 @@ async function enterHome(page: Page) {
   } catch {
     // Persisted test context may already have completed FTUE.
   }
-  await page.getByRole('button', { name: /Trang Chủ/ }).click({ force: true });
+  await page.getByRole('button', { name: /HQ/ }).click({ force: true });
   await expect(page.getByText('Thử Thách Phi Thuyền', { exact: true })).toBeVisible({ timeout: 10_000 });
 }
 
