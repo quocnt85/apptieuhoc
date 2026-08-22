@@ -400,18 +400,20 @@ Persisted state không chứa `parentPin`, `parentPinHash`, OTP hoặc RevenueCa
 
 | Method | Endpoint | Chức năng |
 | :--- | :--- | :--- |
-| `POST` | `/api/v1/parent/register` | Tạo tài khoản, gửi email verify |
-| `POST` | `/api/v1/parent/verify-email` | Xác minh email |
+| `POST` | `/api/v1/auth/register` | Tạo tài khoản, gửi email verify |
+| `POST` | `/api/v1/auth/verify-email` | Xác minh email và tạo session |
+| `POST` | `/api/v1/auth/pin-reset/request` | Tạo OTP reset |
+| `POST` | `/api/v1/auth/pin-reset/confirm` | Xác minh OTP, đổi PIN và xoay session |
+| `POST` | `/api/v1/auth/session/refresh` | Xoay access/refresh token |
 | `POST` | `/api/v1/parent/pin/setup` | Thiết lập PIN 6 số |
 | `POST` | `/api/v1/parent/pin/verify` | Mở Parent Zone/re-auth |
-| `POST` | `/api/v1/parent/pin/reset/request` | Tạo OTP reset |
-| `POST` | `/api/v1/parent/pin/reset/confirm` | Xác minh OTP và đổi PIN |
-| `POST` | `/api/v1/child-slots` | Tạo opaque wallet slot |
-| `DELETE` | `/api/v1/child-slots/:id` | Đóng slot, hoàn số dư về vault |
-| `GET` | `/api/v1/wallets` | Lấy vault và child balances |
-| `POST` | `/api/v1/rewards/approve` | Chuyển Kim Cương idempotent |
-| `POST` | `/api/v1/items/purchase` | Debit child diamonds, cấp entitlement |
-| `GET` | `/api/v1/subscription` | Lấy entitlement hiện tại |
+| `POST` | `/api/v1/parent/logout` | Thu hồi session hiện tại |
+| `POST` | `/api/v1/parent/child-slots` | Tạo opaque wallet slot |
+| `DELETE` | `/api/v1/parent/child-slots/:childSlotId` | Đóng slot, hoàn số dư về vault |
+| `GET` | `/api/v1/parent/wallets` | Lấy vault và child balances |
+| `POST` | `/api/v1/parent/rewards/approve` | Chuyển Kim Cương idempotent |
+| `POST` | `/api/v1/parent/items/purchase` | Debit child diamonds, cấp entitlement |
+| `GET` | `/api/v1/parent/subscriptions` | Lấy entitlement hiện tại |
 | `POST` | `/api/v1/webhooks/revenuecat` | Nhận RevenueCat event có xác thực |
 | `DELETE` | `/api/v1/parent/account` | Bắt đầu xóa tài khoản |
 
@@ -448,7 +450,7 @@ Màn hình trẻ không hiển thị parent vault, giá tiền thật, offering 
 
 | Mã | Given/When/Then |
 | :--- | :--- |
-| `AC-PIN-01` | Given Parent Zone khóa, when nhập đúng PIN 6 số, then server tạo parent session và mở zone. |
+| `AC-PIN-01` | Given đã có parent session hợp lệ và Parent Zone đang khóa, when nhập đúng PIN 6 số, then server ghi fresh re-auth window và mở zone; session gốc được tạo khi xác minh email hoặc xoay qua refresh/reset. |
 | `AC-PIN-02` | Given nhập sai 5 lần, when thử tiếp, then server từ chối theo lockout trên mọi client. |
 | `AC-PIN-03` | Given zone đang mở, when app background hoặc idle 3 phút, then session khóa. |
 | `AC-PIN-04` | Given persisted local state, when kiểm tra storage, then không có PIN, verifier hoặc OTP. |

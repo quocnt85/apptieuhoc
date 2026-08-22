@@ -9,13 +9,24 @@
     "deploy:staging": "wrangler deploy --env staging",
     "deploy:dry-run": "wrangler deploy --dry-run --env staging",
     "types": "wrangler types",
+    "types:check": "wrangler types --check",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "node --test scripts/*.node-test.mjs && vitest run",
+    "test:watch": "vitest",
+    "migrations:check": "node --env-file-if-exists=.dev.vars scripts/migrate.mjs --check",
+    "migrate": "node --env-file-if-exists=.dev.vars scripts/migrate.mjs",
+    "database:verify": "node --env-file-if-exists=.dev.vars scripts/verify-database.mjs",
+    "database:provision-runtime-role": "node --env-file-if-exists=.dev.vars scripts/provision-runtime-role.mjs",
+    "test:integration:db": "node --env-file-if-exists=.dev.vars scripts/database-integration.mjs",
+    "shared-demo:provision": "npm run migrate && npm run database:verify",
+    "smoke:staging": "node --env-file-if-exists=.dev.vars scripts/staging-smoke.mjs",
+    "smoke:staging:auth": "node --env-file-if-exists=.dev.vars scripts/staging-auth-smoke.mjs",
+    "verify:staging": "npm run migrations:check && npm run types:check && npm run typecheck && npm test && npm run deploy:dry-run"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
     "hono": "^4.13.3",
+    "postgres": "^3.4.9",
     "zod": "^4.4.3"
   },
   "devDependencies": {

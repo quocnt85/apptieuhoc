@@ -10,23 +10,11 @@
     "ALLOWED_ORIGINS": "http://localhost:3000,https://localhost,capacitor://localhost",
     "EMAIL_FROM": "security@novastars.vn",
     "EMAIL_DELIVERY_MODE": "console",
+    "DEMO_AUTH_ENABLED": "true",
     "PARENT_ZONE_ENABLED": "true",
     "REAL_LIFE_REWARDS_ENABLED": "true",
     "PARENT_IAP_ENABLED": "false"
   },
-  "r2_buckets": [
-    {
-      "binding": "CONTENT_BUCKET",
-      "bucket_name": "novastars-content-preview",
-      "remote": true
-    }
-  ],
-  "send_email": [
-    {
-      "name": "EMAIL",
-      "allowed_sender_addresses": ["security@novastars.vn"]
-    }
-  ],
   "observability": {
     "enabled": true,
     "logs": { "head_sampling_rate": 1 },
@@ -37,37 +25,39 @@
   "env": {
     "staging": {
       "name": "novastars-api-staging",
+      "workers_dev": true,
+      "preview_urls": false,
       "vars": {
         "ENVIRONMENT": "staging",
         "API_VERSION": "v1",
         "ALLOWED_ORIGINS": "https://staging.novastars.vn,https://localhost,capacitor://localhost",
         "EMAIL_FROM": "security@novastars.vn",
-        "EMAIL_DELIVERY_MODE": "binding",
+        "EMAIL_DELIVERY_MODE": "disabled",
+        "DEMO_AUTH_ENABLED": "true",
         "PARENT_ZONE_ENABLED": "true",
         "REAL_LIFE_REWARDS_ENABLED": "true",
         "PARENT_IAP_ENABLED": "false"
       },
-      "r2_buckets": [
+      "r2_buckets": [],
+      "send_email": [],
+      "hyperdrive": [
         {
-          "binding": "CONTENT_BUCKET",
-          "bucket_name": "novastars-content-preview"
-        }
-      ],
-      "send_email": [
-        {
-          "name": "EMAIL",
-          "allowed_sender_addresses": ["security@novastars.vn"]
+          "binding": "HYPERDRIVE",
+          "id": "3ccaff54ff564d618c64daecde8ea358"
         }
       ]
     },
     "production": {
       "name": "novastars-api-production",
+      "workers_dev": false,
+      "preview_urls": false,
       "vars": {
         "ENVIRONMENT": "production",
         "API_VERSION": "v1",
         "ALLOWED_ORIGINS": "https://app.novastars.vn,https://localhost,capacitor://localhost",
         "EMAIL_FROM": "security@novastars.vn",
         "EMAIL_DELIVERY_MODE": "binding",
+        "DEMO_AUTH_ENABLED": "false",
         "PARENT_ZONE_ENABLED": "true",
         "REAL_LIFE_REWARDS_ENABLED": "true",
         "PARENT_IAP_ENABLED": "false"

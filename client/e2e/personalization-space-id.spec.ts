@@ -10,9 +10,11 @@ test('Space ID renders at export size and requires a fresh parent PIN', async ({
   await page.getByTestId('open-space-id').click();
   const preview = page.getByAltText('Xem trước Space ID'); await expect(preview).toBeVisible();
   expect(await preview.evaluate((image: HTMLImageElement) => [image.naturalWidth,image.naturalHeight])).toEqual([1080,1920]);
-  page.once('dialog', (dialog) => dialog.accept('1234'));
-  const downloadPromise = page.waitForEvent('download');
   await page.getByTestId('export-space-id').click();
+  const reauth = page.getByRole('dialog', { name: 'Xác thực lại phụ huynh' });
+  await reauth.getByLabel('Mật khẩu demo').fill('1234');
+  const downloadPromise = page.waitForEvent('download');
+  await reauth.getByRole('button', { name: 'Xác nhận' }).click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toMatch(/^novastars-space-id-\d{4}-\d{2}-\d{2}\.png$/);
   expect(pinChecks).toBe(0);

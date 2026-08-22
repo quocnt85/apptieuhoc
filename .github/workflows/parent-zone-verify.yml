@@ -1,0 +1,137 @@
+name: Parent Zone verification
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+      - run: npm run migrations:check
+      - run: npm run typecheck
+      - run: npm test
+      - name: Detect optional Neon integration secret
+        id: neon-integration
+        shell: bash
+        env:
+          NEON_INTEGRATION_DATABASE_URL: ${{ secrets.NEON_INTEGRATION_DATABASE_URL }}
+        run: |
+          if [ -n "$NEON_INTEGRATION_DATABASE_URL" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Test isolated schema on Neon
+        if: steps.neon-integration.outputs.available == 'true'
+        env:
+          NEON_INTEGRATION_DATABASE_URL: ${{ secrets.NEON_INTEGRATION_DATABASE_URL }}
+        run: npm run test:integration:db
+
+  client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    env:
+      VITE_API_BASE_URL: https://novastars-api-staging.novastar-8c7.workers.dev
+      VITE_DEPLOYMENT_ENV: staging
+      VITE_PARENT_DEMO_ACCESS: "true"
+      VITE_PARENT_IAP_ENABLED: "false"
+      VITE_ENABLE_PENDING_HEALTH_CONTENT: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      - run: npm run test:unit
+      - run: npm run build
+
+  client-e2e:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    env:
+      VITE_DEPLOYMENT_ENV: demo
+      VITE_PARENT_DEMO_ACCESS: "true"
+      VITE_PARENT_IAP_ENABLED: "false"
+      VITE_ENABLE_PENDING_HEALTH_CONTENT: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Parent Zone demo regression
+        run: npx playwright test daily-quests.spec.ts screen-time.spec.ts personalization-flag.spec.ts parent-privacy-accessibility.spec.ts personalization-space-id.spec.ts parent-observability.spec.ts
+      - name: Future email/PIN reset regression
+        run: npm run test:e2e:parent-auth
+
+  native-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: client
+    env:
+      VITE_API_BASE_URL: https://novastars-api-staging.novastar-8c7.workers.dev
+      VITE_DEPLOYMENT_ENV: staging
+      VITE_PARENT_DEMO_ACCESS: "true"
+      VITE_PARENT_IAP_ENABLED: "false"
+      VITE_ENABLE_PENDING_HEALTH_CONTENT: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+      - run: npm ci
+      - run: npm run build
+      - name: Sync and verify byte-identical native web assets
+        run: npm run cap:sync
+      - name: Lint, test and package Android app
+        run: bash ./gradlew :app:lintDebug :app:testDebugUnitTest :app:assembleDebug :app:lintRelease :app:bundleRelease
+        working-directory: client/android
+      - name: Audit Android debug APK
+        run: npm run check:android-bundle-safety -- android/app/build/outputs/apk/debug/app-debug.apk
+      - name: Audit Android release bundle
+        run: npm run check:android-bundle-safety -- android/app/build/outputs/bundle/release/app-release.aab
+      - name: Upload Android build evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: novastars-parent-zone-android-build-evidence
+          path: |
+            client/android/app/build/outputs/apk/debug/app-debug.apk
+            client/android/app/build/outputs/bundle/release/app-release.aab
+            client/android/app/build/reports/lint-results-debug.html
+            client/android/app/build/reports/lint-results-debug.xml
+            client/android/app/build/reports/lint-results-release.html
+            client/android/app/build/reports/lint-results-release.xml
+            client/android/app/build/test-results/testDebugUnitTest/
+          if-no-files-found: error
+          retention-days: 7

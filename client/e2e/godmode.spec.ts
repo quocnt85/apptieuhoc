@@ -285,7 +285,7 @@ test.describe('Dev God Mode & Performance Monitoring E2E Tests', () => {
     await page.locator('button:has-text("Phụ Huynh")').last().click({ force: true });
     await page.getByPlaceholder('Mật khẩu demo').fill('1234');
     await page.getByRole('button', { name: 'Vào Góc phụ huynh' }).click();
-    await page.getByRole('button', { name: 'Hồ sơ' }).click();
+    await page.getByRole('tab', { name: 'Hồ sơ' }).click();
     await expect(page.getByText('Hồ sơ Review B')).toBeVisible();
   });
 });

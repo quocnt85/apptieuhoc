@@ -1,0 +1,219 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "NovaStars Parent Zone API",
+    "version": "1.0.0",
+    "description": "Contract for parent authentication, opaque child wallet slots, wallets, rewards, purchases, subscriptions and account deletion. Child profile, learning, usage and media data are intentionally absent."
+  },
+  "servers": [{ "url": "/" }],
+  "tags": [
+    { "name": "Parent Auth" },
+    { "name": "Parent Finance" },
+    { "name": "Purchase Provider" }
+  ],
+  "paths": {
+    "/api/v1/auth/register": {
+      "post": {
+        "operationId": "registerParent",
+        "tags": ["Parent Auth"],
+        "requestBody": { "$ref": "#/components/requestBodies/RegisterParent" },
+        "responses": { "200": { "$ref": "#/components/responses/OtpRequested" }, "422": { "$ref": "#/components/responses/Error" }, "429": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/verify-email": {
+      "post": {
+        "operationId": "verifyParentEmail",
+        "tags": ["Parent Auth"],
+        "requestBody": { "$ref": "#/components/requestBodies/VerifyEmail" },
+        "responses": { "200": { "$ref": "#/components/responses/SessionCreated" }, "422": { "$ref": "#/components/responses/Error" }, "429": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/pin-reset/request": {
+      "post": {
+        "operationId": "requestPinReset",
+        "tags": ["Parent Auth"],
+        "requestBody": { "$ref": "#/components/requestBodies/EmailOnly" },
+        "responses": { "200": { "$ref": "#/components/responses/OtpRequested" }, "422": { "$ref": "#/components/responses/Error" }, "429": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/pin-reset/confirm": {
+      "post": {
+        "operationId": "confirmPinReset",
+        "tags": ["Parent Auth"],
+        "requestBody": { "$ref": "#/components/requestBodies/ConfirmPinReset" },
+        "responses": { "200": { "$ref": "#/components/responses/Success" }, "422": { "$ref": "#/components/responses/Error" }, "429": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/auth/session/refresh": {
+      "post": {
+        "operationId": "refreshParentSession",
+        "tags": ["Parent Auth"],
+        "requestBody": { "$ref": "#/components/requestBodies/RefreshSession" },
+        "responses": { "200": { "$ref": "#/components/responses/SessionRefreshed" }, "401": { "$ref": "#/components/responses/Error" }, "422": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/pin/setup": {
+      "post": {
+        "operationId": "setupParentPin",
+        "tags": ["Parent Auth"],
+        "security": [{ "parentSession": [] }],
+        "requestBody": { "$ref": "#/components/requestBodies/PinOnly" },
+        "responses": { "200": { "$ref": "#/components/responses/Success" }, "401": { "$ref": "#/components/responses/Error" }, "409": { "$ref": "#/components/responses/Error" }, "422": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/pin/verify": {
+      "post": {
+        "operationId": "verifyParentPin",
+        "tags": ["Parent Auth"],
+        "security": [{ "parentSession": [] }],
+        "requestBody": { "$ref": "#/components/requestBodies/PinOnly" },
+        "responses": { "200": { "$ref": "#/components/responses/PinVerified" }, "401": { "$ref": "#/components/responses/Error" }, "429": { "$ref": "#/components/responses/Error" }, "422": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/logout": {
+      "post": {
+        "operationId": "logoutParent",
+        "tags": ["Parent Auth"],
+        "security": [{ "parentSession": [] }],
+        "responses": { "200": { "$ref": "#/components/responses/Success" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/account": {
+      "delete": {
+        "operationId": "deleteParentAccount",
+        "tags": ["Parent Auth"],
+        "security": [{ "parentSession": [] }],
+        "x-requires-fresh-pin": true,
+        "responses": { "200": { "$ref": "#/components/responses/Success" }, "401": { "$ref": "#/components/responses/Error" }, "403": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/wallets": {
+      "get": {
+        "operationId": "getParentWallets",
+        "tags": ["Parent Finance"],
+        "security": [{ "parentSession": [] }],
+        "responses": { "200": { "$ref": "#/components/responses/WalletSummary" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/subscriptions": {
+      "get": {
+        "operationId": "getParentSubscriptions",
+        "tags": ["Parent Finance"],
+        "security": [{ "parentSession": [] }],
+        "responses": { "200": { "$ref": "#/components/responses/Subscriptions" }, "401": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/child-slots": {
+      "post": {
+        "operationId": "createChildSlot",
+        "tags": ["Parent Finance"],
+        "security": [{ "parentSession": [] }],
+        "x-requires-fresh-pin": true,
+        "requestBody": { "$ref": "#/components/requestBodies/IdempotencyOnly" },
+        "responses": { "201": { "$ref": "#/components/responses/ChildSlotCreated" }, "401": { "$ref": "#/components/responses/Error" }, "403": { "$ref": "#/components/responses/Error" }, "409": { "$ref": "#/components/responses/Error" }, "422": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/child-slots/{childSlotId}": {
+      "parameters": [{ "$ref": "#/components/parameters/ChildSlotId" }],
+      "delete": {
+        "operationId": "closeChildSlot",
+        "tags": ["Parent Finance"],
+        "security": [{ "parentSession": [] }],
+        "x-requires-fresh-pin": true,
+        "requestBody": { "$ref": "#/components/requestBodies/IdempotencyOnly" },
+        "responses": { "200": { "$ref": "#/components/responses/ChildSlotClosed" }, "401": { "$ref": "#/components/responses/Error" }, "403": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" }, "422": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/rewards/approve": {
+      "post": {
+        "operationId": "approveReward",
+        "tags": ["Parent Finance"],
+        "security": [{ "parentSession": [] }],
+        "x-requires-fresh-pin": true,
+        "requestBody": { "$ref": "#/components/requestBodies/RewardApproval" },
+        "responses": { "200": { "$ref": "#/components/responses/RewardApproved" }, "401": { "$ref": "#/components/responses/Error" }, "403": { "$ref": "#/components/responses/Error" }, "409": { "$ref": "#/components/responses/Error" }, "422": { "$ref": "#/components/responses/Error" }, "503": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/parent/items/purchase": {
+      "post": {
+        "operationId": "purchaseItem",
+        "tags": ["Parent Finance"],
+        "security": [{ "parentSession": [] }],
+        "requestBody": { "$ref": "#/components/requestBodies/ItemPurchase" },
+        "responses": { "200": { "$ref": "#/components/responses/ItemPurchased" }, "401": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" }, "409": { "$ref": "#/components/responses/Error" }, "422": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/api/v1/webhooks/revenuecat": {
+      "post": {
+        "operationId": "receiveRevenueCatEvent",
+        "tags": ["Purchase Provider"],
+        "security": [{ "revenueCatSecret": [] }],
+        "requestBody": { "$ref": "#/components/requestBodies/RevenueCatEvent" },
+        "responses": { "200": { "$ref": "#/components/responses/WebhookProcessed" }, "401": { "$ref": "#/components/responses/Error" }, "409": { "$ref": "#/components/responses/Error" }, "422": { "$ref": "#/components/responses/Error" } }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "parentSession": { "type": "http", "scheme": "bearer", "bearerFormat": "64-character opaque access token" },
+      "revenueCatSecret": { "type": "http", "scheme": "bearer" }
+    },
+    "parameters": {
+      "ChildSlotId": { "name": "childSlotId", "in": "path", "required": true, "schema": { "$ref": "#/components/schemas/Uuid" }, "description": "Opaque finance slot identifier; never a child identity." }
+    },
+    "requestBodies": {
+      "RegisterParent": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RegisterParentInput" } } } },
+      "VerifyEmail": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/VerifyEmailInput" } } } },
+      "EmailOnly": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/EmailOnlyInput" } } } },
+      "ConfirmPinReset": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ConfirmPinResetInput" } } } },
+      "RefreshSession": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RefreshSessionInput" } } } },
+      "PinOnly": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PinOnlyInput" } } } },
+      "IdempotencyOnly": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/IdempotencyInput" } } } },
+      "RewardApproval": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RewardApprovalInput" } } } },
+      "ItemPurchase": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ItemPurchaseInput" } } } },
+      "RevenueCatEvent": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RevenueCatWebhookInput" } } } }
+    },
+    "responses": {
+      "Success": { "description": "Successful operation", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } },
+      "OtpRequested": { "description": "OTP request accepted without exposing account existence", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } },
+      "SessionCreated": { "description": "Email verified and session created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SessionResponse" } } } },
+      "SessionRefreshed": { "description": "Refresh token rotated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SessionResponse" } } } },
+      "PinVerified": { "description": "Session marked as recently re-authenticated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } },
+      "WalletSummary": { "description": "Server-authoritative wallet projection", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WalletSummary" } } } },
+      "Subscriptions": { "description": "Subscription entitlement projection", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SubscriptionResponse" } } } },
+      "ChildSlotCreated": { "description": "Opaque finance slot created idempotently", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ChildSlotCreated" } } } },
+      "ChildSlotClosed": { "description": "Slot closed and remaining diamonds returned", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ChildSlotClosed" } } } },
+      "RewardApproved": { "description": "Reward transferred or prior result replayed", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RewardApproved" } } } },
+      "ItemPurchased": { "description": "Item debit/entitlement committed or prior result replayed", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ItemPurchased" } } } },
+      "WebhookProcessed": { "description": "Provider event processed, ignored or deduplicated", "content": { "application/json": { "schema": { "type": "object", "additionalProperties": true } } } },
+      "Error": { "description": "Stable machine-readable error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
+    },
+    "schemas": {
+      "Uuid": { "type": "string", "format": "uuid" },
+      "Email": { "type": "string", "format": "email", "maxLength": 320 },
+      "Pin": { "type": "string", "pattern": "^[0-9]{6}$", "writeOnly": true },
+      "Otp": { "type": "string", "pattern": "^[0-9]{6}$", "writeOnly": true },
+      "SessionToken": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$", "writeOnly": true },
+      "IdempotencyKey": { "type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$" },
+      "RegisterParentInput": { "type": "object", "additionalProperties": false, "required": ["email"], "properties": { "email": { "$ref": "#/components/schemas/Email" }, "policyVersion": { "type": "string", "minLength": 1, "maxLength": 64, "default": "parent-zone-v1.2.0" }, "marketingConsent": { "type": "boolean", "default": false } } },
+      "VerifyEmailInput": { "type": "object", "additionalProperties": false, "required": ["email", "otp"], "properties": { "email": { "$ref": "#/components/schemas/Email" }, "otp": { "$ref": "#/components/schemas/Otp" } } },
+      "EmailOnlyInput": { "type": "object", "additionalProperties": false, "required": ["email"], "properties": { "email": { "$ref": "#/components/schemas/Email" } } },
+      "ConfirmPinResetInput": { "type": "object", "additionalProperties": false, "required": ["email", "otp", "newPin"], "properties": { "email": { "$ref": "#/components/schemas/Email" }, "otp": { "$ref": "#/components/schemas/Otp" }, "newPin": { "$ref": "#/components/schemas/Pin" } } },
+      "RefreshSessionInput": { "type": "object", "additionalProperties": false, "required": ["refreshToken"], "properties": { "refreshToken": { "$ref": "#/components/schemas/SessionToken" } } },
+      "PinOnlyInput": { "type": "object", "additionalProperties": false, "required": ["pin"], "properties": { "pin": { "$ref": "#/components/schemas/Pin" } } },
+      "IdempotencyInput": { "type": "object", "additionalProperties": false, "required": ["idempotencyKey"], "properties": { "idempotencyKey": { "$ref": "#/components/schemas/IdempotencyKey" } } },
+      "RewardApprovalInput": { "type": "object", "additionalProperties": false, "required": ["rewardRequestId", "childSlotId", "diamonds"], "properties": { "rewardRequestId": { "$ref": "#/components/schemas/IdempotencyKey" }, "childSlotId": { "$ref": "#/components/schemas/Uuid" }, "diamonds": { "type": "integer", "minimum": 0 } } },
+      "ItemPurchaseInput": { "type": "object", "additionalProperties": false, "required": ["purchaseRequestId", "childSlotId", "sku"], "properties": { "purchaseRequestId": { "$ref": "#/components/schemas/IdempotencyKey" }, "childSlotId": { "$ref": "#/components/schemas/Uuid" }, "sku": { "type": "string", "minLength": 2, "maxLength": 128, "pattern": "^[a-z0-9._:-]+$" } } },
+      "RevenueCatWebhookInput": { "type": "object", "additionalProperties": true, "required": ["event"], "properties": { "event": { "type": "object", "additionalProperties": true, "required": ["id", "type", "app_user_id", "product_id"], "properties": { "id": { "type": "string", "minLength": 1, "maxLength": 255 }, "type": { "type": "string", "minLength": 1, "maxLength": 64 }, "app_user_id": { "type": "string", "minLength": 1, "maxLength": 255 }, "product_id": { "type": "string", "minLength": 1, "maxLength": 255 }, "transaction_id": { "type": ["string", "null"], "maxLength": 255 }, "original_transaction_id": { "type": ["string", "null"], "maxLength": 255 }, "entitlement_ids": { "type": ["array", "null"], "items": { "type": "string" } }, "event_timestamp_ms": { "type": ["integer", "null"], "minimum": 0, "maximum": 8640000000000 }, "purchased_at_ms": { "type": ["integer", "null"], "minimum": 0, "maximum": 8640000000000 }, "expiration_at_ms": { "type": ["integer", "null"], "minimum": 0, "maximum": 8640000000000 }, "will_renew": { "type": ["boolean", "null"] } } } } },
+      "Success": { "type": "object", "required": ["success"], "properties": { "success": { "const": true } }, "additionalProperties": true },
+      "SessionResponse": { "type": "object", "required": ["success", "token", "refreshToken"], "properties": { "success": { "const": true }, "token": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" }, "refreshToken": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" }, "parentId": { "$ref": "#/components/schemas/Uuid" }, "requiresPinSetup": { "type": "boolean" } }, "additionalProperties": true },
+      "WalletSummary": { "type": "object", "additionalProperties": false, "required": ["success", "parentVault", "parentVaultVersion", "children"], "properties": { "success": { "const": true }, "parentVault": { "type": "integer", "minimum": 0 }, "parentVaultVersion": { "type": "integer", "minimum": 0 }, "children": { "type": "array", "maxItems": 4, "items": { "type": "object", "additionalProperties": false, "required": ["childSlotId", "balance", "version"], "properties": { "childSlotId": { "$ref": "#/components/schemas/Uuid" }, "balance": { "type": "integer", "minimum": 0 }, "version": { "type": "integer", "minimum": 0 } } } } } },
+      "SubscriptionResponse": { "type": "object", "required": ["success", "subscriptions"], "properties": { "success": { "const": true }, "subscriptions": { "type": "array", "items": { "type": "object", "additionalProperties": true } } } },
+      "ChildSlotCreated": { "type": "object", "additionalProperties": false, "required": ["success", "childSlotId"], "properties": { "success": { "const": true }, "childSlotId": { "$ref": "#/components/schemas/Uuid" } } },
+      "ChildSlotClosed": { "type": "object", "required": ["success", "returnedDiamonds", "alreadyProcessed"], "properties": { "success": { "const": true }, "returnedDiamonds": { "type": "integer", "minimum": 0 }, "alreadyProcessed": { "type": "boolean" } } },
+      "RewardApproved": { "type": "object", "required": ["success", "diamonds", "alreadyProcessed"], "properties": { "success": { "const": true }, "diamonds": { "type": "integer", "minimum": 0 }, "alreadyProcessed": { "type": "boolean" } } },
+      "ItemPurchased": { "type": "object", "required": ["success", "diamondCost", "alreadyProcessed"], "properties": { "success": { "const": true }, "diamondCost": { "type": "integer", "minimum": 1 }, "alreadyProcessed": { "type": "boolean" } } },
+      "ErrorResponse": { "type": "object", "additionalProperties": false, "required": ["success", "error", "requestId"], "properties": { "success": { "const": false }, "error": { "type": "object", "required": ["code", "message"], "properties": { "code": { "type": "string" }, "message": { "type": "string" }, "details": {} } }, "requestId": { "type": "string" } } }
+    }
+  }
+}

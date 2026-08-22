@@ -90,10 +90,7 @@ export const initializePersonalizationFoundation = async (activeChildId: string)
 export const clearAllPersonalizationData = async () => {
   const state = usePersonalizationStore.getState();
   const childIds = new Set([...Object.keys(state.children), ...state.assets.map((asset) => asset.childId)]);
-  const failures: string[] = [];
-  for (const childId of childIds) {
-    const result = await clearChildPersonalizationData(childId);
-    failures.push(...result.failed);
-  }
-  return failures;
+  const result = await getMediaStorage().clearAll();
+  for (const childId of childIds) state.clearChildMetadata(childId);
+  return result.failed;
 };

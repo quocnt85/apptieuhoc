@@ -1,4 +1,5 @@
 import type { AppBindings } from './bindings';
+import { AppError } from './errors';
 
 export type OtpPurpose = 'verify_email' | 'reset_pin' | 'login';
 
@@ -13,10 +14,11 @@ export const sendOtpEmail = async (
   to: string,
   otp: string,
   purpose: OtpPurpose,
-): Promise<{ delivered: boolean; mode: 'binding' | 'console' }> => {
+): Promise<{ delivered: boolean; mode: 'binding' | 'console' | 'disabled' }> => {
   if (env.EMAIL_DELIVERY_MODE !== 'binding') {
-    return { delivered: false, mode: 'console' };
+    return { delivered: false, mode: env.EMAIL_DELIVERY_MODE === 'disabled' ? 'disabled' : 'console' };
   }
+  if (!env.EMAIL) throw new AppError(503, 'EMAIL_BINDING_UNAVAILABLE', 'Dịch vụ email chưa được cấu hình.');
 
   const label = purposeLabel[purpose];
   await env.EMAIL.send({

@@ -20,6 +20,7 @@ interface ImportMetaEnv {
   readonly VITE_REAL_LIFE_REWARDS_ENABLED?: string;
   readonly VITE_PARENT_IAP_ENABLED?: string;
   readonly VITE_PARENT_DEMO_ACCESS?: string;
+  readonly VITE_DEPLOYMENT_ENV?: string;
 }
 
 interface ImportMeta {

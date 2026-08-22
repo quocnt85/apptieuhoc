@@ -37,4 +37,14 @@ describe('MemoryMediaStorage', () => {
     await expect(storage.read(library.relativePath)).resolves.toBeInstanceOf(Blob);
     vi.restoreAllMocks();
   });
+
+  it('removes media for every child during account deletion', async () => {
+    const storage = new MemoryMediaStorage();
+    const first = await storage.write(image(), { childId: 'child-a', assetId: 'avatar-a', kind: 'AVATAR_SOURCE' });
+    const second = await storage.write(image(), { childId: 'child-b', assetId: 'flag-b', kind: 'FLAG_SOURCE' });
+
+    await expect(storage.clearAll()).resolves.toEqual({ deleted: [first.relativePath, second.relativePath], failed: [] });
+    await expect(storage.read(first.relativePath)).rejects.toThrow('missing');
+    await expect(storage.read(second.relativePath)).rejects.toThrow('missing');
+  });
 });

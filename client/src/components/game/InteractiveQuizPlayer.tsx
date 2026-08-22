@@ -185,7 +185,7 @@ export const InteractiveQuizPlayer: React.FC<Props> = ({ question, onClose }) =>
                 <Home className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="text-emerald-300">Việc ở nhà: </span>
-                  {question.realLifeTask}
+                  {question.realLifeTask.title}
                 </div>
               </div>
             )}

@@ -24,3 +24,26 @@ export const VIP_PRODUCTS: Readonly<Record<string, number>> = Object.freeze({
   'novastars.vip.monthly': 150,
   'novastars.vip.annual': 2000,
 });
+
+export type RevenueCatStore = 'APP_STORE' | 'PLAY_STORE';
+export type RevenueCatEnvironment = 'SANDBOX' | 'PRODUCTION';
+export type RevenueProduct = { productId: string; kind: 'diamonds' | 'vip'; diamonds: number };
+
+const knownRevenueProducts = new Map<string, RevenueProduct>([
+  ...Object.entries(DIAMOND_PRODUCTS).map(([productId, diamonds]) => [productId, { productId, kind: 'diamonds' as const, diamonds }] as const),
+  ...Object.entries(VIP_PRODUCTS).map(([productId, diamonds]) => [productId, { productId, kind: 'vip' as const, diamonds }] as const),
+]);
+
+export const isKnownRevenueProductId = (productId: string): boolean => knownRevenueProducts.has(productId);
+
+export const resolveRevenueProduct = (
+  productId: string,
+  store: RevenueCatStore | null | undefined,
+  providerEnvironment: RevenueCatEnvironment | null | undefined,
+  runtimeEnvironment: string,
+): RevenueProduct | null => {
+  const product = knownRevenueProducts.get(productId);
+  if (!product || !store || !providerEnvironment) return null;
+  const expectedProviderEnvironment: RevenueCatEnvironment = runtimeEnvironment === 'production' ? 'PRODUCTION' : 'SANDBOX';
+  return providerEnvironment === expectedProviderEnvironment ? product : null;
+};

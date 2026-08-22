@@ -1,4 +1,4 @@
-import type { DomainId } from './index';
+import type { DomainId, MissionDifficulty } from './index';
 
 export type ChildGrade = 1 | 2 | 3 | 4 | 5;
 
@@ -23,7 +23,10 @@ export interface DailyUsage {
   date: string;
   minutes: number;
   extensionsUsed: number;
+  byCategory?: Record<UsageCategory, number>;
 }
+
+export type UsageCategory = 'lesson' | 'minigame' | 'exploration';
 
 export interface LearningActivity {
   id: string;
@@ -38,14 +41,19 @@ export interface LearningActivity {
 
 export interface RealLifeMission {
   id: string;
+  rewardRequestId: string;
   profileId: string;
   sourceLessonId: string;
+  contentMissionId: string;
   title: string;
+  difficulty: MissionDifficulty;
+  fixedCoinReward: 50 | 100 | 150 | 200;
   status: 'suggested' | 'done_by_child' | 'approved';
   proposedAt: number;
   completedAt?: number;
   approvedAt?: number;
   diamondsAwarded?: number;
+  novaCoinsAwarded?: number;
 }
 
 export interface CoinAward {

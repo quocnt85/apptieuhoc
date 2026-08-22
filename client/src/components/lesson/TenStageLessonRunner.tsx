@@ -190,7 +190,12 @@ export const TenStageLessonRunner: React.FC<Props> = ({ onClose }) => {
   const handleParentConfirm = () => {
     interactionService.playVictory();
     const parentState = useParentZoneStore.getState();
-    parentState.suggestMission('island_1_node_1', currentStage.parentPrompt ?? 'Thực hành nhiệm vụ ngoài đời từ bài học');
+    parentState.suggestMission('island_1_node_1', {
+      contentMissionId: 'MISSION-SEL-ISLAND-001',
+      title: currentStage.parentPrompt ?? 'Thực hành nhiệm vụ ngoài đời từ bài học',
+      difficulty: 'easy',
+      fixedCoinReward: 50,
+    });
     const mission = useParentZoneStore.getState().missions.find((item) => item.profileId === parentState.activeProfileId && item.sourceLessonId === 'island_1_node_1');
     if (mission) parentState.markMissionDone(mission.id);
     handleNextStage();

@@ -1,7 +1,8 @@
 import { App as CapacitorApp } from '@capacitor/app';
 import { parentApi } from '../parentApi';
 import type { ParentGatePort, ParentGatePurpose, ParentGateSession } from '../../types/personalization';
-import { PARENT_DEMO_PASSWORD, parentFeatureFlags } from '../../config/parentFeatureFlags';
+import { parentFeatureFlags } from '../../config/parentFeatureFlags';
+import { isParentDemoPassword } from '../../config/parentDemoAccess';
 
 const DEFAULT_SESSION_MS = 3 * 60_000;
 
@@ -10,7 +11,10 @@ export class ParentGateService implements ParentGatePort {
   private listeners = new Set<(session: ParentGateSession | null) => void>();
   private expiryTimer: ReturnType<typeof setTimeout> | null = null;
 
-  constructor(private verifyPin: (pin: string) => Promise<{ unlockedUntil?: string }> = parentApi.verifyPin) {}
+  constructor(
+    private verifyPin: (pin: string) => Promise<{ unlockedUntil?: string }> = parentApi.verifyPin,
+    private demoAccess = parentFeatureFlags.demoAccess,
+  ) {}
 
   getSession() {
     if (this.session && this.session.unlockedUntil <= Date.now()) this.lock();
@@ -31,8 +35,8 @@ export class ParentGateService implements ParentGatePort {
       const existing = this.getSession();
       if (existing) return existing;
     }
-    if (parentFeatureFlags.demoAccess) {
-      if (pin !== PARENT_DEMO_PASSWORD) throw new Error('Mật khẩu demo không đúng.');
+    if (this.demoAccess) {
+      if (!isParentDemoPassword(pin)) throw new Error('Mật khẩu demo không đúng.');
       this.markAuthenticated(Date.now() + 30 * 60_000);
       return this.session!;
     }

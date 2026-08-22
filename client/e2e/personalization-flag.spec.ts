@@ -10,6 +10,22 @@ const openFlagStudio = async (page: Page) => {
   await expect(page.getByRole('dialog', { name: 'Xưởng cờ lãnh địa' })).toBeVisible();
 };
 
+const openPendingFlagInParentZone = async (page: Page) => {
+  await openFlagStudio(page);
+  const studio = page.getByRole('dialog', { name: 'Xưởng cờ lãnh địa' });
+  await studio.locator('input[type="file"]').setInputFiles('public/assets/3d/bravery_badge.png');
+  await expect(studio.getByAltText('Xem trước cờ mới')).toBeVisible();
+  await studio.getByRole('button', { name: 'Lưu bản nháp' }).click();
+  await studio.getByTestId('submit-flag-review').click();
+  await expect(studio).toContainText('Đang chờ phụ huynh duyệt');
+  await studio.getByRole('button', { name: 'Đóng xưởng cờ' }).click();
+  await page.locator('button:has-text("Phụ Huynh")').last().click({ force: true });
+  await page.getByPlaceholder('Mật khẩu demo').fill('1234');
+  await page.getByRole('button', { name: 'Vào Góc phụ huynh' }).click();
+  await page.getByRole('tab', { name: 'Cá nhân hóa' }).click();
+  await expect(page.getByText('Đang chờ duyệt')).toBeVisible();
+};
+
 test('territory flag stays local and cannot apply before parent approval', async ({ page }) => {
   await openFlagStudio(page);
   const dialog = page.getByRole('dialog', { name: 'Xưởng cờ lãnh địa' });
@@ -40,10 +56,39 @@ test('territory flag stays local and cannot apply before parent approval', async
   await page.locator('button:has-text("Phụ Huynh")').last().click({ force: true });
   await page.getByPlaceholder('Mật khẩu demo').fill('1234');
   await page.getByRole('button', { name: 'Vào Góc phụ huynh' }).click();
-  await page.getByRole('button', { name: 'Cá nhân hóa' }).click();
+  await page.getByRole('tab', { name: 'Cá nhân hóa' }).click();
   await expect(page.getByText('Đang chờ duyệt')).toBeVisible();
   await page.getByRole('button', { name: 'Duyệt & áp dụng' }).click();
   await expect(page.getByText('Đã áp dụng trong game')).toBeVisible();
   await page.getByRole('button', { name: 'Gỡ khỏi game' }).click();
   await expect(page.getByText('Bản nháp local')).toBeVisible();
+});
+
+test('parent can cancel and then send a bounded custom flag revision note', async ({ page }) => {
+  await openPendingFlagInParentZone(page);
+  await page.getByRole('button', { name: 'Yêu cầu chỉnh' }).click();
+  let noteDialog = page.getByRole('dialog', { name: 'Yêu cầu trẻ chỉnh lại' });
+  const note = noteDialog.getByLabel('Lời nhắn cho trẻ (tùy chọn)');
+  await expect(note).toBeFocused();
+  await expect(note).toHaveAttribute('maxlength', '160');
+  await note.fill('Con thử chọn hình có nền sáng và rõ hơn nhé.');
+  await noteDialog.press('Escape');
+  await expect(noteDialog).toHaveCount(0);
+  await expect(page.getByText('Đang chờ duyệt')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Yêu cầu chỉnh' }).click();
+  noteDialog = page.getByRole('dialog', { name: 'Yêu cầu trẻ chỉnh lại' });
+  await noteDialog.getByLabel('Lời nhắn cho trẻ (tùy chọn)').fill('Con thử chọn hình có nền sáng và rõ hơn nhé.');
+  await noteDialog.getByRole('button', { name: 'Gửi yêu cầu' }).click();
+  await expect(page.getByText('Đã yêu cầu chỉnh lại')).toBeVisible();
+  await expect(page.getByText('Con thử chọn hình có nền sáng và rõ hơn nhé.')).toBeVisible();
+});
+
+test('parent can submit the safe default flag revision note', async ({ page }) => {
+  await openPendingFlagInParentZone(page);
+  await page.getByRole('button', { name: 'Yêu cầu chỉnh' }).click();
+  const noteDialog = page.getByRole('dialog', { name: 'Yêu cầu trẻ chỉnh lại' });
+  await noteDialog.getByRole('button', { name: 'Gửi yêu cầu' }).click();
+  await expect(page.getByText('Đã yêu cầu chỉnh lại')).toBeVisible();
+  await expect(page.getByText('Phụ huynh đề nghị chọn hình khác.')).toBeVisible();
 });
