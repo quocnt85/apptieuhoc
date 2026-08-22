@@ -32,6 +32,15 @@ test.describe('Dev God Mode & Performance Monitoring E2E Tests', () => {
     const heroAvatar = page.getByTestId('hero-avatar-btn');
     await expect(heroAvatar).toBeVisible({ timeout: 6000 });
     await heroAvatar.scrollIntoViewIfNeeded();
+    const [heroBannerBox, challengeBox, avatarBox] = await Promise.all([
+      page.getByTestId('hero-banner').boundingBox(),
+      page.getByTestId('space-challenge-banner').boundingBox(),
+      heroAvatar.boundingBox(),
+    ]);
+    expect(heroBannerBox?.height).toBeGreaterThanOrEqual(112);
+    expect(challengeBox?.height).toBeGreaterThanOrEqual(76);
+    expect(avatarBox?.width).toBeGreaterThanOrEqual(56);
+    expect(avatarBox?.height).toBeGreaterThanOrEqual(56);
 
     // Click 5 times on hero avatar to toggle ON
     for (let i = 0; i < 5; i++) {
