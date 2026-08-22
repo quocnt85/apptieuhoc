@@ -78,26 +78,28 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
   const completedCount = dailyQuests.filter((q) => q.done).length;
 
   return (
-    <div className="flex-1 p-4 sm:p-6 flex flex-col gap-4 overflow-y-auto pb-24 animate-fadeIn bg-gradient-to-b from-[#050814] via-[#0b1026] to-[#160e33] text-white select-none">
+    <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-y-auto pb-24 animate-fadeIn bg-gradient-to-b from-[#050814] via-[#0b1026] to-[#160e33] text-white select-none">
       {/* Cosmic Hero Banner */}
-      <div className="p-5 sm:p-6 bg-slate-900/90 backdrop-blur-xl border-2 border-sky-400/50 shadow-[0_12px_32px_rgba(56,189,248,0.25)] rounded-[32px] relative overflow-hidden">
+      <div data-testid="hero-banner" className="min-h-[112px] shrink-0 p-5 sm:p-6 bg-slate-900/90 backdrop-blur-xl border-2 border-sky-400/50 shadow-[0_12px_32px_rgba(56,189,248,0.25)] rounded-[32px] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-yellow-400/20 via-sky-400/20 to-transparent blur-2xl pointer-events-none -z-10" />
 
         <div className="flex items-center justify-between gap-3">
           {/* Avatar and Astronaut Info */}
           <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
-            <div 
-              onClick={import.meta.env.DEV ? handleHeroAvatarClick : undefined}
+            <button
+              type="button"
+              aria-label="Avatar phi hành gia"
+              onClick={(import.meta.env.DEV || parentFeatureFlags.demoAccess) ? handleHeroAvatarClick : undefined}
               data-testid="hero-avatar-btn"
-              className="relative cursor-pointer active:scale-95 transition-transform shrink-0"
-              title={import.meta.env.DEV ? 'Nhấp 5 lần để bật/tắt chế độ phát triển' : undefined}
+              className="relative min-h-14 min-w-14 cursor-pointer rounded-2xl active:scale-95 transition-transform shrink-0 touch-manipulation"
+              title={(import.meta.env.DEV || parentFeatureFlags.demoAccess) ? 'Chạm 5 lần để bật/tắt God Mode' : undefined}
             >
               <AvatarComposer childId={activeChildId} presetAvatar={currentAvatar} className="h-14 w-14 shrink-0 rounded-2xl sm:h-16 sm:w-16 sm:rounded-3xl"/>
               {/* Tag Avatar Synchronized to Lv. */}
               <div className="absolute -bottom-1.5 -right-1.5 bg-yellow-400 text-slate-950 font-black text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-full border-2 border-slate-900 shadow">
                 Lv.{user.level}
               </div>
-            </div>
+            </button>
 
             <div className="min-w-0">
               <h2 className="font-black text-base sm:text-xl text-yellow-300 truncate">
@@ -131,9 +133,10 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
       </div>
 
       {/* Space Challenge Banner */}
-      <div 
+      <div
+        data-testid="space-challenge-banner"
         onClick={() => handleAction(onNavigateToMiniGame || onNavigateToMap)}
-        className="p-4 sm:p-5 bg-gradient-to-r from-indigo-900/90 via-purple-950/90 to-slate-900/90 border-2 border-purple-400/50 shadow-xl rounded-[32px] flex items-center justify-between cursor-pointer hover:scale-[1.02] active:scale-95 transition-all group relative overflow-hidden"
+        className="min-h-[76px] shrink-0 p-4 sm:p-5 bg-gradient-to-r from-indigo-900/90 via-purple-950/90 to-slate-900/90 border-2 border-purple-400/50 shadow-xl rounded-[32px] flex items-center justify-between cursor-pointer hover:scale-[1.02] active:scale-95 transition-all group relative overflow-hidden"
       >
         <div className="flex items-center gap-3.5 relative z-10">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-700 border border-white/30 flex items-center justify-center text-2xl shadow">
