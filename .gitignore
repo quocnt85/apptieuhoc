@@ -40,6 +40,8 @@ Thumbs.db
 .env.local
 .env.*.local
 *.env
+.dev.vars
+**/.dev.vars
 
 # Testing & Cache
 test-results/

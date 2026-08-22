@@ -4,7 +4,7 @@ import { ParentGateService } from '../src/services/personalization/parentGate';
 describe('ParentGateService', () => {
   it('does not retain a PIN and reuses only a live parent session', async () => {
     const verify = vi.fn(async (_pin: string) => ({ unlockedUntil: new Date(Date.now() + 60_000).toISOString() }));
-    const gate = new ParentGateService(verify);
+    const gate = new ParentGateService(verify, false);
     await gate.authorizeWithPin('654321', 'FLAG_APPROVAL');
     await gate.authorizeWithPin('ignored', 'MEDIA_DELETE');
     expect(verify).toHaveBeenCalledTimes(1);
@@ -13,7 +13,7 @@ describe('ParentGateService', () => {
 
   it('forces a fresh challenge for export and locks immediately', async () => {
     const verify = vi.fn(async () => ({ unlockedUntil: new Date(Date.now() + 60_000).toISOString() }));
-    const gate = new ParentGateService(verify);
+    const gate = new ParentGateService(verify, false);
     await gate.authorizeWithPin('111111', 'FLAG_APPROVAL');
     await gate.authorizeWithPin('222222', 'CARD_EXPORT', true);
     expect(verify).toHaveBeenCalledTimes(2);

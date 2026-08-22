@@ -5,6 +5,8 @@ import { DOMAINS_DATA, INITIAL_QUESTIONS } from '../data/mockQuestions';
 import { PLANETS_DATA } from '../data/planetsData';
 import { useParentZoneStore } from './useParentZoneStore';
 import { clearAllPersonalizationData } from '../services/personalization/personalizationLifecycle';
+import { parentFeatureFlags } from '../config/parentFeatureFlags';
+import { clearGameState, readGameState, writeGameState } from '../services/localGameStateRepository';
 
 export interface MiniGameProgress {
   lastFreeRunDate: string | null;
@@ -74,6 +76,7 @@ interface GameState {
   refreshEnergy: () => void;
   consumeEnergyForNode: (nodeId: string, isBoss?: boolean) => { success: boolean; cost: number; reason?: string };
   addNovaCoins: (amount: number) => void;
+  creditAwardedNovaCoins: (amount: number) => void;
   addDiamonds: (amount: number) => void;
   addXP: (amount: number) => { leveledUp: boolean; newLevel: number };
   addStars: (amount: number) => void;
@@ -142,10 +145,8 @@ interface GameState {
 
   // Persistence
   saveToLocalStorage: () => void;
-  loadFromLocalStorage: () => void;
+  loadFromLocalStorage: (resetWhenMissing?: boolean) => void;
 }
-
-const STORAGE_KEY = 'novastars_space_state_v2';
 
 const normalizeAudioSettings = (raw: Record<string, any>) => {
   const isV2 = raw.audioSettingsVersion === 2;
@@ -217,41 +218,45 @@ const initialUser: UserProfile = {
   },
 };
 
+const initialSettings = (): GameSettings => ({
+  audioSettingsVersion: 2,
+  bgmEnabled: true,
+  sfxEnabled: true,
+  hapticEnabled: true,
+  bgmStyle: 'ambient',
+});
+
+const initialMiniGameProgress = (): MiniGameProgress => ({
+  lastFreeRunDate: null,
+  totalRuns: 0,
+  totalWins: 0,
+  bestScore: 0,
+  highestStageUnlocked: 1,
+  endlessBestScore: 0,
+  asteroidsDestroyed: 0,
+  powerupsCollected: 0,
+  maxCombo: 0,
+  achievements: [],
+  leaderboard: [],
+  daily: { date: getLocalDateKey(), asteroids: 0, coins: 0, wins: 0, claimed: [] },
+  adEnergy: { date: getLocalDateKey(), claims: 0 },
+  instantRefuelCards: 1,
+});
+
 export const useGameStore = create<GameState>((set, get) => ({
   user: initialUser,
   hasSeenFTUE: false,
   completedNodes: {},
   nodeStars: {},
   isGreetingQuestDone: false,
-  settings: {
-    audioSettingsVersion: 2,
-    bgmEnabled: true,
-    sfxEnabled: true,
-    hapticEnabled: true,
-    bgmStyle: 'ambient',
-  },
+  settings: initialSettings(),
   activeTab: 'home',
   selectedDomain: null,
   activeQuestion: null,
   domainProgress: defaultProgress,
   answeredHistory: {},
   allQuestions: INITIAL_QUESTIONS,
-  miniGameProgress: {
-    lastFreeRunDate: null,
-    totalRuns: 0,
-    totalWins: 0,
-    bestScore: 0,
-    highestStageUnlocked: 1,
-    endlessBestScore: 0,
-    asteroidsDestroyed: 0,
-    powerupsCollected: 0,
-    maxCombo: 0,
-    achievements: [],
-    leaderboard: [],
-    daily: { date: getLocalDateKey(), asteroids: 0, coins: 0, wins: 0, claimed: [] },
-    adEnergy: { date: getLocalDateKey(), claims: 0 },
-    instantRefuelCards: 1,
-  },
+  miniGameProgress: initialMiniGameProgress(),
 
   // 3D Space Navigation State
   activePlanetId: 'bravery_prime',
@@ -393,9 +398,14 @@ export const useGameStore = create<GameState>((set, get) => ({
   addNovaCoins: (amount: number) => {
     const allowed = useParentZoneStore.getState().awardCoins(amount, 'general_reward');
     if (allowed <= 0) return;
+    get().creditAwardedNovaCoins(allowed);
+  },
+
+  creditAwardedNovaCoins: (amount: number) => {
+    if (!Number.isSafeInteger(amount) || amount <= 0) return;
     soundService.playCoin();
     set((state) => ({
-      user: { ...state.user, novaCoins: state.user.novaCoins + allowed }
+      user: { ...state.user, novaCoins: state.user.novaCoins + amount }
     }));
     get().saveToLocalStorage();
   },
@@ -1027,15 +1037,18 @@ export const useGameStore = create<GameState>((set, get) => ({
     void clearAllPersonalizationData().catch((error) => {
       if (import.meta.env.DEV) console.warn('Could not clear local personalization media during reset.', error);
     });
-    localStorage.removeItem(STORAGE_KEY);
+    clearGameState();
     localStorage.removeItem('novastars_quest_greeting_done');
     localStorage.removeItem('novastars_app_state_v1');
     set({
-      user: initialUser,
+      user: { ...initialUser, customization: { ...initialUser.customization } },
       hasSeenFTUE: false,
       completedNodes: {},
       nodeStars: {},
+      domainProgress: { ...defaultProgress },
+      answeredHistory: {},
       isGreetingQuestDone: false,
+      settings: initialSettings(),
       isUnlimitedMode: false,
       devBackupUser: null,
       activePlanetId: 'bravery_prime',
@@ -1043,41 +1056,26 @@ export const useGameStore = create<GameState>((set, get) => ({
       isFlyingToNode: false,
       isLessonRunning: false,
       activeLessonId: null,
-      miniGameProgress: {
-        lastFreeRunDate: null,
-        totalRuns: 0,
-        totalWins: 0,
-        bestScore: 0,
-        highestStageUnlocked: 1,
-        endlessBestScore: 0,
-        asteroidsDestroyed: 0,
-        powerupsCollected: 0,
-        maxCombo: 0,
-        achievements: [],
-        leaderboard: [],
-        daily: { date: getLocalDateKey(), asteroids: 0, coins: 0, wins: 0, claimed: [] },
-        adEnergy: { date: getLocalDateKey(), claims: 0 },
-        instantRefuelCards: 1,
-      },
+      miniGameProgress: initialMiniGameProgress(),
     });
   },
 
   saveToLocalStorage: () => {
     try {
-      const { user, hasSeenFTUE, completedNodes, nodeStars, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser, miniGameProgress } = get();
-      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser, miniGameProgress };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      const { user, hasSeenFTUE, completedNodes, nodeStars, domainProgress, answeredHistory, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser, miniGameProgress } = get();
+      const payload = { user, hasSeenFTUE, completedNodes, nodeStars, domainProgress, answeredHistory, isGreetingQuestDone, settings, activePlanetId, isGodModeUnlocked, showFpsOverlay, devBackupUser, miniGameProgress };
+      writeGameState(payload, localStorage, parentFeatureFlags.demoAccess);
     } catch (e) {
       console.warn('Failed to save space state to localStorage', e);
     }
   },
 
-  loadFromLocalStorage: () => {
+  loadFromLocalStorage: (resetWhenMissing = false) => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const persisted = readGameState(localStorage, parentFeatureFlags.demoAccess);
       const greetingQuestDoneFromLocal = localStorage.getItem('novastars_quest_greeting_done') === 'true';
-      if (raw) {
-        const parsed = JSON.parse(raw);
+      if (persisted.payload) {
+        const parsed = persisted.payload as any;
         const loadedUser = parsed.user || {};
         if (loadedUser.avatar === '🚀') {
           loadedUser.avatar = '👨‍🚀';
@@ -1086,16 +1084,18 @@ export const useGameStore = create<GameState>((set, get) => ({
         const { normalized: migratedSettings, changed: audioSettingsChanged } = normalizeAudioSettings(persistedSettings);
         set((state) => ({
           ...state,
-          user: { ...state.user, ...loadedUser },
+          user: { ...initialUser, ...loadedUser, customization: { ...initialUser.customization, ...(loadedUser.customization || {}) } },
           hasSeenFTUE: parsed.hasSeenFTUE ?? state.hasSeenFTUE,
           completedNodes: parsed.completedNodes || {},
           nodeStars: parsed.nodeStars || {},
+          domainProgress: parsed.domainProgress || { ...defaultProgress },
+          answeredHistory: parsed.answeredHistory || {},
           isGreetingQuestDone: parsed.isGreetingQuestDone ?? greetingQuestDoneFromLocal,
-          settings: { ...state.settings, ...migratedSettings },
+          settings: { ...initialSettings(), ...migratedSettings },
           activePlanetId: parsed.activePlanetId || 'bravery_prime',
           isGodModeUnlocked: parsed.isGodModeUnlocked ?? state.isGodModeUnlocked,
           showFpsOverlay: parsed.showFpsOverlay ?? state.showFpsOverlay,
-          miniGameProgress: { ...state.miniGameProgress, ...(parsed.miniGameProgress || {}) },
+          miniGameProgress: { ...initialMiniGameProgress(), ...(parsed.miniGameProgress || {}) },
           devBackupUser: parsed.devBackupUser ?? null,
         }));
         if (persistedSettings) {
@@ -1106,11 +1106,30 @@ export const useGameStore = create<GameState>((set, get) => ({
           soundService.setBgmEnabled(migratedSettings.bgmEnabled ?? true);
         }
         if (audioSettingsChanged) get().saveToLocalStorage();
-      } else {
+      } else if (resetWhenMissing) {
         set((state) => ({
           ...state,
-          isGreetingQuestDone: greetingQuestDoneFromLocal,
+          user: { ...initialUser, customization: { ...initialUser.customization } },
+          hasSeenFTUE: false,
+          completedNodes: {},
+          nodeStars: {},
+          domainProgress: { ...defaultProgress },
+          answeredHistory: {},
+          isGreetingQuestDone: false,
+          settings: initialSettings(),
+          activePlanetId: 'bravery_prime',
+          selectedCoordinateNode: null,
+          isFlyingToNode: false,
+          isLessonRunning: false,
+          activeLessonId: null,
+          isGodModeUnlocked: false,
+          showFpsOverlay: false,
+          miniGameProgress: initialMiniGameProgress(),
+          devBackupUser: null,
         }));
+        get().saveToLocalStorage();
+      } else {
+        set((state) => ({ ...state, isGreetingQuestDone: greetingQuestDoneFromLocal }));
       }
       get().refreshEnergy();
     } catch (e) {
@@ -1119,6 +1138,6 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 }));
 
-if (typeof window !== 'undefined') {
+if ((import.meta.env.DEV || import.meta.env.VITE_PARENT_DEMO_ACCESS !== 'false') && typeof window !== 'undefined') {
   (window as any).__gameStore = useGameStore;
 }

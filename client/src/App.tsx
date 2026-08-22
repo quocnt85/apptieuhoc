@@ -11,18 +11,28 @@ import { VercelHeader } from './components/ui/VercelHeader';
 import { VercelBottomNav, VercelTab } from './components/ui/VercelBottomNav';
 import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
 import { PLANETS_DATA } from './data/planetsData';
-import { ParentDashboard } from './components/dashboard/ParentDashboard';
 import { getPlayLimitStatus, useParentZoneStore } from './stores/useParentZoneStore';
 import { initializeCameraRestore } from './services/personalization/cameraCapture';
 import { initializeParentGate } from './services/personalization/parentGate';
 import { initializePersonalizationFoundation } from './services/personalization/personalizationLifecycle';
-import { parentFeatureFlags } from './config/parentFeatureFlags';
-
-const reviewToolsEnabled = import.meta.env.DEV || parentFeatureFlags.demoAccess;
+import { localDateKey } from './services/screenTime';
+const reviewToolsEnabled = import.meta.env.DEV || import.meta.env.VITE_PARENT_DEMO_ACCESS !== 'false';
 const AudioDebugOverlay = reviewToolsEnabled ? React.lazy(() => import('./components/dev/AudioDebugOverlay').then((module) => ({ default: module.AudioDebugOverlay }))) : null;
 const DevFloatingButton = reviewToolsEnabled ? React.lazy(() => import('./components/dev/DevFloatingButton').then((module) => ({ default: module.DevFloatingButton }))) : null;
 const DevGodModeModal = reviewToolsEnabled ? React.lazy(() => import('./components/dev/DevGodModeModal').then((module) => ({ default: module.DevGodModeModal }))) : null;
 const PerformanceOverlay = reviewToolsEnabled ? React.lazy(() => import('./components/dev/PerformanceOverlay').then((module) => ({ default: module.PerformanceOverlay }))) : null;
+const ParentDashboard = React.lazy(() => import('./components/dashboard/ParentDashboard').then((module) => ({ default: module.ParentDashboard })));
+
+class ParentZoneLoadBoundary extends React.Component<React.PropsWithChildren, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() {
+    if (this.state.failed) return <div role="alert" className="m-auto max-w-sm rounded-3xl border border-rose-800 bg-rose-950/40 p-6 text-center"><h2 className="font-black text-rose-200">Không thể tải Góc phụ huynh</h2><p className="mt-2 text-sm text-slate-300">Hãy kiểm tra kết nối hoặc mở lại ứng dụng. Dữ liệu local không bị thay đổi.</p><button onClick={() => window.location.reload()} className="mt-4 min-h-11 rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-black text-white">Tải lại ứng dụng</button></div>;
+    return this.props.children;
+  }
+}
+
+const ParentZoneLoading = () => <div role="status" aria-live="polite" className="m-auto flex min-h-32 items-center justify-center rounded-3xl border border-cyan-900 bg-slate-900 px-6 text-sm font-bold text-cyan-200">Đang tải Góc phụ huynh…</div>;
 
 export const App: React.FC = () => {
   const { hasSeenFTUE, setFTUESeen, loadFromLocalStorage, isLessonRunning, startLesson, closeLesson, activePlanetId } = useGameStore();
@@ -31,18 +41,28 @@ export const App: React.FC = () => {
   const [showFTUEModal, setShowFTUEModal] = useState(false);
   const [activeTab, setActiveTab] = useState<VercelTab>('home');
   const [limitBlocked, setLimitBlocked] = useState(false);
-  const [limitReason, setLimitReason] = useState<'curfew' | 'daily_limit'>('daily_limit');
+  const [limitReason, setLimitReason] = useState<'curfew' | 'daily_limit' | 'clock_change'>('daily_limit');
   const [timeWarning, setTimeWarning] = useState<string | null>(null);
   const [eyeBreakSeconds, setEyeBreakSeconds] = useState(0);
+  const [localDataHydrated, setLocalDataHydrated] = useState(false);
   const lastInteraction = useRef(Date.now()); const continuousStart = useRef(Date.now()); const warningsShown = useRef(new Set<number>());
-  const recordUsageTick = useParentZoneStore((state) => state.recordUsageTick);
+  const warningDate = useRef(localDateKey());
+  const syncUsageClock = useParentZoneStore((state) => state.syncUsageClock);
   const activeChildProfile = useParentZoneStore((state) => state.profiles.find((profile) => profile.id === state.activeProfileId));
   const showDevTools = reviewToolsEnabled;
 
   useEffect(() => {
+    const hadParentZoneData = localStorage.getItem('novastars_parent_zone_v1') !== null;
     loadFromLocalStorage();
+    if (!hadParentZoneData) {
+      const legacyUser = useGameStore.getState().user;
+      const parentState = useParentZoneStore.getState();
+      const grade = Math.min(5, Math.max(1, Math.round(legacyUser.grade))) as 1 | 2 | 3 | 4 | 5;
+      parentState.updateProfile(parentState.activeProfileId, { name: legacyUser.name, grade, avatar: legacyUser.avatar });
+    }
     initializeParentGate();
     initializeCameraRestore();
+    setLocalDataHydrated(true);
   }, [loadFromLocalStorage]);
 
   useEffect(() => {
@@ -53,13 +73,17 @@ export const App: React.FC = () => {
   }, [activeChildProfile?.id]);
 
   useEffect(() => {
-    if (!activeChildProfile) return;
+    if (!localDataHydrated || !activeChildProfile) return;
     useGameStore.setState((state) => ({ user: { ...state.user, id: activeChildProfile.id, name: activeChildProfile.name, grade: activeChildProfile.grade ?? state.user.grade, avatar: activeChildProfile.avatar } }));
-  }, [activeChildProfile?.id, activeChildProfile?.name, activeChildProfile?.grade, activeChildProfile?.avatar]);
+  }, [localDataHydrated, activeChildProfile?.id, activeChildProfile?.name, activeChildProfile?.grade, activeChildProfile?.avatar]);
 
   useEffect(() => {
-    const interact = () => { if (Date.now() - lastInteraction.current > 60_000) continuousStart.current = Date.now(); lastInteraction.current = Date.now(); };
+    syncUsageClock(false);
+    continuousStart.current = Date.now();
+    const interact = () => { const now=Date.now();if(now-lastInteraction.current>60_000){syncUsageClock(false,now);continuousStart.current=now;}lastInteraction.current=now; };
+    const visibilityChanged = () => { syncUsageClock(false); continuousStart.current=Date.now(); };
     window.addEventListener('pointerdown', interact); window.addEventListener('keydown', interact);
+    document.addEventListener('visibilitychange', visibilityChanged);
     const checkLimit = () => {
       const status = getPlayLimitStatus();
       if (!isLessonRunning && activeTab !== 'minigame' && activeTab !== 'parent') {
@@ -69,15 +93,19 @@ export const App: React.FC = () => {
     };
     checkLimit();
     const timer = window.setInterval(() => {
-      const engaged = Date.now() - lastInteraction.current <= 60_000;
-      if (!document.hidden && activeTab !== 'parent' && engaged) recordUsageTick();
+      const now=Date.now();const engaged = now - lastInteraction.current <= 60_000;
+      const countUsage = !document.hidden && activeTab !== 'parent' && engaged;
+      const usageCategory = isLessonRunning ? 'lesson' : activeTab === 'minigame' ? 'minigame' : 'exploration';
+      syncUsageClock(countUsage,now,usageCategory);
+      if(!countUsage)continuousStart.current=now;
       checkLimit();
       const status = getPlayLimitStatus(); const remaining = Math.ceil(status.allowedMinutes - status.usedMinutes);
-      if ((remaining === 5 || remaining === 1) && !warningsShown.current.has(remaining)) { warningsShown.current.add(remaining); setTimeWarning(`Còn ${remaining} phút sử dụng hôm nay.`); window.setTimeout(()=>setTimeWarning(null),5000); }
-      if (engaged && activeTab !== 'parent' && Date.now() - continuousStart.current >= 20 * 60_000) { setEyeBreakSeconds(20); continuousStart.current = Date.now(); }
-    }, 60_000);
-    return () => { window.clearInterval(timer); window.removeEventListener('pointerdown', interact); window.removeEventListener('keydown', interact); };
-  }, [activeTab, isLessonRunning, recordUsageTick]);
+      const currentDate=localDateKey(now);if(warningDate.current!==currentDate){warningDate.current=currentDate;warningsShown.current.clear();}
+      if (countUsage && (remaining === 5 || remaining === 1) && !warningsShown.current.has(remaining)) { warningsShown.current.add(remaining); setTimeWarning(`Còn ${remaining} phút sử dụng hôm nay.`); window.setTimeout(()=>setTimeWarning(null),5000); }
+      if (countUsage && Date.now() - continuousStart.current >= 20 * 60_000) { setEyeBreakSeconds(20); continuousStart.current = Date.now(); }
+    }, 15_000);
+    return () => { syncUsageClock(false); window.clearInterval(timer); window.removeEventListener('pointerdown', interact); window.removeEventListener('keydown', interact); document.removeEventListener('visibilitychange', visibilityChanged); };
+  }, [activeTab, isLessonRunning, syncUsageClock]);
 
   useEffect(() => { if (eyeBreakSeconds<=0)return;const timer=window.setInterval(()=>setEyeBreakSeconds(value=>Math.max(0,value-1)),1000);return()=>window.clearInterval(timer);},[eyeBreakSeconds>0]);
 
@@ -168,7 +196,7 @@ export const App: React.FC = () => {
                   {activeTab === 'minigame' && (
                     <AsteroidRunnerGame onExit={() => navigate('home')} />
                   )}
-                  {activeTab === 'parent' && <ParentDashboard />}
+                  {activeTab === 'parent' && <ParentZoneLoadBoundary><React.Suspense fallback={<ParentZoneLoading/>}><ParentDashboard /></React.Suspense></ParentZoneLoadBoundary>}
                 </main>
 
                 {/* Bottom Navigation Bar */}
@@ -180,7 +208,7 @@ export const App: React.FC = () => {
                 )}
 
                 {/* First-Time User Experience (FTUE) Welcome Modal */}
-                {showFTUEModal && (
+                {showFTUEModal && activeTab !== 'parent' && (
                   <WelcomeModal onStart={handleStartFTUE} />
                 )}
                 {limitBlocked && activeTab !== 'parent' && (
@@ -188,7 +216,7 @@ export const App: React.FC = () => {
                     <div className="max-w-sm rounded-3xl border border-indigo-500/40 bg-slate-900 p-6">
                       <div className="text-4xl">🌙</div>
                       <h2 className="mt-3 text-xl font-black text-white">Đến giờ nghỉ rồi</h2>
-                      <p className="mt-2 text-sm text-slate-300">{limitReason === 'curfew' ? 'Đang trong khung giờ nghỉ 21:30–06:00.' : 'Con đã dùng hết thời gian hôm nay.'} Hoạt động đang chơi luôn được hoàn thành trước khi màn hình này xuất hiện.</p>
+                      <p className="mt-2 text-sm text-slate-300">{limitReason === 'curfew' ? 'Đang trong khung giờ nghỉ 21:30–06:00.' : limitReason === 'clock_change' ? 'Giờ trên thiết bị vừa bị lùi. Phụ huynh cần xác nhận lại trong Góc phụ huynh.' : 'Con đã dùng hết thời gian hôm nay.'} Hoạt động đang chơi luôn được hoàn thành trước khi màn hình này xuất hiện.</p>
                       <button onClick={() => navigate('parent')} className="mt-5 rounded-xl bg-cyan-500 px-5 py-3 text-sm font-black text-slate-950">Phụ huynh mở cài đặt</button>
                     </div>
                   </div>

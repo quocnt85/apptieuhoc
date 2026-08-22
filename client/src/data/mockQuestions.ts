@@ -1,4 +1,5 @@
 import { DomainInfo, QuestionItem } from '../types';
+import { assertValidRealLifeTaskCatalog } from '../content/realLifeTaskSchema';
 
 export const DOMAINS_DATA: DomainInfo[] = [
   {
@@ -72,7 +73,7 @@ export const INITIAL_QUESTIONS: QuestionItem[] = [
       { id: 'opt3', text: 'Đưa cho bạn mượn mà không hỏi bố mẹ', isCorrect: false, explanation: 'Bé nên trao đổi với bố mẹ trước khi cho ai mượn tiền nhé.' }
     ],
     advice: 'Muốn mua đồ giá trị lớn, bé hãy chia tiền vào heo đất và kiên nhẫn tích lũy từng ngày.',
-    realLifeTask: 'Hôm nay bé hãy cùng bố mẹ ghi lại một món đồ bé mong muốn và lên kế hoạch nuôi heo đất nhé!'
+    realLifeTask: { contentMissionId: 'MISSION-FIN-SAVE-001', title: 'Hôm nay bé hãy cùng bố mẹ ghi lại một món đồ bé mong muốn và lên kế hoạch nuôi heo đất nhé!', difficulty: 'easy', fixedCoinReward: 50 }
   },
   {
     id: 'Q-SEL-001',
@@ -92,7 +93,7 @@ export const INITIAL_QUESTIONS: QuestionItem[] = [
       { id: 'opt3', text: 'Hét thật to và ném bút màu xuống sàn', isCorrect: false, explanation: 'Ném đồ chơi có thể làm hỏng đồ và không sửa được bức tranh.' }
     ],
     advice: 'Khi giận dữ, bí quyết là "Dừng lại 5 giây - Hít thở sâu - Nói ra cảm xúc bằng lời lịch sự".',
-    realLifeTask: 'Thực hành bài tập thở 4 nhịp (hít vào 4 giây, giữ 4 giây, thở ra 4 giây) trước khi đi ngủ.'
+    realLifeTask: { contentMissionId: 'MISSION-SEL-CALM-001', title: 'Thực hành bài tập thở 4 nhịp (hít vào 4 giây, giữ 4 giây, thở ra 4 giây) trước khi đi ngủ.', difficulty: 'easy', fixedCoinReward: 50 }
   },
   {
     id: 'Q-CRT-001',
@@ -112,7 +113,7 @@ export const INITIAL_QUESTIONS: QuestionItem[] = [
       { id: 'opt3', text: 'Cả hai câu đều là Ý kiến', isCorrect: false, explanation: 'Việc Trái Đất quay quanh Mặt Trời là quy luật khoa học chính xác.' }
     ],
     advice: 'Luôn kiểm tra bằng chứng trước khi tin vào một thông tin nào đó.',
-    realLifeTask: 'Tìm 1 sự thật khoa học trong sách Tự nhiên xã hội và kể lại cho người thân.'
+    realLifeTask: { contentMissionId: 'MISSION-CRT-FACT-001', title: 'Tìm 1 sự thật khoa học trong sách Tự nhiên xã hội và kể lại cho người thân.', difficulty: 'medium', fixedCoinReward: 100 }
   },
   {
     id: 'Q-DIG-001',
@@ -132,7 +133,7 @@ export const INITIAL_QUESTIONS: QuestionItem[] = [
       { id: 'opt3', text: 'Đổi mật khẩu thành "123456" rồi gửi cho họ', isCorrect: false, explanation: 'Kẻ xấu vẫn sẽ đăng nhập được và lấy mất tài khoản.' }
     ],
     advice: 'Không có quà tặng miễn phí từ người lạ trên mạng. Mật khẩu phải giữ kín như bàn chải đánh răng của bạn!',
-    realLifeTask: 'Kiểm tra mật khẩu cùng bố mẹ xem đã đủ mạnh (có chữ, số, ký tự đặc biệt) chưa.'
+    realLifeTask: { contentMissionId: 'MISSION-DIG-PASSWORD-001', title: 'Kiểm tra mật khẩu cùng bố mẹ xem đã đủ mạnh (có chữ, số, ký tự đặc biệt) chưa.', difficulty: 'medium', fixedCoinReward: 100 }
   },
   {
     id: 'Q-HAB-001',
@@ -152,6 +153,8 @@ export const INITIAL_QUESTIONS: QuestionItem[] = [
       { id: 'opt3', text: 'Xem hoạt hình xong rồi đi ngủ luôn, mai lên lớp mượn bài bạn chép', isCorrect: false, explanation: 'Như vậy là thiếu trung thực và không tự giác làm bài tập.' }
     ],
     advice: 'Quy tắc vàng: "Việc hôm nay chớ để ngày mai - Xong việc trước, giải trí sau".',
-    realLifeTask: 'Lập thời gian biểu buổi tối gồm 3 khung giờ: Học bài - Giải trí - Chuẩn bị đồ dùng cho ngày mai.'
+    realLifeTask: { contentMissionId: 'MISSION-HAB-TIME-001', title: 'Lập thời gian biểu buổi tối gồm 3 khung giờ: Học bài - Giải trí - Chuẩn bị đồ dùng cho ngày mai.', difficulty: 'easy', fixedCoinReward: 50 }
   }
 ];
+
+assertValidRealLifeTaskCatalog(INITIAL_QUESTIONS);

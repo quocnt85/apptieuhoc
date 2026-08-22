@@ -1,5 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const parentAuthE2E = process.env.PARENT_AUTH_E2E === 'true';
+const requestedE2EPort = Number(process.env.PLAYWRIGHT_E2E_PORT);
+const e2ePort = parentAuthE2E
+  ? 3001
+  : Number.isInteger(requestedE2EPort) && requestedE2EPort > 0 && requestedE2EPort <= 65_535
+    ? requestedE2EPort
+    : 3000;
+const viteCommand = process.platform === 'win32'
+  ? `npx.cmd vite --port ${e2ePort} --host`
+  : `npx vite --port ${e2ePort} --host`;
+
 export default defineConfig({
   testDir: './e2e',
   timeout: 60000,
@@ -9,7 +20,7 @@ export default defineConfig({
   workers: 4, // Tối thiểu 4, tối đa 8 theo user rule
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: `http://localhost:${e2ePort}`,
     trace: 'on-first-retry',
     hasTouch: true,
   },
@@ -60,9 +71,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npx.cmd vite --port 3000 --host',
-    url: 'http://localhost:3000',
-    reuseExistingServer: true,
+    command: parentAuthE2E ? 'node scripts/start-parent-auth-e2e-server.mjs' : viteCommand,
+    url: `http://localhost:${e2ePort}`,
+    reuseExistingServer: !parentAuthE2E,
     timeout: 120000,
   },
 });

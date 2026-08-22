@@ -26,6 +26,15 @@ export interface QuestionOption {
   scoreBonus?: number;
 }
 
+export type MissionDifficulty = 'easy' | 'medium' | 'hard' | 'challenge';
+
+export interface RealLifeTaskDefinition {
+  contentMissionId: string;
+  title: string;
+  difficulty: MissionDifficulty;
+  fixedCoinReward: 50 | 100 | 150 | 200;
+}
+
 export interface QuestionItem {
   id: string;
   domainId: DomainId;
@@ -40,7 +49,7 @@ export interface QuestionItem {
   questionType: QuestionType;
   options: QuestionOption[];
   advice: string;
-  realLifeTask?: string;
+  realLifeTask?: RealLifeTaskDefinition;
 }
 
 export interface CustomizationState {

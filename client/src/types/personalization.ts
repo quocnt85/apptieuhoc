@@ -51,7 +51,17 @@ export interface ChildPersonalization {
   updatedAt: number;
 }
 
-export type ParentGatePurpose = 'FLAG_APPROVAL' | 'MEDIA_DELETE' | 'CARD_EXPORT';
+export type ParentGatePurpose =
+  | 'FLAG_APPROVAL'
+  | 'MEDIA_DELETE'
+  | 'CARD_EXPORT'
+  | 'EXTERNAL_LINK'
+  | 'SCREEN_TIME_EXTENSION'
+  | 'CLOCK_RESET'
+  | 'PURCHASE'
+  | 'PURCHASE_RESTORE'
+  | 'BIOMETRIC_ENABLE'
+  | 'DIAGNOSTIC_EXPORT';
 
 export interface ParentGateSession {
   unlockedUntil: number;

@@ -12,10 +12,12 @@ type MediaRecord = { key: string; blob?: Blob; data?: ArrayBuffer; mimeType: str
 export interface MediaStorageAdapter {
   write(asset: ProcessedImage, target: MediaTarget): Promise<StoredMedia>;
   read(relativePath: string): Promise<Blob>;
+  restore(relativePath: string, blob: Blob, childId: string): Promise<void>;
   getRenderableUri(relativePath: string): Promise<string>;
   delete(relativePath: string): Promise<void>;
   list(childId: string): Promise<string[]>;
   clearChild(childId: string): Promise<{ deleted: string[]; failed: string[] }>;
+  clearAll(): Promise<{ deleted: string[]; failed: string[] }>;
   clearExpiredExports(now: number): Promise<void>;
 }
 
@@ -98,6 +100,19 @@ export class IndexedDbMediaStorage implements MediaStorageAdapter {
     return { deleted, failed };
   }
 
+  async restore(relativePath: string, blob: Blob, childId: string) {
+    const { area } = parseKey(relativePath);
+    if (area !== 'library') throw new Error('Only library media can be restored.');
+    const data = await blob.arrayBuffer();
+    await withStore('readwrite', (store) => store.put({ key: relativePath, data, mimeType: blob.type, childId, area, createdAt: Date.now() } satisfies MediaRecord));
+  }
+
+  async clearAll() {
+    const paths = (await this.records()).map((record) => record.key); const deleted: string[] = []; const failed: string[] = [];
+    for (const path of paths) { try { await this.delete(path); deleted.push(path); } catch { failed.push(path); } }
+    return { deleted, failed };
+  }
+
   async clearExpiredExports(now: number) {
     const expiry = now - 24 * 60 * 60_000;
     for (const record of (await this.records()).filter((item) => item.area === 'cache' && item.createdAt < expiry)) await this.delete(record.key);
@@ -162,6 +177,31 @@ export class NativeMediaStorage implements MediaStorageAdapter {
     return { deleted, failed };
   }
 
+  async restore(relativePath: string, blob: Blob, childId: string) {
+    const { area, path } = parseKey(relativePath);
+    const childRoot = `${ROOT}/${safeSegment(childId)}/`;
+    if (area !== 'library' || !path.startsWith(childRoot) || path.includes('..')) throw new Error('Invalid media restore path.');
+    await Filesystem.writeFile({ path, directory: Directory.Library, data: await blobToBase64(blob), recursive: true });
+  }
+
+  async clearAll() {
+    const deleted: string[] = []; const failed: string[] = [];
+    try {
+      const result = await Filesystem.readdir({ path: ROOT, directory: Directory.Library });
+      for (const entry of result.files) {
+        const path = `${ROOT}/${entry.name}`;
+        try {
+          if (entry.type === 'directory') await Filesystem.rmdir({ path, directory: Directory.Library, recursive: true });
+          else await Filesystem.deleteFile({ path, directory: Directory.Library });
+          deleted.push(`library:${path}`);
+        } catch { failed.push(`library:${path}`); }
+      }
+    } catch (error) {
+      if (!String(error).toLowerCase().includes('not found')) failed.push(`library:${ROOT}`);
+    }
+    return { deleted, failed };
+  }
+
   async clearExpiredExports(now: number) {
     try {
       const result = await Filesystem.readdir({ path: EXPORT_ROOT, directory: Directory.Cache });
@@ -178,10 +218,12 @@ export class MemoryMediaStorage implements MediaStorageAdapter {
   private records = new Map<string, MediaRecord>();
   async write(asset: ProcessedImage, target: MediaTarget) { const key = keyFor(target, asset.mimeType); const { area } = parseKey(key); this.records.set(key, { key, blob: asset.blob, mimeType: asset.mimeType, childId: target.childId, area, createdAt: Date.now() }); return { relativePath: key, area, byteSize: asset.blob.size }; }
   async read(path: string) { const value = this.records.get(path); if (!value?.blob) throw new Error('Local media file is missing.'); return value.blob; }
+  async restore(path: string, blob: Blob, childId: string) { const { area } = parseKey(path); if (area !== 'library') throw new Error('Only library media can be restored.'); this.records.set(path, { key: path, blob, mimeType: blob.type, childId, area, createdAt: Date.now() }); }
   async getRenderableUri(path: string) { return `memory://${encodeURIComponent(path)}`; }
   async delete(path: string) { this.records.delete(path); }
   async list(childId: string) { return [...this.records.values()].filter((item) => item.childId === childId).map((item) => item.key); }
   async clearChild(childId: string) { const deleted = await this.list(childId); deleted.forEach((path) => this.records.delete(path)); return { deleted, failed: [] }; }
+  async clearAll() { const deleted = [...this.records.keys()]; this.records.clear(); return { deleted, failed: [] }; }
   async clearExpiredExports(now: number) { for (const [key, value] of this.records) if (value.area === 'cache' && value.createdAt < now - 24 * 60 * 60_000) this.records.delete(key); }
 }
 
