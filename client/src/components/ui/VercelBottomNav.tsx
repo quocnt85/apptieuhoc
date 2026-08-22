@@ -2,7 +2,7 @@ import React from 'react';
 import { soundService } from '../../services/audio';
 import { parentFeatureFlags } from '../../config/parentFeatureFlags';
 
-export type VercelTab = 'home' | 'planet' | 'hangar' | 'profile' | 'showroom' | 'minigame' | 'parent';
+export type VercelTab = 'home' | 'planet' | 'hangar' | 'showroom' | 'minigame' | 'parent';
 
 interface Props {
   activeTab: VercelTab;
@@ -11,11 +11,10 @@ interface Props {
 
 export const VercelBottomNav: React.FC<Props> = ({ activeTab, onChangeTab }) => {
   const tabs: { id: VercelTab; label: string; icon: React.ReactNode }[] = [
-    { id: 'home', label: 'Trang Chủ', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">🛸</span> },
+    { id: 'home', label: 'HQ', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">🛸</span> },
     { id: 'planet', label: 'Hành Tinh', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">🪐</span> },
     { id: 'minigame', label: 'Mini Game', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">🎮</span> },
     { id: 'hangar', label: 'Xưởng Tàu', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">🛠️</span> },
-    { id: 'profile', label: 'Hồ Sơ', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">👨‍🚀</span> },
     ...(parentFeatureFlags.parentZone ? [{ id: 'parent' as VercelTab, label: 'Phụ Huynh', icon: <span className="text-xl sm:text-2xl select-none leading-none drop-shadow">👨‍👩‍👧</span> }] : []),
   ];
 

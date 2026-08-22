@@ -6,7 +6,6 @@ import { HomeView } from './components/views/HomeView';
 import { Planet3DView } from './components/views/Planet3DView';
 import { SpaceHangarView } from './components/views/SpaceHangarView';
 import { SpaceShowroomView } from './components/views/SpaceShowroomView';
-import { ProfileView } from './components/views/ProfileView';
 import { AsteroidRunnerGame } from './components/game/AsteroidRunnerGame';
 import { VercelHeader } from './components/ui/VercelHeader';
 import { VercelBottomNav, VercelTab } from './components/ui/VercelBottomNav';
@@ -14,6 +13,9 @@ import { TenStageLessonRunner } from './components/lesson/TenStageLessonRunner';
 import { PLANETS_DATA } from './data/planetsData';
 import { ParentDashboard } from './components/dashboard/ParentDashboard';
 import { getPlayLimitStatus, useParentZoneStore } from './stores/useParentZoneStore';
+import { initializeCameraRestore } from './services/personalization/cameraCapture';
+import { initializeParentGate } from './services/personalization/parentGate';
+import { initializePersonalizationFoundation } from './services/personalization/personalizationLifecycle';
 
 const AudioDebugOverlay = import.meta.env.DEV ? React.lazy(() => import('./components/dev/AudioDebugOverlay').then((module) => ({ default: module.AudioDebugOverlay }))) : null;
 const DevFloatingButton = import.meta.env.DEV ? React.lazy(() => import('./components/dev/DevFloatingButton').then((module) => ({ default: module.DevFloatingButton }))) : null;
@@ -37,7 +39,16 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     loadFromLocalStorage();
+    initializeParentGate();
+    initializeCameraRestore();
   }, [loadFromLocalStorage]);
+
+  useEffect(() => {
+    if (!activeChildProfile?.id) return;
+    void initializePersonalizationFoundation(activeChildProfile.id).catch((error) => {
+      if (import.meta.env.DEV) console.warn('Personalization media reconciliation failed.', error);
+    });
+  }, [activeChildProfile?.id]);
 
   useEffect(() => {
     if (!activeChildProfile) return;
@@ -99,15 +110,13 @@ export const App: React.FC = () => {
   const getHeaderTitle = () => {
     switch (activeTab) {
       case 'home':
-        return 'Hành Tinh Tri Thức';
+        return 'Trung tâm chỉ huy';
       case 'planet':
         return currentPlanet.titleVi;
       case 'showroom':
         return 'Phòng Duyệt 3D';
       case 'hangar':
         return 'Xưởng Tàu Không Gian';
-      case 'profile':
-        return 'Hồ Sơ Phi Hành Gia';
       case 'minigame':
         return 'Vượt Dải Thiên Thạch';
       case 'parent':
@@ -154,7 +163,6 @@ export const App: React.FC = () => {
                   {activeTab === 'hangar' && (
                     <SpaceHangarView />
                   )}
-                  {activeTab === 'profile' && <ProfileView />}
                   {activeTab === 'minigame' && (
                     <AsteroidRunnerGame onExit={() => navigate('home')} />
                   )}

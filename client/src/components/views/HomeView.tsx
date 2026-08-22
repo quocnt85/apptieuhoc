@@ -3,6 +3,9 @@ import { useGameStore } from '../../stores/useGameStore';
 import { Flame, Rocket, ChevronRight, Play, Check } from 'lucide-react';
 import { soundService } from '../../services/audio';
 import { interactionService } from '../../services/interaction';
+import { AvatarComposer } from '../personalization/AvatarComposer';
+import { useParentZoneStore } from '../../stores/useParentZoneStore';
+import { ProfileView } from './ProfileView';
 
 interface Props {
   onNavigateToMap: () => void;
@@ -11,6 +14,7 @@ interface Props {
 
 export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGame }) => {
   const { user, completedNodes } = useGameStore();
+  const activeChildId = useParentZoneStore((state) => state.activeProfileId);
 
   // 5-click Easter Egg state
   const heroClickCountRef = React.useRef<number>(0);
@@ -87,9 +91,7 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
               className="relative cursor-pointer active:scale-95 transition-transform shrink-0"
               title={import.meta.env.DEV ? 'Nhấp 5 lần để bật/tắt chế độ phát triển' : undefined}
             >
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-2 border-sky-400 flex items-center justify-center text-3xl sm:text-4xl shadow-inner shrink-0">
-                {currentAvatar}
-              </div>
+              <AvatarComposer childId={activeChildId} presetAvatar={currentAvatar} className="h-14 w-14 shrink-0 rounded-2xl sm:h-16 sm:w-16 sm:rounded-3xl"/>
               {/* Tag Avatar Synchronized to Lv. */}
               <div className="absolute -bottom-1.5 -right-1.5 bg-yellow-400 text-slate-950 font-black text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-full border-2 border-slate-900 shadow">
                 Lv.{user.level}
@@ -209,6 +211,8 @@ export const HomeView: React.FC<Props> = ({ onNavigateToMap, onNavigateToMiniGam
           ))}
         </div>
       </div>
+
+      <ProfileView embedded />
 
     </div>
   );

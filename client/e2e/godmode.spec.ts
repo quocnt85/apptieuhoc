@@ -26,7 +26,7 @@ test.describe('Dev God Mode & Performance Monitoring E2E Tests', () => {
     await dismissFTUEIfPresent(page);
 
     // Ensure on Home tab to see Hero Avatar
-    const homeTab = page.locator('button:has-text("Trang Chủ")');
+    const homeTab = page.locator('button:has-text("HQ")');
     await homeTab.click({ force: true });
 
     const heroAvatar = page.getByTestId('hero-avatar-btn');

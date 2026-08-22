@@ -2,60 +2,46 @@ import React, { useState } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
 import { Award, Zap, Star, Flame, Sparkles, User, Shield } from 'lucide-react';
 import { soundService } from '../../services/audio';
+import { AvatarComposer } from '../personalization/AvatarComposer';
+import { AvatarStudio } from '../personalization/AvatarStudio';
+import { useParentZoneStore } from '../../stores/useParentZoneStore';
+import { TerritoryFlagStudio } from '../personalization/TerritoryFlagStudio';
+import { PERSONALIZATION_FEATURE_FLAGS } from '../../config/personalizationFeatureFlags';
+import { CaptainIdStudio } from '../personalization/CaptainIdStudio';
 
-export const ProfileView: React.FC = () => {
-  const { user, completedNodes, equipAvatar } = useGameStore();
+interface ProfileViewProps {
+  embedded?: boolean;
+}
+
+export const ProfileView: React.FC<ProfileViewProps> = ({ embedded = false }) => {
+  const { user, completedNodes } = useGameStore();
+  const activeChildId = useParentZoneStore((state) => state.activeProfileId);
   const isCompletedNode1 = Boolean(completedNodes['island_1_node_1']);
 
-  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
-  const avatars = ['👨‍🚀', '👩‍🚀', '🧑‍🚀', '⭐', '🤖', '🦊', '🦁', '🐼', '🦄', '🦖'];
+  const [showAvatarStudio, setShowAvatarStudio] = useState(false);
+  const [showFlagStudio, setShowFlagStudio] = useState(false);
+  const flagEnabled = import.meta.env.DEV || PERSONALIZATION_FEATURE_FLAGS.territoryFlag;
+  const [showCaptainId, setShowCaptainId] = useState(false);
+  const captainIdEnabled = import.meta.env.DEV || PERSONALIZATION_FEATURE_FLAGS.captainIdExport;
   const currentAvatar = user.avatar === '🚀' ? '👨‍🚀' : user.avatar;
 
-  const handleSelectAvatar = (av: string) => {
-    soundService.playVictory();
-    equipAvatar(av);
-    setShowAvatarPicker(false);
-  };
-
   return (
-    <div className="flex-1 p-4 sm:p-6 flex flex-col gap-4 overflow-y-auto pb-24 animate-fadeIn bg-gradient-to-b from-[#050814] via-[#0b1026] to-[#160e33] text-white select-none">
+    <section className={embedded
+      ? 'flex flex-col gap-4 text-white'
+      : 'flex-1 p-4 sm:p-6 flex flex-col gap-4 overflow-y-auto pb-24 animate-fadeIn bg-gradient-to-b from-[#050814] via-[#0b1026] to-[#160e33] text-white select-none'}>
+      {embedded && <h2 className="px-1 text-lg font-black text-sky-200">Hồ sơ học sinh</h2>}
       {/* Cosmonaut Profile Card */}
       <div className="p-6 text-center bg-slate-900/90 backdrop-blur-xl border-2 border-sky-400/50 shadow-[0_12px_32px_rgba(56,189,248,0.2)] rounded-[32px] relative overflow-hidden">
         <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-sky-400/20 to-transparent -z-10" />
 
         <div className="relative inline-block mx-auto mb-3">
-          <div 
-            onClick={() => { soundService.playClick(); setShowAvatarPicker(!showAvatarPicker); }}
-            className="w-24 h-24 rounded-3xl bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-3 border-sky-400 flex items-center justify-center text-5xl shadow-[0_0_20px_rgba(56,189,248,0.4)] cursor-pointer hover:scale-105 active:scale-95 transition-all animate-float"
-          >
-            {currentAvatar}
-          </div>
+          <button onClick={() => { soundService.playClick(); setShowAvatarStudio(true); }} aria-label="Mở xưởng avatar" className="block cursor-pointer transition-all hover:scale-105 active:scale-95">
+            <AvatarComposer childId={activeChildId} presetAvatar={currentAvatar} className="h-24 w-24 rounded-3xl animate-float"/>
+          </button>
           <div className="absolute -bottom-1 -right-1 bg-gradient-to-r from-sky-400 to-blue-600 text-white font-black text-[11px] px-2.5 py-0.5 rounded-full border border-white shadow-md cursor-pointer">
             Đổi ✨
           </div>
         </div>
-
-        {/* Avatar Picker Modal */}
-        {showAvatarPicker && (
-          <div className="bg-slate-950 border-2 border-sky-400 p-3.5 rounded-3xl mb-4 shadow-2xl animate-scaleUp">
-            <div className="text-xs font-black text-yellow-300 mb-2.5 uppercase tracking-wider">
-              Chọn Avatar Phi Hành Gia Mới
-            </div>
-            <div className="grid grid-cols-5 gap-2">
-              {avatars.map((av) => (
-                <button
-                  key={av}
-                  onClick={() => handleSelectAvatar(av)}
-                  className={`w-11 h-11 rounded-2xl text-2xl border-2 flex items-center justify-center transition-all ${
-                    user.avatar === av ? 'bg-sky-600 border-white shadow scale-105' : 'bg-slate-900 border-slate-700 hover:border-slate-500 text-white'
-                  }`}
-                >
-                  {av}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         <h2 className="font-black text-2xl text-yellow-300">{user.name}</h2>
         <p className="font-extrabold text-xs text-sky-200 mt-0.5">Phi Hành Gia Lớp {user.grade}</p>
@@ -95,6 +81,11 @@ export const ProfileView: React.FC = () => {
           </div>
         </div>
       </div>
+      {showAvatarStudio && <AvatarStudio childId={activeChildId} onClose={() => setShowAvatarStudio(false)}/>}
+      {flagEnabled && <button data-testid="open-flag-studio" onClick={() => setShowFlagStudio(true)} className="rounded-[28px] border-2 border-violet-400/40 bg-gradient-to-r from-indigo-950 to-violet-950 p-4 text-left shadow-xl"><div className="flex items-center gap-3"><span className="text-3xl">🚩</span><div><div className="font-black text-violet-200">Cờ Lãnh Địa</div><div className="text-xs text-slate-400">Tạo cờ local và gửi phụ huynh duyệt trước khi áp dụng</div></div></div></button>}
+      {showFlagStudio && <TerritoryFlagStudio childId={activeChildId} onClose={() => setShowFlagStudio(false)}/>}
+      {captainIdEnabled && <button data-testid="open-space-id" onClick={()=>setShowCaptainId(true)} className="rounded-[28px] border-2 border-cyan-400/40 bg-gradient-to-r from-cyan-950 to-blue-950 p-4 text-left shadow-xl"><div className="flex items-center gap-3"><span className="text-3xl">🪪</span><div><div className="font-black text-cyan-200">Space ID</div><div className="text-xs text-slate-400">Tạo thẻ thành tích local; cần PIN phụ huynh để xuất</div></div></div></button>}
+      {showCaptainId&&<CaptainIdStudio childId={activeChildId} onClose={()=>setShowCaptainId(false)}/>}
 
       {/* 3D Cosmic Medals Collection */}
       <div className="p-5 sm:p-6 bg-slate-900/90 backdrop-blur-xl border-2 border-amber-400/40 shadow-xl rounded-[32px] space-y-3.5">
@@ -135,6 +126,6 @@ export const ProfileView: React.FC = () => {
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

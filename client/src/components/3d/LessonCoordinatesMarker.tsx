@@ -6,15 +6,17 @@ import { PlanetCoordinateNode } from '../../types';
 import { useGameStore } from '../../stores/useGameStore';
 import { Lock } from 'lucide-react';
 import { soundService } from '../../services/audio';
+import { TerritoryFlag3D } from './personalization/TerritoryFlag3D';
 
 interface Props {
   node: PlanetCoordinateNode;
   index?: number;
   radius: number;
   onSelectNode: (node: PlanetCoordinateNode) => void;
+  showTerritoryFlag?: boolean;
 }
 
-export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radius, onSelectNode }) => {
+export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radius, onSelectNode, showTerritoryFlag = false }) => {
   const {
     completedNodes,
     nodeStars,
@@ -121,6 +123,7 @@ export const LessonCoordinatesMarker: React.FC<Props> = ({ node, index = 1, radi
 
   return (
     <group ref={markerGroupRef} position={position} quaternion={quaternion}>
+      {showTerritoryFlag && isCompleted && <TerritoryFlag3D/>}
       {/* Ground Glowing Disc Ring (Neon Cyan Glow) */}
       <mesh ref={ringRef} position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]} onClick={handleClick}>
         <ringGeometry args={[0.06, 0.12, 32]} />

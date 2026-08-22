@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
 import { Volume1, Volume2, VolumeX, Zap, Music, Sparkles, Rocket, Check, X } from 'lucide-react';
 import { soundService } from '../../services/audio';
+import { AvatarComposer } from '../personalization/AvatarComposer';
+import { useParentZoneStore } from '../../stores/useParentZoneStore';
 
 interface Props {
   title?: string;
@@ -9,6 +11,7 @@ interface Props {
 
 export const VercelHeader: React.FC<Props> = () => {
   const { user, settings, toggleBgm, toggleSfx, setBgmStyle, refreshEnergy } = useGameStore();
+  const activeChildId = useParentZoneStore((state) => state.activeProfileId);
   const [countdownText, setCountdownText] = useState<string>('');
   const [isAudioMenuOpen, setIsAudioMenuOpen] = useState<boolean>(false);
   const audioMenuRef = useRef<HTMLDivElement>(null);
@@ -85,7 +88,9 @@ export const VercelHeader: React.FC<Props> = () => {
       </div>
 
       {/* Right: Sound Menu Toggle Button */}
-      <div className="relative" ref={audioMenuRef}>
+      <div className="flex items-center gap-2">
+        <AvatarComposer childId={activeChildId} presetAvatar={user.avatar === '🚀' ? '👨‍🚀' : user.avatar} className="hidden h-9 w-9 rounded-xl sm:block"/>
+        <div className="relative" ref={audioMenuRef}>
         <button
           onClick={() => {
             soundService.playClick();
@@ -227,6 +232,7 @@ export const VercelHeader: React.FC<Props> = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </header>
   );

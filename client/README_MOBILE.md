@@ -57,3 +57,24 @@ npx cap open ios
 - `@capacitor/status-bar`: Điều khiển status bar toàn màn hình.
 - `@capacitor/preferences`: Lưu cache ngoại tuyến tiến trình học tập khi không có Internet.
 - `@capacitor/network`: Tự động phát hiện trạng thái mạng online/offline để đồng bộ dữ liệu với Neon DB.
+- `@capacitor/camera`: Chụp/chọn ảnh avatar và cờ; kết quả chỉ được xử lý trên thiết bị.
+- `@capacitor/filesystem`: Lưu media cá nhân hóa trong `Directory.Library` và export tạm trong `Directory.Cache`.
+- `@capacitor/share`: Mở share sheet native sau Parent Gate; không upload media lên server.
+
+## 4. Cấu hình native bắt buộc cho media cá nhân hóa
+
+Repository hiện không commit thư mục `android/` hoặc `ios/`. Sau khi khởi tạo platform, cần cấu hình trước native smoke test:
+
+- iOS `Info.plist`: thêm `NSCameraUsageDescription`, `NSPhotoLibraryUsageDescription` và chỉ thêm `NSPhotoLibraryAddUsageDescription` nếu bật lưu trực tiếp vào thư viện ảnh.
+- iOS `PrivacyInfo.xcprivacy`: khai báo Filesystem/File Timestamp bằng approved reason tương ứng phiên bản Capacitor 6.
+- Android: giữ listener `appRestoredResult` trong app để nhận lại kết quả Camera khi activity bị hệ điều hành thu hồi.
+- Không mở rộng Android `file_paths.xml`: export dùng `Directory.Cache`, là vùng Share plugin hỗ trợ mặc định.
+
+Sau khi thêm platform, chạy:
+
+```bash
+npm run build
+npx cap sync
+```
+
+Sau đó kiểm tra camera allow/deny/cancel, kill/restore, airplane mode, share cancel và cleanup cache trên thiết bị thật.

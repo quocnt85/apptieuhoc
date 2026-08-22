@@ -5,6 +5,7 @@ import { useGameStore } from '../../stores/useGameStore';
 import { PlanetCoordinateNode } from '../../types';
 import { AerodynamicShipRenderer } from './ships/AerodynamicShips';
 import { soundService } from '../../services/audio';
+import { ExplorerFlagDecal } from './personalization/ExplorerFlagDecal';
 
 interface Props {
   planetRadius: number;
@@ -33,6 +34,7 @@ export const Spaceship3D: React.FC<Props> = ({
   });
 
   const shipColor = user.customization?.equippedColor || '#38bdf8';
+  const shipId = user.customization?.equippedShip || 'explorer_v1';
 
   // Base dimensions (Reduced by 30% for realistic planetary scale)
   const BASE_SCALE = 0.15;
@@ -269,11 +271,12 @@ export const Spaceship3D: React.FC<Props> = ({
   return (
     <group ref={shipGroupRef} scale={[BASE_SCALE, BASE_SCALE, BASE_SCALE]}>
       <AerodynamicShipRenderer
-        shipId={user.customization?.equippedShip || 'explorer_v1'}
+        shipId={shipId}
         shipColor={shipColor}
         showStreamlines={false}
         thrustPower={thrustPower}
       />
+      <ExplorerFlagDecal shipId={shipId}/>
     </group>
   );
 };

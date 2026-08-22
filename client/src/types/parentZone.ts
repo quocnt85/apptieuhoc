@@ -8,6 +8,7 @@ export interface ChildProfileLocal {
   name: string;
   grade?: ChildGrade;
   avatar: string;
+  /** Legacy v1 migration input only. New photos are files managed by personalization storage. */
   photoDataUrl?: string;
   createdAt: number;
 }

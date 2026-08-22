@@ -2,6 +2,8 @@
 
 Trạng thái code: client và Worker đã có đầy đủ luồng MVP; IAP mặc định **tắt**. Không bật production nếu các gate bên dưới chưa hoàn tất.
 
+> Bản review hiện bật `VITE_PARENT_DEMO_ACCESS=true`, bỏ qua email/OTP và dùng mật khẩu `1234` chỉ trong bộ nhớ phiên. Đây là cổng demo tạm thời; bắt buộc đặt `false` trước pilot hoặc production có người dùng thật.
+
 ## 1. Database
 
 Áp dụng migration theo đúng thứ tự, trên database staging trước:

@@ -185,7 +185,8 @@ export const PlanetMesh: React.FC<Props> = ({
   interactiveSpin = true,
   resetViewSignal = 0,
 }) => {
-  const { isFlyingToNode, selectedCoordinateNode } = useGameStore();
+  const { isFlyingToNode, selectedCoordinateNode, completedNodes } = useGameStore();
+  const firstCompletedNodeId = planet.nodes.find((node) => completedNodes[node.id])?.id;
   const planetGroupRef = useRef<THREE.Group>(null);
   const coreSphereRef = useRef<THREE.Mesh>(null);
   const cloudSphereRef = useRef<THREE.Mesh>(null);
@@ -537,6 +538,7 @@ export const PlanetMesh: React.FC<Props> = ({
             index={index + 1}
             radius={radius}
             onSelectNode={onSelectNode}
+            showTerritoryFlag={node.id === firstCompletedNodeId}
           />
         ))}
 
